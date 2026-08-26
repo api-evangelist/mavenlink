@@ -1,0 +1,100 @@
+generated: '2026-08-25'
+method: derived
+source: openapi/mavenlink-openapi.yml
+docs: https://developer.kantata.com/
+notes: >-
+  Derived from the response blocks of all 419 operations in the published Kantata OX Swagger 2.0 contract, then
+  enriched from the Errors section of the API reference at developer.kantata.com. Every operation declares the
+  same six failure responses (400, 401, 403, 404, 422, 503), each pointing at the shared `Errors` definition.
+format: custom
+rfc9457: false
+problem_json: false
+envelope:
+  shape: >-
+    A top-level `errors` key holding an array of error objects. This is Kantata's own envelope, not RFC 9457
+    application/problem+json - the Content-Type is application/json and there is no type/title/status/detail
+    /instance vocabulary.
+  content_type: application/json
+  schema_ref: '#/definitions/Errors'
+  fields:
+  - name: type
+    description: >-
+      Error class. Values published in the API reference: `oauth` (authentication failure), `system` (account or
+      platform level failure), `validation` (model validation failure).
+  - name: message
+    description: Human-readable message.
+  - name: field
+    description: >-
+      Present on `validation` errors only; names the request attribute that failed validation.
+  example: |
+    {
+      "errors": [
+        { "type": "validation", "message": "Please give your project a title", "field": "title" },
+        { "type": "validation", "message": "Please select a role for this project", "field": "creator_role" }
+      ]
+    }
+  source: https://developer.kantata.com/
+problem_types:
+- status: 400
+  title: Bad Request
+  declared_on_operations: 419
+  meaning: Malformed request - unparseable body, or a filter/parameter combination the endpoint rejects.
+  remediation: Re-check parameter names and types against the operation in the API reference.
+- status: 401
+  title: Unauthorized request
+  declared_on_operations: 419
+  error_type: oauth
+  meaning: >-
+    Missing, malformed, revoked or otherwise invalid OAuth 2.0 bearer token. Observed live on
+    GET https://api.mavenlink.com/api/v1/workspaces.json without credentials (2026-08-25).
+  example: '{"errors":[{"type":"oauth","message":"Invalid OAuth 2 Request"}]}'
+  remediation: >-
+    Send `Authorization: Bearer <token>`. If a user revoked the application''s access the token is dead and the
+    OAuth authorization-code flow must be re-run.
+- status: 403
+  title: Forbidden request
+  declared_on_operations: 419
+  meaning: >-
+    Authenticated but not permitted. Kantata enforces authorisation through in-product access groups, roles and
+    project participation rather than through OAuth scopes, so a 403 usually means the user lacks the permission
+    rather than that the token lacks a scope.
+  remediation: Check the user''s access group and project participation; scope changes will not fix this.
+- status: 404
+  title: Page Not Found
+  declared_on_operations: 419
+  meaning: >-
+    Resource not found. The API reference warns that "show" routes (GET /workspaces/1.json) can 404 because of
+    DEFAULT FILTERS applied to the endpoint rather than because the record is absent.
+  remediation: Read the operation''s filter defaults in the reference and disable the one excluding the record.
+- status: 422
+  title: Unprocessable Entity
+  declared_on_operations: 419
+  error_type: validation
+  meaning: Model validation failure; each entry in `errors` carries a `field`.
+  remediation: Map errors[].field back to the submitted attribute and correct it.
+- status: 503
+  title: Service is unavailable
+  declared_on_operations: 419
+  error_type: system
+  meaning: Platform unavailable. Check https://status.mavenlink.com/.
+undeclared_but_documented:
+- status: 429
+  title: Too Many Requests
+  source: https://developer.kantata.com/ (Rate Limits section)
+  meaning: >-
+    The API reference states the API may reply 429 when too many requests are made in a short window, and that
+    the caller should retry after a small delay. 429 IS NOT DECLARED on any of the 419 operations in the spec,
+    so a spec-driven client will not have a branch for it.
+  remediation: Back off and retry. No Retry-After or RateLimit-* header is documented.
+- status: 504
+  title: Request timeout
+  source: https://developer.kantata.com/ (Timeouts section)
+  meaning: >-
+    All API requests time out after 3 minutes. The reference recommends splitting the request, applying a date
+    filter, or using the Subscribed Events API instead of polling many endpoints.
+gaps:
+- >-
+  No enumerated error-code registry is published: errors carry a free-text `message` and no stable machine code,
+  so a client cannot branch on a specific failure without string matching.
+- >-
+  429 and the 3-minute timeout are documented in prose but absent from the contract.

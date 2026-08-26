@@ -1,0 +1,62 @@
+generated: '2026-08-25'
+method: probed
+source: https://api.mavenlink.com/.well-known/openid-configuration
+docs: https://developer.kantata.com/
+notes: >-
+  The Swagger 2.0 securityDefinition `OauthSecurity` declares an EMPTY scopes map, so nothing is derivable from
+  the spec. The real scope list is published anonymously in the OpenID Connect discovery document on both
+  api.mavenlink.com and app.mavenlink.com (probed 2026-08-25, HTTP 200), and the MCP authorization-server
+  metadata narrows to a single `mcp` scope. No prose scope/permission reference page was found on
+  developer.kantata.com or the Kantata knowledge base; the knowledge base article set covering API limits is
+  behind the customer login.
+schemes:
+- name: OauthSecurity
+  source: openapi/mavenlink-openapi.yml
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://app.mavenlink.com/oauth/authorize
+    tokenUrl: https://app.mavenlink.com/oauth/token
+- name: KantataOpenIDConnect
+  source: well-known/mavenlink-api-openid-configuration.json
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://api.mavenlink.com/oauth/authorize
+    tokenUrl: https://api.mavenlink.com/oauth/token
+  - flow: clientCredentials
+    tokenUrl: https://api.mavenlink.com/oauth/token
+scopes:
+- scope: api_only
+  description: >-
+    Kantata OX API access without OpenID identity claims. Published in scopes_supported; Kantata does not
+    publish a prose description for it.
+  source: https://api.mavenlink.com/.well-known/openid-configuration
+- scope: openid
+  description: Standard OpenID Connect scope requesting an ID token.
+  source: https://api.mavenlink.com/.well-known/openid-configuration
+- scope: email
+  description: Standard OpenID Connect scope releasing the `email` claim.
+  source: https://api.mavenlink.com/.well-known/openid-configuration
+- scope: profile
+  description: >-
+    Standard OpenID Connect scope releasing profile claims. Kantata's userinfo advertises name, given_name,
+    family_name, preferred_username plus the Kantata-specific account_id and account_name claims.
+  source: https://api.mavenlink.com/.well-known/openid-configuration
+- scope: mcp
+  description: >-
+    Grants access to the Kantata OX MCP server at https://api.mavenlink.com/mcp. It is the ONLY scope listed in
+    the MCP authorization-server metadata, so the MCP surface is gated behind one all-or-nothing scope rather
+    than per-tool scopes.
+  source: https://api.mavenlink.com/.well-known/oauth-authorization-server
+- scope: offline_access
+  description: Standard OpenID Connect scope requesting a refresh token.
+  source: https://api.mavenlink.com/.well-known/openid-configuration
+scope_count: 6
+observations:
+- >-
+  Scopes are coarse. There is no read/write split and no per-resource scope: an application authorised for the
+  Kantata OX API can reach every one of the 419 operations the user's own permissions allow, including the 251
+  write operations (86 POST, 91 PUT, 74 DELETE). Authorisation granularity is enforced by Kantata's in-product
+  access groups and roles, not by OAuth scope.
+- >-
+  The MCP authorization server advertises PKCE S256 only (the OIDC document also allows `plain`), and
+  authorization_code only - no client_credentials for the MCP surface.

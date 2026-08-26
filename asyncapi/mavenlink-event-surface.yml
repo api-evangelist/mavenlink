@@ -1,0 +1,397 @@
+generated: '2026-08-25'
+method: searched
+source: https://knowledge.kantata.com/hc/en-us/articles/4407962435227-Subscribed-Events-Reference
+checked: '2026-08-25'
+asyncapi_published: false
+webhooks_published: false
+notes: Kantata publishes a real, catalogued event surface - the Subscribed Events API - but it is PULL, not push.
+  There is no webhook registration endpoint anywhere in the 419-operation contract, no callback or subscription
+  resource, no signing-secret documentation, and no AsyncAPI document on any host. Consumers poll GET /api/v1/subscribed_events.json
+  and filter by created_after / created_before / event_types. Because nothing is pushed, NO `Webhooks` pointer and
+  NO `AsyncAPI` pointer is emitted for this provider - claiming either would assert a delivery mechanism Kantata
+  does not operate. The catalogue below is recorded because the event vocabulary itself is real, public and useful
+  to an integrator.
+delivery:
+  style: polling
+  push: false
+  transport: HTTPS REST
+  operations:
+  - operationId: Get Subscribed Events
+    path: GET /api/v1/subscribed_events.json
+    purpose: read the change feed
+  - operationId: Get Subscribed Event Types
+    path: GET /api/v1/subscribed_events/event_types.json
+    purpose: read the event-type catalogue AND the machine-readable per-event-type field schema (subscribed_event_type_schemas)
+  filters:
+  - created_after (ISO 8601)
+  - created_before (ISO 8601)
+  - event_types (comma-separated)
+  - include=subject
+  - most_recent
+  - most_recent_by_event_type
+  - only
+  retention: 9 days
+  retention_source: https://developer.kantata.com/kantata/specification/events
+  retention_note: The API reference and the knowledge-base reference both state 9 days, and the knowledge base adds
+    that the retention period may change. An Extended History beta add-on exists for Enterprise and Premier accounts.
+entitlement:
+  add_on: true
+  admin_only: true
+  note: Kantata describes Subscribed Events as an add-on, and states that only Account Administrators can access
+    it.
+payload:
+  fields:
+  - previous_payload
+  - current_payload
+  - payload_changes
+  - subject_changed_at
+  - created_at
+  - subject_ref (when include=subject)
+  schema_discovery: 'GET /subscribed_events/event_types.json returns subscribed_event_type_schemas: a per-event-type
+    map of documented field names and descriptions. This is the closest thing Kantata publishes to an event schema
+    registry and it is machine-readable at runtime.'
+delivery_semantics:
+  ordering: NOT guaranteed. A single user action can generate multiple events and they may be generated out of order;
+    subject_changed_at and created_at can differ because of lag between the change and event generation.
+  duplicates: Possible. The documentation states events may be duplicated and consumers must handle it.
+  at_least_once: true
+  agent_impact: Unordered, possibly duplicated, nine-day-retained events with no push delivery means a consumer
+    must poll on a schedule shorter than nine days, deduplicate by event id, and reconcile by subject rather than
+    replaying the stream.
+event_count: 182
+subject_count: 49
+subjects:
+- subject: access_group
+  event_count: 17
+  events:
+  - access_group:account_settings_permissions_updated
+  - access_group:analytics_reports_permissions_updated
+  - access_group:created
+  - access_group:deleted
+  - access_group:financial_management_permissions_updated
+  - access_group:foreign_exchange_permissions_updated
+  - access_group:groups_permissions_updated
+  - access_group:guest_access_permissions_updated
+  - access_group:insights_permissions_updated
+  - access_group:network_permissions_updated
+  - access_group:project_accounting_permissions_updated
+  - access_group:pulse_permissions_updated
+  - access_group:resource_management_permissions_updated
+  - access_group:shared_views_permissions_updated
+  - access_group:time_management_permissions_updated
+  - access_group:updated
+  - access_group:users_permissions_updated
+- subject: access_group_membership
+  event_count: 2
+  events:
+  - access_group_membership:created
+  - access_group_membership:deleted
+- subject: account
+  event_count: 4
+  events:
+  - account:created
+  - account:deleted
+  - account:settings_updated
+  - account:updated
+- subject: account_color
+  event_count: 3
+  events:
+  - account_color:created
+  - account_color:deleted
+  - account_color:updated
+- subject: account_location
+  event_count: 3
+  events:
+  - account_location:created
+  - account_location:deleted
+  - account_location:updated
+- subject: account_membership
+  event_count: 3
+  events:
+  - account_membership:created
+  - account_membership:deleted
+  - account_membership:updated
+- subject: assignment
+  event_count: 3
+  events:
+  - assignment:created
+  - assignment:deleted
+  - assignment:updated
+- subject: billing_milestone
+  event_count: 3
+  events:
+  - billing_milestone:created
+  - billing_milestone:deleted
+  - billing_milestone:updated
+- subject: budget_change_order
+  event_count: 3
+  events:
+  - budget_change_order:created
+  - budget_change_order:deleted
+  - budget_change_order:updated
+- subject: cost_rate
+  event_count: 3
+  events:
+  - cost_rate:created
+  - cost_rate:deleted
+  - cost_rate:updated
+- subject: custom_field
+  event_count: 3
+  events:
+  - custom_field:created
+  - custom_field:deleted
+  - custom_field:updated
+- subject: custom_field_set
+  event_count: 3
+  events:
+  - custom_field_set:created
+  - custom_field_set:deleted
+  - custom_field_set:updated
+- subject: custom_task_status
+  event_count: 3
+  events:
+  - custom_task_status:created
+  - custom_task_status:deleted
+  - custom_task_status:updated
+- subject: daily_scheduled_hours
+  event_count: 3
+  events:
+  - daily_scheduled_hours:created
+  - daily_scheduled_hours:deleted
+  - daily_scheduled_hours:updated
+- subject: default_task_status_set
+  event_count: 2
+  events:
+  - default_task_status_set:created
+  - default_task_status_set:updated
+- subject: email_address
+  event_count: 3
+  events:
+  - email_address:created
+  - email_address:deleted
+  - email_address:updated
+- subject: estimate
+  event_count: 3
+  events:
+  - estimate:custom_field_value_created
+  - estimate:custom_field_value_deleted
+  - estimate:custom_field_value_updated
+- subject: estimate_scenario
+  event_count: 3
+  events:
+  - estimate_scenario:created
+  - estimate_scenario:deleted
+  - estimate_scenario:updated
+- subject: estimate_scenario_resource
+  event_count: 6
+  events:
+  - estimate_scenario_resource:created
+  - estimate_scenario_resource:custom_field_value_created
+  - estimate_scenario_resource:custom_field_value_deleted
+  - estimate_scenario_resource:custom_field_value_updated
+  - estimate_scenario_resource:deleted
+  - estimate_scenario_resource:updated
+- subject: expense
+  event_count: 3
+  events:
+  - expense:created
+  - expense:deleted
+  - expense:updated
+- subject: expense_budget
+  event_count: 7
+  events:
+  - expense_budget:created
+  - expense_budget:deleted
+  - expense_budget:expense_added
+  - expense_budget:expense_removed
+  - expense_budget:fixed_fee_item_added
+  - expense_budget:fixed_fee_item_removed
+  - expense_budget:updated
+- subject: expense_report
+  event_count: 3
+  events:
+  - expense_report:created
+  - expense_report:expense_added
+  - expense_report:updated
+- subject: invoice
+  event_count: 3
+  events:
+  - invoice:created
+  - invoice:deleted
+  - invoice:updated
+- subject: line_item_lock
+  event_count: 1
+  events:
+  - line_item_lock:created
+- subject: organization
+  event_count: 3
+  events:
+  - organization:created
+  - organization:deleted
+  - organization:updated
+- subject: organization_membership
+  event_count: 3
+  events:
+  - organization_membership:created
+  - organization_membership:deleted
+  - organization_membership:updated
+- subject: participation
+  event_count: 3
+  events:
+  - participation:created
+  - participation:deleted
+  - participation:updated
+- subject: project_accounting_record
+  event_count: 3
+  events:
+  - project_accounting_record:created
+  - project_accounting_record:deleted
+  - project_accounting_record:updated
+- subject: project_permission
+  event_count: 2
+  events:
+  - project_permission:created
+  - project_permission:deleted
+- subject: role
+  event_count: 3
+  events:
+  - role:created
+  - role:deleted
+  - role:updated
+- subject: schedule_change_order
+  event_count: 3
+  events:
+  - schedule_change_order:created
+  - schedule_change_order:deleted
+  - schedule_change_order:updated
+- subject: skill
+  event_count: 3
+  events:
+  - skill:created
+  - skill:deleted
+  - skill:updated
+- subject: skill_membership
+  event_count: 3
+  events:
+  - skill_membership:created
+  - skill_membership:deleted
+  - skill_membership:updated
+- subject: story
+  event_count: 9
+  events:
+  - story:created
+  - story:custom_field_value_created
+  - story:custom_field_value_deleted
+  - story:custom_field_value_updated
+  - story:deleted
+  - story:set_to_private
+  - story:set_to_public
+  - story:status_selected
+  - story:updated
+- subject: task_status_set
+  event_count: 3
+  events:
+  - task_status_set:created
+  - task_status_set:deleted
+  - task_status_set:updated
+- subject: time_entry
+  event_count: 3
+  events:
+  - time_entry:created
+  - time_entry:deleted
+  - time_entry:updated
+- subject: time_off_entry
+  event_count: 3
+  events:
+  - time_off_entry:created
+  - time_off_entry:deleted
+  - time_off_entry:updated
+- subject: timesheet
+  event_count: 3
+  events:
+  - timesheet:created
+  - timesheet:time_entry_added
+  - timesheet:updated
+- subject: user
+  event_count: 6
+  events:
+  - user:created
+  - user:custom_field_value_created
+  - user:custom_field_value_deleted
+  - user:custom_field_value_updated
+  - user:deleted
+  - user:updated
+- subject: vendor
+  event_count: 3
+  events:
+  - vendor:created
+  - vendor:deleted
+  - vendor:updated
+- subject: workspace
+  event_count: 6
+  events:
+  - workspace:created
+  - workspace:custom_field_value_created
+  - workspace:custom_field_value_deleted
+  - workspace:custom_field_value_updated
+  - workspace:deleted
+  - workspace:updated
+- subject: workspace_allocation
+  event_count: 3
+  events:
+  - workspace_allocation:created
+  - workspace_allocation:deleted
+  - workspace_allocation:updated
+- subject: workspace_approver
+  event_count: 3
+  events:
+  - workspace_approver:created
+  - workspace_approver:deleted
+  - workspace_approver:updated
+- subject: workspace_group
+  event_count: 6
+  events:
+  - workspace_group:created
+  - workspace_group:custom_field_value_created
+  - workspace_group:custom_field_value_deleted
+  - workspace_group:custom_field_value_updated
+  - workspace_group:deleted
+  - workspace_group:updated
+- subject: workspace_invitation
+  event_count: 3
+  events:
+  - workspace_invitation:created
+  - workspace_invitation:deleted
+  - workspace_invitation:updated
+- subject: workspace_resource
+  event_count: 6
+  events:
+  - workspace_resource:created
+  - workspace_resource:custom_field_value_created
+  - workspace_resource:custom_field_value_deleted
+  - workspace_resource:custom_field_value_updated
+  - workspace_resource:deleted
+  - workspace_resource:updated
+- subject: workspace_task_status_set
+  event_count: 3
+  events:
+  - workspace_task_status_set:created
+  - workspace_task_status_set:deleted
+  - workspace_task_status_set:updated
+- subject: workweek
+  event_count: 3
+  events:
+  - workweek:created
+  - workweek:deleted
+  - workweek:updated
+- subject: workweek_membership
+  event_count: 3
+  events:
+  - workweek_membership:created
+  - workweek_membership:deleted
+  - workweek_membership:updated
+probed:
+- url: https://knowledge.kantata.com/hc/en-us/articles/4407962435227-Subscribed-Events-Reference
+  status: 200
+- url: https://developer.kantata.com/kantata/specification/events
+  status: 200

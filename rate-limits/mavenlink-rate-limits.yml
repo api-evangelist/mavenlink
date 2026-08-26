@@ -1,0 +1,69 @@
+generated: '2026-08-25'
+method: searched
+source: https://developer.kantata.com/ (Rate Limits section)
+limit_count: 0
+note: >-
+  Kantata documents THAT the API is rate limited and WHICH endpoints carry their own additional limits, but not
+  what any of the limits are. The API reference says "When too many requests are made in a short amount of time,
+  the API may reply with the HTTP code 429 Too Many Requests. In that case, simply retry your request after a
+  small delay. There are general rate limits applied to all requests," then defers the actual numbers to a
+  knowledge-base article. That article (9698066628123) is behind the customer login: an anonymous fetch 302s to
+  https://app.mavenlink.com/login?from_redirect=true. So the numbers exist and are published to customers, but
+  no number is publicly readable - limit_count is 0 because there is nothing public to record, not because the
+  API is unlimited.
+status_on_exhaustion: 429
+retry_guidance: >-
+  "Simply retry your request after a small delay." No backoff schedule, no jitter guidance, no maximum retry
+  count is published.
+response_headers: []
+response_headers_note: >-
+  No RateLimit-*, X-RateLimit-* or Retry-After response header is documented in the API reference, declared in
+  the 419-operation Swagger contract, or observed on live responses from api.mavenlink.com. A probe of
+  GET https://api.mavenlink.com/api/v1/workspaces.json (2026-08-25, HTTP 401 unauthenticated) returned only
+  cache-control, x-request-id, x-runtime, strict-transport-security and the standard security headers - no
+  rate-limit signal of any kind. An agent therefore cannot see how close it is to a limit; it can only discover
+  the limit by hitting it.
+scopes:
+- scope: global
+  applies_to: all requests
+  window: undisclosed
+  limit: undisclosed
+  burst: undisclosed
+  source: https://developer.kantata.com/
+- scope: per-endpoint
+  applies_to: >-
+    Eight operations are called out in the reference as carrying their own rate limits IN ADDITION to the
+    general limit.
+  window: undisclosed
+  limit: undisclosed
+  endpoints:
+  - POST /api/v1/workspaces (Create a workspace)
+  - GET /api/v1/workspaces (Get workspaces)
+  - POST /api/v1/workspaces/{id}/invite (Create a workspace invitation)
+  - POST /api/v1/account_invitations (Create an account invitation / new user)
+  - PUT /api/v1/account_invitations/{id}/resend (Resend an account invitation)
+  - POST /api/v1/custom_field_values (Create custom field value)
+  - GET /api/v1/custom_field_values (Get custom field values)
+  - POST /api/v1/project_snapshots (Create a project snapshot)
+  source: https://developer.kantata.com/
+timeouts:
+  request_timeout: 3 minutes
+  source: https://developer.kantata.com/ (Timeouts section)
+  note: >-
+    Distinct from rate limiting. Kantata's stated mitigations are to split the request, apply a date filter, or
+    switch from polling many endpoints to the Subscribed Events API.
+adjustment_clause: >-
+  "Please note that we reserve the right to change the limits at any time. In addition, if we determine that
+  someone is using the API improperly, we may adjust the limits further."
+evidence:
+- url: https://developer.kantata.com/
+  status: 200
+  checked: '2026-08-25'
+- url: https://knowledge.kantata.com/hc/en-us/articles/9698066628123
+  status: 302
+  redirect_to: https://app.mavenlink.com/login?from_redirect=true
+  checked: '2026-08-25'
+- url: https://api.mavenlink.com/api/v1/workspaces.json
+  status: 401
+  checked: '2026-08-25'
+  observed: no rate-limit headers present

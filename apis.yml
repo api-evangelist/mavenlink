@@ -1,23 +1,203 @@
 aid: mavenlink
 name: Mavenlink
-description: 'Mavenlink is a company surfaced via the API Evangelist harvest backlog (source: secondary-market)
-  and added to the network as a stub for full-pipeline profiling.'
+description: >-
+  Mavenlink is the professional services automation (PSA) platform now shipped as Kantata OX, following the 2022
+  merger of Mavenlink and Kimble Applications that formed Kantata. It combines project management, resource
+  management and forecasting, time and expense tracking, project accounting, invoicing, rate cards, and business
+  intelligence for services organizations. The public REST API is still served from the original Mavenlink domain
+  at https://api.mavenlink.com/api/v1/ and is documented as the "Kantata OX API" at developer.kantata.com: a
+  Swagger 2.0 contract covering 419 operations across 218 paths and roughly 100 resource groups, authenticated with
+  OAuth 2.0 authorization-code bearer tokens issued from app.mavenlink.com. Alongside REST the company operates an
+  OAuth-gated remote MCP server at https://api.mavenlink.com/mcp, publishes an A2A agent card and an anonymous
+  documentation MCP server on its developer portal, and ships a gRPC connector service definition that third
+  parties implement to extend the Kantata Workflow Platform with custom triggers and actions.
+image: https://www.kantata.com/images/logos/Kantata.png
 url: https://raw.githubusercontent.com/api-evangelist/mavenlink/refs/heads/main/apis.yml
 x-type: company
 x-source: harvest:secondary-market
-x-tier: stub
-x-tier-reason: harvest
 specificationVersion: '0.20'
 created: '2026-08-25'
 modified: '2026-08-25'
 tags:
+- Professional Services Automation
+- Project Management
+- Resource Management
+- Time Tracking
+- Expense Management
+- Invoicing
+- Project Accounting
+- Business Intelligence
+- Workflow Automation
+- MCP
+- agent-native
 - Company
-apis: []
+apis:
+- name: Kantata OX API
+  description: >-
+    REST API for the Kantata OX (formerly Mavenlink) professional services automation platform. 419 operations
+    across 218 paths cover workspaces (projects), stories (tasks), assignments, time entries, timesheets and
+    approvals, expenses and expense reports, invoices and billing milestones, estimates and estimate scenarios,
+    rate cards and cost rates, resource requests and allocations, custom fields, users and account memberships,
+    Insights reports, data exports, and a nine-day Subscribed Events change feed. JSON responses use a
+    side-loaded envelope (results[] plus id-keyed top-level collections) with page/per_page or limit/offset
+    pagination, include= association expansion, and optional_fields= sparse field selection.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Professional Services Automation
+  - Project Management
+  - Resource Management
+  - Time Tracking
+  - Expense Management
+  - Invoicing
+  - Project Accounting
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: Overlay
+    url: overlays/mavenlink-openapi-overlay.yaml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- name: Kantata OX MCP Server
+  description: >-
+    Remote Model Context Protocol server operated by Kantata on the Mavenlink API host. Advertised anonymously
+    through RFC 9728 protected-resource metadata at https://api.mavenlink.com/.well-known/oauth-protected-resource
+    and guarded by the same Doorkeeper OAuth 2.0 authorization server as the REST API, with a dedicated `mcp`
+    scope and PKCE (S256). tools/list returns HTTP 401 with a Bearer/invalid_token challenge to anonymous
+    callers, so the live tool schemas require an authorized Kantata OX account.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/mcp
+  tags:
+  - MCP
+  - agent-native
+  - Professional Services Automation
+  properties:
+  - type: MCPServer
+    url: mcp/mavenlink-mcp.yml
+  - type: MCPServer
+    url: https://api.mavenlink.com/mcp
+  - type: ToolCrosswalk
+    url: mcp/mavenlink-tool-crosswalk.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+- name: Kantata OX Developer Documentation Agent
+  description: >-
+    Agent surface published on the Kantata developer portal. Serves an A2A agent card at
+    /.well-known/agent-card.json (protocolVersion 0.3.0) that advertises an MCP extension, and an anonymous
+    documentation MCP server at https://developer.kantata.com/mcp exposing six read-only tools for listing APIs,
+    enumerating endpoints, retrieving endpoint detail and security schemes, downloading the full OpenAPI, and
+    searching the documentation. It answers questions about the API; it does not read or write Kantata OX data.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://developer.kantata.com/mcp
+  tags:
+  - MCP
+  - agent-native
+  - Documentation
+  properties:
+  - type: AgentCard
+    url: a2a/mavenlink-a2a.yml
+  - type: MCPServer
+    url: https://developer.kantata.com/mcp
+  - type: LLMsTxt
+    url: https://developer.kantata.com/llms.txt
+common:
+- type: AgenticAccess
+  url: agentic-access/mavenlink-agentic-access.yml
+- type: DomainSecurity
+  url: security/mavenlink-domain-security.yml
+- type: Website
+  url: https://www.kantata.com/
+- type: DeveloperPortal
+  url: https://developer.kantata.com/
+- type: Documentation
+  url: https://developer.kantata.com/
+- type: APIReference
+  url: https://developer.kantata.com/kantata/specification
+- type: GettingStarted
+  url: https://knowledge.kantata.com/hc/en-us/articles/202811760-Kantata-API-Overview
+- type: Support
+  url: https://www.kantata.com/customer-resources
+- type: HelpCenter
+  url: https://knowledge.kantata.com/hc/en-us
+- type: Blog
+  url: https://www.kantata.com/blog
+- type: GitHubOrganization
+  url: https://github.com/mavenlink
+- type: Pricing
+  url: https://www.kantata.com/pricing
+- type: Login
+  url: https://app.mavenlink.com/login
+- type: TermsOfService
+  url: https://www.kantata.com/terms-of-use
+- type: PrivacyPolicy
+  url: https://www.kantata.com/privacy-policy
+- type: TrustCenter
+  url: security/mavenlink-trust-center.yml
+- type: StatusPage
+  url: https://status.mavenlink.com/
+- type: ChangeLog
+  url: changelog/mavenlink-changelog.yml
+- type: OpenAPI
+  url: openapi/mavenlink-openapi.yml
+- type: Protobuf
+  url: grpc/mavenlink-connector.proto
+- type: LLMsTxt
+  url: llms/mavenlink-llms.txt
+- type: WellKnown
+  url: well-known/mavenlink-well-known.yml
+- type: AgentCard
+  url: a2a/mavenlink-a2a.yml
+- type: MCPServer
+  url: mcp/mavenlink-mcp.yml
+- type: ToolCrosswalk
+  url: mcp/mavenlink-tool-crosswalk.yml
+- type: Authentication
+  url: authentication/mavenlink-authentication.yml
+- type: OAuthScopes
+  url: scopes/mavenlink-scopes.yml
+- type: Conventions
+  url: conventions/mavenlink-conventions.yml
+- type: Lifecycle
+  url: lifecycle/mavenlink-lifecycle.yml
+- type: Conformance
+  url: conformance/mavenlink-conformance.yml
+- type: ErrorCatalog
+  url: errors/mavenlink-problem-types.yml
+- type: DataModel
+  url: data-model/mavenlink-data-model.yml
+- type: Overlay
+  url: overlays/mavenlink-openapi-overlay.yaml
+- type: Packages
+  url: packages/mavenlink-packages.yml
+- type: SDKs
+  url: packages/mavenlink-packages.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: Plans
+  url: plans/mavenlink-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/mavenlink-rate-limits.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
-common:
-- type: Website
-  url: https://forgeglobal.com/mavenlink_stock/
+x-enrichment:
+  date: '2026-08-25'
+  status: enriched
+  artifacts_added: 38
+  pass: local-v1

@@ -1,0 +1,102 @@
+generated: '2026-08-25'
+method: derived
+source: mcp/mavenlink-docs-mcp-tools.json + openapi/mavenlink-openapi.yml
+notes: >-
+  Kantata runs two MCP servers. Only ONE of them can be crosswalked against the REST contract, and it is not the
+  one that matters most: the DOCUMENTATION server at developer.kantata.com is anonymous, so its six tools and
+  their inputSchemas are known exactly - but none of them binds to a Kantata OX REST operation, because they
+  operate on the OpenAPI document rather than on Kantata data. The PRODUCT server at api.mavenlink.com/mcp,
+  which does read and write Kantata OX data, returns an OAuth challenge to anonymous tools/list, so its tools
+  are unknown and are deliberately NOT crosswalked - mapping guessed tool names onto real operationIds would
+  fabricate the exact thing this artifact exists to record.
+surfaces:
+  openapi:
+    file: openapi/mavenlink-openapi.yml
+    version: Swagger 2.0
+    base_url: https://api.mavenlink.com/api/v1/
+    operations: 419
+    paths: 218
+    gated: false
+  mcp_product:
+    url: https://api.mavenlink.com/mcp
+    gated: true
+    gate: OAuth 2.0 bearer, scope `mcp`, PKCE S256
+    tools_known: false
+  mcp_docs:
+    url: https://developer.kantata.com/mcp
+    gated: false
+    tools_known: true
+    tools: 6
+  graphql:
+    present: false
+    probed:
+    - url: https://api.mavenlink.com/graphql
+      status: 404
+    - url: https://app.mavenlink.com/graphql
+      status: 404
+  a2a:
+    url: https://developer.kantata.com/a2a
+    card: https://developer.kantata.com/.well-known/agent-card.json
+    skills_declared: 0
+crosswalk: []
+crosswalk_note: >-
+  Empty by measurement, not by omission. Zero of the six known MCP tools binds to a Kantata OX REST operation.
+mcp_only:
+- tool: list-apis
+  server: docs
+  reason: >-
+    Operates on the documentation platform's API index, not on Kantata OX data. No REST equivalent - the Kantata
+    OX API does not describe itself at runtime.
+- tool: get-endpoints
+  server: docs
+  reason: >-
+    Enumerates paths from the OpenAPI document. The REST equivalent would be fetching
+    https://app.mavenlink.com/oas/specification and parsing it - not an API operation.
+- tool: get-endpoint-info
+  server: docs
+  reason: Reads parameters, security and examples out of the OpenAPI document.
+- tool: get-security-schemes
+  server: docs
+  reason: >-
+    Reads securityDefinitions from the OpenAPI document. Note the spec declares two schemes but applies neither,
+    so this tool returns definitions that no operation references.
+- tool: get-full-api-description
+  server: docs
+  reason: >-
+    Returns the whole OpenAPI document. The public equivalent is the raw download at
+    https://app.mavenlink.com/oas/specification (HTTP 200, application/yaml, 2.5 MB).
+- tool: search
+  server: docs
+  reason: Full-text search over documentation prose. No REST analogue.
+rest_only:
+  count: 419
+  note: >-
+    Every one of the 419 REST operations is rest_only with respect to the tools we can see. Whether the product
+    MCP server covers any of them is unknowable without an authorised token; this row records the divergence
+    honestly rather than assuming parity.
+  representative_groups:
+  - group: Workspaces (projects)
+    operations: [Get Workspaces, Create Workspace, Update Workspace, Delete Workspace, Create Workspace Invitation]
+  - group: Stories (tasks)
+    operations: [Get Stories, Create Story, Update Story, Delete Story]
+  - group: Time Entries and Timesheets
+    operations: [Get Time Entries, Create Time Entry, Create Timesheet Submission, Cancel Timesheet Submission, Reject Timesheet Submission]
+  - group: Expenses
+    operations: [Get Expenses, Create Expense, Cancel Expense Report Submission, Reject Expense Report Submission]
+  - group: Invoices and billing
+    operations: [Get Invoices, Create Invoice, Cancel Invoice, Get Billing Milestones]
+  - group: Resourcing
+    operations: [Get Assignments, Get Resource Requests, Get Workspace Allocations, Get Workspace Resources]
+  - group: Events
+    operations: [Get Subscribed Events, Get Subscribed Event Types]
+coverage:
+  mcp_tools_known: 6
+  mcp_tools_bound_to_rest: 0
+  mcp_tools_unbound: 6
+  rest_operations: 419
+  rest_operations_bound_to_a_tool: 0
+  rest_coverage_percent: 0
+  confidence: high
+  confidence_basis: >-
+    High for what is asserted (the six docs tools are read verbatim from a 200 tools/list response and demonstrably
+    do not touch Kantata data). The product server's coverage is not estimated at all.

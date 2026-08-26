@@ -1,0 +1,141 @@
+generated: '2026-08-25'
+method: probed
+source: live GET of each /.well-known/ path on every apis.yml + OpenAPI servers host
+checked: '2026-08-25'
+notes: >-
+  api.mavenlink.com and app.mavenlink.com both serve real OAuth 2.0 / OpenID Connect discovery documents plus
+  RFC 9728 protected-resource metadata that names an MCP endpoint - a genuine machine-readable authorization
+  surface. Neither serves security.txt or api-catalog. www.mavenlink.com redirects into the Kantata marketing
+  site, which answers HTTP 200 with the same 70KB SPA shell for EVERY /.well-known/ path; those are recorded as
+  misses, not hits. developer.kantata.com serves a real A2A agent card (saved verbatim to a2a/) and a real
+  llms.txt (saved to llms/).
+hosts:
+- host: api.mavenlink.com
+  documents:
+  - path: /.well-known/openid-configuration
+    status: 200
+    content_type: application/json
+    file: well-known/mavenlink-api-openid-configuration.json
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    content_type: application/json
+    file: well-known/mavenlink-api-oauth-authorization-server.json
+  - path: /.well-known/oauth-protected-resource
+    status: 200
+    content_type: application/json
+    file: well-known/mavenlink-api-oauth-protected-resource.json
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: app.mavenlink.com
+  documents:
+  - path: /.well-known/openid-configuration
+    status: 200
+    content_type: application/json
+    file: well-known/mavenlink-app-openid-configuration.json
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    content_type: application/json
+    file: well-known/mavenlink-app-oauth-authorization-server.json
+  - path: /.well-known/oauth-protected-resource
+    status: 200
+    content_type: application/json
+    file: well-known/mavenlink-app-oauth-protected-resource.json
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: developer.kantata.com
+  documents:
+  - path: /.well-known/agent-card.json
+    status: 200
+    content_type: application/json
+    file: a2a/mavenlink-agent-card.json
+  - path: /llms.txt
+    status: 200
+    content_type: text/plain
+    file: llms/mavenlink-llms.txt
+  - path: /.well-known/agent.json
+    status: 404
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+- host: www.kantata.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+  - path: /llms.txt
+    status: 404
+- host: www.mavenlink.com
+  note: >-
+    301s to https://www.kantata.com/mavenlink. Every /.well-known/ path answers HTTP 200 with an identical
+    70,231-byte Next.js SPA shell - a catch-all, not a document. All recorded as misses.
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    result: miss
+    reason: HTML SPA catch-all, not a document
+  - path: /.well-known/api-catalog
+    status: 200
+    result: miss
+    reason: HTML SPA catch-all, not a document
+  - path: /.well-known/agent-card.json
+    status: 200
+    result: miss
+    reason: HTML SPA catch-all, not a document
+- host: knowledge.kantata.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /llms.txt
+    status: 404
+summary:
+  real_documents: 8
+  security_txt: false
+  api_catalog: false
+  ai_plugin: false
+  oauth_metadata: true
+  openid_configuration: true
+  protected_resource_metadata: true
+  agent_card: true
+  llms_txt: true

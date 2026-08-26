@@ -1,0 +1,120 @@
+generated: '2026-08-25'
+method: searched
+source: >-
+  rubygems.org API, registry.npmjs.org, pypi.org, repo.packagist.org, api.github.com/orgs/mavenlink, and the
+  Kantata OX API reference at developer.kantata.com
+checked: '2026-08-25'
+notes: >-
+  Kantata publishes NO current client SDK for the Kantata OX API. The API reference at developer.kantata.com has
+  no libraries, SDKs or code-samples section at all - its only guidance is "if you are using an OAuth2 library,
+  many of these steps will be handled for you." One first-party Ruby API client does exist on RubyGems under the
+  Mavenlink name, but its newest release is 0.2.7 from 2012-04-10 and it is labelled ALPHA in its own repository
+  description - fourteen years older than the 419-operation contract it would have to wrap. Everything else the
+  mavenlink GitHub org publishes is framework or design-system code, not an API client. PyPI, Packagist,
+  crates.io, NuGet, Maven Central and pkg.go.dev return nothing first-party.
+sdk_count: 1
+official_sdk_count: 1
+current_sdk_count: 0
+packages:
+- name: mavenlink
+  registry: rubygems
+  url: https://rubygems.org/gems/mavenlink
+  repo: https://github.com/mavenlink/mavenlink_gem
+  official: true
+  official_basis: Published under the mavenlink GitHub org, whose GitHub display name is "Kantata OX".
+  kind: api-client
+  language: ruby
+  version: 0.2.7
+  published: '2012-04-10'
+  downloads: 31157
+  description: Ruby API client for Mavenlink.
+  status: abandoned
+  decay_note: >-
+    Last release 2012-04-10, fourteen years before this check. The repository description labels it "[ALPHA]".
+    It predates the OAuth 2.0 flow, the Subscribed Events API, Insights, rate cards, project accounting and the
+    Kantata rename, so it cannot cover the current 419-operation surface. This is the strongest single decay
+    signal available for this provider: the only first-party SDK is a decade and a half behind the API.
+- name: brainstem
+  registry: rubygems
+  url: https://rubygems.org/gems/brainstem
+  repo: https://github.com/mavenlink/brainstem
+  official: true
+  kind: server-framework
+  language: ruby
+  version: 2.3.1
+  published: '2019-11-27'
+  downloads: 71767
+  description: >-
+    Rails presenter framework for building APIs that return the side-loaded results[]-plus-id-keyed-collections
+    envelope. This is the framework the Kantata OX API's own response format comes from, which is why that
+    envelope looks the way it does - but it is a SERVER library, not a client SDK for the Kantata OX API.
+  status: stale
+  decay_note: Last release 2019-11-27.
+- name: brainstem-js
+  registry: npm
+  url: https://www.npmjs.com/package/brainstem-js
+  repo: https://github.com/mavenlink/brainstem-js
+  official: true
+  kind: client-adapter
+  language: javascript
+  version: 0.10.0-alpha.1
+  published: '2026-02-03'
+  description: >-
+    Backbone.js companion library that adds an identity map and relational models for consuming Brainstem-shaped
+    APIs. It is the closest thing Kantata publishes to a JavaScript client for its own response envelope, but it
+    is generic to Brainstem and ships no Kantata OX endpoint bindings.
+  status: maintained-prerelease
+  decay_note: >-
+    Newest published version is an alpha (0.10.0-alpha.1, 2026-02-03) and has been on a pre-1.0 line since 2013.
+- name: '@mavenlink/design-system'
+  registry: npm
+  url: https://www.npmjs.com/package/@mavenlink/design-system
+  repo: https://github.com/mavenlink/design-system
+  official: true
+  kind: ui-components
+  language: javascript
+  version: 0.104.2
+  published: '2022-07-05'
+  description: Mavenlink React Components - the product's internal design system.
+  status: abandoned
+  decay_note: >-
+    Last npm release 2022-07-05; the repository last saw a push 2025-08-21. Not an API integration surface - it
+    is recorded here rather than in components/ because it is a design system for Mavenlink's own UI, not an
+    embeddable customer-facing component library.
+registries_checked:
+- registry: rubygems
+  result: 2 first-party packages found
+- registry: npm
+  result: 2 first-party packages found; no `mavenlink` or `kantata` API client
+- registry: pypi
+  result: 404 for both `mavenlink` and `kantata`
+- registry: packagist
+  result: 404 for mavenlink/mavenlink
+- registry: maven-central
+  result: no first-party artifact
+- registry: nuget
+  result: no first-party artifact
+- registry: crates.io
+  result: no first-party artifact
+- registry: pkg.go.dev
+  result: no first-party module
+related_first_party_tooling:
+- name: connector_service_definition
+  repo: https://github.com/mavenlink/connector_service_definition
+  registry: null
+  version: null
+  published: null
+  note: >-
+    Not a package - a published proto3 contract (saved verbatim to grpc/mavenlink-connector.proto) that third
+    parties implement to add triggers and actions to the Kantata Workflow Platform. Distributed by repository
+    only; no registry, no tag, no release, so there is no version to record. Recorded as null rather than
+    omitted: checked, nothing to record.
+- name: omniauth-mavenlink
+  repo: https://github.com/mavenlink/omniauth-mavenlink
+  registry: null
+  version: null
+  published: null
+  note: >-
+    OmniAuth strategy for authenticating with Mavenlink. First-party repository, but never published to
+    RubyGems - `gem install omniauth-mavenlink` does not resolve, so a consumer must vendor it from git. Version
+    is null because there is no registry release to read.

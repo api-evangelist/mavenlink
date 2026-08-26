@@ -1,0 +1,49 @@
+generated: '2026-08-25'
+method: searched
+source: https://knowledge.kantata.com/hc/en-us/articles/204226220-Kantata-OX-Release-Notes
+scheme:
+  style: dated product release notes
+  location: Kantata knowledge base (Zendesk), public
+  cadence: >-
+    Weekly. A monthly highlight post lands mid-month and additional enhancement rounds land every 4-7 days
+    through the month, grouped Added / Changed / Removed / Fixed with an Early Access track.
+  api_specific: false
+  api_specific_note: >-
+    The release notes are product-wide, not API-specific. API changes appear inline among UI changes ("API
+    fields for revenue management"), so there is no feed an integrator can watch for contract changes alone.
+  machine_readable: false
+  feed: null
+current_version: v1 (unchanged; the API has no released version other than v1)
+archive:
+  url: https://knowledge.kantata.com/hc/en-us/articles/204226220-Kantata-OX-Release-Notes
+  prior_years: Separate articles for 2025, 2024, 2023 and earlier are linked from the current-year page.
+entries:
+- date: '2026-08-17/2026-08-21'
+  type: enhancements
+  breaking: false
+  highlights:
+  - Enhancements across Resource Management, Project Management, Financial Management and Integrations
+  - Performance improvements and bug fixes
+- date: '2026-08-11'
+  type: feature
+  breaking: false
+  highlights:
+  - 'Private Tasks: tasks can be hidden from client participants'
+  - 'Revenue Worksheet (Early Access): forecasted and calculated revenue visibility'
+  - 'Access Groups History: tracks changes to access group names, members and permissions'
+  api_relevance: >-
+    Private Tasks corresponds to the story:set_to_private / story:set_to_public event types in the Subscribed
+    Events catalog.
+- date: '2026-08-03/2026-08-07'
+  type: mixed
+  breaking: false
+  highlights:
+  - Updates to revenue calculations
+  - New API fields for revenue management
+  - Fixes to resource conversion and Smart Upload Manager templates
+  api_relevance: Additive API fields; no removals announced.
+breaking_changes:
+  announced_in_window: 0
+  note: >-
+    No breaking change was announced in the recent window. The dedicated "API Breaking Changes" knowledge-base
+    article referenced by third-party integration guides (article 4418102811) returns 404.

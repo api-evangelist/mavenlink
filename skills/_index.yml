@@ -1,0 +1,30 @@
+generated: '2026-08-25'
+method: generated
+source: openapi/mavenlink-openapi.yml + https://developer.kantata.com/
+notes: >-
+  Packaged Agent Skills for the Kantata OX (formerly Mavenlink) API. Every operationId referenced is verified
+  against the published Swagger 2.0 contract in openapi/mavenlink-openapi.yml - none is invented. Kantata
+  publishes no skills, AGENTS.md or agent instructions of its own; a search of developer.kantata.com,
+  knowledge.kantata.com and the mavenlink GitHub org found none, and the A2A agent card Kantata does serve
+  declares an empty skills[] array. Each skill carries the same three runtime warnings the contract forces:
+  the spec declares security it never applies, there is no idempotency key, and 74 DELETE operations have no
+  restore path.
+api: Kantata OX API
+base_url: https://api.mavenlink.com/api/v1/
+skills:
+- name: mavenlink-project-setup
+  file: skills/mavenlink-project-setup.md
+  summary: Create a workspace, apply a template, invite participants, staff and allocate resources, set invoicing.
+  operations: 10
+- name: mavenlink-time-and-approval
+  file: skills/mavenlink-time-and-approval.md
+  summary: Log time, submit timesheets, approve/reject/cancel individually or in bulk, with the reversal for each write.
+  operations: 13
+- name: mavenlink-expense-and-invoice
+  file: skills/mavenlink-expense-and-invoice.md
+  summary: Expenses through the approval flow, then invoice generation - and cancel-versus-delete on invoices.
+  operations: 15
+- name: mavenlink-change-feed-sync
+  file: skills/mavenlink-change-feed-sync.md
+  summary: Sync an external system from the Subscribed Events feed within its 9-day retention window.
+  operations: 2

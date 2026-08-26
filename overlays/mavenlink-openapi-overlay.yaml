@@ -1,0 +1,95 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for the Kantata OX API
+  version: 1.0.0
+extends: openapi/mavenlink-openapi.yml
+x-provenance:
+  generated: '2026-08-25'
+  method: generated
+  source: >-
+    openapi/mavenlink-openapi.yml (harvested verbatim from https://app.mavenlink.com/oas/specification) plus the
+    Kantata OX API reference at https://developer.kantata.com/ and the discovery documents in well-known/
+  note: >-
+    This overlay records API Evangelist's enhancements. It NEVER mutates the harvested contract. The largest
+    correction it makes is applying the security requirement: the published Swagger 2.0 document declares two
+    securityDefinitions and then references neither, so a generated client would send no Authorization header
+    even though all 419 operations require a bearer token.
+actions:
+- target: $.info
+  description: Record the true public contract location and the provider's current corporate identity.
+  update:
+    contact:
+      name: Kantata Support
+      url: https://www.kantata.com/customer-resources
+    x-spec-source: https://app.mavenlink.com/oas/specification
+    x-provider: Kantata (formerly Mavenlink; Kantata OX product line)
+    x-api-evangelist-profile: https://apis.io/provider/mavenlink
+- target: $
+  description: >-
+    Apply the declared security globally. The published contract defines BearerToken and OauthSecurity but
+    applies neither, so spec-driven clients and generators produce unauthenticated calls against an API where
+    every endpoint returns 401 without a token.
+  update:
+    security:
+    - BearerToken: []
+    - OauthSecurity: []
+- target: $.securityDefinitions.OauthSecurity
+  description: >-
+    Populate the empty scopes map from the OAuth/OIDC discovery documents Kantata serves anonymously at
+    /.well-known/openid-configuration and /.well-known/oauth-authorization-server.
+  update:
+    scopes:
+      api_only: Kantata OX API access without OpenID identity claims
+      openid: Request an OpenID Connect ID token
+      email: Release the email claim
+      profile: Release profile claims including account_id and account_name
+      mcp: Access the Kantata OX MCP server at https://api.mavenlink.com/mcp
+      offline_access: Request a refresh token
+    x-discovery: https://api.mavenlink.com/.well-known/openid-configuration
+- target: $.paths..responses
+  description: >-
+    Document the 429 the API reference says the API returns. It is described in prose under Rate Limits but is
+    absent from every one of the 419 operations, so no generated client has a branch for it.
+  update:
+    '429':
+      description: >-
+        Too Many Requests. Documented in the API reference Rate Limits section; retry after a small delay. No
+        RateLimit-* or Retry-After header is emitted. The exact limits are published only in a customer-login
+        knowledge-base article.
+      schema:
+        $ref: '#/definitions/Errors'
+- target: $.definitions.Error
+  description: Record the enumerated error `type` values published in the API reference Errors section.
+  update:
+    x-error-types:
+    - oauth
+    - system
+    - validation
+    x-source: https://developer.kantata.com/
+- target: $.paths['/subscribed_events'].get
+  description: Record the published retention window and delivery semantics on the change-feed operation itself.
+  update:
+    x-retention-days: 9
+    x-delivery: polling
+    x-ordering-guaranteed: false
+    x-duplicates-possible: true
+    x-entitlement: add-on; Account Administrators only
+    x-docs: https://knowledge.kantata.com/hc/en-us/articles/4407962435227-Subscribed-Events-Reference
+- target: $.paths['/invoices/{id}/cancel'].put
+  description: Mark the reversal path for invoice issuance so an agent can find it before it acts.
+  update:
+    x-reversal-of: Create Invoice
+    x-reversibility: documented
+    x-window-stated: false
+- target: $.paths['/timesheet_submissions/{id}/cancel'].put
+  description: Mark the reversal path for timesheet submission.
+  update:
+    x-reversal-of: Create Timesheet Submission
+    x-reversibility: documented
+    x-window-stated: false
+- target: $.paths['/expense_report_submissions/{id}/cancel'].put
+  description: Mark the reversal path for expense report submission.
+  update:
+    x-reversal-of: Create Expense Report Submission
+    x-reversibility: documented
+    x-window-stated: false

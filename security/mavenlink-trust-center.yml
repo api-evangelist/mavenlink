@@ -1,0 +1,40 @@
+generated: '2026-08-25'
+method: searched
+source: https://www.kantata.com/trust-center
+checked: '2026-08-25'
+trust_center:
+  published: true
+  url: https://www.kantata.com/trust-center
+  http_status: 200
+  named_officer: Taison Kearney, Chief Information Security Officer and Data Protection Officer
+  statement: >-
+    "We are dedicated to safeguarding customer data, ensuring privacy, and building trust through transparent
+    practices and strict adherence to all applicable laws, regulations, and industry standards."
+  linked_documents:
+  - name: Privacy Policy
+    url: https://www.kantata.com/privacy-policy
+  - name: Service Level Agreement
+    url: https://www.kantata.com/service-level-agreement
+  - name: Terms of Use
+    url: https://www.kantata.com/terms-of-use
+certifications: []
+certifications_note: >-
+  The Trust Center names NO certification, audit report or framework. The full rendered page text was extracted
+  and searched for SOC 2, ISO 27001, ISO 27017, ISO 27018, GDPR, CCPA, HIPAA, PCI DSS, FedRAMP, TISAX, CSA STAR
+  and Cyber Essentials; the only phrase that matched anything in that family was "Service Level Agreement". The
+  page is a statement of intent plus three legal links - it does not evidence a compliance program, there is no
+  document request form, no subprocessor list, no penetration-test summary and no third-party trust portal
+  (trust.kantata.com does not resolve). No `Compliance` pointer is emitted for this provider as a result: the
+  page exists, the certifications do not appear on it.
+compliance_program_published: false
+subprocessor_list: false
+security_whitepaper: false
+document_request: false
+probed:
+- url: https://www.kantata.com/trust-center
+  status: 200
+- url: https://trust.kantata.com
+  status: 0
+  note: DNS does not resolve
+- url: https://www.kantata.com/security
+  status: 404

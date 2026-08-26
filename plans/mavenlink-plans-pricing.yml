@@ -1,0 +1,37 @@
+generated: '2026-08-25'
+method: searched
+source: https://www.kantata.com/pricing
+plan_count: 0
+pricing_model: contact-sales
+public_pricing: false
+currency: null
+free_tier: false
+trial: false
+self_serve_signup: false
+note: >-
+  Kantata publishes NO pricing tiers. The pricing page (HTTP 200, fetched 2026-08-25) states "Every services
+  business is unique, so your pricing should be too. We tailor plans based on your company size, goals, and the
+  way your team works" and offers only a form: "Fill out the form and one of our PSA Advisors will get back to
+  you to discuss a pricing plan built for you." No plan names, no per-seat price, no seat minimum, no billing
+  period and no published quota or overage appear anywhere on the page. This is an honest zero, not a gap in the
+  harvest.
+api_access:
+  included_in_all_plans: unknown
+  gating_note: >-
+    API access itself is gated commercially and administratively rather than by a published plan: the API
+    reference states you need a PAID Kantata OX account and must be an account administrator to register the
+    OAuth application that issues tokens. Subscribed Events (the change feed) is described in Kantata's own
+    knowledge base as an add-on, and Extended History beyond the default retention is a beta add-on limited to
+    Enterprise and Premier accounts - which are the only two plan names Kantata names anywhere in public.
+  named_tiers_referenced_elsewhere:
+  - Enterprise
+  - Premier
+  named_tiers_source: https://knowledge.kantata.com/hc/en-us/articles/4407962435227-Subscribed-Events-Reference
+  named_tiers_note: >-
+    These two names appear in a knowledge-base article, NOT on the pricing page, and carry no published price.
+    They are recorded here as evidence that tiers exist, not as published plans.
+plans: []
+evidence:
+- url: https://www.kantata.com/pricing
+  status: 200
+  checked: '2026-08-25'

@@ -1,0 +1,64 @@
+generated: '2026-08-25'
+method: searched
+source: https://developer.kantata.com/ + https://knowledge.kantata.com/hc/en-us/articles/204226220-Kantata-OX-Release-Notes
+versioning:
+  style: URI path
+  current_version: v1
+  base_path: /api/v1/
+  spec_info_version: 1.0.0
+  policy_published: false
+  policy_note: >-
+    Kantata publishes no versioning policy. The API has been on v1 for the life of the product and there is no
+    documented statement of what constitutes a breaking change, how a v2 would be introduced, or how long v1
+    would be supported alongside it. The release notes warn that "API URL structures may change" without
+    describing a process.
+deprecation:
+  policy_published: false
+  sunset_header: false
+  deprecation_header: false
+  rfc8594: false
+  deprecated_operations_in_spec: 0
+  evidence: >-
+    No operation in the 419-operation contract carries `deprecated: true`, and no Sunset or Deprecation response
+    header is documented or observed. A knowledge-base article titled "API Breaking Changes" is referenced from
+    third-party write-ups (article 4418102811) but returns HTTP 404 on knowledge.kantata.com as of 2026-08-25.
+  legacy_surface_note: >-
+    The contract does carry an explicitly legacy surface labelled in the tag names rather than in metadata -
+    "Survey Answers (Legacy)", "Survey Questions (Legacy)", "Survey Templates (Legacy)" and "Surveys Responses
+    (Legacy)". Those tags are the only deprecation signal in the spec and they are not machine-readable.
+  probed:
+  - url: https://knowledge.kantata.com/hc/en-us/articles/4418102811
+    status: 404
+    checked: '2026-08-25'
+status_page:
+  url: https://status.mavenlink.com/
+  provider: Atlassian Statuspage
+  page_name: Kantata OX
+  page_id: d429lk1p6zj3
+  machine_readable:
+  - https://status.mavenlink.com/api/v2/status.json
+  - https://status.mavenlink.com/api/v2/summary.json
+  components_include_api: true
+  components_note: >-
+    The status page tracks the Subscribed Events API as its own component alongside the application, so an agent
+    can distinguish an event-feed outage from a platform outage.
+  probed:
+    url: https://status.mavenlink.com/api/v2/status.json
+    status: 200
+    checked: '2026-08-25'
+sla:
+  published: true
+  url: https://www.kantata.com/service-level-agreement
+  note: Linked from the Kantata Trust Center. Commercial SLA document, not an API-specific uptime commitment.
+release_notes:
+  url: https://knowledge.kantata.com/hc/en-us/articles/204226220-Kantata-OX-Release-Notes
+  cadence: weekly, with a monthly feature highlight
+  detail: changelog/mavenlink-changelog.yml
+support:
+  channels:
+  - https://www.kantata.com/customer-resources
+  - https://knowledge.kantata.com/hc/en-us
+  note: 24/7 support and a customer community are advertised, both behind the customer login.
+gaps:
+- No published deprecation policy, no Sunset/Deprecation headers, no machine-readable deprecation in the spec.
+- No published versioning policy or breaking-change process; the article that would carry it is a 404.

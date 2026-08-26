@@ -1,0 +1,114 @@
+generated: '2026-08-25'
+method: probed
+source: https://api.mavenlink.com/.well-known/oauth-protected-resource + live tools/list probes
+checked: '2026-08-25'
+notes: >-
+  Kantata operates TWO distinct MCP surfaces and they are not the same product. The PRODUCT server at
+  https://api.mavenlink.com/mcp reads and writes Kantata OX data and is OAuth-gated; the DOCUMENTATION server at
+  https://developer.kantata.com/mcp answers questions about the API and is anonymous. Neither is announced on
+  Kantata's marketing site or in the API reference - both were found by probing RFC 9728 protected-resource
+  metadata and the A2A agent card.
+deployment:
+  mode: remote
+  endpoint: https://api.mavenlink.com/mcp
+  auth: oauth
+  verified: probed
+servers:
+- name: Kantata OX MCP Server (product)
+  endpoint: https://api.mavenlink.com/mcp
+  mode: remote
+  auth: oauth
+  status: live
+  verified: probed
+  discovery:
+    protected_resource_metadata: https://api.mavenlink.com/.well-known/oauth-protected-resource
+    authorization_server: https://api.mavenlink.com
+    authorization_server_metadata: https://api.mavenlink.com/.well-known/oauth-authorization-server
+    scopes_supported:
+    - mcp
+    code_challenge_methods_supported:
+    - S256
+    bearer_methods_supported:
+    - header
+  probe:
+    request: 'POST {"jsonrpc":"2.0","id":1,"method":"tools/list"} with Accept: application/json, text/event-stream'
+    http_status: 401
+    www_authenticate: >-
+      Bearer realm="Doorkeeper", error="invalid_token", error_description="The access token is invalid",
+      resource_metadata="https://api.mavenlink.com/.well-known/oauth-protected-resource"
+    cors:
+      access_control_allow_origin: '*'
+      access_control_allow_methods: GET, POST, OPTIONS
+      access_control_allow_headers: Content-Type, mcp-protocol-version, Authorization
+  tools:
+    known: false
+    reason: >-
+      The live tool list is auth-gated. tools/list returns an OAuth challenge to anonymous callers, and Kantata
+      publishes no tool inventory in its documentation, in llms.txt, or anywhere else we could find. Tool names
+      and inputSchemas require authenticated introspection with an `mcp`-scoped token from a paid Kantata OX
+      account. NOTHING is guessed here - the tool list is recorded as unknown rather than derived from the REST
+      operations, because inventing tool names for a server that really exists would be worse than an honest gap.
+  mirror:
+    endpoint: https://app.mavenlink.com/mcp
+    note: >-
+      app.mavenlink.com serves the identical protected-resource metadata naming
+      https://app.mavenlink.com/mcp, with the same 401 Doorkeeper challenge. api.mavenlink.com is treated as the
+      canonical endpoint because it is the documented API host.
+- name: Kantata OX Developer Documentation MCP Server
+  endpoint: https://developer.kantata.com/mcp
+  mode: remote
+  auth: none
+  status: live
+  verified: probed
+  discovery:
+    agent_card: https://developer.kantata.com/.well-known/agent-card.json
+    declared_as: A2A capabilities.extensions[uri=https://modelcontextprotocol.io].params.url
+  probe:
+    request: 'POST {"jsonrpc":"2.0","id":1,"method":"tools/list"}'
+    http_status: 200
+    content_type: text/event-stream
+    captured: mcp/mavenlink-docs-mcp-tools.json
+  scope: >-
+    Read-only over the API DOCUMENTATION. It cannot read or write Kantata OX project, time, expense or invoice
+    data - it describes the contract.
+  tools:
+    known: true
+    count: 6
+    list:
+    - name: list-apis
+      title: List APIs
+      description: Lists available APIs with their context and purpose
+      read_only: true
+    - name: get-endpoints
+      title: Get Endpoints
+      description: Get all endpoints for a specific API
+      read_only: true
+    - name: get-endpoint-info
+      title: Get Endpoint Info
+      description: >-
+        Get comprehensive information about specific endpoint including parameters, security, and examples
+      read_only: true
+    - name: get-security-schemes
+      title: Get Security Schemes
+      description: Get the security schemes for a specific API
+      read_only: true
+    - name: get-full-api-description
+      title: Get Full API Description
+      description: Get the complete OpenAPI description
+      read_only: true
+    - name: search
+      title: Search
+      description: Search across the documentation to fetch relevant content for a given query
+      read_only: true
+gaps:
+- >-
+  The product MCP server is completely undocumented. It is not mentioned on developer.kantata.com, in llms.txt,
+  in the knowledge base, or on kantata.com. The only public evidence it exists is the RFC 9728 metadata document
+  and the 401 challenge - which is excellent machine-readable practice and zero human-readable practice.
+- >-
+  The `mcp` scope is all-or-nothing. There are no per-tool or read/write scopes, so an agent granted MCP access
+  inherits whatever the authorising user can do, across a REST surface with 251 write operations and 74
+  unrecoverable deletes.
+- >-
+  No agent card points at the product MCP server; the only card Kantata serves describes the documentation
+  agent.

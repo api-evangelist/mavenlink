@@ -1,0 +1,541 @@
+generated: '2026-08-25'
+method: derived
+source: openapi/mavenlink-openapi.yml
+notes: Entity-relationship graph derived from the 129 definitions in the published Kantata OX Swagger 2.0 contract.
+  Kantata models relationships as scalar *_id and array *_ids fields on each object rather than as embedded sub-objects,
+  and the API side-loads related objects into top-level id-keyed collections when the caller passes include=. The
+  graph below is read straight from those field names; the "target" of each edge is the field name with the _id
+  / _ids suffix stripped and is a Kantata association name, not necessarily a definition name in the spec.
+identifiers:
+  style: opaque numeric strings
+  note: Object ids are returned as JSON strings containing integers (e.g. "2249167"). There are no typed id prefixes;
+    the object type is carried by the `key` field of each entry in the `results` array and by the top-level collection
+    the object is filed under.
+  polymorphic:
+  - subject_id / subject_type on custom field values and posts
+  - subject_ref on subscribed events
+entity_count: 32
+entities:
+- entity: Workspace
+  field_count: 88
+  note: Project (called "workspace" throughout the API)
+  belongs_to:
+  - via: account_color_id
+    target: account_color
+  - via: account_id
+    target: account
+  - via: approver_id
+    target: approver
+  - via: creator_id
+    target: creator
+  - via: current_status_report_id
+    target: current_status_report
+  - via: current_user_participation_id
+    target: current_user_participation
+  - via: next_uncompleted_milestone_id
+    target: next_uncompleted_milestone
+  - via: primary_counterpart_id
+    target: primary_counterpart
+  - via: primary_maven_id
+    target: primary_maven
+  - via: primary_workspace_group_id
+    target: primary_workspace_group
+  - via: rate_card_id
+    target: rate_card
+  - via: revenue_recognition_method_id
+    target: revenue_recognition_method
+  - via: task_status_set_id
+    target: task_status_set
+  - via: workspace_invoice_preference_id
+    target: workspace_invoice_preference
+  has_many:
+  - via: account_insights_mapping_ids
+    target: account_insights_mapping
+  - via: approver_ids
+    target: approver
+  - via: billing_milestone_ids
+    target: billing_milestone
+  - via: custom_field_value_ids
+    target: custom_field_value
+  - via: external_reference_ids
+    target: external_reference
+  - via: financial_viewer_ids
+    target: financial_viewer
+  - via: participant_ids
+    target: participant
+  - via: participation_ids
+    target: participation
+  - via: possible_approver_ids
+    target: possible_approver
+  - via: status_report_ids
+    target: status_report
+  - via: timesheet_submission_ids
+    target: timesheet_submission
+  - via: workspace_group_ids
+    target: workspace_group
+  - via: workspace_resource_ids
+    target: workspace_resource
+  - via: workspace_resources_with_unnamed_ids
+    target: workspace_resources_with_unnamed
+- entity: Story
+  field_count: 70
+  note: Task (called "story" throughout the API)
+  belongs_to:
+  - via: assigned_role_id
+    target: assigned_role
+  - via: creator_id
+    target: creator
+  - via: custom_task_status_id
+    target: custom_task_status
+  - via: parent_id
+    target: parent
+  - via: root_id
+    target: root
+  - via: workspace_id
+    target: workspace
+  has_many:
+  - via: ancestor_ids
+    target: ancestor
+  - via: assignee_ids
+    target: assignee
+  - via: attachment_ids
+    target: attachment
+  - via: current_assignment_ids
+    target: current_assignment
+  - via: custom_field_value_ids
+    target: custom_field_value
+  - via: descendant_ids
+    target: descendant
+  - via: external_reference_ids
+    target: external_reference
+  - via: follower_ids
+    target: follower
+  - via: google_document_ids
+    target: google_document
+  - via: potential_workspace_resource_ids
+    target: potential_workspace_resource
+  - via: potential_workspace_resources_with_unnamed_ids
+    target: potential_workspace_resources_with_unnamed
+  - via: reply_ids
+    target: reply
+  - via: source_dependency_ids
+    target: source_dependency
+  - via: story_state_change_ids
+    target: story_state_change
+  - via: story_task_ids
+    target: story_task
+  - via: sub_story_ids
+    target: sub_story
+  - via: tag_ids
+    target: tag
+  - via: target_dependency_ids
+    target: target_dependency
+  - via: workspace_resource_ids
+    target: workspace_resource
+  - via: workspace_resources_with_unnamed_ids
+    target: workspace_resources_with_unnamed
+- entity: User
+  field_count: 20
+  belongs_to:
+  - via: account_membership_id
+    target: account_membership
+  - via: manager_id
+    target: manager
+  - via: role_id
+    target: role
+  has_many:
+  - via: custom_field_value_ids
+    target: custom_field_value
+  - via: external_reference_ids
+    target: external_reference
+  - via: skill_ids
+    target: skill
+  - via: skill_membership_ids
+    target: skill_membership
+  - via: work_sample_ids
+    target: work_sample
+- entity: AccountMembership
+  field_count: 32
+  belongs_to:
+  - via: default_role_id
+    target: default_role
+  - via: effective_workweek_id
+    target: effective_workweek
+  - via: manager_id
+    target: manager
+  - via: user_id
+    target: user
+  has_many:
+  - via: backup_approver_association_ids
+    target: backup_approver_association
+  - via: cost_rate_ids
+    target: cost_rate
+  - via: future_billable_utilization_ids
+    target: future_billable_utilization
+  - via: managee_ids
+    target: managee
+  - via: possible_managee_ids
+    target: possible_managee
+  - via: possible_manager_ids
+    target: possible_manager
+  - via: skill_membership_ids
+    target: skill_membership
+- entity: TimeEntry
+  field_count: 25
+  belongs_to:
+  - via: active_submission_id
+    target: active_submission
+  - via: invoice_id
+    target: invoice
+  - via: location_id
+    target: location
+  - via: recent_submission_id
+    target: recent_submission
+  - via: role_id
+    target: role
+  - via: story_id
+    target: story
+  - via: user_id
+    target: user
+  - via: workspace_id
+    target: workspace
+  has_many:
+  - via: external_reference_ids
+    target: external_reference
+- entity: Expense
+  field_count: 26
+  belongs_to:
+  - via: active_submission_id
+    target: active_submission
+  - via: expense_budget_id
+    target: expense_budget
+  - via: expense_category_id
+    target: expense_category
+  - via: receipt_id
+    target: receipt
+  - via: recent_submission_id
+    target: recent_submission
+  - via: role_id
+    target: role
+  - via: story_id
+    target: story
+  - via: user_id
+    target: user
+  - via: vendor_id
+    target: vendor
+  - via: workspace_id
+    target: workspace
+  has_many:
+  - via: external_reference_ids
+    target: external_reference
+- entity: ExpenseBudget
+  field_count: 16
+  belongs_to:
+  - via: story_id
+    target: story
+  - via: workspace_id
+    target: workspace
+  has_many:
+  - via: expense_ids
+    target: expense
+  - via: external_reference_ids
+    target: external_reference
+  - via: fixed_fee_item_ids
+    target: fixed_fee_item
+- entity: ExpenseReportSubmission
+  field_count: 22
+  belongs_to:
+  - via: current_resolution_creator_id
+    target: current_resolution_creator
+  - via: user_id
+    target: user
+  - via: workspace_id
+    target: workspace
+  has_many:
+  - via: expense_ids
+    target: expense
+  - via: external_reference_ids
+    target: external_reference
+  - via: resolution_ids
+    target: resolution
+- entity: Invoice
+  field_count: 27
+  belongs_to:
+  - via: recipient_id
+    target: recipient
+  - via: user_id
+    target: user
+  has_many:
+  - via: additional_item_ids
+    target: additional_item
+  - via: billing_milestone_ids
+    target: billing_milestone
+  - via: expense_ids
+    target: expense
+  - via: external_reference_ids
+    target: external_reference
+  - via: fixed_fee_item_ids
+    target: fixed_fee_item
+  - via: time_entry_ids
+    target: time_entry
+  - via: workspace_ids
+    target: workspace
+- entity: BillingMilestone
+  field_count: 12
+  belongs_to:
+  - via: invoice_id
+    target: invoice
+  - via: story_id
+    target: story
+  - via: workspace_id
+    target: workspace
+  has_many:
+  - via: external_reference_ids
+    target: external_reference
+  - via: invoice_ids
+    target: invoice
+- entity: Assignment
+  field_count: 10
+  belongs_to:
+  - via: assignee_id
+    target: assignee
+  - via: resource_id
+    target: resource
+  - via: story_id
+    target: story
+  has_many:
+  - via: external_reference_ids
+    target: external_reference
+  - via: story_allocation_day_ids
+    target: story_allocation_day
+- entity: Participation
+  field_count: 27
+  belongs_to:
+  - via: primary_role_id
+    target: primary_role
+  - via: user_id
+    target: user
+  - via: workspace_id
+    target: workspace
+  - via: workspace_role_id
+    target: workspace_role
+  has_many:
+  - via: active_role_ids
+    target: active_role
+  - via: external_reference_ids
+    target: external_reference
+  - via: workspace_resource_ids
+    target: workspace_resource
+- entity: WorkspaceResource
+  field_count: 18
+  belongs_to:
+  - via: organization_membership_id
+    target: organization_membership
+  - via: participation_id
+    target: participation
+  - via: role_id
+    target: role
+  - via: user_id
+    target: user
+  - via: workspace_id
+    target: workspace
+  has_many:
+  - via: custom_field_value_ids
+    target: custom_field_value
+  - via: external_reference_ids
+    target: external_reference
+- entity: ResourceRequest
+  field_count: 6
+  belongs_to:
+  - via: creator_id
+    target: creator
+  - via: resource_id
+    target: resource
+  has_many:
+  - via: approver_ids
+    target: approver
+- entity: Estimate
+  field_count: 12
+  belongs_to:
+  - via: creator_id
+    target: creator
+  - via: workspace_group_id
+    target: workspace_group
+  - via: workspace_id
+    target: workspace
+  has_many:
+  - via: custom_field_value_ids
+    target: custom_field_value
+  - via: estimate_scenario_ids
+    target: estimate_scenario
+  - via: external_reference_ids
+    target: external_reference
+- entity: EstimateScenario
+  field_count: 10
+  belongs_to:
+  - via: estimate_id
+    target: estimate
+  - via: rate_card_id
+    target: rate_card
+  has_many:
+  - via: estimate_scenario_resource_ids
+    target: estimate_scenario_resource
+  - via: external_reference_ids
+    target: external_reference
+- entity: RateCard
+  field_count: 10
+  belongs_to:
+  - via: effective_rate_card_version_id
+    target: effective_rate_card_version
+  - via: rate_card_set_id
+    target: rate_card_set
+  has_many:
+  - via: external_reference_ids
+    target: external_reference
+  - via: rate_card_version_ids
+    target: rate_card_version
+- entity: CostRate
+  field_count: 6
+  belongs_to:
+  - via: account_membership_id
+    target: account_membership
+- entity: Role
+  field_count: 5
+  has_many:
+  - via: external_reference_ids
+    target: external_reference
+- entity: Skill
+  field_count: 7
+  belongs_to:
+  - via: skill_category_id
+    target: skill_category
+  has_many:
+  - via: external_reference_ids
+    target: external_reference
+- entity: Organization
+  field_count: 6
+  belongs_to:
+  - via: parent_id
+    target: parent
+  has_many:
+  - via: ancestor_ids
+    target: ancestor
+- entity: OrganizationMembership
+  field_count: 7
+  belongs_to:
+  - via: department_id
+    target: department
+  - via: geography_id
+    target: geography
+  - via: member_id
+    target: member
+- entity: CustomField
+  field_count: 12
+  belongs_to:
+  - via: creator_id
+    target: creator
+  - via: custom_field_set_id
+    target: custom_field_set
+  has_many:
+  - via: choice_ids
+    target: choice
+  - via: external_reference_ids
+    target: external_reference
+- entity: CustomFieldValue
+  field_count: 15
+  belongs_to:
+  - via: account_id
+    target: account
+  - via: custom_field_id
+    target: custom_field
+  - via: setter_id
+    target: setter
+  - via: subject_id
+    target: subject
+  has_many:
+  - via: external_reference_ids
+    target: external_reference
+  - via: selected_choice_ids
+    target: selected_choice
+- entity: Post
+  field_count: 24
+  note: Comment / activity post
+  belongs_to:
+  - via: newest_reply_id
+    target: newest_reply
+  - via: newest_reply_user_id
+    target: newest_reply_user
+  - via: story_id
+    target: story
+  - via: subject_id
+    target: subject
+  - via: user_id
+    target: user
+  - via: workspace_id
+    target: workspace
+  has_many:
+  - via: attachment_ids
+    target: attachment
+  - via: external_reference_ids
+    target: external_reference
+  - via: google_document_ids
+    target: google_document
+  - via: recipient_ids
+    target: recipient
+  - via: reply_ids
+    target: reply
+- entity: Attachments::Base
+  field_count: 10
+  note: File attachment
+- entity: ProjectTemplate
+  field_count: 16
+  belongs_to:
+  - via: user_id
+    target: user
+  has_many:
+  - via: project_template_additional_tab_ids
+    target: project_template_additional_tab
+  - via: project_template_assignment_ids
+    target: project_template_assignment
+- entity: WorkspaceAllocation
+  field_count: 13
+  belongs_to:
+  - via: creator_id
+    target: creator
+  - via: updater_id
+    target: updater
+  - via: workspace_id
+    target: workspace
+  - via: workspace_resource_id
+    target: workspace_resource
+  has_many:
+  - via: external_reference_ids
+    target: external_reference
+- entity: Vendor
+  field_count: 5
+  has_many:
+  - via: external_reference_ids
+    target: external_reference
+- entity: Workweek
+  field_count: 14
+  has_many:
+  - via: workweek_membership_ids
+    target: workweek_membership
+- entity: HolidayCalendar
+  field_count: 2
+- entity: ExternalReference
+  field_count: 14
+  belongs_to:
+  - via: subject_id
+    target: subject
+hubs:
+- entity: Workspace
+  why: 88 fields and 28 relationship edges - the project is the join point for tasks, participants, resources, invoices,
+    estimates, budgets and status reports.
+- entity: Story
+  why: 70 fields and 26 edges, self-referential (parent_id, root_id, sub_story_ids, ancestor_ids, descendant_ids)
+    so tasks form a tree.
+- entity: AccountMembership
+  why: the account-level identity object; joins User to roles, cost rates, workweeks, approvers and manager/managee
+    chains.
+render: null

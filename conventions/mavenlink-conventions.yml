@@ -1,0 +1,222 @@
+generated: '2026-08-25'
+method: searched
+source: https://developer.kantata.com/
+notes: >-
+  Cross-cutting runtime semantics for the Kantata OX API, read from the Schema / Response Format / Pagination /
+  Request by ID / Filters / Includes / Optional Fields / Ordering / Searching / Errors / Rate Limits / Timeouts
+  sections of the API reference at developer.kantata.com, and cross-checked against the published Swagger 2.0
+  contract in openapi/mavenlink-openapi.yml.
+base_url: https://api.mavenlink.com/api/v1/
+media_types:
+  request:
+  - application/json
+  - application/x-www-form-urlencoded (Rails structured)
+  response:
+  - application/json
+  note: Responses are always JSON regardless of request encoding.
+authentication:
+  style: OAuth 2.0 authorization-code bearer token
+  header: 'Authorization: Bearer <token>'
+  detail: authentication/mavenlink-authentication.yml
+  applied_in_spec: false
+  applied_in_spec_note: >-
+    securityDefinitions are declared but never referenced - no global `security` block and no operation-level
+    `security` on any of the 419 operations.
+idempotency:
+  supported: false
+  header: null
+  evidence: >-
+    No Idempotency-Key header, no idempotency section in the API reference, and no idempotency parameter on any
+    of the 86 POST operations in the spec. Retrying a POST after a timeout will create a duplicate record.
+  agent_impact: >-
+    With a documented 3-minute timeout and a 429 retry instruction but no idempotency key, an agent that retries
+    a create is unprotected against double-writes. This is the single largest runtime-semantics gap in this API.
+pagination:
+  styles:
+  - style: page-number
+    params:
+      page: {type: integer, default: 1}
+      per_page: {type: integer, default: 20, maximum: 200}
+    example: /workspaces.json?page=2&per_page=15
+  - style: limit-offset
+    params:
+      limit: {type: integer, minimum: 1}
+      offset: {type: integer, minimum: 0}
+    example: /workspaces.json?limit=15&offset=10
+    precedence: >-
+      If both limit and offset are supplied, page and per_page are ignored; otherwise the API falls back to
+      page/per_page.
+  response_fields:
+    count: total number of objects matching the whole query
+    meta.count: total
+    meta.page_count: number of pages
+    meta.page_number: current page
+    meta.page_size: page size
+  cursor: false
+response_envelope:
+  style: side-loaded / normalized
+  description: >-
+    Every GET returns `count`, a `results` array of {key, id} references in sorted order, and one top-level
+    id-keyed object per collection returned (e.g. "workspaces", "users", "attachments"). Callers MUST iterate
+    `results` to get the canonical, ordered matches - reading a top-level collection directly mixes requested
+    objects with side-loaded associations of the same type (the reference calls out stories and their sub_stories
+    as the case where this bites).
+  example_source: https://developer.kantata.com/
+field_expansion:
+  include:
+    param: include
+    style: comma-separated association names
+    example: /posts.json?only=6&include=user,attachments
+    behaviour: side-loads the associations into their own top-level keys
+  optional_fields:
+    param: optional_fields
+    style: comma-separated field names
+    example: /stories.json?optional_fields=can_edit,can_post
+    behaviour: adds non-default fields inline on each returned object
+request_by_id:
+  only:
+    param: only
+    style: comma-separated integers on an index route
+    example: /workspaces.json?only=5,6,7
+    behaviour: returns just those objects; DOES NOT 404 on a miss
+  restful_show:
+    example: /workspaces/5.json
+    behaviour: >-
+      404s when the resource cannot be found - including when it exists but is excluded by an endpoint's DEFAULT
+      FILTERS. This asymmetry with `only` is documented and is a common source of false "deleted" conclusions.
+filtering:
+  style: per-endpoint query parameters
+  defaults: >-
+    Some filters have default values that are applied automatically to both index and show requests. The defaults
+    are documented per endpoint.
+sorting:
+  param: order
+  format: '<field>:<direction>'
+  example: order=created_at:desc
+search:
+  param: search
+  scope: only some endpoints; only some filters can be combined with it
+  ordering: results come back ordered by relevance, so `order` is ignored
+  note: search does not apply to `only` requests; unsupported search returns a `system` error
+versioning:
+  style: URI path
+  current: v1
+  path: /api/v1/
+  spec_version: 1.0.0 (info.version in the published contract)
+  detail: lifecycle/mavenlink-lifecycle.yml
+error_envelope:
+  shape: '{"errors":[{"type":..., "message":..., "field":...}]}'
+  rfc9457: false
+  detail: errors/mavenlink-problem-types.yml
+rate_limit_signaling:
+  status_on_exhaustion: 429
+  response_headers: []
+  response_headers_note: >-
+    No RateLimit-*, X-RateLimit-* or Retry-After header is documented, and none is present on the
+    unauthenticated 401 observed live on api.mavenlink.com (2026-08-25). The reference says only "retry your
+    request after a small delay".
+  detail: rate-limits/mavenlink-rate-limits.yml
+timeouts:
+  request_timeout: 3 minutes
+  guidance:
+  - split large requests
+  - apply a date filter
+  - use the Subscribed Events API instead of polling many endpoints
+request_id_tracing:
+  header: x-request-id
+  direction: response
+  evidence: >-
+    Observed on live responses from api.mavenlink.com (2026-08-25). Not documented in the API reference and not
+    declared in the spec, but present on every response including 401s - usable as a support correlation id.
+dry_run_mode:
+  supported: false
+  evidence: No preview, simulate, validate-only or dry_run parameter appears on any operation in the spec.
+reversibility:
+  state: verified
+  summary: >-
+    Kantata publishes named reversal operations for its approval and billing write paths, and the API reference
+    states the window for the one place a window exists (the nine-day Subscribed Events retention that bounds
+    how long a change remains observable). Deletes are hard deletes with no restore endpoint - that is itself
+    the finding an agent needs before it acts.
+  reversals:
+  - action: Submit a timesheet
+    forward_operation: Create Timesheet Submission
+    reversal_operation: Cancel Timesheet Submission
+    reversal_path: PUT /timesheet_submissions/{id}/cancel
+    bulk_reversal_operation: Cancel Timesheet Submissions
+    bulk_reversal_path: POST /timesheet_cancellations
+    window: >-
+      Not stated in the API reference. Cancellation is gated on submission state (an approved submission is
+      rejected rather than cancelled), not on elapsed time.
+    window_stated: false
+    grade: documented
+    docs: https://developer.kantata.com/kantata/specification
+  - action: Approve or act on a timesheet submission
+    reversal_operation: Reject Timesheet Submission
+    reversal_path: PUT /timesheet_submissions/{id}/reject
+    bulk_reversal_operation: Reject Timesheet Submissions
+    bulk_reversal_path: POST /timesheet_rejections
+    window: Not stated.
+    window_stated: false
+    grade: documented
+  - action: Submit an expense report
+    reversal_operation: Cancel Expense Report Submission
+    reversal_path: PUT /expense_report_submissions/{id}/cancel
+    also: PUT /expense_report_submissions/{id}/reject (Reject Expense Report Submission)
+    window: Not stated.
+    window_stated: false
+    grade: documented
+  - action: Issue an invoice
+    reversal_operation: Cancel Invoice
+    reversal_path: PUT /invoices/{id}/cancel
+    window: Not stated.
+    window_stated: false
+    grade: documented
+    note: >-
+      Cancel is distinct from DELETE /invoices/{id}; cancellation preserves the record, deletion does not.
+  - action: Start a data export
+    reversal_operation: Update Export (cancel a running Data Export)
+    reversal_path: PUT /exports/{id}
+    window: While the export is still running.
+    window_stated: true
+    grade: verified
+  - action: Add a user to the account
+    reversal_operation: Deactivate Account Membership
+    reversal_path: PUT /account_memberships/{id}/disable
+    window: >-
+      No time limit; deactivation is a state change, and the account membership record and its history are
+      retained.
+    window_stated: true
+    grade: verified
+  - action: Make a task private
+    reversal_operation: story:set_to_public (paired with story:set_to_private in the event catalog)
+    reversal_path: PUT /stories/{id}
+    window: No limit - visibility is a mutable attribute.
+    window_stated: true
+    grade: verified
+  irreversible:
+  - operation_class: DELETE
+    count: 74
+    note: >-
+      74 DELETE operations across the API (workspaces, stories, time entries, expenses, invoices, custom fields,
+      rate cards, and more). There is NO restore, undelete or trash endpoint anywhere in the 419-operation
+      contract, and the API reference states no retention or grace period for deleted objects. A delete issued by
+      an agent is final.
+  - operation: Deletes surfaced in the change feed
+    note: >-
+      A `*:deleted` subscribed event records that the delete happened and is retained for nine days, but the
+      event payload is a change record, not a restore mechanism.
+  observability_window:
+    surface: Subscribed Events API
+    window: 9 days
+    window_stated: true
+    docs: https://knowledge.kantata.com/hc/en-us/articles/4407962435227-Subscribed-Events-Reference
+    note: >-
+      The published retention for the change feed. After nine days there is no API-side record of what an agent
+      changed, which bounds how long an automated reconciliation or rollback pass can look back.
+related:
+  errors: errors/mavenlink-problem-types.yml
+  lifecycle: lifecycle/mavenlink-lifecycle.yml
+  authentication: authentication/mavenlink-authentication.yml
+  rate_limits: rate-limits/mavenlink-rate-limits.yml
+  events: asyncapi/mavenlink-event-surface.yml
