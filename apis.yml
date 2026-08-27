@@ -32,53 +32,13 @@ tags:
 - agent-native
 - Company
 apis:
-- name: Kantata OX API
-  description: >-
-    REST API for the Kantata OX (formerly Mavenlink) professional services automation platform. 419 operations
-    across 218 paths cover workspaces (projects), stories (tasks), assignments, time entries, timesheets and
-    approvals, expenses and expense reports, invoices and billing milestones, estimates and estimate scenarios,
-    rate cards and cost rates, resource requests and allocations, custom fields, users and account memberships,
-    Insights reports, data exports, and a nine-day Subscribed Events change feed. JSON responses use a
-    side-loaded envelope (results[] plus id-keyed top-level collections) with page/per_page or limit/offset
-    pagination, include= association expansion, and optional_fields= sparse field selection.
-  humanURL: https://developer.kantata.com/
-  baseURL: https://api.mavenlink.com/api/v1/
-  tags:
-  - Professional Services Automation
-  - Project Management
-  - Resource Management
-  - Time Tracking
-  - Expense Management
-  - Invoicing
-  - Project Accounting
-  properties:
-  - type: OpenAPI
-    url: openapi/mavenlink-openapi.yml
-  - type: Documentation
-    url: https://developer.kantata.com/
-  - type: APIReference
-    url: https://developer.kantata.com/kantata/specification
-  - type: Authentication
-    url: authentication/mavenlink-authentication.yml
-  - type: OAuthScopes
-    url: scopes/mavenlink-scopes.yml
-  - type: Conventions
-    url: conventions/mavenlink-conventions.yml
-  - type: DataModel
-    url: data-model/mavenlink-data-model.yml
-  - type: ErrorCatalog
-    url: errors/mavenlink-problem-types.yml
-  - type: Overlay
-    url: overlays/mavenlink-openapi-overlay.yaml
-  - type: RateLimits
-    url: rate-limits/mavenlink-rate-limits.yml
 - name: Kantata OX MCP Server
   description: >-
     Remote Model Context Protocol server operated by Kantata on the Mavenlink API host. Advertised anonymously
     through RFC 9728 protected-resource metadata at https://api.mavenlink.com/.well-known/oauth-protected-resource
-    and guarded by the same Doorkeeper OAuth 2.0 authorization server as the REST API, with a dedicated `mcp`
-    scope and PKCE (S256). tools/list returns HTTP 401 with a Bearer/invalid_token challenge to anonymous
-    callers, so the live tool schemas require an authorized Kantata OX account.
+    and guarded by the same Doorkeeper OAuth 2.0 authorization server as the REST API, with a dedicated
+    `mcp` scope and PKCE (S256). tools/list returns HTTP 401 with a Bearer/invalid_token challenge to
+    anonymous callers, so the live tool schemas require an authorized Kantata OX account.
   humanURL: https://developer.kantata.com/
   baseURL: https://api.mavenlink.com/mcp
   tags:
@@ -96,11 +56,11 @@ apis:
     url: scopes/mavenlink-scopes.yml
 - name: Kantata OX Developer Documentation Agent
   description: >-
-    Agent surface published on the Kantata developer portal. Serves an A2A agent card at
-    /.well-known/agent-card.json (protocolVersion 0.3.0) that advertises an MCP extension, and an anonymous
-    documentation MCP server at https://developer.kantata.com/mcp exposing six read-only tools for listing APIs,
-    enumerating endpoints, retrieving endpoint detail and security schemes, downloading the full OpenAPI, and
-    searching the documentation. It answers questions about the API; it does not read or write Kantata OX data.
+    Agent surface published on the Kantata developer portal. Serves an A2A agent card at /.well-known/agent-card.json
+    (protocolVersion 0.3.0) that advertises an MCP extension, and an anonymous documentation MCP server
+    at https://developer.kantata.com/mcp exposing six read-only tools for listing APIs, enumerating endpoints,
+    retrieving endpoint detail and security schemes, downloading the full OpenAPI, and searching the documentation.
+    It answers questions about the API; it does not read or write Kantata OX data.
   humanURL: https://developer.kantata.com/
   baseURL: https://developer.kantata.com/mcp
   tags:
@@ -114,6 +74,3333 @@ apis:
     url: https://developer.kantata.com/mcp
   - type: LLMsTxt
     url: https://developer.kantata.com/llms.txt
+- aid: mavenlink:mavenlink-access-group-memberships-api
+  name: Mavenlink Access Group Memberships API
+  description: >-
+    Access Groups allow you to manage product access for users. An Access Group Membership represents
+    the connection of a user to an Access Group.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Access Group Memberships
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-access-group-memberships-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-account-colors-api
+  name: Mavenlink Account Colors API
+  description: >-
+    Account Colors are the colors available on a user's account that can be used to style workspaces.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Account Colors
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-account-colors-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-account-invitations-api
+  name: Mavenlink Account Invitations API
+  description: Account Invitations represent invitations for non-users to join a Kantata OX account.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Account Invitations
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-account-invitations-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-account-locations-api
+  name: Mavenlink Account Locations API
+  description: Represents a location associated with an account.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Account Locations
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-account-locations-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-account-memberships-api
+  name: Mavenlink Account Memberships API
+  description: >-
+    Each user on an account will have an account membership that describes their relationship to the account.
+    When you add a user
+
+    to an account, create a new `account_membership`. When you remove a user from an account, delete their
+    account_membership record.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Account Memberships
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-account-memberships-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-activations-api
+  name: Mavenlink Activations API
+  description: >-
+    The Rate Card activation endpoints allow you to check whether the Rate Cards feature has been activated
+    on
+
+    the user's account. It also allows you to activate the feature on the user's account.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Activations
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-activations-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-assignments-api
+  name: Mavenlink Assignments API
+  description: >-
+    The Assignments object allows you to view and manage task assignments for
+
+    named or [unnamed resources](https://mavenlink.zendesk.com/hc/en-us/articles/115004696493#Unnamed).
+
+
+    **Note:** Because
+
+    [Daily Scheduled Hours](/tag/Daily-Scheduled-Hours-(Story-Allocation-Days))
+
+    are a part of Assignments, they can be affected when an assignment changes.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Assignments
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-assignments-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-attachments-api
+  name: Mavenlink Attachments API
+  description: >-
+    An Attachment is a file asset that is attached to another Kantata OX object.  Depending on the type
+    of object,
+
+    the file is used or displayed in different ways.  The objects that Attachments can be attached to
+    are:
+
+    Post and Expense.
+
+
+    To create an Expense or Post with an Attachment, use the resulting attachment_id from the Attachment
+    creation
+
+    request in the parameters of the Expense or Post creation request.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Attachments
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-attachments-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-backup-approver-associations-api
+  name: Mavenlink Backup Approver Associations API
+  description: >-
+    A Backup Approver Association represents the relationship of a delegated approver to a range of specific
+    dates.
+
+    Approval responsibilities are delegated to a backup approver.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Backup Approver Associations
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-backup-approver-associations-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-billable-utilizations-api
+  name: Mavenlink Billable Utilizations API
+  description: >-
+    Represents the billable utilization target for an account member. Each record has an effective date;
+    the active billable utilization is the one with the most recent effective date. These endpoints are
+    only accessible to users who are Administrators on the account.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Billable Utilizations
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-billable-utilizations-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-billing-milestones-api
+  name: Mavenlink Billing Milestones API
+  description: >-
+    Billing milestones allow you to set up billable items in a project that are separate from the Task
+    Tracker work and have invoicing rules.
+
+    A set of billing milestones in a project is known as the [Billing Schedule](https://knowledge.kantata.com/hc/en-us/articles/35123275585947).
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Billing Milestones
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-billing-milestones-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-client-invoice-defaults-api
+  name: Mavenlink Client Invoice Defaults API
+  description: Represents the default configuration for presenting invoices to clients.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Client Invoice Defaults
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-client-invoice-defaults-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-cost-rates-api
+  name: Mavenlink Cost Rates API
+  description: >-
+    Cost Rate represents the hourly cost for an account member, specified in a specific currency. A cost
+    rate
+
+    with the same currency as the account default currency is called the `default cost rate`.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Cost Rates
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-cost-rates-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-currencies-api
+  name: Mavenlink Currencies API
+  description: >-
+    This object allows you to view the
+
+    [names, ISO codes, and symbols of currencies supported by Kantata OX](https://mavenlink.zendesk.com/hc/en-us/articles/360041576473).
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Currencies
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-currencies-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-custom-branding-api
+  name: Mavenlink Custom Branding API
+  description: The Custom Branding API from Mavenlink — 1 operation(s) for custom branding.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Custom Branding
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-custom-branding-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-custom-field-choices-api
+  name: Mavenlink Custom Field Choices API
+  description: >-
+    Custom Field Choices are possible values for `'single'` and `'multi'` type custom fields.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Custom Field Choices
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-custom-field-choices-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-custom-field-sets-api
+  name: Mavenlink Custom Field Sets API
+  description: >-
+    Custom Field Sets contain custom fields and definitions of each fields' subject type. The supported
+
+    subjects are currently *Workspace*, *Story*, *User*, and *WorkspaceGroup*.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Custom Field Sets
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-custom-field-sets-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-custom-field-values-api
+  name: Mavenlink Custom Field Values API
+  description: >-
+    If [Custom Fields](/tag/Custom-Fields) represent the fields themselves,
+
+    Custom Field Values represent the values in/of those fields. The Custom Field Values object allows
+
+    you to view, create, update, and delete these values.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Custom Field Values
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-custom-field-values-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-custom-fields-api
+  name: Mavenlink Custom Fields API
+  description: >-
+    The [Custom Fields](https://mavenlink.zendesk.com/hc/en-us/articles/202924760-Custom-Fields-Overview-#arrange)
+    object allows you to
+
+    view, create, update, and delete extra fields for additional Estimate, Project, Group, Resource, Task,
+    and User information.
+
+    If Custom Fields represent the fields themselves, [Custom Field Values](/tag/Custom-Field-Values)
+
+    represent the values in/of those fields.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Custom Fields
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-custom-fields-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-daily-scheduled-hours-story-allocation-days-api
+  name: Mavenlink Daily Scheduled Hours (Story Allocation Days) API
+  description: >-
+    Daily Scheduled Hours (also called Story Allocation Days) is the allocation of time for a resource
+    to
+
+    spend on a specific task, on a specific day.
+
+    Daily Scheduled Hours are part of [Assignments](/tag/Assignments),
+
+    so if an Assignment is deleted, so are its Daily Scheduled Hours.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Daily Scheduled Hours (Story Allocation Days)
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-daily-scheduled-hours-story-allocation-days-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-data-export-schema-api
+  name: Mavenlink Data Export Schema API
+  description: >-
+    This object allows you to export specific data sets from Kantata OX.  You can view the full schema
+    of available data sets using this endpoint.
+
+
+    To use this endpoint, you need to be an [account administrator](https://mavenlink.zendesk.com/hc/en-us/articles/203041364).
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Data Export Schema
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-data-export-schema-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-data-exports-api
+  name: Mavenlink Data Exports API
+  description: >-
+    This object allows you to export specific data sets from Kantata OX. You can create or cancel exports.
+    You can also view the full schema of available data sets, view details for all exports, and download
+    exports.
+
+
+    To use these endpoints, you need to be an [account administrator](https://mavenlink.zendesk.com/hc/en-us/articles/203041364).
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Data Exports
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-data-exports-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-estimate-scenario-resource-allocations-api
+  name: Mavenlink Estimate Scenario Resource Allocations API
+  description: >-
+    Estimate Scenario Resource Allocations contain time-related data for scenario resources,
+
+    used for calculating estimated cost and scheduled hours.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Estimate Scenario Resource Allocations
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-estimate-scenario-resource-allocations-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-estimate-scenario-resources-api
+  name: Mavenlink Estimate Scenario Resources API
+  description: >-
+    Estimate Scenario Resources represent placeholders for unnamed resources in a specific estimate scenario.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Estimate Scenario Resources
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-estimate-scenario-resources-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-estimate-scenarios-api
+  name: Mavenlink Estimate Scenarios API
+  description: >-
+    An Estimate Scenario is a possible project configuration, consisting of an estimated budget,
+
+    rate card, resources, and other related fields for a specified estimate.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Estimate Scenarios
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-estimate-scenarios-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-estimates-api
+  name: Mavenlink Estimates API
+  description: >-
+    An Estimate represents a potential project. Estimates allow you to plan out a project's budget, resources,
+
+    and allocations through associated estimate scenarios.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Estimates
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-estimates-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-event-types-api
+  name: Mavenlink Event Types API
+  description: >-
+    A change is called a [Subscribed Event](https://mavenlink.zendesk.com/hc/en-us/articles/4407962435227),
+
+    and the type of change is called a *Subscribed Event Type*.
+
+
+    *Note:* Only Account Administrators can access Subscribed Events.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Event Types
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-event-types-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-events-api
+  name: Mavenlink Events API
+  description: >-
+    Up to 9 days of trackable changes ("events") for an account can be accessed via the Subscribed Events
+    API.
+
+    For a list of all the event types tracked by Subscribed Events, please see the [Knowledge Base](https://mavenlink.zendesk.com/hc/en-us/articles/4407962435227).
+
+    Note that only Account Administrators can access Subscribed Events.
+
+
+    Some actions performed in Kantata OX can generate multiple events. For instance, approving an Expense
+    Report will generate `expense_report:updated` and `expense:updated` events. Note that events for the
+    same action are not guaranteed to appear in the exact order the changes were completed.
+
+
+    Also note that although we try to create events within a few minutes of an action being performed,
+    events may take some time to appear.
+
+
+    Additionally, events may sometimes be duplicated. Your application should handle duplicate events
+    appropriately.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Events
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-events-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-exchange-tables-api
+  name: Mavenlink Exchange Tables API
+  description: >-
+    This object allows you to view or edit foreign currency exchange rates, depending on your [Foreign
+    Exchange Access Group Set](https://mavenlink.zendesk.com/hc/en-us/articles/360047485453)
+              permissions. If you are not a member of an Access Group with Foreign Exchange (FX) permissions,
+    an account administrator will need to add you to one.
+              If you are an account admin that needs FX permissions, you can add yourself to an Access
+    Group with the FX permissions you require.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Exchange Tables
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-exchange-tables-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-expense-budgets-api
+  name: Mavenlink Expense Budgets API
+  description: Expense budgets allow you to plan for non-labor expenses.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Expense Budgets
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-expense-budgets-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-expense-categories-api
+  name: Mavenlink Expense Categories API
+  description: >-
+    An Expense Category represents the type of expense that is being reported.
+
+    Expense categories have no attributes and consist of just their name
+
+    as a string. They can be changed by Account Administrators.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Expense Categories
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-expense-categories-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-expense-report-submissions-api
+  name: Mavenlink Expense Report Submissions API
+  description: >-
+    Expense report submissions contain a set of expense line items. These expenses must be approved through
+
+    an expense report submission before they can be added to an invoice. All submission expenses must
+    be in the
+
+    same workspace (project).
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Expense Report Submissions
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-expense-report-submissions-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-expenses-api
+  name: Mavenlink Expenses API
+  description: >-
+    Expenses are defined as costs incurred as part of a project, but not related to time. Once created,
+    expenses can
+
+    be included in generated invoices.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Expenses
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-expenses-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-external-payments-api
+  name: Mavenlink External Payments API
+  description: >-
+    An external payment is a manual record of a payment made outside of Kantata OX.  An external payment
+    can
+
+    be applied to an invoice, or just recorded directly to a project.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - External Payments
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-external-payments-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-external-references-api
+  name: Mavenlink External References API
+  description: >-
+    External References allows users see which objects (one of `Assignment`, `BillingMilestone`, `CustomField`,
+    `CustomFieldChoice`, `CustomFieldSet`, `CustomFieldValue`, `Estimate`, `EstimateScenario`, `EstimateScenarioResource`,
+    `Expense`, `ExpenseBudget`, `Invoice`, `Participation`, `Post`, `RateCard`, `Role`, `Skill`, `StatusReport`,
+    `Story`, `StoryAllocationDay`, `Submission`, `SurveyAnswer`, `SurveyQuestion`, `SurveyResponse`, `SurveyTemplate`,
+    `TimeEntry`, `TimeOffEntry`, `User`, `Vendor`, `Workspace`, `WorkspaceAllocation`, `WorkspaceGroup`,
+    or `WorkspaceResource`
+
+    are synced with third party systems. This allows you to view the sync status of items in
+
+    addition to the integration specifics for a synced object.
+
+
+    Objects that are synced with a third party system have external integration
+
+    attributes that include the corresponding ID of the third-party object with
+
+    which it is synced, a link that allows you to view the object in the third
+
+    party system, the status of the external object in the external system,
+
+    the status of the sync, and a link to exceptions.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - External References
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-external-references-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-followers-api
+  name: Mavenlink Followers API
+  description: Story Follows allow users to follow a task to which they are not assigned.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Followers
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-followers-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-holiday-calendar-associations-api
+  name: Mavenlink Holiday Calendar Associations API
+  description: >-
+    A Holiday Calendar Association represents the relationship between holiday objects and calendar objects.
+
+    A Holiday can be associated with several different calendars. To associate a holiday with a calendar,
+
+    create a Holiday Calendar Assocation.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Holiday Calendar Associations
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-holiday-calendar-associations-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-holiday-calendar-memberships-api
+  name: Mavenlink Holiday Calendar Memberships API
+  description: A list of all calendars associated to an individual user.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Holiday Calendar Memberships
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-holiday-calendar-memberships-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-holiday-calendars-api
+  name: Mavenlink Holiday Calendars API
+  description: >-
+    Holiday Calendars define the days in which account members are unavailable to work due to company-wide
+    days off.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Holiday Calendars
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-holiday-calendars-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-holidays-api
+  name: Mavenlink Holidays API
+  description: >-
+    Holidays are the company-wide days off that have been added to a user's Kantata OX account.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Holidays
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-holidays-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-insights-access-group-memberships-api
+  name: Mavenlink Insights Access Group Memberships API
+  description: >-
+    [Insights Access Groups](https://mavenlink.zendesk.com/hc/en-us/articles/115002115073) allow you to
+    manage classic Insights access for users. An Insights Access
+      Group Membership represents the connection of a user to an Insights Access Group.
+
+      > **Note**: To manage access to dynamic Insights, use [Access Group Memberships](/tag/Access-Group-Memberships)
+    instead.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Insights Access Group Memberships
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-insights-access-group-memberships-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-insights-dynamic-dashboards-api
+  name: Mavenlink Insights Dynamic Dashboards API
+  description: >-
+    Built with an easy-to-use, modern, and intuitive dashboard editor, Insights dynamic dashboards are
+    based on
+
+    the same powerful data engine as classic dashboards and help you make data-driven decisions for projects,
+
+    staffing, and more. Use this API to get information about dynamic dashboards on your account.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Insights Dynamic Dashboards
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-insights-dynamic-dashboards-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-insights-report-exports-api
+  name: Mavenlink Insights Report Exports API
+  description: >-
+    This object allows you to manage scheduled exports of classic Insights reports from Kantata OX. An
+    export of a classic Insights report that is scheduled to recur is called a scheduled job. You can
+    create, update, and delete scheduled jobs. You can also view details of all the exports for a scheduled
+    job, view the details of each export individually, and download the most recently exported report.
+
+
+    To use these endpoints, you need to be an [account administrator](https://mavenlink.zendesk.com/hc/en-us/articles/203041364).
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Insights Report Exports
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-insights-report-exports-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-insights-reports-api
+  name: Mavenlink Insights Reports API
+  description: View a list of classic Insights reports.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Insights Reports
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-insights-reports-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-invoices-api
+  name: Mavenlink Invoices API
+  description: >-
+    Users can create Invoices in a Kantata OX project.  An Invoice must have at least one line item (a
+    time entry,
+
+    expense, fixed fee item, or additional item).  By default, the recipient of an invoice is the primary
+    client
+
+    in the project.  Manual formatting options are available to define the format and information that
+    should be displayed on an
+
+    invoice.
+
+
+    Invoices can only be created and viewed by participants with financial permission in a project.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Invoices
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-invoices-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-line-item-locks-api
+  name: Mavenlink Line Item Locks API
+  description: >-
+    Line Item Locks provide a way for you to lock time in the past so that previous time entries
+
+    cannot be edited or updated and new time entries cannot be created before the selected lock date.
+
+
+    Line Items can be locked to any Saturday in the past on a per-account basis.
+
+
+    Keep in mind that this feature does not lock the ability to invoice approved time entries,
+
+    nor does it lock the submission or approval of expenses.
+
+
+    Also note: Line Item Locks cannot be modified or deleted. If you would like to move the lock date
+    forward,
+
+    simply create a new lock at a later date, and your account will be locked at the new date.
+
+    Once your account has been locked, the lock cannot be moved earlier, or removed.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Line Item Locks
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-line-item-locks-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-organization-memberships-api
+  name: Mavenlink Organization Memberships API
+  description: >-
+    An Organization Membership represents the connection of a user and project to an organization.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Organization Memberships
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-organization-memberships-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-organizations-api
+  name: Mavenlink Organizations API
+  description: >-
+    The Organizations feature in Kantata OX is composed of two independent trees:
+
+    Department and Geography. Each has its own hierarchy structure.
+
+    Users and Workspaces are associated to exact positions in these two trees
+
+    via [Organization Memberships](/tag/Organization-Memberships).
+
+    The corresponding API fields are `geography_id` and `department_id`.
+
+
+    A user's position in these two trees determines what objects they can see
+
+    in Kantata OX—they can see objects associated with every department and
+
+    geography going up the hierarchy from their selected department and geography.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Organizations
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-organizations-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-participations-api
+  name: Mavenlink Participations API
+  description: >-
+    A participation represents the relationship between a participant and a project, including a participant's
+    permission level,
+
+    whether they're a provider or client, and many other properties. See the 200 status code
+
+    response sample for an example of participation properties you can access.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Participations
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-participations-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-posts-api
+  name: Mavenlink Posts API
+  description: >-
+    A Post represents a message written by participants in a project that appears in the project. Replies
+    are only
+
+    included if they are directly related to a post. Replies to events, such as Change Orders or Story
+    Created
+
+    Events, are not included.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Posts
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-posts-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-project-accounting-records-api
+  name: Mavenlink Project Accounting Records API
+  description: >-
+    The [Project Accounting](https://mavenlink.zendesk.com/hc/en-us/articles/4403832107419-Project-Accounting)
+
+    Records object allows you to view, create, and delete financial records
+
+    related to revenue recognition, forecasting, and earned value.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Project Accounting Records
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-project-accounting-records-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-project-snapshots-api
+  name: Mavenlink Project Snapshots API
+  description: >-
+    Project snapshots capture the state of a project at a specific point in time. Snapshots are useful
+    for gaining a historical perspective on a project, and for comparing the current state of a project
+    to a previous state.
+
+
+    Project financials, tasks, and resources are all captured in a snapshot, as well as project and task
+    custom field values.
+
+
+    To use these endpoints, you must have the Edit Financials permission or higher in a project.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Project Snapshots
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-project-snapshots-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-project-template-additional-tabs-api
+  name: Mavenlink Project Template Additional Tabs API
+  description: >-
+    Project Template Additional Tabs are additional tabs configured in a project template that are
+
+    added to a project when the template is applied.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Project Template Additional Tabs
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-project-template-additional-tabs-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-project-template-assignments-api
+  name: Mavenlink Project Template Assignments API
+  description: >-
+    Project Template Assignments(Project Template Resources) represent placeholders for task assignees
+
+    in project templates. These assignments are mapped to project template stories and are assigned to
+
+    real users when the template is applied.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Project Template Assignments
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-project-template-assignments-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-project-template-expense-budgets-api
+  name: Mavenlink Project Template Expense Budgets API
+  description: >-
+    Project Template Expense Budgets are expense budgets configured in a
+
+    project template that are added to a project when the template is applied.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Project Template Expense Budgets
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-project-template-expense-budgets-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-project-templates-api
+  name: Mavenlink Project Templates API
+  description: >-
+    Project Templates are sets of tasks and attributes that can be applied to new or existing projects.
+
+    A single template can be used on any number of projects.
+
+    A project template's tasks are all stored in an attribute located on the project template object called
+    raw_json.
+
+    It is a JSON hash of all the stories that has been turned into a string and is stored on the object.
+
+
+
+    ##### Project Template Stories (Tasks) - raw_json
+
+
+    A project template's tasks are all stored in an attribute located on the project template object called
+    raw_json.
+
+    It is a JSON hash of all the stories that has been turned into a string and is stored on the object.
+
+
+    Stories within the JSON have the following attributes:
+
+      * `title` - The title of the task.
+      * `billable` - The title of the project template.
+      * `relative_start_date` - An integer that represents the start day of the task relative to the start
+    of the project.
+      * `relative_due_date` - An integer that represents the end day of the task relative to the start
+    of the project.
+      * `duration` - The number of days the task will take to complete.
+      * `temp_id` - The unique reference ID for the task (used for dependencies).
+      * `description` - The task description.
+      * `budget_estimate_in_cents` - An integer (whole number) that represents the budget estimate, in
+    cents, for the task.
+      * `time_estimate_in_minutes` - An integer (whole number) that represents the time estimate, in minutes,
+    for the task.
+      * `sub_stories` - An nested array of sub-tasks that have the same structure as tasks.
+
+      * `checklist` - An array of strings, each being a checklist item on the task.
+            For example, "checklist":["item one", "item two"].
+
+      * `tag_list` - A string with tags that are comma separated.
+            For example, "design, engineering, this has spaces."
+      This creates three tags: "design", "engineering", and "this has spaces."
+
+      * `assignments` - An array of objects with key value pairs "assignee_id":id.
+            For example, [{"assignee_id":100},{"assignee_id":101}]
+      This task would have two resources assigned to it. These are the IDs of two associated project template
+    assignments.
+      Project template assignments are associated objects.
+
+      * `dependencies` - An array of objects that represent a task's dependencies.
+      A dependency is an object that connects two tasks, and is used in Gantt charts. A dependency object
+    lives
+      in the dependencies array on it's source task, not it's target.
+
+    Dependencies have the following attributes:
+
+      * `source_id` - The temporary ID of the first task (source task) in the dependency.
+      * `target_id` - The temporary ID of the second task (target task) in the dependency.
+      * `type` - There are four types of dependencies, numbered zero through three.
+          * 0 - From the beginning of the source task to the beginning of the target task.
+          * 1 - From the beginning of the source task to the end of the target task.
+          * 2 - From the end of the source task to beginning of the target task.
+          * 3 - From the end of the source task to end of the target task.
+      * `lag` - An integer that represents the number of days delay that occurs between the two tasks
+    in the dependency.
+
+
+    raw_json example:
+
+    ```
+
+    [
+      {
+        "story_type":"task",
+        "billable":true,
+        "relative_start_date":1,
+        "relative_due_date":2,
+        "title":"Task One",
+        "temp_id":1,
+        "dependencies":[{"source_id":1, "target_id":2, "type":2, "lag":0}],
+        "description":"this is a task",
+        "assignments":[{"assignee_id":"26"}],
+        "tag_list":"difficult,easy",
+        "budget_estimate_in_cents":40000,
+        "time_estimate_in_minutes":1200,
+        "sub_stories": [
+          {
+            "story_type":"task",
+            "billable":true,
+            "due_date":nil,
+            "start_date":nil,
+            "relative_start_date":1,
+            "relative_due_date":3,
+            "title":"Sub Task One",
+            "description":"this is a sub task",
+            "assignments":[{"assignee_id":"27"}],
+            "budget_estimate_in_cents":20000,
+            "time_estimate_in_minutes":300,
+            "temp_id":3
+          }
+        ]
+      },
+      {
+        "story_type":"deliverable",
+        "billable":true,
+        "endDay":4,
+        "relative_start_date":1,
+        "relative_due_date":4,
+        "title":"Deliverable One",
+        "temp_id":2,
+        "description":"this is a deliverable",
+        "sub_stories":[]
+      },
+      {
+        "story_type":"milestone",
+        "billable":true,
+        "title":"Milestone One",
+        "description":"this is a milestone",
+        "weight":100,
+        "duration":0,
+        "relative_start_date":5,
+        "sub_stories":[],
+        "checklist":["item one", "item two"],
+        "temp_id":4
+      }
+    ]
+
+    ```.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Project Templates
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-project-templates-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-rate-card-role-rate-for-a-role-api
+  name: Mavenlink Rate Card Role (Rate for a Role) API
+  description: >-
+    Rate Card Roles belong to a Rate Card Version and represent the bill rate, in cents per hour, for
+    a specific Role.
+
+    For example, the rate for the role of Developer may be 2000 cents per hour. It is not necessary, however,
+    to create a Rate Card Role for
+
+    every role on your account if the rate is the same as the default rate on the Rate Card Version. When
+    an
+
+    explicit Rate Card Role does not exist for a role on the account, the default rate on the Rate Card
+    Version
+
+    is used to calculate the total bill rate.
+
+
+    Rate Card Roles can only be accessed, edited, or deleted by an Administrator on the account.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Rate Card Role (Rate for a Role)
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-rate-card-role-rate-for-a-role-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-rate-card-set-version-effective-version-by-date-api
+  name: Mavenlink Rate Card Set Version (Effective version by Date) API
+  description: >-
+    In the Rate Card system, Rate Card Set Versions represent snapshots of a Rate Card Set,
+
+    that take effect on the set published date. A Rate Card Set Version owns a copy of each Rate Card
+    Version
+
+    of a Rate Card in the associated Rate Card Set.
+
+
+    Rate Card Roles can only be accessed, edited, or published by an Administrator on the account.
+
+
+    Since Rate Cards and Rate Card Versions are immutable after they are published and in use, generating
+    a
+
+    Rate Card Set Version is the correct process for making any changes. When a new Rate Card Set Version
+
+    is created or cloned, all of the Rate Card Versions from the old Rate Card Set Version are copied
+
+    to a new one.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Rate Card Set Version (Effective version by Date)
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-rate-card-set-version-effective-version-by-date-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-rate-card-sets-group-of-rate-cards-api
+  name: Mavenlink Rate Card Sets (Group of Rate Cards) API
+  description: >-
+    A Rate Card Set represents a group of Rate Cards with multiple currencies that
+
+    can be bundled together. A Rate Card Set belongs to an account and can have several Rate Card Set
+    Versions, each representing the
+
+    effective version for a specified date.
+
+
+    If the Rate Card feature is enabled, an account will always have an account default Rate Card Set.
+    Rate
+
+    Cards belonging to the account default Rate Card Set are applied to projects by default when a Rate
+    Card
+
+    is not explicitly set.
+
+
+    Additional custom Rate Card Sets can be created after the Rate Cards feature has been enabled on the
+
+    account. This can be done by making a request to the activations
+
+    endpoint.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Rate Card Sets (Group of Rate Cards)
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-rate-card-sets-group-of-rate-cards-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-rate-card-table-rows-api
+  name: Mavenlink Rate Card Table Rows API
+  description: >-
+    Each Rate Card Table Row represents a role and its rates and currencies
+
+    for a specific [Rate Card Set Version](/tag/Rate-Card-Set-Version-(Effective-version-by-Date)).
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Rate Card Table Rows
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-rate-card-table-rows-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-rate-card-versions-api
+  name: Mavenlink Rate Card Versions API
+  description: >-
+    Rate Card Versions represent a snapshot of a Rate Card at a specified point in time. They are used
+    to set the
+
+    default rate. Rate Card Versions belong to a Rate Card Set Version and own many Rate Card Roles.
+
+
+    Rate Card Versions cannot be explicitly created. This is done through the creation of Rate Cards or
+
+    Rate Card Set Versions.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Rate Card Versions
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-rate-card-versions-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-rate-cards-multiple-currencies-api
+  name: Mavenlink Rate Cards (Multiple Currencies) API
+  description: >-
+    Rate Cards belong to a Rate Card Set and represent the currencies in that set. Rate Cards have
+
+    many Rate Card Versions which represent the effective version of a Rate Card at a specified point
+    of time.
+
+    Rate Cards are accessible to users with Financial access (Project Lead or higher) on the account.
+    However, they
+
+    can only created, modified or deleted by Administrators on the account.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Rate Cards (Multiple Currencies)
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-rate-cards-multiple-currencies-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-recommendations-api
+  name: Mavenlink Recommendations API
+  description: >-
+    A Recommendation suggests a User for an Unnamed Resource (or some other un-staffed position).
+
+    The system recommends Users based on how well they match the attributes of a
+
+    target resource. Attributes include, but are not limited to:
+      - Role
+      - Skill(s)
+      - Single Choice Custom Field(s)
+      - Allocation(s).
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Recommendations
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-recommendations-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-resource-requests-api
+  name: Mavenlink Resource Requests API
+  description: >-
+    Resource Requests are used as a method for a requestor to ask an approver to staff a resource.
+
+    Resource Requests are associated to a workspace resource and must have an approver associated.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Resource Requests
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-resource-requests-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-revenue-recognition-methods-api
+  name: Mavenlink Revenue Recognition Methods API
+  description: >-
+    Revenue recognition methods determine how revenue is recognized. Methods are configured at the account
+    level, then each project can have an available method applied.
+
+
+    Available only when the [early access feature Revenue Management](https://knowledge.kantata.com/hc/en-us/articles/38986877019803-Revenue-Management-Early-Access)
+    is activated.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Revenue Recognition Methods
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-revenue-recognition-methods-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-roles-api
+  name: Mavenlink Roles API
+  description: >-
+    A Role represents the main position or title assigned to members on an account. Roles may be associated
+
+    with account memberships, account invitations, participation, project template assignments, rate card
+    roles,
+
+    rate card versions, resources, or time adjustments.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Roles
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-roles-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-skill-categories-api
+  name: Mavenlink Skill Categories API
+  description: >-
+    A Skill Category represents the classification for a group of skills. Options are 'Skill', 'Language',
+    'Certification', and 'Other'.
+
+
+    Skill categories are defined by Kantata OX and cannot be modified or deleted.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Skill Categories
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-skill-categories-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-skill-memberships-api
+  name: Mavenlink Skill Memberships API
+  description: Skill Memberships represent skills that has been assigned to a specified user.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Skill Memberships
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-skill-memberships-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-skills-api
+  name: Mavenlink Skills API
+  description: >-
+    Skills are used in Kantata OX to describe capabilities of users for the purposes of resource planning.
+
+    They can be associated with a user through a Skill Membership.
+
+    A user can be associated with up to 200 skills.
+
+    This model includes categories such as 'Skill', 'Language', 'Certification' and 'Other'.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Skills
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-skills-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-status-reports-api
+  name: Mavenlink Status Reports API
+  description: >-
+    A Status Report represents a snapshot of a Workspace's status across several categories at a moment
+
+    in time. Status Reports are usually referred to as Health Reports in the UI.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Status Reports
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-status-reports-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-stories-api
+  name: Mavenlink Stories API
+  description: >-
+    Stories are tasks, milestones, deliverables, or issues in
+
+    Kantata OX. They belong to Workspaces, show up in the local and
+
+    global task trackers, can be linked to Posts, can have sub-Stories
+
+    and TaskLists, and have many attributes for planning, tasking, and
+
+    financials.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Stories
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-stories-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-story-dependencies-api
+  name: Mavenlink Story Dependencies API
+  description: >-
+    Story dependencies define relationships between tasks and the sequence in which they must be completed
+    in order to close a project. A dependency is between two tasks (stories) in a project (workspace),
+    with one being the predecessor (source) task, and the other the successor (target) task. Each relationship
+    is characterized by the type of dependency and lag between tasks. There are four (4) types of dependencies:
+
+    - Finish to Start (FS)—The predecessor ends before the successor can begin.
+
+    - Start to Start (SS)—The predecessor begins before the successor can begin.
+
+    - Finish to Finish (FF)—The predecessor ends before the successor can end.
+
+    - Start to Finish (SF)—The predecessor begins before the successor can end.
+
+    Lag is the number of days between the predecessor task ending and the successor task beginning.
+
+    To learn more about dependencies, see our [Gantt Chart Dependencies article](https://mavenlink.zendesk.com/hc/en-us/articles/360000456874-Gantt-Chart-Dependencies).
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Story Dependencies
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-story-dependencies-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-story-state-changes-api
+  name: Mavenlink Story State Changes API
+  description: >-
+    Story State Changes in Kantata OX act as an audit trail for changes to the state of a Story.
+
+    Story State Changes cannot be created directly. They will be created for you automatically when you
+
+    set the state of a Story. Story State Changes cannot be modified or deleted.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Story State Changes
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-story-state-changes-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-story-tasks-api
+  name: Mavenlink Story Tasks API
+  description: >-
+    Story Tasks are used in Kantata OX to track a list of checklist items within a Story.
+
+    This model includes a completion boolean and a position integer.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Story Tasks
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-story-tasks-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-survey-answers-legacy-api
+  name: Mavenlink Survey Answers (Legacy) API
+  description: "Survey Answers (Legacy) appear on and can be responded to through surveys. Survey Answers\
+    \ (Legacy) are required to have a value\nfor the answer (i.e. answers must have at least one choice\
+    \ selected or a non-null value). Additionally, only\none value type can be specified for the answer\
+    \ (e.g. specifying a date value as well as choice values is\ninvalid). \n\n**Note**: This feature\
+    \ requires the Surveys (Legacy) account add-on. This feature is unrelated to Pulse surveys."
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Survey Answers (Legacy)
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-survey-answers-legacy-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-survey-questions-legacy-api
+  name: Mavenlink Survey Questions (Legacy) API
+  description: >-
+    Survey Questions (Legacy) appear on and can be responded to through surveys.
+
+
+    **Note**: This feature requires the Surveys (Legacy) account add-on. This feature is unrelated to
+    Pulse surveys.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Survey Questions (Legacy)
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-survey-questions-legacy-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-survey-templates-legacy-api
+  name: Mavenlink Survey Templates (Legacy) API
+  description: >-
+    Survey Templates (Legacy) define a set of questions and defaults from which Survey Responses can be
+    created.
+
+
+    **Note**: This feature requires the Surveys (Legacy) account add-on. This feature is unrelated to
+    Pulse surveys.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Survey Templates (Legacy)
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-survey-templates-legacy-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-surveys-responses-legacy-api
+  name: Mavenlink Surveys Responses (Legacy) API
+  description: >-
+    Survey Response (Legacy) represents an instance of a particular survey that has been assigned for
+    response.
+
+
+    **Note**: This feature requires the Surveys (Legacy) account add-on. This feature is unrelated to
+    Pulse surveys.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Surveys Responses (Legacy)
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-surveys-responses-legacy-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-task-status-sets-api
+  name: Mavenlink Task Status Sets API
+  description: >-
+    Task Status Sets allow you to create custom statuses for tasks (stories) that can then be applied
+    to projects.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Task Status Sets
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-task-status-sets-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-task-statuses-api
+  name: Mavenlink Task Statuses API
+  description: >-
+    Custom task statuses can be created to be used on tasks (stories). Custom task statuses are associated
+    to task status sets, which can be applied to projects (workspaces).
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Task Statuses
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-task-statuses-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-time-entries-api
+  name: Mavenlink Time Entries API
+  description: >-
+    This object allows you to manage Kantata OX time entries, depending on your permissions.
+
+    Creating and updating time entries allows you to include time when invoicing clients.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Time Entries
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-time-entries-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-time-off-entries-api
+  name: Mavenlink Time Off Entries API
+  description: >-
+    Time Off Entries represent the time and dates that a user has requested off from work, such as PTO
+    or vacation days.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Time Off Entries
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-time-off-entries-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-timesheet-approvals-api
+  name: Mavenlink Timesheet Approvals API
+  description: This section contains an endpoint to approve multiple Timesheet Submissions at once.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Timesheet Approvals
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-timesheet-approvals-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-timesheet-cancellations-api
+  name: Mavenlink Timesheet Cancellations API
+  description: This section contains an endpoint to cancel multiple Timesheet Submissions at once.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Timesheet Cancellations
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-timesheet-cancellations-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-timesheet-rejections-api
+  name: Mavenlink Timesheet Rejections API
+  description: This section contains an endpoint to reject multiple Timesheet Submissions at once.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Timesheet Rejections
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-timesheet-rejections-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-timesheet-submissions-api
+  name: Mavenlink Timesheet Submissions API
+  description: >-
+    Timesheet Submissions hold a set of time entries for a specified week, and can be approved, rejected,
+
+    or canceled.
+
+
+    You can enable timesheet submissions and approval in your
+
+    [project settings](https://knowledge.kantata.com/hc/en-us/articles/204346530#Financials).
+
+    Once enabled, time entries must be approved through a Timesheet Submission before it is invoiceable.
+
+
+    **Note**: Each Timesheet Submission can only be associated with a single project. So when a timesheet
+
+    is submitted through the UI with time entries for multiple projects, a separate Timesheet Submission
+
+    object is created for each project in the backend.
+
+
+    This section contains endpoints to approve, reject, or cancel a single timesheet submission.
+
+    To approve, reject, or cancel multiple timesheet submissions at once, see
+
+    [Timesheet Approvals](/tag/Timesheet-Approvals), [Timesheet Cancellations](/tag/Timesheet-Cancellations),
+
+    and [Timesheet Rejections](/tag/Timesheet-Rejections).
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Timesheet Submissions
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-timesheet-submissions-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-user-file-associations-api
+  name: Mavenlink User File Associations API
+  description: >-
+    User File Associations in Kantata OX act as a join object between Users, Workspaces, and
+
+    Attachments / Google Documents.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - User File Associations
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-user-file-associations-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-user-group-memberships-api
+  name: Mavenlink User Group Memberships API
+  description: >-
+    A User Group Membership represents the connection of a user to a [Workspace Group](/tag/Workspace-Groups).
+    You must be an [Account Administrator](https://knowledge.kantata.com/hc/en-us/articles/203041364)
+    to use these endpoints.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - User Group Memberships
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-user-group-memberships-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-users-api
+  name: Mavenlink Users API
+  description: >-
+    Users represent the individuals that are participating in Kantata OX projects . User objects are often
+    returned as
+
+    nested JSON objects within other returned items such as posts or tasks.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Users
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-users-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-vendors-api
+  name: Mavenlink Vendors API
+  description: A Vendor is an entity to which an expense can be paid.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Vendors
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-vendors-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-workspace-allocations-api
+  name: Mavenlink Workspace Allocations API
+  description: >-
+    A workspace allocation represents a resource’s allocation over a specific period of time.
+
+    A workspace allocation is always associate with a workspace resource.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Workspace Allocations
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-workspace-allocations-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-workspace-baselines-api
+  name: Mavenlink Workspace Baselines API
+  description: >-
+    A Gantt workspace baseline is a snapshot of a workspace at a particular point in time.
+
+    The snapshot contains aggregate statistics and certain data about each story (task).
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Workspace Baselines
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-workspace-baselines-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-workspace-groups-api
+  name: Mavenlink Workspace Groups API
+  description: >-
+    Workspace Groups (also known as groups) allow for the categorization of Kantata OX Workspaces. Workspace
+    Groups are unique to each Kantata OX Account.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Workspace Groups
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-workspace-groups-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-workspace-invoice-preferences-api
+  name: Mavenlink Workspace Invoice Preferences API
+  description: >-
+    Workspace Invoice Preferences specify the default values that are applied to new invoices created
+    for the specified
+
+    project. It is only used for projects that have financials enabled.
+
+
+    These preferences can only be created and updated by users who can manage invoice preferences
+
+    on the project. This can be found by querying `can_manage_invoice_preferences` on Workspace.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Workspace Invoice Preferences
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-workspace-invoice-preferences-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-workspace-resource-skills-api
+  name: Mavenlink Workspace Resource Skills API
+  description: >-
+    Workspace Resource Skills represent skills that have been assigned to a workspace resource.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Workspace Resource Skills
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-workspace-resource-skills-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-workspace-resources-api
+  name: Mavenlink Workspace Resources API
+  description: >-
+    A workspace resource is the object that is tied to assignments and allocations within a Workspace.
+
+
+    Workspace Resources can be:
+      - Named Resources: Resources with a user_id.
+      - Unnamed Resources: Resources with no user_id.
+
+    With workspace resources it is possible for a user to have many resources with different roles
+
+    within a single workspace.
+
+    Workspace resources can be assigned to tasks via Assignments.
+
+
+    e.g. In an example workspace, 'the Accounting Project', we could have 3 workspace resources:
+      1. Alice as an Engineer in the Accounting Project
+      2. Alice as an Designer in the Accounting Project
+      3. Bob as a Designer in the Accounting Project
+
+    With workspace resources, Alice could be assigned to one task as an Engineer and use the
+
+    Engineer rate for that task, and another task be assigned as a Designer and thus the designer
+
+    rate would be used there.
+
+
+    When a named workspace resource is created, if role_id is not specified, it will default to
+
+    the user's primary role within the project (see primary role definition below). When the
+
+    workspace resource is created, label with be generated based on the user's primary role.
+
+
+    ##### Primary Project Role
+
+
+    A user's primary project role is defined by role_id on the user's Participation for the
+
+    workspace if that is set. If role_id is not set on the user's participation, primary project
+
+    role is defined by default_role_id on the user's account_membership only if the user's
+
+    account_membership.account_id matches the workspace.account_id
+
+    (the user belongs to the project's account).
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Workspace Resources
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-workspace-resources-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-workspace-status-changes-api
+  name: Mavenlink Workspace Status Changes API
+  description: Workspace Status Changes represent changes made to the status of a project.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Workspace Status Changes
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-workspace-status-changes-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-workspace-task-status-sets-api
+  name: Mavenlink Workspace Task Status Sets API
+  description: >-
+    Workspace Task Status Sets represent the connection between workspaces (projects) and task (story)
+    status sets, which enable the use of custom task statuses.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Workspace Task Status Sets
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-workspace-task-status-sets-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-workspaces-api
+  name: Mavenlink Workspaces API
+  description: >-
+    Workspaces (also called projects) represent the space in which Kantata OX users plan, communicate,
+    and collaborate.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Workspaces
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-workspaces-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-workweek-memberships-api
+  name: Mavenlink Workweek Memberships API
+  description: A Workweek Membership represents the relationship of a user to a workweek.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Workweek Memberships
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-workweek-memberships-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
+- aid: mavenlink:mavenlink-workweeks-api
+  name: Mavenlink Workweeks API
+  description: >-
+    Workweeks in Kantata OX are owned by an Account. They can be used as the default for an Account or
+
+    can be associated to a User through a Workweek Membership.
+  humanURL: https://developer.kantata.com/
+  baseURL: https://api.mavenlink.com/api/v1/
+  tags:
+  - Workweeks
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenlink-workweeks-api-openapi.yml
+  - type: Documentation
+    url: https://developer.kantata.com/
+  - type: APIReference
+    url: https://developer.kantata.com/kantata/specification
+  - type: Authentication
+    url: authentication/mavenlink-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mavenlink-scopes.yml
+  - type: Conventions
+    url: conventions/mavenlink-conventions.yml
+  - type: DataModel
+    url: data-model/mavenlink-data-model.yml
+  - type: ErrorCatalog
+    url: errors/mavenlink-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/mavenlink-rate-limits.yml
 common:
 - type: AgenticAccess
   url: agentic-access/mavenlink-agentic-access.yml
