@@ -11,6 +11,18 @@ description: >-
   OAuth-gated remote MCP server at https://api.mavenlink.com/mcp, publishes an A2A agent card and an anonymous
   documentation MCP server on its developer portal, and ships a gRPC connector service definition that third
   parties implement to extend the Kantata Workflow Platform with custom triggers and actions.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 image: https://www.kantata.com/images/logos/Kantata.png
 url: https://raw.githubusercontent.com/api-evangelist/mavenlink/refs/heads/main/apis.yml
 x-type: company
@@ -3402,6 +3414,9 @@ apis:
   - type: RateLimits
     url: rate-limits/mavenlink-rate-limits.yml
 common:
+- type: CapabilityMap
+  url: capabilities/mavenlink-capability-edges.yml
+  name: Mavenlink Business Capability Map
 - type: AgenticAccess
   url: agentic-access/mavenlink-agentic-access.yml
 - type: DomainSecurity
