@@ -39,6 +39,19 @@ tags:
 - Invoicing
 - Project Accounting
 - Business Intelligence
+- Workflow-Automation
+- MCP
+- agent-native
+- Company
+tags_raw:
+- Professional Services Automation
+- Project Management
+- Resource Management
+- Time Tracking
+- Expense Management
+- Invoicing
+- Project Accounting
+- Business Intelligence
 - Workflow Automation
 - MCP
 - agent-native
@@ -147,6 +160,8 @@ apis:
   humanURL: https://developer.kantata.com/
   baseURL: https://api.mavenlink.com/api/v1/
   tags:
+  - AccountInvitations
+  tags_raw:
   - Account Invitations
   properties:
   - type: OpenAPI
@@ -483,6 +498,8 @@ apis:
   humanURL: https://developer.kantata.com/
   baseURL: https://api.mavenlink.com/api/v1/
   tags:
+  - Currency
+  tags_raw:
   - Currencies
   properties:
   - type: OpenAPI
@@ -919,6 +936,8 @@ apis:
   humanURL: https://developer.kantata.com/
   baseURL: https://api.mavenlink.com/api/v1/
   tags:
+  - Event
+  tags_raw:
   - Events
   properties:
   - type: OpenAPI
@@ -1561,6 +1580,8 @@ apis:
   humanURL: https://developer.kantata.com/
   baseURL: https://api.mavenlink.com/api/v1/
   tags:
+  - Organization
+  tags_raw:
   - Organizations
   properties:
   - type: OpenAPI
@@ -1978,7 +1999,8 @@ apis:
     Rate Card Roles can only be accessed, edited, or deleted by an Administrator on the account.
   humanURL: https://developer.kantata.com/
   baseURL: https://api.mavenlink.com/api/v1/
-  tags:
+  tags: []
+  tags_raw:
   - Rate Card Role (Rate for a Role)
   properties:
   - type: OpenAPI
@@ -2023,7 +2045,8 @@ apis:
     to a new one.
   humanURL: https://developer.kantata.com/
   baseURL: https://api.mavenlink.com/api/v1/
-  tags:
+  tags: []
+  tags_raw:
   - Rate Card Set Version (Effective version by Date)
   properties:
   - type: OpenAPI
@@ -2071,7 +2094,8 @@ apis:
     endpoint.
   humanURL: https://developer.kantata.com/
   baseURL: https://api.mavenlink.com/api/v1/
-  tags:
+  tags: []
+  tags_raw:
   - Rate Card Sets (Group of Rate Cards)
   properties:
   - type: OpenAPI
@@ -3011,6 +3035,8 @@ apis:
   humanURL: https://developer.kantata.com/
   baseURL: https://api.mavenlink.com/api/v1/
   tags:
+  - User
+  tags_raw:
   - Users
   properties:
   - type: OpenAPI
