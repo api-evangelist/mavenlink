@@ -742,6 +742,8 @@ apis:
   humanURL: https://developer.kantata.com/
   baseURL: https://api.mavenlink.com/api/v1/
   tags:
+  - Data Export
+  tags_raw:
   - Data Exports
   properties:
   - type: OpenAPI
@@ -3192,6 +3194,8 @@ apis:
   humanURL: https://developer.kantata.com/
   baseURL: https://api.mavenlink.com/api/v1/
   tags:
+  - Workspace
+  tags_raw:
   - Workspaces
   properties:
   - type: OpenAPI
