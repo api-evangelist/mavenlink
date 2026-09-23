@@ -1,29 +1,28 @@
-generated: '2026-08-25'
+generated: '2026-09-19'
 method: probed
 source: live GET of each /.well-known/ path on every apis.yml + OpenAPI servers host
 checked: '2026-08-25'
-notes: >-
-  api.mavenlink.com and app.mavenlink.com both serve real OAuth 2.0 / OpenID Connect discovery documents plus
-  RFC 9728 protected-resource metadata that names an MCP endpoint - a genuine machine-readable authorization
+notes: api.mavenlink.com and app.mavenlink.com both serve real OAuth 2.0 / OpenID Connect discovery documents
+  plus RFC 9728 protected-resource metadata that names an MCP endpoint - a genuine machine-readable authorization
   surface. Neither serves security.txt or api-catalog. www.mavenlink.com redirects into the Kantata marketing
-  site, which answers HTTP 200 with the same 70KB SPA shell for EVERY /.well-known/ path; those are recorded as
-  misses, not hits. developer.kantata.com serves a real A2A agent card (saved verbatim to a2a/) and a real
-  llms.txt (saved to llms/).
+  site, which answers HTTP 200 with the same 70KB SPA shell for EVERY /.well-known/ path; those are recorded
+  as misses, not hits. developer.kantata.com serves a real A2A agent card (saved verbatim to a2a/) and
+  a real llms.txt (saved to llms/).
 hosts:
 - host: api.mavenlink.com
   documents:
   - path: /.well-known/openid-configuration
     status: 200
     content_type: application/json
-    file: well-known/mavenlink-api-openid-configuration.json
+    file: mavenlink-api-openid-configuration.json
   - path: /.well-known/oauth-authorization-server
     status: 200
     content_type: application/json
-    file: well-known/mavenlink-api-oauth-authorization-server.json
+    file: mavenlink-api-oauth-authorization-server.json
   - path: /.well-known/oauth-protected-resource
     status: 200
     content_type: application/json
-    file: well-known/mavenlink-api-oauth-protected-resource.json
+    file: mavenlink-api-oauth-protected-resource.json
   - path: /.well-known/security.txt
     status: 404
   - path: /.well-known/api-catalog
@@ -34,20 +33,21 @@ hosts:
     status: 404
   - path: /.well-known/agent.json
     status: 404
+  path_echo_control: passed
 - host: app.mavenlink.com
   documents:
   - path: /.well-known/openid-configuration
     status: 200
     content_type: application/json
-    file: well-known/mavenlink-app-openid-configuration.json
+    file: mavenlink-app-openid-configuration.json
   - path: /.well-known/oauth-authorization-server
     status: 200
     content_type: application/json
-    file: well-known/mavenlink-app-oauth-authorization-server.json
+    file: mavenlink-app-oauth-authorization-server.json
   - path: /.well-known/oauth-protected-resource
     status: 200
     content_type: application/json
-    file: well-known/mavenlink-app-oauth-protected-resource.json
+    file: mavenlink-app-oauth-protected-resource.json
   - path: /.well-known/security.txt
     status: 404
   - path: /.well-known/api-catalog
@@ -103,8 +103,7 @@ hosts:
   - path: /llms.txt
     status: 404
 - host: www.mavenlink.com
-  note: >-
-    301s to https://www.kantata.com/mavenlink. Every /.well-known/ path answers HTTP 200 with an identical
+  note: 301s to https://www.kantata.com/mavenlink. Every /.well-known/ path answers HTTP 200 with an identical
     70,231-byte Next.js SPA shell - a catch-all, not a document. All recorded as misses.
   documents:
   - path: /.well-known/security.txt
@@ -139,3 +138,19 @@ summary:
   protected_resource_metadata: true
   agent_card: true
   llms_txt: true
+x-mcp-probe:
+  probed: '2026-09-19'
+  issue: roadmap#321, roadmap#337
+  documents:
+  - host: https://api.mavenlink.com
+    path: /.well-known/oauth-protected-resource
+    file: mavenlink-api-oauth-protected-resource.json
+  - host: https://api.mavenlink.com
+    path: /.well-known/oauth-authorization-server
+    file: mavenlink-api-oauth-authorization-server.json
+  validated_on: resource (RFC 9728) / issuer (RFC 8414, OIDC)
+  negative_control: one per host; a 2xx JSON object at an impossible path discards the host
+note: 'MCP-host OAuth discovery added 2026-09-19 (roadmap#321/#337): the harvest visits a provider''s
+  primary hosts, and RFC 9728 protected-resource metadata lives on the MCP host, so these documents existed
+  and were invisible to the scorer. Fetched live and validated on `resource`/`issuer`; one negative control
+  per host.'

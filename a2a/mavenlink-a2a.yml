@@ -27,7 +27,6 @@ card:
       params:
         url: https://developer.kantata.com/mcp
   skills: 0
-grade: conformant
 grade_basis:
   capabilities_is_object: true
   protocolVersion_present: true
@@ -36,23 +35,13 @@ grade_basis:
   defaultInputModes_present: true
   defaultOutputModes_present: true
 deviations:
-- >-
-  `skills` is an EMPTY array. The card is structurally conformant but advertises no capability, so an A2A client
-  discovering it learns that an agent exists and where to reach it, and nothing about what it can do. The real
-  capability list is only reachable through the MCP extension the card points at.
-- >-
-  `protocolVersion` is 0.3.0, not 1.0.0. The card predates the 1.0 protocol line.
-- >-
-  `version` is 0.0.1 - the provider is signalling this is an early pre-1.0 release. Recorded verbatim, not judged.
-- >-
-  The card describes the DOCUMENTATION agent, not the Kantata OX product API. Its `url` is
-  https://developer.kantata.com/a2a and its MCP extension points at https://developer.kantata.com/mcp, both of
-  which answer questions ABOUT the API. The product MCP server that reads and writes Kantata OX data lives at
-  https://api.mavenlink.com/mcp and is NOT referenced by any agent card - api.mavenlink.com and app.mavenlink.com
-  both return 404 on /.well-known/agent-card.json and /.well-known/agent.json.
+- '`skills` is an EMPTY array. The card is structurally conformant but advertises no capability, so an A2A client discovering it learns that an agent exists and where to reach it, and nothing about what it can do. The real capability list is only reachable through the MCP extension the card points at.'
+- '`protocolVersion` is 0.3.0, not 1.0.0. The card predates the 1.0 protocol line.'
+- '`version` is 0.0.1 - the provider is signalling this is an early pre-1.0 release. Recorded verbatim, not judged.'
+- The card describes the DOCUMENTATION agent, not the Kantata OX product API. Its `url` is https://developer.kantata.com/a2a and its MCP extension points at https://developer.kantata.com/mcp, both of which answer questions ABOUT the API. The product MCP server that reads and writes Kantata OX data lives at https://api.mavenlink.com/mcp and is NOT referenced by any agent card - api.mavenlink.com and app.mavenlink.com both return 404 on /.well-known/agent-card.json and /.well-known/agent.json.
 lead:
   mcp_endpoint: https://developer.kantata.com/mcp
   followed: true
-  result: >-
-    Anonymous tools/list returned HTTP 200 with 6 documentation tools; captured to
-    mcp/mavenlink-docs-mcp-tools.json and described in mcp/mavenlink-mcp.yml.
+  result: Anonymous tools/list returned HTTP 200 with 6 documentation tools; captured to mcp/mavenlink-docs-mcp-tools.json and described in mcp/mavenlink-mcp.yml.
+conformance:
+  grade: conformant

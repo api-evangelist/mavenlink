@@ -1,0 +1,239 @@
+slug: mavenlink
+provider: Mavenlink
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 22
+edges:
+- tag: Invoices
+  spec_file: mavenlink-invoices-api-openapi.yml
+  capability_id: BC-200.30
+  capability_id_l1: BC-200
+  capability_name: Accounts Receivable Management
+  confidence: 0.8
+  evidence: '"Create Invoice", "Get Next Invoice Number  Retrieve the next available invoice number.",
+    "Cancel Invoice" with schemas Invoice, TimeEntry, Expense, BillingMilestone'
+  reason: Customer invoicing built from time entries, expenses and billing milestones is accounts-receivable
+    invoicing for services work. Not subscription billing, so the cross-industry AR capability fits better
+    than SaaS billing.
+- tag: Status Reports
+  spec_file: mavenlink-status-reports-api-openapi.yml
+  capability_id: BC-900.30
+  capability_id_l1: BC-900
+  capability_name: Project Management
+  confidence: 0.8
+  evidence: 'POST /status_reports  Create Status Report ... schemas: StatusReport, Workspace, User'
+  reason: Status reports tied to Workspace (project) and User are project progress tracking/reporting
+    artefacts in a PSA project management tool.
+- tag: Workspaces
+  spec_file: mavenlink-workspaces-api-openapi.yml
+  capability_id: BC-900.30
+  capability_id_l1: BC-900
+  capability_name: Project Management
+  confidence: 0.8
+  evidence: POST /workspaces Create Workspace; PUT /workspaces/{id}/apply_template Apply Project Template
+    To Workspace; PUT /workspaces/{id}/toggle_time_approvals
+  reason: In Kantata OX a Workspace is the project container; operations create projects, apply project
+    templates, invite participants and toggle time/expense approval settings — core project execution
+    management in a PSA tool. Some overlap with time tracking, but project management is the dominant
+    reading.
+- tag: Workspace Allocations
+  spec_file: mavenlink-workspace-allocations-api-openapi.yml
+  capability_id: BC-900.60
+  capability_id_l1: BC-900
+  capability_name: Demand & Capacity Management
+  confidence: 0.78
+  evidence: 'POST /workspace_allocations  Create Workspace Allocation; PUT /workspace_allocations/split  Split
+    Workspace Allocation By Date; schemas: WorkspaceResource, WorkspaceAllocation, User'
+  reason: Operations manage time-phased allocation of named users/resources to workspaces (projects),
+    which is project resource capacity planning.
+- tag: Daily Scheduled Hours (Story Allocation Days)
+  spec_file: mavenlink-daily-scheduled-hours-story-allocation-days-api-openapi.yml
+  capability_id: BC-900
+  capability_id_l1: BC-900
+  capability_name: Project & Portfolio Management
+  confidence: 0.75
+  evidence: 'GET /story_allocation_days  Get Story Allocation Days  Fetching a list of Daily Scheduled
+    Hours (Story Allocation Days); schemas: StoryAllocationDay, Assignment, Story, Workspace'
+  reason: Per-day scheduled hours attached to task assignments within a project workspace — project scheduling
+    and resource allocation in a PSA tool. Clearly project/portfolio management; unclear whether it sits
+    under project execution or demand & capacity, so L1 only.
+- tag: External Payments
+  spec_file: mavenlink-external-payments-api-openapi.yml
+  capability_id: BC-200.30
+  capability_id_l1: BC-200
+  capability_name: Accounts Receivable Management
+  confidence: 0.75
+  evidence: 'POST /external_payments  Create External Payment ... schemas: ExternalPayment, Invoice, Workspace'
+  reason: Records payments received against client invoices (ExternalPayment linked to Invoice) — cash
+    application against receivables in the project accounting flow.
+- tag: Insights Reports
+  spec_file: mavenlink-insights-reports-api-openapi.yml
+  capability_id: BC-610.50
+  capability_id_l1: BC-610
+  capability_name: Analytics & BI Management
+  confidence: 0.75
+  evidence: '"GET /insights_reports  Get Insights Reports"'
+  reason: Exposes the vendor's business-intelligence report catalogue, matching Analytics & BI Management.
+    Single read operation limits certainty about sub-capability breadth.
+- tag: Resource Requests
+  spec_file: mavenlink-resource-requests-api-openapi.yml
+  capability_id: BC-900.60
+  capability_id_l1: BC-900
+  capability_name: Demand & Capacity Management
+  confidence: 0.75
+  evidence: POST /resource_requests  Create Resource Request ... PUT /resource_requests/{id}/update_approver
+  reason: Resource requests with approver workflow and WorkspaceResource/User schemas are project resource
+    demand and capacity allocation in a professional-services project context.
+- tag: Stories
+  spec_file: mavenlink-stories-api-openapi.yml
+  capability_id: BC-900.30
+  capability_id_l1: BC-900
+  capability_name: Project Management
+  confidence: 0.75
+  evidence: 'POST /stories  Create Story ... schemas: Story, StoryTask, Assignment, Workspace, WorkspaceResource'
+  reason: In Kantata a Story is a project task with assignments, dependencies and workspace linkage —
+    project execution planning and tracking rather than product backlog management.
+- tag: Workspace Baselines
+  spec_file: mavenlink-workspace-baselines-api-openapi.yml
+  capability_id: BC-900.30
+  capability_id_l1: BC-900
+  capability_name: Project Management
+  confidence: 0.75
+  evidence: 'POST /workspace_baselines  Create Workspace Baseline; schemas: WorkspaceBaseline, BaselinePayload,
+    Workspace'
+  reason: Baselines snapshot a project plan for tracking against, a core project execution/tracking artefact
+    in this PSA where workspace = project.
+- tag: Workspace Resources
+  spec_file: mavenlink-workspace-resources-api-openapi.yml
+  capability_id: BC-900.60
+  capability_id_l1: BC-900
+  capability_name: Demand & Capacity Management
+  confidence: 0.75
+  evidence: POST /workspace_resources/allocations_matching_scheduled_hours  Create Workspace Resource
+    Allocations From Scheduled Hours for Resources
+  reason: Manages the named resources assigned to a project and derives allocations from scheduled hours
+    — project resource demand and capacity planning.
+- tag: Rate Cards (Multiple Currencies)
+  spec_file: mavenlink-rate-cards-multiple-currencies-api-openapi.yml
+  capability_id: BC-440.20
+  capability_id_l1: BC-440
+  capability_name: Price List Management
+  confidence: 0.72
+  evidence: POST /rate_cards 'Creating a new Rate Card'; tag 'Rate Cards (Multiple Currencies)'; schemas
+    RateCard, RateCardVersion
+  reason: Creation and maintenance of rate cards including multi-currency variants is exactly regional/list
+    price book maintenance for services rates, per the vendor description which lists 'rate cards' as
+    a product area.
+- tag: Story Dependencies
+  spec_file: mavenlink-story-dependencies-api-openapi.yml
+  capability_id: BC-900.30
+  capability_id_l1: BC-900
+  capability_name: Project Management
+  confidence: 0.72
+  evidence: 'GET /story_dependencies  Get Story Dependencies  ... schemas: StoryDependency, Story'
+  reason: Dependencies between project tasks (stories) support project scheduling and tracking within
+    the PSA project management capability.
+- tag: Billing Milestones
+  spec_file: mavenlink-billing-milestones-api-openapi.yml
+  capability_id: BC-200.30
+  capability_id_l1: BC-200
+  capability_name: Accounts Receivable Management
+  confidence: 0.7
+  evidence: 'POST /billing_milestones  Creating one or many Billing Milestones; schemas: BillingMilestone,
+    Story, Workspace, Invoice'
+  reason: Milestone objects tied to Invoice and project Workspace schemas represent the scheduling of
+    client billing events in a services engagement — customer invoicing / receivables. Not certain whether
+    the vendor treats these as pure revenue-recognition schedules, hence 0.7.
+- tag: Exchange Tables
+  spec_file: mavenlink-exchange-tables-api-openapi.yml
+  capability_id: BC-210.40
+  capability_id_l1: BC-210
+  capability_name: Foreign Exchange Management
+  confidence: 0.7
+  evidence: GET /foreign_exchange/exchange_tables ... POST /foreign_exchange/exchange_tables/{id}/rates  Import
+    Exchange Tables  Import Exchange Rates
+  reason: Manages foreign-exchange rate tables used to convert multi-currency project financials. Closest
+    fit is Foreign Exchange Management, though here it is rate-table reference data rather than hedging/exposure,
+    hence moderate confidence.
+- tag: Expense Report Submissions
+  spec_file: mavenlink-expense-report-submissions-api-openapi.yml
+  capability_id: BC-200.20
+  capability_id_l1: BC-200
+  capability_name: Accounts Payable Management
+  confidence: 0.7
+  evidence: PUT /expense_report_submissions/{id}/approve  Approve Expense Report Submission ... /reject  Reject
+    Expense Report Submission
+  reason: Employee expense report submission and approval/rejection workflow — expense reimbursement processing,
+    conventionally handled under accounts payable / T&E. Some ambiguity between AP and HR operations,
+    hence 0.7.
+- tag: Insights Dynamic Dashboards
+  spec_file: mavenlink-insights-dynamic-dashboards-api-openapi.yml
+  capability_id: BC-610.50
+  capability_id_l1: BC-610
+  capability_name: Analytics & BI Management
+  confidence: 0.7
+  evidence: '"List Insights Mapping Dashboards  Get Insights Dynamic Dashboards"'
+  reason: Single read operation exposing the platform's business-intelligence dashboards (Insights), which
+    is analytics/BI delivery. Only one operation, so moderate confidence.
+- tag: Project Snapshots
+  spec_file: mavenlink-project-snapshots-api-openapi.yml
+  capability_id: BC-900.30
+  capability_id_l1: BC-900
+  capability_name: Project Management
+  confidence: 0.7
+  evidence: POST /project_snapshots 'Create Project Snapshot'; schemas Project__Snapshots__Models__ProjectSnapshotTask,
+    ProjectSnapshotAssignment
+  reason: Snapshots capture point-in-time project state including tasks and assignments, i.e. project
+    baseline/tracking data in a project management platform. Maps to Project Management execution/tracking;
+    the object is a project artefact rather than a technical export, so a mapping is warranted at moderate
+    confidence.
+- tag: Rate Card Role (Rate for a Role)
+  spec_file: mavenlink-rate-card-role-rate-for-a-role-api-openapi.yml
+  capability_id: BC-440.20
+  capability_id_l1: BC-440
+  capability_name: Price List Management
+  confidence: 0.7
+  evidence: POST /rate_card_roles 'Creating a new Rate Card Role'; schemas RateCardRole, RateCardVersion,
+    Role
+  reason: Defines the billing rate applicable to a given role within a rate card version — maintenance
+    of the services price book. Maps to Price List Management; moderate confidence since rates could also
+    serve internal costing.
+- tag: Rate Card Set Version (Effective version by Date)
+  spec_file: mavenlink-rate-card-set-version-effective-version-by-date-api-openapi.yml
+  capability_id: BC-440.20
+  capability_id_l1: BC-440
+  capability_name: Price List Management
+  confidence: 0.7
+  evidence: PUT /rate_card_set_versions/{id}/publish 'Publish a Rate Card Set Version'; schemas RateCardSetVersion,
+    RateCardSet
+  reason: Versioning and publishing of effective-dated rate card sets is price book maintenance for billable
+    service rates, matching Price List Management (list prices, price book maintenance).
+- tag: Rate Card Sets (Group of Rate Cards)
+  spec_file: mavenlink-rate-card-sets-group-of-rate-cards-api-openapi.yml
+  capability_id: BC-440.20
+  capability_id_l1: BC-440
+  capability_name: Price List Management
+  confidence: 0.7
+  evidence: POST /rate_card_sets 'Creating a new Rate Card Set'; schemas RateCard, RateCardSetVersion,
+    WorkspaceGroup
+  reason: Grouping and lifecycle of rate cards used to price services engagements — price book structure
+    maintenance, mapped to Price List Management.
+- tag: Time Off Entries
+  spec_file: mavenlink-time-off-entries-api-openapi.yml
+  capability_id: BC-300.70
+  capability_id_l1: BC-300
+  capability_name: HR Operations Management
+  confidence: 0.7
+  evidence: 'POST /time_off_entries  Create Time Off Entry  Creating one or many Time Off Entries; schemas:
+    TimeOffEntry, User, Role'
+  reason: Recording of employee time off (leave/PTO) against users — absence administration, which sits
+    in HR operations/employee records.
