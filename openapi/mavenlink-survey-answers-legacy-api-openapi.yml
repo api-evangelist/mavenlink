@@ -40,7 +40,7 @@ paths:
         and will be indexed by ID in the `survey_answers` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Get Survey Answers
+      operationId: GetSurveyAnswers
       tags:
       - Survey Answers (Legacy)
       parameters:
@@ -225,6 +225,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Survey Answers
     post:
       summary: Creating a new Survey Answer
       description: 'This endpoint returns structured Survey Answer objects.
@@ -234,7 +236,7 @@ paths:
         and will be indexed by ID in the `survey_answers` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Create Survey Answer
+      operationId: CreateSurveyAnswer
       tags:
       - Survey Answers (Legacy)
       parameters:
@@ -385,6 +387,8 @@ paths:
                   - survey_response_id
                   - survey_question_id
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Create Survey Answer
   /survey_answers/{id}:
     put:
       summary: Updating an existing Survey Answer
@@ -395,7 +399,7 @@ paths:
         and will be indexed by ID in the `survey_answers` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Update Survey Answer
+      operationId: UpdateSurveyAnswer
       tags:
       - Survey Answers (Legacy)
       parameters:
@@ -541,12 +545,14 @@ paths:
                         format: int32
                       description: An array of choice ids for the answer.
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Update Survey Answer
     delete:
       summary: Deleting an existing Survey Answer
       description: 'The response will contain no content and an HTTP 204 status code if the request was
 
         successful, or a standard Kantata OX error message explaining why the object could not be deleted.'
-      operationId: Delete Survey Answer
+      operationId: DeleteSurveyAnswer
       tags:
       - Survey Answers (Legacy)
       parameters:
@@ -595,8 +601,155 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Delete Survey Answer
 components:
   schemas:
+    SurveyAnswer:
+      title: Survey Answer
+      description: 'Survey Answers (Legacy) represent a user''s answer to a survey question on a survey response.
+
+        This feature requires the Legacy Surveys account add-on. This feature is unrelated to Pulse surveys.'
+      type: object
+      properties:
+        choice_ids:
+          type: array
+          items:
+            type: string
+          description: '`choice_ids` will only be included in the response if `choices` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        created_at:
+          type: string
+          format: date-time
+          description: Date the survey answer was created.
+        external_reference_ids:
+          type: array
+          items:
+            type: string
+          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        survey_question_id:
+          type: string
+          description: '`survey_question_id` will only be included in the response if `survey_question` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        survey_response_id:
+          type: string
+          description: '`survey_response_id` will only be included in the response if `survey_response` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        text:
+          type: string
+          description: The text answer to the question.
+        updated_at:
+          type: string
+          format: date-time
+          description: Date the survey answer was last updated.
+    SurveyQuestion:
+      title: Survey Question
+      description: 'Survey Questions (Legacy) appear on and can be responded to through surveys.
+
+        This feature requires the Legacy Surveys account add-on. This feature is unrelated to Pulse surveys.'
+      type: object
+      properties:
+        choice_ids:
+          type: array
+          items:
+            type: string
+          description: '`choice_ids` will only be included in the response if `choices` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        created_at:
+          type: string
+          format: date-time
+          description: Date the survey question was created.
+        external_reference_ids:
+          type: array
+          items:
+            type: string
+          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        question_type:
+          type: string
+          description: 'The type of the question. Valid values: single, multi, date, string, integer, decimal.'
+        text:
+          type: string
+          description: The text of the question asked.
+        updated_at:
+          type: string
+          format: date-time
+          description: Date the survey question was last updated.
+    Error:
+      type: object
+      properties:
+        type:
+          type: string
+        message:
+          type: string
+    Errors:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+    SurveyResponse:
+      title: Survey Response
+      description: 'Survey Response (Legacy) represents an instance of a particular survey that has been assigned for response.
+
+        This feature requires the Legacy Surveys account add-on. This feature is unrelated to Pulse surveys.'
+      type: object
+      properties:
+        close_date:
+          type: string
+          format: date
+          description: The close date for this survey.
+        created_at:
+          type: string
+          format: date-time
+          description: Date the survey response was created.
+        description:
+          type: string
+          description: The description of the survey.
+        due_date:
+          type: string
+          format: date
+          description: The due date for this survey.
+        external_reference_ids:
+          type: array
+          items:
+            type: string
+          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        open_date:
+          type: string
+          format: date
+          description: The open date for this survey.
+        owner_id:
+          type: string
+          description: '`owner_id` will only be included in the response if `owner` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        respondent_id:
+          type: string
+          description: '`respondent_id` will only be included in the response if `respondent` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        status:
+          type: string
+          description: The status of the survey response.
+        subject_ref:
+          type: object
+          description: '`subject_ref` will only be included in the response if `subject` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+          properties:
+            key:
+              type: string
+            id:
+              type: string
+        survey_answer_ids:
+          type: array
+          items:
+            type: string
+          description: '`survey_answer_ids` will only be included in the response if `survey_answers` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        survey_template_id:
+          type: string
+          description: '`survey_template_id` will only be included in the response if `survey_template` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        title:
+          type: string
+          description: The title of the survey.
+        updated_at:
+          type: string
+          format: date-time
+          description: Date the survey response was last updated.
+        workspace_id:
+          type: string
+          description: '`workspace_id` will only be included in the response if `workspace` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
     ExternalReference:
       title: External Reference
       description: 'External References allows users see which objects (one of `Assignment`, `BillingMilestone`, `CustomField`, `CustomFieldChoice`, `CustomFieldSet`, `CustomFieldValue`, `Estimate`, `EstimateScenario`, `EstimateScenarioResource`, `Expense`, `ExpenseBudget`, `Invoice`, `Participation`, `Post`, `RateCard`, `Role`, `Skill`, `StatusReport`, `Story`, `StoryAllocationDay`, `Submission`, `SurveyAnswer`, `SurveyQuestion`, `SurveyResponse`, `SurveyTemplate`, `TimeEntry`, `TimeOffEntry`, `User`, `Vendor`, `Workspace`, `WorkspaceAllocation`, `WorkspaceGroup`, or `WorkspaceResource`
@@ -671,151 +824,6 @@ components:
           type: string
           format: date-time
           description: The date and time the reference was last updated.
-    SurveyResponse:
-      title: Survey Response
-      description: 'Survey Response (Legacy) represents an instance of a particular survey that has been assigned for response.
-
-        This feature requires the Legacy Surveys account add-on. This feature is unrelated to Pulse surveys.'
-      type: object
-      properties:
-        close_date:
-          type: string
-          format: date
-          description: The close date for this survey.
-        created_at:
-          type: string
-          format: date-time
-          description: Date the survey response was created.
-        description:
-          type: string
-          description: The description of the survey.
-        due_date:
-          type: string
-          format: date
-          description: The due date for this survey.
-        external_reference_ids:
-          type: array
-          items:
-            type: string
-          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        open_date:
-          type: string
-          format: date
-          description: The open date for this survey.
-        owner_id:
-          type: string
-          description: '`owner_id` will only be included in the response if `owner` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        respondent_id:
-          type: string
-          description: '`respondent_id` will only be included in the response if `respondent` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        status:
-          type: string
-          description: The status of the survey response.
-        subject_ref:
-          type: object
-          description: '`subject_ref` will only be included in the response if `subject` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-          properties:
-            key:
-              type: string
-            id:
-              type: string
-        survey_answer_ids:
-          type: array
-          items:
-            type: string
-          description: '`survey_answer_ids` will only be included in the response if `survey_answers` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        survey_template_id:
-          type: string
-          description: '`survey_template_id` will only be included in the response if `survey_template` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        title:
-          type: string
-          description: The title of the survey.
-        updated_at:
-          type: string
-          format: date-time
-          description: Date the survey response was last updated.
-        workspace_id:
-          type: string
-          description: '`workspace_id` will only be included in the response if `workspace` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-    SurveyQuestion:
-      title: Survey Question
-      description: 'Survey Questions (Legacy) appear on and can be responded to through surveys.
-
-        This feature requires the Legacy Surveys account add-on. This feature is unrelated to Pulse surveys.'
-      type: object
-      properties:
-        choice_ids:
-          type: array
-          items:
-            type: string
-          description: '`choice_ids` will only be included in the response if `choices` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        created_at:
-          type: string
-          format: date-time
-          description: Date the survey question was created.
-        external_reference_ids:
-          type: array
-          items:
-            type: string
-          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        question_type:
-          type: string
-          description: 'The type of the question. Valid values: single, multi, date, string, integer, decimal.'
-        text:
-          type: string
-          description: The text of the question asked.
-        updated_at:
-          type: string
-          format: date-time
-          description: Date the survey question was last updated.
-    SurveyAnswer:
-      title: Survey Answer
-      description: 'Survey Answers (Legacy) represent a user''s answer to a survey question on a survey response.
-
-        This feature requires the Legacy Surveys account add-on. This feature is unrelated to Pulse surveys.'
-      type: object
-      properties:
-        choice_ids:
-          type: array
-          items:
-            type: string
-          description: '`choice_ids` will only be included in the response if `choices` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        created_at:
-          type: string
-          format: date-time
-          description: Date the survey answer was created.
-        external_reference_ids:
-          type: array
-          items:
-            type: string
-          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        survey_question_id:
-          type: string
-          description: '`survey_question_id` will only be included in the response if `survey_question` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        survey_response_id:
-          type: string
-          description: '`survey_response_id` will only be included in the response if `survey_response` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        text:
-          type: string
-          description: The text answer to the question.
-        updated_at:
-          type: string
-          format: date-time
-          description: Date the survey answer was last updated.
-    Error:
-      type: object
-      properties:
-        type:
-          type: string
-        message:
-          type: string
-    Errors:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
   securitySchemes:
     BearerToken:
       type: apiKey

@@ -37,7 +37,7 @@ paths:
         and will be indexed by ID in the `revenue_recognition_methods` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Get Revenue Recognition Methods
+      operationId: GetRevenueRecognitionMethods
       tags:
       - Revenue Recognition Methods
       parameters:
@@ -170,6 +170,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Revenue Recognition Methods
 components:
   schemas:
     Errors:

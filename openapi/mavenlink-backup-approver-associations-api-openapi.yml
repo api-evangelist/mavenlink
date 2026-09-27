@@ -38,7 +38,7 @@ paths:
         and will be indexed by ID in the `backup_approver_associations` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Get Backup Approver Associations
+      operationId: GetBackupApproverAssociations
       tags:
       - Backup Approver Associations
       parameters:
@@ -150,6 +150,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Backup Approver Associations
     post:
       summary: Creating a new Backup Approver Association
       description: 'This endpoint returns structured Backup Approver Association objects.
@@ -159,7 +161,7 @@ paths:
         and will be indexed by ID in the `backup_approver_associations` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Create Backup Approver Association
+      operationId: CreateBackupApproverAssociation
       tags:
       - Backup Approver Associations
       parameters:
@@ -282,6 +284,8 @@ paths:
                   - start_date
                   - end_date
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Create Backup Approver Association
   /backup_approver_associations/{id}:
     get:
       summary: Fetching a single Backup Approver Association
@@ -292,7 +296,7 @@ paths:
         and will be indexed by ID in the `backup_approver_associations` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Get Backup Approver Association
+      operationId: GetBackupApproverAssociation
       tags:
       - Backup Approver Associations
       parameters:
@@ -390,6 +394,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Backup Approver Association
     put:
       summary: Updating an existing Backup Approver Association
       description: 'This endpoint returns structured Backup Approver Association objects.
@@ -399,7 +405,7 @@ paths:
         and will be indexed by ID in the `backup_approver_associations` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Update Backup Approver Association
+      operationId: UpdateBackupApproverAssociation
       tags:
       - Backup Approver Associations
       parameters:
@@ -523,12 +529,14 @@ paths:
                       format: date
                       description: The end date on which the approver and backup approver are current. The date must be in [ISO 8601](https://www.w3.org/TR/NOTE-datetime) format.
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Update Backup Approver Association
     delete:
       summary: Deleting an existing Backup Approver Association
       description: 'The response will contain no content and an HTTP 204 status code if the request was
 
         successful, or a standard Kantata OX error message explaining why the object could not be deleted.'
-      operationId: Delete Backup Approver Association
+      operationId: DeleteBackupApproverAssociation
       tags:
       - Backup Approver Associations
       parameters:
@@ -577,15 +585,31 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Delete Backup Approver Association
 components:
   schemas:
-    Errors:
+    BackupApproverAssociation:
+      title: Backup Approver Association
+      description: 'Backup Approver Associations describe when a backup approver will be active, or responsible
+
+        for approving time.'
       type: object
       properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
+        approver_id:
+          type: string
+          description: '`approver_id` will only be included in the response if `approver` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        backup_approver_id:
+          type: string
+          description: '`backup_approver_id` will only be included in the response if `backup_approver` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        end_date:
+          type: string
+          format: date-time
+          description: The backup approver end date.
+        start_date:
+          type: string
+          format: date-time
+          description: The backup approver start date.
     User:
       title: User
       description: 'Users represent the individuals that are participating in Kantata OX projects. User objects are often returned as
@@ -680,6 +704,13 @@ components:
           items:
             type: string
           description: '`work_sample_ids` will only be included in the response if `work_samples` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+    Errors:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
     Error:
       type: object
       properties:
@@ -687,27 +718,6 @@ components:
           type: string
         message:
           type: string
-    BackupApproverAssociation:
-      title: Backup Approver Association
-      description: 'Backup Approver Associations describe when a backup approver will be active, or responsible
-
-        for approving time.'
-      type: object
-      properties:
-        approver_id:
-          type: string
-          description: '`approver_id` will only be included in the response if `approver` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        backup_approver_id:
-          type: string
-          description: '`backup_approver_id` will only be included in the response if `backup_approver` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        end_date:
-          type: string
-          format: date-time
-          description: The backup approver end date.
-        start_date:
-          type: string
-          format: date-time
-          description: The backup approver start date.
   securitySchemes:
     BearerToken:
       type: apiKey

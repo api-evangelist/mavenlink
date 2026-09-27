@@ -35,7 +35,7 @@ paths:
         and will be indexed by ID in the `expense_categories` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Get Expense Categories
+      operationId: GetExpenseCategories
       tags:
       - Expense Categories
       parameters:
@@ -154,6 +154,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Expense Categories
     post:
       summary: Creating a new Expense Category
       description: 'This endpoint returns structured Expense Category objects.
@@ -163,7 +165,7 @@ paths:
         and will be indexed by ID in the `expense_categories` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Create Expense Category
+      operationId: CreateExpenseCategory
       tags:
       - Expense Categories
       responses:
@@ -256,6 +258,8 @@ paths:
                   required:
                   - name
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Create Expense Category
   /expense_categories/{id}:
     put:
       summary: Updating an existing Expense Category
@@ -266,7 +270,7 @@ paths:
         and will be indexed by ID in the `expense_categories` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Update Expense Category
+      operationId: UpdateExpenseCategory
       tags:
       - Expense Categories
       parameters:
@@ -364,6 +368,8 @@ paths:
                       type: string
                       description: The name of the expense category.
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Update Expense Category
     delete:
       summary: Deleting an existing Expense Category
       description: 'Deleting an expense category updates the `deleted_at` attribute to the current time. Deleted
@@ -376,7 +382,7 @@ paths:
         The response will contain no content and an HTTP 204 status code if the request was
 
         successful, or a standard Kantata OX error message explaining why the object could not be deleted.'
-      operationId: Delete Expense Category
+      operationId: DeleteExpenseCategory
       tags:
       - Expense Categories
       parameters:
@@ -425,6 +431,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Delete Expense Category
 components:
   schemas:
     Errors:

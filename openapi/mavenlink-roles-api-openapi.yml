@@ -43,7 +43,7 @@ paths:
         and will be indexed by ID in the `roles` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Get Roles
+      operationId: GetRoles
       tags:
       - Roles
       parameters:
@@ -273,6 +273,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Roles
     post:
       summary: Creating a new Role
       description: 'This endpoint returns structured Role objects.
@@ -282,7 +284,7 @@ paths:
         and will be indexed by ID in the `roles` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Create Role
+      operationId: CreateRole
       tags:
       - Roles
       parameters:
@@ -423,6 +425,8 @@ paths:
                   required:
                   - name
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Create Role
   /roles/{id}:
     get:
       summary: Fetching a single Role
@@ -433,7 +437,7 @@ paths:
         and will be indexed by ID in the `roles` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Get Role
+      operationId: GetRole
       tags:
       - Roles
       parameters:
@@ -529,6 +533,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Role
     put:
       summary: Updating an existing Role
       description: 'This endpoint returns structured Role objects.
@@ -538,7 +544,7 @@ paths:
         and will be indexed by ID in the `roles` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Update Role
+      operationId: UpdateRole
       tags:
       - Roles
       parameters:
@@ -683,6 +689,8 @@ paths:
                       - service_model
                       - service_model_ref
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Update Role
     delete:
       summary: Deleting an existing Role
       description: 'The Role will be soft-deleted if it is currently in use. If not, it will be removed.
@@ -691,7 +699,7 @@ paths:
         The response will contain no content and an HTTP 204 status code if the request was
 
         successful, or a standard Kantata OX error message explaining why the object could not be deleted.'
-      operationId: Delete Role
+      operationId: DeleteRole
       tags:
       - Roles
       parameters:
@@ -740,8 +748,49 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Delete Role
 components:
   schemas:
+    Error:
+      type: object
+      properties:
+        type:
+          type: string
+        message:
+          type: string
+    Errors:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+    Role:
+      title: Role
+      description: 'A Role represents the main position or title assigned to members on an account. Roles may be associated with account memberships, account invitations,
+
+        participation, project template assignments, rate card roles, rate card versions, resources, or time adjustments.'
+      type: object
+      properties:
+        created_at:
+          type: string
+          format: date-time
+        deleted_at:
+          type: string
+          format: date-time
+          description: The time the role was deleted.
+        external_reference_ids:
+          type: array
+          items:
+            type: string
+          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        name:
+          type: string
+          description: The name of the role.
+        updated_at:
+          type: string
+          format: date-time
     ExternalReference:
       title: External Reference
       description: 'External References allows users see which objects (one of `Assignment`, `BillingMilestone`, `CustomField`, `CustomFieldChoice`, `CustomFieldSet`, `CustomFieldValue`, `Estimate`, `EstimateScenario`, `EstimateScenarioResource`, `Expense`, `ExpenseBudget`, `Invoice`, `Participation`, `Post`, `RateCard`, `Role`, `Skill`, `StatusReport`, `Story`, `StoryAllocationDay`, `Submission`, `SurveyAnswer`, `SurveyQuestion`, `SurveyResponse`, `SurveyTemplate`, `TimeEntry`, `TimeOffEntry`, `User`, `Vendor`, `Workspace`, `WorkspaceAllocation`, `WorkspaceGroup`, or `WorkspaceResource`
@@ -816,45 +865,6 @@ components:
           type: string
           format: date-time
           description: The date and time the reference was last updated.
-    Role:
-      title: Role
-      description: 'A Role represents the main position or title assigned to members on an account. Roles may be associated with account memberships, account invitations,
-
-        participation, project template assignments, rate card roles, rate card versions, resources, or time adjustments.'
-      type: object
-      properties:
-        created_at:
-          type: string
-          format: date-time
-        deleted_at:
-          type: string
-          format: date-time
-          description: The time the role was deleted.
-        external_reference_ids:
-          type: array
-          items:
-            type: string
-          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        name:
-          type: string
-          description: The name of the role.
-        updated_at:
-          type: string
-          format: date-time
-    Errors:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
-    Error:
-      type: object
-      properties:
-        type:
-          type: string
-        message:
-          type: string
   securitySchemes:
     BearerToken:
       type: apiKey

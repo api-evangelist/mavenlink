@@ -38,7 +38,7 @@ paths:
         and will be indexed by ID in the `resource_requests` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Get Resource Requests
+      operationId: GetResourceRequests
       tags:
       - Resource Requests
       parameters:
@@ -190,6 +190,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Resource Requests
     post:
       summary: Creating a new Resource Requests
       description: 'This endpoint returns structured Resource Requests objects.
@@ -199,7 +201,7 @@ paths:
         and will be indexed by ID in the `resource_requests` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Create Resource Request
+      operationId: CreateResourceRequest
       tags:
       - Resource Requests
       parameters:
@@ -363,6 +365,8 @@ paths:
                   required:
                   - approver_ids
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Create Resource Request
   /resource_requests/{id}:
     get:
       summary: Fetching a single Resource Requests
@@ -373,7 +377,7 @@ paths:
         and will be indexed by ID in the `resource_requests` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Get Resource Request
+      operationId: GetResourceRequest
       tags:
       - Resource Requests
       parameters:
@@ -477,6 +481,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Resource Request
     put:
       summary: Updating an existing Resource Requests
       description: 'This endpoint returns structured Resource Requests objects.
@@ -486,7 +492,7 @@ paths:
         and will be indexed by ID in the `resource_requests` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Update Resource Request
+      operationId: UpdateResourceRequest
       tags:
       - Resource Requests
       parameters:
@@ -612,6 +618,8 @@ paths:
                   required:
                   - request_resolution_status
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Update Resource Request
   /resource_requests/{id}/update_approver:
     put:
       summary: Update Resource Request Approver
@@ -622,7 +630,7 @@ paths:
         and will be indexed by ID in the `resource_requests` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Update Resource Request Approver
+      operationId: UpdateResourceRequestApprover
       tags:
       - Resource Requests
       parameters:
@@ -744,8 +752,37 @@ paths:
                   required:
                   - new_approver_id
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Update Resource Request Approver
 components:
   schemas:
+    ResourceRequest:
+      title: Resource Requests
+      description: 'Resource Requests are used as a method for a requestor to ask an approver to staff a resource.
+
+        Resource Requests are associated to a workspace resource and must have an approver associated.'
+      type: object
+      properties:
+        approver_ids:
+          type: array
+          items:
+            type: string
+          description: '`approver_ids` will only be included in the response if `approvers` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        created_at:
+          type: string
+          format: date-time
+        creator_id:
+          type: string
+          description: '`creator_id` will only be included in the response if `creator` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        resource_id:
+          type: string
+          description: '`resource_id` will only be included in the response if `resource` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        status:
+          type: string
+          description: 'The current state of the request: new, cancelled, rejected, or approved.'
+        updated_at:
+          type: string
+          format: date-time
     WorkspaceResource:
       title: Workspace Resource
       description: 'With workspace resources it is possible for a user to have many resources with different roles
@@ -842,6 +879,13 @@ components:
           type: string
         message:
           type: string
+    Errors:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
     User:
       title: User
       description: 'Users represent the individuals that are participating in Kantata OX projects. User objects are often returned as
@@ -936,40 +980,6 @@ components:
           items:
             type: string
           description: '`work_sample_ids` will only be included in the response if `work_samples` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-    Errors:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
-    ResourceRequest:
-      title: Resource Requests
-      description: 'Resource Requests are used as a method for a requestor to ask an approver to staff a resource.
-
-        Resource Requests are associated to a workspace resource and must have an approver associated.'
-      type: object
-      properties:
-        approver_ids:
-          type: array
-          items:
-            type: string
-          description: '`approver_ids` will only be included in the response if `approvers` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        created_at:
-          type: string
-          format: date-time
-        creator_id:
-          type: string
-          description: '`creator_id` will only be included in the response if `creator` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        resource_id:
-          type: string
-          description: '`resource_id` will only be included in the response if `resource` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        status:
-          type: string
-          description: 'The current state of the request: new, cancelled, rejected, or approved.'
-        updated_at:
-          type: string
-          format: date-time
   securitySchemes:
     BearerToken:
       type: apiKey

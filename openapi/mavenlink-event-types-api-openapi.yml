@@ -39,7 +39,7 @@ paths:
         the structure of all events. The event types schema includes documentation for the events and fields.
 
         You can reference the event types schema as you build your application that processes subscribed events.'
-      operationId: Get Subscribed Event Types
+      operationId: GetSubscribedEventTypes
       tags:
       - Event Types
       responses:
@@ -138,6 +138,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Subscribed Event Types
 components:
   schemas:
     Errors:

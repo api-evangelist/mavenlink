@@ -55,10 +55,11 @@ tags:
 - Invoicing
 - Project Accounting
 - Business Intelligence
-- Workflow-Automation
+- Workflow Automation
 - MCP
-- agent-native
+- Agent-Native
 - Company
+- A2A
 tags_raw:
 - Professional Services Automation
 - Project Management
@@ -72,6 +73,8 @@ tags_raw:
 - MCP
 - agent-native
 - Company
+- Workflow-Automation
+- A2A
 apis:
 - name: Kantata OX MCP Server
   description: Remote Model Context Protocol server operated by Kantata on the Mavenlink API host. Advertised
@@ -82,6 +85,10 @@ apis:
   humanURL: https://developer.kantata.com/
   baseURL: https://api.mavenlink.com/mcp
   tags:
+  - MCP
+  - Agent-Native
+  - Professional Services Automation
+  tags_raw:
   - MCP
   - agent-native
   - Professional Services Automation
@@ -103,6 +110,10 @@ apis:
   humanURL: https://developer.kantata.com/
   baseURL: https://developer.kantata.com/mcp
   tags:
+  - MCP
+  - Agent-Native
+  - Documentation
+  tags_raw:
   - MCP
   - agent-native
   - Documentation
@@ -3361,3 +3372,10 @@ x-enrichment:
   status: enriched
   artifacts_added: 38
   pass: local-v1
+x-a2a:
+  verified: true
+  probed: '2026-09-26'
+  url: "https://developer.kantata.com/.well-known/agent-card.json"
+  grade: "conformant"
+  protocol_version: "0.3.0"
+  control: 404

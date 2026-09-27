@@ -36,7 +36,7 @@ paths:
         and will be indexed by ID in the `estimate_scenario_resources` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Get Estimate Scenario Resources
+      operationId: GetEstimateScenarioResources
       tags:
       - Estimate Scenario Resources
       parameters:
@@ -262,6 +262,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Estimate Scenario Resources
     post:
       summary: Creating a new Estimate Scenario Resource
       description: 'This endpoint returns structured Estimate Scenario Resource objects.
@@ -271,7 +273,7 @@ paths:
         and will be indexed by ID in the `estimate_scenario_resources` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Create Estimate Scenario Resource
+      operationId: CreateEstimateScenarioResource
       tags:
       - Estimate Scenario Resources
       parameters:
@@ -468,6 +470,8 @@ paths:
                   - estimate_scenario_id
                   - role_id
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Create Estimate Scenario Resource
   /estimate_scenario_resources/{id}:
     get:
       summary: Fetching a single Estimate Scenario Resource
@@ -478,7 +482,7 @@ paths:
         and will be indexed by ID in the `estimate_scenario_resources` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Get Estimate Scenario Resource
+      operationId: GetEstimateScenarioResource
       tags:
       - Estimate Scenario Resources
       parameters:
@@ -604,6 +608,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Estimate Scenario Resource
     put:
       summary: Updating an existing Estimate Scenario Resource
       description: 'This endpoint returns structured Estimate Scenario Resource objects.
@@ -613,7 +619,7 @@ paths:
         and will be indexed by ID in the `estimate_scenario_resources` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Update Estimate Scenario Resource
+      operationId: UpdateEstimateScenarioResource
       tags:
       - Estimate Scenario Resources
       parameters:
@@ -794,6 +800,8 @@ paths:
                   required:
                   - role_id
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Update Estimate Scenario Resource
     delete:
       summary: Deleting an existing Estimate Scenario Resource
       description: 'This will delete an estimate scenario resource and its allocations.
@@ -802,7 +810,7 @@ paths:
         The response will contain no content and an HTTP 204 status code if the request was
 
         successful, or a standard Kantata OX error message explaining why the object could not be deleted.'
-      operationId: Delete Estimate Scenario Resource
+      operationId: DeleteEstimateScenarioResource
       tags:
       - Estimate Scenario Resources
       parameters:
@@ -851,137 +859,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Delete Estimate Scenario Resource
 components:
   schemas:
-    ExternalReference:
-      title: External Reference
-      description: 'External References allows users see which objects (one of `Assignment`, `BillingMilestone`, `CustomField`, `CustomFieldChoice`, `CustomFieldSet`, `CustomFieldValue`, `Estimate`, `EstimateScenario`, `EstimateScenarioResource`, `Expense`, `ExpenseBudget`, `Invoice`, `Participation`, `Post`, `RateCard`, `Role`, `Skill`, `StatusReport`, `Story`, `StoryAllocationDay`, `Submission`, `SurveyAnswer`, `SurveyQuestion`, `SurveyResponse`, `SurveyTemplate`, `TimeEntry`, `TimeOffEntry`, `User`, `Vendor`, `Workspace`, `WorkspaceAllocation`, `WorkspaceGroup`, or `WorkspaceResource`
-
-        are synced with third party systems. This allows you to view the sync status of items in addition to the integration
-
-        specifics for a synced object.
-
-
-        Objects that are synced with a third party system have external integration
-
-        attributes that include the corresponding ID of the third party object with
-
-        which it is synced, a link that allows you to view the object in the third
-
-        party system, the status of the external object in the external system,
-
-        the status of the sync, and a link to exceptions.'
-      type: object
-      properties:
-        created_at:
-          type: string
-          format: date-time
-          description: The date and time the reference was created.
-        external_link:
-          type: string
-          description: A URL that links to either the external object or event.
-        external_message:
-          type: string
-          description: An optional message about the external object.
-        external_status:
-          type: string
-          description: The status of the external object in the external system.
-        last_synced_at:
-          type: string
-          format: date-time
-        locked:
-          type: boolean
-          description: 'An optional field, indicating whether the subject should be locked. To prevent changes to the
-
-            object in Kantata OX, set this to true. This currently only applies to expense report rejections.'
-        service_model:
-          type: string
-          description: The type of the external object to which this reference belongs.
-        service_model_ref:
-          type: string
-          description: The ID of the external object to which this reference belongs.
-        service_name:
-          type: string
-          description: The provider name of the integration.
-        status:
-          type: string
-          description: The status of the integration. Options are 'pending', 'successful', or 'failed'.
-        subject_id:
-          type: integer
-          format: int32
-          description: The ID of the Kantata OX object to which this external reference belongs.
-        subject_ref:
-          type: object
-          description: '`subject_ref` will only be included in the response if `subject` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-          properties:
-            key:
-              type: string
-            id:
-              type: string
-        subject_type:
-          type: string
-          description: 'The type of Kantata OX object to which this external reference belongs.
-
-            One of `Assignment`, `BillingMilestone`, `CustomField`, `CustomFieldChoice`, `CustomFieldSet`, `CustomFieldValue`, `Estimate`, `EstimateScenario`, `EstimateScenarioResource`, `Expense`, `ExpenseBudget`, `Invoice`, `Participation`, `Post`, `RateCard`, `Role`, `Skill`, `StatusReport`, `Story`, `StoryAllocationDay`, `Submission`, `SurveyAnswer`, `SurveyQuestion`, `SurveyResponse`, `SurveyTemplate`, `TimeEntry`, `TimeOffEntry`, `User`, `Vendor`, `Workspace`, `WorkspaceAllocation`, `WorkspaceGroup`, or `WorkspaceResource`.'
-        updated_at:
-          type: string
-          format: date-time
-          description: The date and time the reference was last updated.
-    EstimateScenarioResourceAllocation:
-      title: Estimate Scenario Resource Allocation
-      description: 'Estimate Scenario Resource Allocations contain time-related data for scenario resources—used
-
-        for calculating estimated cost and scheduled hours.'
-      type: object
-      properties:
-        created_at:
-          type: string
-          format: date-time
-        duration_days:
-          type: integer
-          format: int32
-          description: The total number of business days an scenario resource is expected to work on the project.
-        percent_allocated:
-          type: number
-          format: float
-          description: The percentage of available hours the scenario resource will work on the project.
-        relative_start_day:
-          type: integer
-          format: int32
-          description: 'The number of business days, after the estimate scenario''s start date, that an scenario resource
-
-            will begin working on the project.'
-        resource_id:
-          type: string
-          description: '`resource_id` will only be included in the response if `resource` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        updated_at:
-          type: string
-          format: date-time
-    Role:
-      title: Role
-      description: 'A Role represents the main position or title assigned to members on an account. Roles may be associated with account memberships, account invitations,
-
-        participation, project template assignments, rate card roles, rate card versions, resources, or time adjustments.'
-      type: object
-      properties:
-        created_at:
-          type: string
-          format: date-time
-        deleted_at:
-          type: string
-          format: date-time
-          description: The time the role was deleted.
-        external_reference_ids:
-          type: array
-          items:
-            type: string
-          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        name:
-          type: string
-          description: The name of the role.
-        updated_at:
-          type: string
-          format: date-time
     OrganizationMembership:
       title: Organization Membership
       description: An Organization Membership represents the connection of a user and project to an organization.
@@ -1017,6 +898,70 @@ components:
           type: string
         message:
           type: string
+    Geography:
+      title: Organization
+      description: 'An Organization allows you to structure and group your projects and account members by
+
+        departments and geographies.'
+      type: object
+      properties:
+        ancestor_ids:
+          type: array
+          items:
+            type: string
+          description: The ids of all ancestors of the organization.
+        created_at:
+          type: string
+          format: date-time
+        name:
+          type: string
+          description: The unique name of the organization.
+        parent_id:
+          type: string
+          description: The id of the parent organization.
+        type:
+          type: string
+          description: The type of the organization, either 'Geography' or 'Department'.
+        updated_at:
+          type: string
+          format: date-time
+    EstimateScenarioResourceAllocation:
+      title: Estimate Scenario Resource Allocation
+      description: 'Estimate Scenario Resource Allocations contain time-related data for scenario resources—used
+
+        for calculating estimated cost and scheduled hours.'
+      type: object
+      properties:
+        created_at:
+          type: string
+          format: date-time
+        duration_days:
+          type: integer
+          format: int32
+          description: The total number of business days an scenario resource is expected to work on the project.
+        percent_allocated:
+          type: number
+          format: float
+          description: The percentage of available hours the scenario resource will work on the project.
+        relative_start_day:
+          type: integer
+          format: int32
+          description: 'The number of business days, after the estimate scenario''s start date, that an scenario resource
+
+            will begin working on the project.'
+        resource_id:
+          type: string
+          description: '`resource_id` will only be included in the response if `resource` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        updated_at:
+          type: string
+          format: date-time
+    Errors:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
     User:
       title: User
       description: 'Users represent the individuals that are participating in Kantata OX projects. User objects are often returned as
@@ -1111,6 +1056,31 @@ components:
           items:
             type: string
           description: '`work_sample_ids` will only be included in the response if `work_samples` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+    Role:
+      title: Role
+      description: 'A Role represents the main position or title assigned to members on an account. Roles may be associated with account memberships, account invitations,
+
+        participation, project template assignments, rate card roles, rate card versions, resources, or time adjustments.'
+      type: object
+      properties:
+        created_at:
+          type: string
+          format: date-time
+        deleted_at:
+          type: string
+          format: date-time
+          description: The time the role was deleted.
+        external_reference_ids:
+          type: array
+          items:
+            type: string
+          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        name:
+          type: string
+          description: The name of the role.
+        updated_at:
+          type: string
+          format: date-time
     EstimateScenarioResource:
       title: Estimate Scenario Resource
       description: An Estimate Scenario Resource is an unnamed resource in an estimate scenario.
@@ -1174,40 +1144,80 @@ components:
         user_id:
           type: string
           description: '`user_id` will only be included in the response if `user` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-    Errors:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
-    Geography:
-      title: Organization
-      description: 'An Organization allows you to structure and group your projects and account members by
+    ExternalReference:
+      title: External Reference
+      description: 'External References allows users see which objects (one of `Assignment`, `BillingMilestone`, `CustomField`, `CustomFieldChoice`, `CustomFieldSet`, `CustomFieldValue`, `Estimate`, `EstimateScenario`, `EstimateScenarioResource`, `Expense`, `ExpenseBudget`, `Invoice`, `Participation`, `Post`, `RateCard`, `Role`, `Skill`, `StatusReport`, `Story`, `StoryAllocationDay`, `Submission`, `SurveyAnswer`, `SurveyQuestion`, `SurveyResponse`, `SurveyTemplate`, `TimeEntry`, `TimeOffEntry`, `User`, `Vendor`, `Workspace`, `WorkspaceAllocation`, `WorkspaceGroup`, or `WorkspaceResource`
 
-        departments and geographies.'
+        are synced with third party systems. This allows you to view the sync status of items in addition to the integration
+
+        specifics for a synced object.
+
+
+        Objects that are synced with a third party system have external integration
+
+        attributes that include the corresponding ID of the third party object with
+
+        which it is synced, a link that allows you to view the object in the third
+
+        party system, the status of the external object in the external system,
+
+        the status of the sync, and a link to exceptions.'
       type: object
       properties:
-        ancestor_ids:
-          type: array
-          items:
-            type: string
-          description: The ids of all ancestors of the organization.
         created_at:
           type: string
           format: date-time
-        name:
+          description: The date and time the reference was created.
+        external_link:
           type: string
-          description: The unique name of the organization.
-        parent_id:
+          description: A URL that links to either the external object or event.
+        external_message:
           type: string
-          description: The id of the parent organization.
-        type:
+          description: An optional message about the external object.
+        external_status:
           type: string
-          description: The type of the organization, either 'Geography' or 'Department'.
+          description: The status of the external object in the external system.
+        last_synced_at:
+          type: string
+          format: date-time
+        locked:
+          type: boolean
+          description: 'An optional field, indicating whether the subject should be locked. To prevent changes to the
+
+            object in Kantata OX, set this to true. This currently only applies to expense report rejections.'
+        service_model:
+          type: string
+          description: The type of the external object to which this reference belongs.
+        service_model_ref:
+          type: string
+          description: The ID of the external object to which this reference belongs.
+        service_name:
+          type: string
+          description: The provider name of the integration.
+        status:
+          type: string
+          description: The status of the integration. Options are 'pending', 'successful', or 'failed'.
+        subject_id:
+          type: integer
+          format: int32
+          description: The ID of the Kantata OX object to which this external reference belongs.
+        subject_ref:
+          type: object
+          description: '`subject_ref` will only be included in the response if `subject` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+          properties:
+            key:
+              type: string
+            id:
+              type: string
+        subject_type:
+          type: string
+          description: 'The type of Kantata OX object to which this external reference belongs.
+
+            One of `Assignment`, `BillingMilestone`, `CustomField`, `CustomFieldChoice`, `CustomFieldSet`, `CustomFieldValue`, `Estimate`, `EstimateScenario`, `EstimateScenarioResource`, `Expense`, `ExpenseBudget`, `Invoice`, `Participation`, `Post`, `RateCard`, `Role`, `Skill`, `StatusReport`, `Story`, `StoryAllocationDay`, `Submission`, `SurveyAnswer`, `SurveyQuestion`, `SurveyResponse`, `SurveyTemplate`, `TimeEntry`, `TimeOffEntry`, `User`, `Vendor`, `Workspace`, `WorkspaceAllocation`, `WorkspaceGroup`, or `WorkspaceResource`.'
         updated_at:
           type: string
           format: date-time
+          description: The date and time the reference was last updated.
   securitySchemes:
     BearerToken:
       type: apiKey

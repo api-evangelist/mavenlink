@@ -27,7 +27,7 @@ paths:
     get:
       summary: Fetch Rate Card Table Rows
       description: Returns all Rate Card Table Rows for a specified Rate Card Set Version.
-      operationId: Get Rate Card Table Rows For Set Version
+      operationId: GetRateCardTableRowsForSetVersion
       tags:
       - Rate Card Table Rows
       parameters:
@@ -151,11 +151,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Rate Card Table Rows For Set Version
   /rate_card_set_versions/{rate_card_set_version_id}/rate_card_table_rows/{role_id}:
     delete:
       summary: Delete a Rate Card Table Row
       description: Deletes all Rate Card Roles for a specified Rate Card Set Version and Role.
-      operationId: Delete Rate Card Table Row
+      operationId: DeleteRateCardTableRow
       tags:
       - Rate Card Table Rows
       parameters:
@@ -210,10 +212,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Delete Rate Card Table Row
     put:
       summary: Create or Update Rate Card Table Row
       description: Creates or updates a Rate Card Table Row for a specified Rate Card Set Version and Role.
-      operationId: Create Or Update Rate Table Row
+      operationId: CreateOrUpdateRateTableRow
       tags:
       - Rate Card Table Rows
       parameters:
@@ -371,6 +375,8 @@ paths:
                   required:
                   - rates
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Create Or Update Rate Table Row
 components:
   schemas:
     Errors:

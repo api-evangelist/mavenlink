@@ -25,7 +25,7 @@ paths:
     get:
       summary: Get Insights Reports
       description: Returns a list of classic Insights reports on your Kantata OX account. When a `title` is provided, reports that match the `title` are returned. When a `title` is not provided, all classic Insights reports on your account are returned.
-      operationId: Get Insights Reports
+      operationId: GetInsightsReports
       tags:
       - Insights Reports
       parameters:
@@ -95,6 +95,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Insights Reports
 components:
   schemas:
     Errors:

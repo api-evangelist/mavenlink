@@ -29,7 +29,7 @@ paths:
     get:
       summary: Fetching a list of Exchange Tables
       description: Returns a list of exchange tables associated with your account, and their default settings details.
-      operationId: Get Exchange Tables
+      operationId: GetExchangeTables
       tags:
       - Exchange Tables
       responses:
@@ -127,10 +127,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Exchange Tables
     post:
       summary: Creating a new Exchange Table
       description: Creates a new exchange table.
-      operationId: Create Exchange Table
+      operationId: CreateExchangeTable
       tags:
       - Exchange Tables
       parameters:
@@ -247,11 +249,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Create Exchange Table
   /foreign_exchange/exchange_tables/{id}:
     get:
       summary: Fetching a single Exchange Table
       description: Returns default settings details for a specified exchange table.
-      operationId: Get Exchange Table
+      operationId: GetExchangeTable
       tags:
       - Exchange Tables
       parameters:
@@ -320,10 +324,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Exchange Table
     put:
       summary: Updating an existing Exchange Table
       description: Updates the name and/or default settings for a specified exchange table.
-      operationId: Update Exchange Table
+      operationId: UpdateExchangeTable
       tags:
       - Exchange Tables
       parameters:
@@ -446,11 +452,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Update Exchange Table
   /foreign_exchange/exchange_tables/{id}/rates:
     post:
       summary: Import Exchange Rates
       description: Add or update exchange rates for a specified exchange table by importing rates as a .csv file, or in a JSON array of hashes.
-      operationId: Import Exchange Tables
+      operationId: ImportExchangeTables
       tags:
       - Exchange Tables
       parameters:
@@ -607,10 +615,12 @@ paths:
                         type: string
                         description: The rate of the exchange from source to target currency. For example, a rate of 1.53 for a USD (source) to AUD (target) conversion would mean 1USD = 1.53AUD.
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Import Exchange Tables
     get:
       summary: Fetching a list of Exchange Rates
       description: Returns all current exchange rates for a specified exchange table, unless filter parameters have been applied..
-      operationId: Get Exchange Rates
+      operationId: GetExchangeRates
       tags:
       - Exchange Tables
       parameters:
@@ -758,6 +768,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Exchange Rates
 components:
   schemas:
     Errors:

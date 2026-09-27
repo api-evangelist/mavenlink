@@ -34,7 +34,7 @@ paths:
         and will be indexed by ID in the `task_status_sets` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Get Task Status Sets
+      operationId: GetTaskStatusSets
       tags:
       - Task Status Sets
       parameters:
@@ -144,6 +144,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Task Status Sets
     post:
       summary: Creating a new Task Status Set
       description: 'Creates a task status set on the account that contains only the four default statuses (e.g. `custom_task_statuses`)—`not started`, `started`, `needs info`, and `completed`.
@@ -156,7 +158,7 @@ paths:
         and will be indexed by ID in the `task_status_sets` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Create Task Status Set
+      operationId: CreateTaskStatusSet
       tags:
       - Task Status Sets
       parameters:
@@ -261,6 +263,8 @@ paths:
                   required:
                   - name
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Create Task Status Set
   /task_status_sets/{id}:
     get:
       summary: Fetching a single Task Status Set
@@ -274,7 +278,7 @@ paths:
         and will be indexed by ID in the `task_status_sets` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Get Task Status Set
+      operationId: GetTaskStatusSet
       tags:
       - Task Status Sets
       parameters:
@@ -370,6 +374,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Task Status Set
     put:
       summary: Updating an existing Task Status Set
       description: 'Updates a task status set. Only the `name` can be updated with this endpoint. To update the statuses available in the set, use the Custom Task Statuses API instead. To change which set is the account default, use the Set Account Default Task Status Set endpoint instead.
@@ -382,7 +388,7 @@ paths:
         and will be indexed by ID in the `task_status_sets` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Update Task Status Set
+      operationId: UpdateTaskStatusSet
       tags:
       - Task Status Sets
       parameters:
@@ -493,6 +499,8 @@ paths:
                   required:
                   - name
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Update Task Status Set
     delete:
       summary: Deleting an existing Task Status Set
       description: 'Deletes a task status set and the statuses within the set. Only task status sets that are not in use can be deleted.
@@ -501,7 +509,7 @@ paths:
         The response will contain no content and an HTTP 204 status code if the request was
 
         successful, or a standard Kantata OX error message explaining why the object could not be deleted.'
-      operationId: Delete Task Status Set
+      operationId: DeleteTaskStatusSet
       tags:
       - Task Status Sets
       parameters:
@@ -550,6 +558,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Delete Task Status Set
   /task_status_sets/{id}/update_account_default:
     put:
       summary: Update Account Default Task Status Set
@@ -563,7 +573,7 @@ paths:
         and will be indexed by ID in the `task_status_sets` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Update Account Default
+      operationId: UpdateAccountDefault
       tags:
       - Task Status Sets
       parameters:
@@ -659,41 +669,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Update Account Default
 components:
   schemas:
-    Error:
-      type: object
-      properties:
-        type:
-          type: string
-        message:
-          type: string
-    Errors:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
-    StatusSet:
-      title: Task Status Set
-      description: Task Status Sets allow you to create custom statuses for tasks (stories) that can then be applied to projects (workspaces).
-      type: object
-      properties:
-        created_at:
-          type: string
-          format: date-time
-        custom_task_status_ids:
-          type: array
-          items:
-            type: string
-          description: '`custom_task_status_ids` will only be included in the response if `custom_task_statuses` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        name:
-          type: string
-          description: The name of this status set.
-        updated_at:
-          type: string
-          format: date-time
     StatusSetOption:
       title: Custom Task Status
       description: A custom task status is in a Task Status Set. A task status set is assigned to a workspace (project), then custom task statuses can be applied to the stories (tasks) within the workspace.
@@ -722,6 +701,39 @@ components:
         updated_at:
           type: string
           format: date-time
+    Errors:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+    StatusSet:
+      title: Task Status Set
+      description: Task Status Sets allow you to create custom statuses for tasks (stories) that can then be applied to projects (workspaces).
+      type: object
+      properties:
+        created_at:
+          type: string
+          format: date-time
+        custom_task_status_ids:
+          type: array
+          items:
+            type: string
+          description: '`custom_task_status_ids` will only be included in the response if `custom_task_statuses` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        name:
+          type: string
+          description: The name of this status set.
+        updated_at:
+          type: string
+          format: date-time
+    Error:
+      type: object
+      properties:
+        type:
+          type: string
+        message:
+          type: string
   securitySchemes:
     BearerToken:
       type: apiKey

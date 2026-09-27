@@ -34,7 +34,7 @@ paths:
         and will be indexed by ID in the `survey_questions` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Get Survey Questions
+      operationId: GetSurveyQuestions
       tags:
       - Survey Questions (Legacy)
       parameters:
@@ -207,6 +207,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Survey Questions
     post:
       summary: Creating a new Survey Question
       description: 'This endpoint returns structured Survey Question objects.
@@ -216,7 +218,7 @@ paths:
         and will be indexed by ID in the `survey_questions` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Create Survey Question
+      operationId: CreateSurveyQuestion
       tags:
       - Survey Questions (Legacy)
       parameters:
@@ -336,6 +338,8 @@ paths:
                   - text
                   - question_type
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Create Survey Question
   /survey_questions/{id}:
     put:
       summary: Updating an existing Survey Question
@@ -346,7 +350,7 @@ paths:
         and will be indexed by ID in the `survey_questions` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Update Survey Question
+      operationId: UpdateSurveyQuestion
       tags:
       - Survey Questions (Legacy)
       parameters:
@@ -457,12 +461,14 @@ paths:
                       type: string
                       description: The text of the question.
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Update Survey Question
     delete:
       summary: Deleting an existing Survey Question
       description: 'The response will contain no content and an HTTP 204 status code if the request was
 
         successful, or a standard Kantata OX error message explaining why the object could not be deleted.'
-      operationId: Delete Survey Question
+      operationId: DeleteSurveyQuestion
       tags:
       - Survey Questions (Legacy)
       parameters:
@@ -511,8 +517,55 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Delete Survey Question
 components:
   schemas:
+    Error:
+      type: object
+      properties:
+        type:
+          type: string
+        message:
+          type: string
+    Errors:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+    SurveyQuestion:
+      title: Survey Question
+      description: 'Survey Questions (Legacy) appear on and can be responded to through surveys.
+
+        This feature requires the Legacy Surveys account add-on. This feature is unrelated to Pulse surveys.'
+      type: object
+      properties:
+        choice_ids:
+          type: array
+          items:
+            type: string
+          description: '`choice_ids` will only be included in the response if `choices` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        created_at:
+          type: string
+          format: date-time
+          description: Date the survey question was created.
+        external_reference_ids:
+          type: array
+          items:
+            type: string
+          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        question_type:
+          type: string
+          description: 'The type of the question. Valid values: single, multi, date, string, integer, decimal.'
+        text:
+          type: string
+          description: The text of the question asked.
+        updated_at:
+          type: string
+          format: date-time
+          description: Date the survey question was last updated.
     ExternalReference:
       title: External Reference
       description: 'External References allows users see which objects (one of `Assignment`, `BillingMilestone`, `CustomField`, `CustomFieldChoice`, `CustomFieldSet`, `CustomFieldValue`, `Estimate`, `EstimateScenario`, `EstimateScenarioResource`, `Expense`, `ExpenseBudget`, `Invoice`, `Participation`, `Post`, `RateCard`, `Role`, `Skill`, `StatusReport`, `Story`, `StoryAllocationDay`, `Submission`, `SurveyAnswer`, `SurveyQuestion`, `SurveyResponse`, `SurveyTemplate`, `TimeEntry`, `TimeOffEntry`, `User`, `Vendor`, `Workspace`, `WorkspaceAllocation`, `WorkspaceGroup`, or `WorkspaceResource`
@@ -587,51 +640,6 @@ components:
           type: string
           format: date-time
           description: The date and time the reference was last updated.
-    Errors:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
-    Error:
-      type: object
-      properties:
-        type:
-          type: string
-        message:
-          type: string
-    SurveyQuestion:
-      title: Survey Question
-      description: 'Survey Questions (Legacy) appear on and can be responded to through surveys.
-
-        This feature requires the Legacy Surveys account add-on. This feature is unrelated to Pulse surveys.'
-      type: object
-      properties:
-        choice_ids:
-          type: array
-          items:
-            type: string
-          description: '`choice_ids` will only be included in the response if `choices` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        created_at:
-          type: string
-          format: date-time
-          description: Date the survey question was created.
-        external_reference_ids:
-          type: array
-          items:
-            type: string
-          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        question_type:
-          type: string
-          description: 'The type of the question. Valid values: single, multi, date, string, integer, decimal.'
-        text:
-          type: string
-          description: The text of the question asked.
-        updated_at:
-          type: string
-          format: date-time
-          description: Date the survey question was last updated.
   securitySchemes:
     BearerToken:
       type: apiKey

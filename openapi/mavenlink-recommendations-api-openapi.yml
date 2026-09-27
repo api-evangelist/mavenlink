@@ -37,7 +37,7 @@ paths:
     get:
       summary: Fetch Estimate Scenario Resource Recommendations
       description: Returns an ordered list of Recommendations (up to 1000) for an estimate scenario resource.
-      operationId: Get Estimate Scenario Resource Recommendations
+      operationId: GetEstimateScenarioResourceRecommendations
       tags:
       - Recommendations
       parameters:
@@ -109,6 +109,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Estimate Scenario Resource Recommendations
 components:
   schemas:
     Errors:

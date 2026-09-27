@@ -37,7 +37,7 @@ paths:
         and will be indexed by ID in the `exports` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Get Exports
+      operationId: GetExports
       tags:
       - Data Exports
       parameters:
@@ -147,6 +147,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Exports
     post:
       summary: Generate a Data Export
       description: 'Generates an export. Use the data set `key` and each column `key` that you want to be included in your export. The values need to be properly formatted JSON, which means you may need to escape special characters. If no column keys are provided, the export will fail and return a 422 response.
@@ -217,7 +219,7 @@ paths:
         and will be indexed by ID in the `exports` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Create Export
+      operationId: CreateExport
       tags:
       - Data Exports
       parameters:
@@ -344,6 +346,8 @@ paths:
                   required:
                   - export_definition
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Create Export
   /exports/{id}:
     get:
       summary: Get a single Data Export
@@ -357,7 +361,7 @@ paths:
         and will be indexed by ID in the `exports` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Get Export
+      operationId: GetExport
       tags:
       - Data Exports
       parameters:
@@ -453,6 +457,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Export
     put:
       summary: Cancel a Data Export
       description: 'Cancel an export that is in a Queued status.
@@ -465,7 +471,7 @@ paths:
         and will be indexed by ID in the `exports` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Update Export
+      operationId: UpdateExport
       tags:
       - Data Exports
       parameters:
@@ -574,6 +580,8 @@ paths:
                       type: boolean
                       description: If set to `true`, cancels an export with a Queued status.
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Update Export
   /exports/{id}/download_url:
     get:
       summary: Download a Data Export
@@ -587,7 +595,7 @@ paths:
         and will be indexed by ID in the `exports` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Download Export
+      operationId: DownloadExport
       tags:
       - Data Exports
       parameters:
@@ -651,15 +659,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Download Export
 components:
   schemas:
-    Errors:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
     AccountDataExportResult:
       title: Data Export
       description: Account data exports are used to download account data from Kantata OX.
@@ -722,13 +725,6 @@ components:
         user_id:
           type: string
           description: '`user_id` will only be included in the response if `user` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-    Error:
-      type: object
-      properties:
-        type:
-          type: string
-        message:
-          type: string
     User:
       title: User
       description: 'Users represent the individuals that are participating in Kantata OX projects. User objects are often returned as
@@ -823,6 +819,20 @@ components:
           items:
             type: string
           description: '`work_sample_ids` will only be included in the response if `work_samples` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+    Errors:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+    Error:
+      type: object
+      properties:
+        type:
+          type: string
+        message:
+          type: string
   securitySchemes:
     BearerToken:
       type: apiKey

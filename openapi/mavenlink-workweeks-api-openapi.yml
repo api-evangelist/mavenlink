@@ -38,7 +38,7 @@ paths:
         and will be indexed by ID in the `workweeks` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Get Workweeks
+      operationId: GetWorkweeks
       tags:
       - Workweeks
       parameters:
@@ -187,6 +187,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Workweeks
     post:
       summary: Creating a new Workweek
       description: 'This endpoint returns structured Workweek objects.
@@ -196,7 +198,7 @@ paths:
         and will be indexed by ID in the `workweeks` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Create Workweek
+      operationId: CreateWorkweek
       tags:
       - Workweeks
       parameters:
@@ -334,6 +336,8 @@ paths:
                       format: int32
                       description: The number of workable minutes on Saturday.
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Create Workweek
   /workweeks/{id}:
     get:
       summary: Fetching a single Workweek
@@ -344,7 +348,7 @@ paths:
         and will be indexed by ID in the `workweeks` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Get Workweek
+      operationId: GetWorkweek
       tags:
       - Workweeks
       parameters:
@@ -440,6 +444,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Workweek
     put:
       summary: Updating an existing Workweek
       description: 'This endpoint returns structured Workweek objects.
@@ -449,7 +455,7 @@ paths:
         and will be indexed by ID in the `workweeks` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Update Workweek
+      operationId: UpdateWorkweek
       tags:
       - Workweeks
       parameters:
@@ -587,12 +593,14 @@ paths:
                       format: int32
                       description: The number of workable minutes on Saturday.
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Update Workweek
     delete:
       summary: Deleting an existing Workweek
       description: 'The response will contain no content and an HTTP 204 status code if the request was
 
         successful, or a standard Kantata OX error message explaining why the object could not be deleted.'
-      operationId: Delete Workweek
+      operationId: DeleteWorkweek
       tags:
       - Workweeks
       parameters:
@@ -641,43 +649,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Delete Workweek
 components:
   schemas:
-    WorkweekMembership:
-      title: Workweek Membership
-      description: A Workweek Membership represents the relationship of a user to a workweek.
-      type: object
-      properties:
-        created_at:
-          type: string
-          format: date-time
-          description: The date and time the workweek membership was last updated.
-        end_date:
-          type: string
-          format: date
-          description: The end date of the workweek.
-        start_date:
-          type: string
-          format: date
-          description: The start date of the workweek.
-        updated_at:
-          type: string
-          format: date-time
-          description: The date and time the workweek membership was created.
-        user_id:
-          type: integer
-          format: int32
-          description: The ID of the associated user.
-        workweek_id:
-          type: string
-          description: '`workweek_id` will only be included in the response if `workweek` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-    Errors:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
     Workweek:
       title: Workweek
       description: 'Workweeks are owned by an account. A workweek can be used as the account default, or
@@ -741,6 +716,41 @@ components:
           items:
             type: string
           description: '`workweek_membership_ids` will only be included in the response if `workweek_memberships` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+    Errors:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+    WorkweekMembership:
+      title: Workweek Membership
+      description: A Workweek Membership represents the relationship of a user to a workweek.
+      type: object
+      properties:
+        created_at:
+          type: string
+          format: date-time
+          description: The date and time the workweek membership was last updated.
+        end_date:
+          type: string
+          format: date
+          description: The end date of the workweek.
+        start_date:
+          type: string
+          format: date
+          description: The start date of the workweek.
+        updated_at:
+          type: string
+          format: date-time
+          description: The date and time the workweek membership was created.
+        user_id:
+          type: integer
+          format: int32
+          description: The ID of the associated user.
+        workweek_id:
+          type: string
+          description: '`workweek_id` will only be included in the response if `workweek` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
     Error:
       type: object
       properties:

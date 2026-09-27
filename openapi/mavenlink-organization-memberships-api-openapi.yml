@@ -31,7 +31,7 @@ paths:
         and will be indexed by ID in the `organization_memberships` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Get Organization Memberships
+      operationId: GetOrganizationMemberships
       tags:
       - Organization Memberships
       parameters:
@@ -197,6 +197,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Organization Memberships
     post:
       summary: Creating a new Organization Membership
       description: 'Applies an organization to a workspace (project) or user.
@@ -252,7 +254,7 @@ paths:
         and will be indexed by ID in the `organization_memberships` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Create Organization Membership
+      operationId: CreateOrganizationMembership
       tags:
       - Organization Memberships
       parameters:
@@ -374,6 +376,8 @@ paths:
                   - member_id
                   - member_type
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Create Organization Membership
   /organization_memberships/{id}:
     get:
       summary: Fetching a single Organization Membership
@@ -384,7 +388,7 @@ paths:
         and will be indexed by ID in the `organization_memberships` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Get Organization Membership
+      operationId: GetOrganizationMembership
       tags:
       - Organization Memberships
       parameters:
@@ -482,6 +486,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Organization Membership
     put:
       summary: Updating an existing Organization Membership
       description: 'This endpoint returns structured Organization Membership objects.
@@ -491,7 +497,7 @@ paths:
         and will be indexed by ID in the `organization_memberships` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Update Organization Membership
+      operationId: UpdateOrganizationMembership
       tags:
       - Organization Memberships
       parameters:
@@ -607,12 +613,14 @@ paths:
                       format: int32
                       description: The ID of the membership's department.
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Update Organization Membership
     delete:
       summary: Deleting an existing Organization Membership
       description: 'The response will contain no content and an HTTP 204 status code if the request was
 
         successful, or a standard Kantata OX error message explaining why the object could not be deleted.'
-      operationId: Delete Organization Membership
+      operationId: DeleteOrganizationMembership
       tags:
       - Organization Memberships
       parameters:
@@ -661,8 +669,38 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Delete Organization Membership
 components:
   schemas:
+    OrganizationMembership:
+      title: Organization Membership
+      description: An Organization Membership represents the connection of a user and project to an organization.
+      type: object
+      properties:
+        created_at:
+          type: string
+          format: date-time
+        department_id:
+          type: string
+          description: '`department_id` will only be included in the response if `department` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        geography_id:
+          type: string
+          description: '`geography_id` will only be included in the response if `geography` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        member_id:
+          type: string
+          description: The ID of the project or user.
+        member_type:
+          type: string
+          description: The type of object that describes the member (workspace or user).
+        primary:
+          type: boolean
+          description: 'Indicates whether this is the primary organization for the member (user or workspace).
+
+            Visible when the primary organization feature is enabled.'
+        updated_at:
+          type: string
+          format: date-time
     Organization:
       title: Organization
       description: 'An Organization allows you to structure and group your projects and account members by
@@ -697,34 +735,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Error'
-    OrganizationMembership:
-      title: Organization Membership
-      description: An Organization Membership represents the connection of a user and project to an organization.
-      type: object
-      properties:
-        created_at:
-          type: string
-          format: date-time
-        department_id:
-          type: string
-          description: '`department_id` will only be included in the response if `department` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        geography_id:
-          type: string
-          description: '`geography_id` will only be included in the response if `geography` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        member_id:
-          type: string
-          description: The ID of the project or user.
-        member_type:
-          type: string
-          description: The type of object that describes the member (workspace or user).
-        primary:
-          type: boolean
-          description: 'Indicates whether this is the primary organization for the member (user or workspace).
-
-            Visible when the primary organization feature is enabled.'
-        updated_at:
-          type: string
-          format: date-time
     Error:
       type: object
       properties:

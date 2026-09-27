@@ -36,7 +36,7 @@ paths:
         and will be indexed by ID in the `story_tasks` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Get Story Tasks
+      operationId: GetStoryTasks
       tags:
       - Story Tasks
       parameters:
@@ -209,6 +209,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Story Tasks
     post:
       summary: Creating a new Story Task
       description: 'This endpoint returns structured Story Task objects.
@@ -218,7 +220,7 @@ paths:
         and will be indexed by ID in the `story_tasks` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Create Story Task
+      operationId: CreateStoryTask
       tags:
       - Story Tasks
       parameters:
@@ -341,6 +343,8 @@ paths:
                   - story_id
                   - name
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Create Story Task
   /story_tasks/{id}:
     get:
       summary: Fetching a single Story Task
@@ -351,7 +355,7 @@ paths:
         and will be indexed by ID in the `story_tasks` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Get Story Task
+      operationId: GetStoryTask
       tags:
       - Story Tasks
       parameters:
@@ -453,6 +457,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Story Task
     put:
       summary: Updating an existing Story Task
       description: 'This endpoint returns structured Story Task objects.
@@ -462,7 +468,7 @@ paths:
         and will be indexed by ID in the `story_tasks` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Update Story Task
+      operationId: UpdateStoryTask
       tags:
       - Story Tasks
       parameters:
@@ -584,12 +590,14 @@ paths:
                       format: int32
                       description: The Story Task's position in the list of story tasks.
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Update Story Task
     delete:
       summary: Deleting an existing Story Task
       description: 'The response will contain no content and an HTTP 204 status code if the request was
 
         successful, or a standard Kantata OX error message explaining why the object could not be deleted.'
-      operationId: Delete Story Task
+      operationId: DeleteStoryTask
       tags:
       - Story Tasks
       parameters:
@@ -638,8 +646,17 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Delete Story Task
 components:
   schemas:
+    Error:
+      type: object
+      properties:
+        type:
+          type: string
+        message:
+          type: string
     Story:
       title: Story
       description: 'Stories (known as [tasks](https://knowledge.kantata.com/hc/en-us/articles/202806550-Tasks-Overview) in the UI)
@@ -976,13 +993,46 @@ components:
           items:
             type: string
           description: '`workspace_resources_with_unnamed_ids` will only be included in the response if `workspace_resources_with_unnamed` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-    Error:
+    Errors:
       type: object
       properties:
-        type:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+    StoryTask:
+      title: Story Task
+      description: A Story Task is a checklist item within a Story.
+      type: object
+      properties:
+        completed:
+          type: boolean
+          description: Represents the completion of the Story Task.
+        completed_at:
           type: string
-        message:
+          format: date-time
+          description: The time the Story Task was completed.
+        completed_by_id:
           type: string
+          description: '`completed_by_id` will only be included in the response if `completed_by` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        created_at:
+          type: string
+          format: date-time
+          description: The time the Story Task was created.
+        name:
+          type: string
+          description: The name of the Story Task.
+        position:
+          type: integer
+          format: int32
+          description: Represents the order of the Story Task in the list.
+        story_id:
+          type: string
+          description: '`story_id` will only be included in the response if `story` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        updated_at:
+          type: string
+          format: date-time
+          description: The time the Story Task was last updated.
     User:
       title: User
       description: 'Users represent the individuals that are participating in Kantata OX projects. User objects are often returned as
@@ -1077,46 +1127,6 @@ components:
           items:
             type: string
           description: '`work_sample_ids` will only be included in the response if `work_samples` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-    StoryTask:
-      title: Story Task
-      description: A Story Task is a checklist item within a Story.
-      type: object
-      properties:
-        completed:
-          type: boolean
-          description: Represents the completion of the Story Task.
-        completed_at:
-          type: string
-          format: date-time
-          description: The time the Story Task was completed.
-        completed_by_id:
-          type: string
-          description: '`completed_by_id` will only be included in the response if `completed_by` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        created_at:
-          type: string
-          format: date-time
-          description: The time the Story Task was created.
-        name:
-          type: string
-          description: The name of the Story Task.
-        position:
-          type: integer
-          format: int32
-          description: Represents the order of the Story Task in the list.
-        story_id:
-          type: string
-          description: '`story_id` will only be included in the response if `story` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        updated_at:
-          type: string
-          format: date-time
-          description: The time the Story Task was last updated.
-    Errors:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
   securitySchemes:
     BearerToken:
       type: apiKey

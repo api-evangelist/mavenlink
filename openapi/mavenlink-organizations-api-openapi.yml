@@ -33,7 +33,7 @@ paths:
         and will be indexed by ID in the `organizations` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Get Organizations
+      operationId: GetOrganizations
       tags:
       - Organizations
       parameters:
@@ -180,6 +180,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Organizations
     post:
       summary: Creating a new Organization
       description: 'Creates an organization.
@@ -227,7 +229,7 @@ paths:
         and will be indexed by ID in the `organizations` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Create Organization
+      operationId: CreateOrganization
       tags:
       - Organizations
       responses:
@@ -325,6 +327,8 @@ paths:
                   - name
                   - parent_id
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Create Organization
   /organizations/{id}:
     get:
       summary: Fetching a single Organization
@@ -335,7 +339,7 @@ paths:
         and will be indexed by ID in the `organizations` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Get Organization
+      operationId: GetOrganization
       tags:
       - Organizations
       parameters:
@@ -420,6 +424,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Organization
     put:
       summary: Updating an existing Organization
       description: 'This endpoint returns structured Organization objects.
@@ -429,7 +435,7 @@ paths:
         and will be indexed by ID in the `organizations` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Update Organization
+      operationId: UpdateOrganization
       tags:
       - Organizations
       parameters:
@@ -531,12 +537,14 @@ paths:
                       format: int32
                       description: The id of the parent organization being created.
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Update Organization
     delete:
       summary: Deleting an existing Organization
       description: 'The response will contain no content and an HTTP 204 status code if the request was
 
         successful, or a standard Kantata OX error message explaining why the object could not be deleted.'
-      operationId: Delete Organization
+      operationId: DeleteOrganization
       tags:
       - Organizations
       parameters:
@@ -585,6 +593,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Delete Organization
 components:
   schemas:
     Organization:

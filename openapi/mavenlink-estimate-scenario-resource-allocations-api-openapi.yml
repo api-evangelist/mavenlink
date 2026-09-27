@@ -33,7 +33,7 @@ paths:
         and will be indexed by ID in the `estimate_scenario_resource_allocations` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Update Estimate Scenario Resource Allocation
+      operationId: UpdateEstimateScenarioResourceAllocation
       tags:
       - Estimate Scenario Resource Allocations
       parameters:
@@ -153,38 +153,24 @@ paths:
 
                         will begin working on the project.'
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Update Estimate Scenario Resource Allocation
 components:
   schemas:
-    EstimateScenarioResourceAllocation:
-      title: Estimate Scenario Resource Allocation
-      description: 'Estimate Scenario Resource Allocations contain time-related data for scenario resources—used
-
-        for calculating estimated cost and scheduled hours.'
+    Error:
       type: object
       properties:
-        created_at:
+        type:
           type: string
-          format: date-time
-        duration_days:
-          type: integer
-          format: int32
-          description: The total number of business days an scenario resource is expected to work on the project.
-        percent_allocated:
-          type: number
-          format: float
-          description: The percentage of available hours the scenario resource will work on the project.
-        relative_start_day:
-          type: integer
-          format: int32
-          description: 'The number of business days, after the estimate scenario''s start date, that an scenario resource
-
-            will begin working on the project.'
-        resource_id:
+        message:
           type: string
-          description: '`resource_id` will only be included in the response if `resource` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        updated_at:
-          type: string
-          format: date-time
+    Errors:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
     EstimateScenarioResource:
       title: Estimate Scenario Resource
       description: An Estimate Scenario Resource is an unnamed resource in an estimate scenario.
@@ -248,20 +234,36 @@ components:
         user_id:
           type: string
           description: '`user_id` will only be included in the response if `user` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-    Errors:
+    EstimateScenarioResourceAllocation:
+      title: Estimate Scenario Resource Allocation
+      description: 'Estimate Scenario Resource Allocations contain time-related data for scenario resources—used
+
+        for calculating estimated cost and scheduled hours.'
       type: object
       properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
-    Error:
-      type: object
-      properties:
-        type:
+        created_at:
           type: string
-        message:
+          format: date-time
+        duration_days:
+          type: integer
+          format: int32
+          description: The total number of business days an scenario resource is expected to work on the project.
+        percent_allocated:
+          type: number
+          format: float
+          description: The percentage of available hours the scenario resource will work on the project.
+        relative_start_day:
+          type: integer
+          format: int32
+          description: 'The number of business days, after the estimate scenario''s start date, that an scenario resource
+
+            will begin working on the project.'
+        resource_id:
           type: string
+          description: '`resource_id` will only be included in the response if `resource` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        updated_at:
+          type: string
+          format: date-time
   securitySchemes:
     BearerToken:
       type: apiKey

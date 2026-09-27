@@ -31,7 +31,7 @@ paths:
         the user''s account.
 
         This endpoint is only accessible to users with Financial access (Project Lead or higher) on the account.'
-      operationId: Get Activation Status Rate Cards
+      operationId: GetActivationStatusRateCards
       tags:
       - Activations
       responses:
@@ -81,6 +81,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Activation Status Rate Cards
     post:
       summary: Activate Rate Cards
       description: 'Activate Rate Cards on a user''s account by submitting a rate card set version that belongs to
@@ -93,7 +95,7 @@ paths:
         Rate Card Set Version. This account default Rate Card Set will include a separate Rate Card for every currency
 
         used in projects on the user''s account.'
-      operationId: Activate Rate Cards
+      operationId: ActivateRateCards
       tags:
       - Activations
       parameters:
@@ -151,6 +153,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Activate Rate Cards
 components:
   schemas:
     Errors:

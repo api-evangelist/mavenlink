@@ -34,7 +34,7 @@ paths:
         and will be indexed by ID in the `custom_field_choices` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Get Custom Field Choices
+      operationId: GetCustomFieldChoices
       tags:
       - Custom Field Choices
       parameters:
@@ -255,8 +255,112 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Custom Field Choices
 components:
   schemas:
+    CustomFieldChoice:
+      title: Custom Field Choice
+      description: Custom Field Choices are possible values for `single` and `multi` type custom fields.
+      type: object
+      properties:
+        created_at:
+          type: string
+          format: date-time
+        custom_field_id:
+          type: string
+          description: '`custom_field_id` will only be included in the response if `custom_field` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        external_reference_ids:
+          type: array
+          items:
+            type: string
+          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        label:
+          type: string
+        position:
+          type: integer
+          format: int32
+        updated_at:
+          type: string
+          format: date-time
+    Error:
+      type: object
+      properties:
+        type:
+          type: string
+        message:
+          type: string
+    Errors:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+    CustomField:
+      title: Custom Field
+      description: 'The [Custom Fields](https://mavenlink.zendesk.com/hc/en-us/articles/202924760-Custom-Fields-Overview-#arrange) object allows you to
+
+        view, create, update, and delete extra fields for additional Estimate, Project, Group, Resource, Task, and User information.
+
+        If Custom Fields represent the fields themselves, [Custom Field Values](/tag/Custom-Field-Values)
+
+        represent the values in/of those fields.'
+      type: object
+      properties:
+        choice_ids:
+          type: array
+          items:
+            type: string
+          description: '`choice_ids` will only be included in the response if `choices` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        created_at:
+          type: string
+          format: date-time
+        creator_id:
+          type: string
+          description: '`creator_id` will only be included in the response if `creator` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        custom_field_set_id:
+          type: string
+          description: '`custom_field_set_id` will only be included in the response if `custom_field_set` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        default_text:
+          type: string
+          description: 'The message in an empty custom field, before a `string`, `date`, `number`, or `currency`  value is entered in.
+
+            This only appears in the UI.
+
+            Visible when whether the custom field is an input field..'
+        external_reference_ids:
+          type: array
+          items:
+            type: string
+          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        name:
+          type: string
+          description: The name of the custom field.
+        read_access:
+          type: integer
+          format: int32
+          description: "The `read_access` [permission setting on each custom field](https://mavenlink.zendesk.com/hc/en-us/articles/202924760#see)\ndetermines the minimum permission needed to view a custom field and its value.\n* `Workspace` (Project), `Resource`, and `Story` (Task) custom fields are project-specific objects,\nso their minimum permissions are set at the [project level](https://mavenlink.zendesk.com/hc/en-us/articles/115002779293-Project-Permissions):\n  - `project_collaboration` (default)\n  - `time_logging`\n  - `financial`\n  - `project_admin`\n\nMost account-level permissions supercede project-level permissions. Therefore, Account Administrators\nare able to view all Project, Resource, and Task custom fields and values across the account,\nregardless of project participation or `read_access` settings.\n* `Estimate`, `WorkspaceGroup` (Group), and `User` custom fields are account-wide objects,\nso their minimum permissions are set at the [account level](https://mavenlink.zendesk.com/hc/en-us/articles/203041364):\n  - `account_collaboration`\n  - `project_creator`\n  - `project_lead`\n  - `reports_viewer`\n  - `reports_viewer_with_cost`\n  - `account_admin` (default)."
+        unique_constraint:
+          type: boolean
+          description: 'Indicates whether a custom field value must be unique across Estimates, Projects, Groups, Resources, Tasks, or Users.
+
+            This is set to `false` by default.
+
+
+            Does not apply to Custom Fields with choices.
+
+            Visible when whether the custom field is an input field..'
+        updated_at:
+          type: string
+          format: date-time
+        value_type:
+          type: string
+          description: "The format of the [custom field's value](/tag/Custom-Field-Values):\n  | Value Type           | Format                                   | Sample         |\n  | -------------------- |:----------------------------------------:| --------------:|\n  | `string`             | `<text_string>`                          |        `\"foo\"` |\n  | `date`               | `<ISO_8601 Date Format>`                 | `\"2014-02-25\"` |\n  | `number`             | `<integer_value>`                        |           `13` |\n  | `currency`           | `[<int_value_in_cents>, <currency_code>]`| `[998, \"USD\"]` |\n  | `single` and `multi` | `[<choice_ids>]`                         |    `[1, 2, 4]` |\n\nThis is set to `string`, by default."
+        write_access:
+          type: integer
+          format: int32
+          description: The permission level required for a user to create, update, or delete a custom field's value.
     ExternalReference:
       title: External Reference
       description: 'External References allows users see which objects (one of `Assignment`, `BillingMilestone`, `CustomField`, `CustomFieldChoice`, `CustomFieldSet`, `CustomFieldValue`, `Estimate`, `EstimateScenario`, `EstimateScenarioResource`, `Expense`, `ExpenseBudget`, `Invoice`, `Participation`, `Post`, `RateCard`, `Role`, `Skill`, `StatusReport`, `Story`, `StoryAllocationDay`, `Submission`, `SurveyAnswer`, `SurveyQuestion`, `SurveyResponse`, `SurveyTemplate`, `TimeEntry`, `TimeOffEntry`, `User`, `Vendor`, `Workspace`, `WorkspaceAllocation`, `WorkspaceGroup`, or `WorkspaceResource`
@@ -331,108 +435,6 @@ components:
           type: string
           format: date-time
           description: The date and time the reference was last updated.
-    CustomField:
-      title: Custom Field
-      description: 'The [Custom Fields](https://mavenlink.zendesk.com/hc/en-us/articles/202924760-Custom-Fields-Overview-#arrange) object allows you to
-
-        view, create, update, and delete extra fields for additional Estimate, Project, Group, Resource, Task, and User information.
-
-        If Custom Fields represent the fields themselves, [Custom Field Values](/tag/Custom-Field-Values)
-
-        represent the values in/of those fields.'
-      type: object
-      properties:
-        choice_ids:
-          type: array
-          items:
-            type: string
-          description: '`choice_ids` will only be included in the response if `choices` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        created_at:
-          type: string
-          format: date-time
-        creator_id:
-          type: string
-          description: '`creator_id` will only be included in the response if `creator` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        custom_field_set_id:
-          type: string
-          description: '`custom_field_set_id` will only be included in the response if `custom_field_set` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        default_text:
-          type: string
-          description: 'The message in an empty custom field, before a `string`, `date`, `number`, or `currency`  value is entered in.
-
-            This only appears in the UI.
-
-            Visible when whether the custom field is an input field..'
-        external_reference_ids:
-          type: array
-          items:
-            type: string
-          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        name:
-          type: string
-          description: The name of the custom field.
-        read_access:
-          type: integer
-          format: int32
-          description: "The `read_access` [permission setting on each custom field](https://mavenlink.zendesk.com/hc/en-us/articles/202924760#see)\ndetermines the minimum permission needed to view a custom field and its value.\n* `Workspace` (Project), `Resource`, and `Story` (Task) custom fields are project-specific objects,\nso their minimum permissions are set at the [project level](https://mavenlink.zendesk.com/hc/en-us/articles/115002779293-Project-Permissions):\n  - `project_collaboration` (default)\n  - `time_logging`\n  - `financial`\n  - `project_admin`\n\nMost account-level permissions supercede project-level permissions. Therefore, Account Administrators\nare able to view all Project, Resource, and Task custom fields and values across the account,\nregardless of project participation or `read_access` settings.\n* `Estimate`, `WorkspaceGroup` (Group), and `User` custom fields are account-wide objects,\nso their minimum permissions are set at the [account level](https://mavenlink.zendesk.com/hc/en-us/articles/203041364):\n  - `account_collaboration`\n  - `project_creator`\n  - `project_lead`\n  - `reports_viewer`\n  - `reports_viewer_with_cost`\n  - `account_admin` (default)."
-        unique_constraint:
-          type: boolean
-          description: 'Indicates whether a custom field value must be unique across Estimates, Projects, Groups, Resources, Tasks, or Users.
-
-            This is set to `false` by default.
-
-
-            Does not apply to Custom Fields with choices.
-
-            Visible when whether the custom field is an input field..'
-        updated_at:
-          type: string
-          format: date-time
-        value_type:
-          type: string
-          description: "The format of the [custom field's value](/tag/Custom-Field-Values):\n  | Value Type           | Format                                   | Sample         |\n  | -------------------- |:----------------------------------------:| --------------:|\n  | `string`             | `<text_string>`                          |        `\"foo\"` |\n  | `date`               | `<ISO_8601 Date Format>`                 | `\"2014-02-25\"` |\n  | `number`             | `<integer_value>`                        |           `13` |\n  | `currency`           | `[<int_value_in_cents>, <currency_code>]`| `[998, \"USD\"]` |\n  | `single` and `multi` | `[<choice_ids>]`                         |    `[1, 2, 4]` |\n\nThis is set to `string`, by default."
-        write_access:
-          type: integer
-          format: int32
-          description: The permission level required for a user to create, update, or delete a custom field's value.
-    Error:
-      type: object
-      properties:
-        type:
-          type: string
-        message:
-          type: string
-    CustomFieldChoice:
-      title: Custom Field Choice
-      description: Custom Field Choices are possible values for `single` and `multi` type custom fields.
-      type: object
-      properties:
-        created_at:
-          type: string
-          format: date-time
-        custom_field_id:
-          type: string
-          description: '`custom_field_id` will only be included in the response if `custom_field` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        external_reference_ids:
-          type: array
-          items:
-            type: string
-          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        label:
-          type: string
-        position:
-          type: integer
-          format: int32
-        updated_at:
-          type: string
-          format: date-time
-    Errors:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
   securitySchemes:
     BearerToken:
       type: apiKey

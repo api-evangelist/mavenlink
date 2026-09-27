@@ -28,7 +28,7 @@ paths:
     get:
       summary: Get Scheduled Report Exports
       description: Returns a list of scheduled exports of classic Insights reports.
-      operationId: Get Scheduled Report Exports
+      operationId: GetScheduledReportExports
       tags:
       - Insights Report Exports
       responses:
@@ -116,10 +116,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Scheduled Report Exports
     post:
       summary: Create a new Scheduled Report Export
       description: Create a new scheduled job. Set a schedule for a classic Insights report to be exported from Kantata OX to download later. You will need to write a script to download the report.
-      operationId: Create Scheduled Report Export
+      operationId: CreateScheduledReportExport
       tags:
       - Insights Report Exports
       responses:
@@ -240,11 +242,13 @@ paths:
                   - external_report_object_identifier
                   - recurrence
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Create Scheduled Report Export
   /scheduled_jobs/insights_report_exports/{id}:
     get:
       summary: Get Scheduled Report Export
       description: Returns details for a single scheduled export of a classic Insights report.
-      operationId: Get Scheduled Report Export
+      operationId: GetScheduledReportExport
       tags:
       - Insights Report Exports
       parameters:
@@ -337,10 +341,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Scheduled Report Export
     put:
       summary: Update a Scheduled Report Export
       description: Make changes to an existing scheduled job.
-      operationId: Update Scheduled Report Export
+      operationId: UpdateScheduledReportExport
       tags:
       - Insights Report Exports
       parameters:
@@ -419,12 +425,14 @@ paths:
                       required:
                       - cadence
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Update Scheduled Report Export
     delete:
       summary: Delete an existing Scheduled Report Export
       description: 'The response will contain no content and an HTTP 204 status code if the request was
 
         successful, or a standard Kantata OX error message explaining why the object could not be deleted.'
-      operationId: Delete Scheduled Report Export
+      operationId: DeleteScheduledReportExport
       tags:
       - Insights Report Exports
       parameters:
@@ -473,6 +481,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Delete Scheduled Report Export
   /scheduled_jobs/insights_report_exports/{insights_report_export_id}/results/latest:
     get:
       summary: Get Latest Export
@@ -486,7 +496,7 @@ paths:
 
 
         Because exported reports can be up to 10 GB, reports are downloaded in a compressed format (.gz) and must be decompressed in order to access the CSV file.'
-      operationId: Get Latest Scheduled Report Export
+      operationId: GetLatestScheduledReportExport
       tags:
       - Insights Report Exports
       parameters:
@@ -551,6 +561,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Latest Scheduled Report Export
 components:
   schemas:
     Errors:

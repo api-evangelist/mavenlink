@@ -33,7 +33,7 @@ paths:
         and will be indexed by ID in the `project_template_additional_tabs` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Get Project Template Additional Tabs
+      operationId: GetProjectTemplateAdditionalTabs
       tags:
       - Project Template Additional Tabs
       parameters:
@@ -147,6 +147,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Project Template Additional Tabs
     post:
       summary: Creating a new Project Template Additional Tab
       description: 'Adds an additional tab to a project template.
@@ -159,7 +161,7 @@ paths:
         and will be indexed by ID in the `project_template_additional_tabs` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Create Project Template Additional Tab
+      operationId: CreateProjectTemplateAdditionalTab
       tags:
       - Project Template Additional Tabs
       responses:
@@ -262,13 +264,15 @@ paths:
                   - tab_type
                   - associated_tab_id
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Create Project Template Additional Tab
   /project_template_additional_tabs/{id}:
     delete:
       summary: Deleting an existing Project Template Additional Tab
       description: 'The response will contain no content and an HTTP 204 status code if the request was
 
         successful, or a standard Kantata OX error message explaining why the object could not be deleted.'
-      operationId: Delete Project Template Additional Tab
+      operationId: DeleteProjectTemplateAdditionalTab
       tags:
       - Project Template Additional Tabs
       parameters:
@@ -317,8 +321,17 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Delete Project Template Additional Tab
 components:
   schemas:
+    Errors:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
     ProjectTemplateAdditionalTab:
       title: Project Template Additional Tab
       description: Project Template Additional Tabs are additional tabs configured in a project template that are added to a project when the template is applied.
@@ -335,13 +348,6 @@ components:
         tab_type:
           type: string
           description: The type of additional project tab. Possible values are `form` and `dashboard` (i.e. an Insights dynamic dashboard).
-    Errors:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
     Error:
       type: object
       properties:

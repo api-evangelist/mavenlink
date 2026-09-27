@@ -31,7 +31,7 @@ paths:
         and will be indexed by ID in the `custom_task_statuses` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Get Custom Task Statuses
+      operationId: GetCustomTaskStatuses
       tags:
       - Task Statuses
       parameters:
@@ -141,6 +141,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Custom Task Statuses
     post:
       summary: Creating a new Custom Task Status
       description: 'Adds a new custom status to a task status set.
@@ -153,7 +155,7 @@ paths:
         and will be indexed by ID in the `custom_task_statuses` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Create Custom Task Status
+      operationId: CreateCustomTaskStatus
       tags:
       - Task Statuses
       parameters:
@@ -267,6 +269,8 @@ paths:
                   - category
                   - status_set_id
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Create Custom Task Status
   /custom_task_statuses/{id}:
     get:
       summary: Fetching a single Custom Task Status
@@ -277,7 +281,7 @@ paths:
         and will be indexed by ID in the `custom_task_statuses` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Get Custom Task Status
+      operationId: GetCustomTaskStatus
       tags:
       - Task Statuses
       parameters:
@@ -373,6 +377,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Custom Task Status
     put:
       summary: Updating an existing Custom Task Status
       description: 'Updates a custom task status. The name and position in the task status set can be updated. The status cannot be moved to a different status set and the category cannot be changed.
@@ -385,7 +391,7 @@ paths:
         and will be indexed by ID in the `custom_task_statuses` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Update Custom Task Status
+      operationId: UpdateCustomTaskStatus
       tags:
       - Task Statuses
       parameters:
@@ -498,6 +504,8 @@ paths:
                       format: int32
                       description: The order to place the custom task status within the set.
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Update Custom Task Status
     delete:
       summary: Deleting an existing Custom Task Status
       description: 'Deletes a custom task status within a task status set. If assigned to a task (story), the task’s `status` will default to the status type (category)—`not started`, `started`, `needs info`, or `completed`.
@@ -508,7 +516,7 @@ paths:
         The response will contain no content and an HTTP 204 status code if the request was
 
         successful, or a standard Kantata OX error message explaining why the object could not be deleted.'
-      operationId: Delete Custom Task Status
+      operationId: DeleteCustomTaskStatus
       tags:
       - Task Statuses
       parameters:
@@ -557,41 +565,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Delete Custom Task Status
 components:
   schemas:
-    Error:
-      type: object
-      properties:
-        type:
-          type: string
-        message:
-          type: string
-    Errors:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
-    StatusSet:
-      title: Task Status Set
-      description: Task Status Sets allow you to create custom statuses for tasks (stories) that can then be applied to projects (workspaces).
-      type: object
-      properties:
-        created_at:
-          type: string
-          format: date-time
-        custom_task_status_ids:
-          type: array
-          items:
-            type: string
-          description: '`custom_task_status_ids` will only be included in the response if `custom_task_statuses` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        name:
-          type: string
-          description: The name of this status set.
-        updated_at:
-          type: string
-          format: date-time
     StatusSetOption:
       title: Custom Task Status
       description: A custom task status is in a Task Status Set. A task status set is assigned to a workspace (project), then custom task statuses can be applied to the stories (tasks) within the workspace.
@@ -620,6 +597,39 @@ components:
         updated_at:
           type: string
           format: date-time
+    Errors:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+    StatusSet:
+      title: Task Status Set
+      description: Task Status Sets allow you to create custom statuses for tasks (stories) that can then be applied to projects (workspaces).
+      type: object
+      properties:
+        created_at:
+          type: string
+          format: date-time
+        custom_task_status_ids:
+          type: array
+          items:
+            type: string
+          description: '`custom_task_status_ids` will only be included in the response if `custom_task_statuses` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        name:
+          type: string
+          description: The name of this status set.
+        updated_at:
+          type: string
+          format: date-time
+    Error:
+      type: object
+      properties:
+        type:
+          type: string
+        message:
+          type: string
   securitySchemes:
     BearerToken:
       type: apiKey

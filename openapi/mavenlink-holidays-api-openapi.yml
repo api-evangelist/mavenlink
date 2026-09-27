@@ -31,7 +31,7 @@ paths:
         and will be indexed by ID in the `holidays` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Get Holidays
+      operationId: GetHolidays
       tags:
       - Holidays
       parameters:
@@ -169,6 +169,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Holidays
     post:
       summary: Creating a new Holiday
       description: 'This endpoint returns structured Holiday objects.
@@ -178,7 +180,7 @@ paths:
         and will be indexed by ID in the `holidays` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Create Holiday
+      operationId: CreateHoliday
       tags:
       - Holidays
       parameters:
@@ -310,6 +312,8 @@ paths:
                   - name
                   - start_date
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Create Holiday
   /holidays/{id}:
     get:
       summary: Fetching a single Holiday
@@ -320,7 +324,7 @@ paths:
         and will be indexed by ID in the `holidays` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Get Holiday
+      operationId: GetHoliday
       tags:
       - Holidays
       parameters:
@@ -425,6 +429,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Holiday
     put:
       summary: Updating an existing Holiday
       description: 'This endpoint returns structured Holiday objects.
@@ -434,7 +440,7 @@ paths:
         and will be indexed by ID in the `holidays` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Update Holiday
+      operationId: UpdateHoliday
       tags:
       - Holidays
       parameters:
@@ -572,12 +578,14 @@ paths:
                   - name
                   - start_date
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Update Holiday
     delete:
       summary: Deleting an existing Holiday
       description: 'The response will contain no content and an HTTP 204 status code if the request was
 
         successful, or a standard Kantata OX error message explaining why the object could not be deleted.'
-      operationId: Delete Holiday
+      operationId: DeleteHoliday
       tags:
       - Holidays
       parameters:
@@ -626,8 +634,38 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Delete Holiday
 components:
   schemas:
+    HolidayCalendarAssociation:
+      title: Holiday Calendar Association
+      description: 'A Holiday Calendar Association represents the relationship between Holiday objects and Holiday Calendar objects.
+
+        A Holiday can be associated with several different Holiday Calendars.
+
+        To associate a Holiday with a Holiday Calendar create a Holiday Calendar Assocation.'
+      type: object
+      properties:
+        holiday_calendar_id:
+          type: string
+          description: '`holiday_calendar_id` will only be included in the response if `holiday_calendar` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        holiday_calendar_name:
+          type: string
+          description: Returns the name of the associated Holiday Calendar.
+        holiday_id:
+          type: string
+          description: '`holiday_id` will only be included in the response if `holiday` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        holiday_name:
+          type: string
+          description: Returns the name of the associated Holiday.
+    Errors:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
     Holiday:
       title: Holiday
       description: A holiday is a day (or range of days) representing company-wide time off. Holidays are associated with a calendar for scheduling purposes.".
@@ -661,34 +699,6 @@ components:
           type: integer
           format: int32
           description: The number of workweek hours that the holiday includes.
-    HolidayCalendarAssociation:
-      title: Holiday Calendar Association
-      description: 'A Holiday Calendar Association represents the relationship between Holiday objects and Holiday Calendar objects.
-
-        A Holiday can be associated with several different Holiday Calendars.
-
-        To associate a Holiday with a Holiday Calendar create a Holiday Calendar Assocation.'
-      type: object
-      properties:
-        holiday_calendar_id:
-          type: string
-          description: '`holiday_calendar_id` will only be included in the response if `holiday_calendar` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        holiday_calendar_name:
-          type: string
-          description: Returns the name of the associated Holiday Calendar.
-        holiday_id:
-          type: string
-          description: '`holiday_id` will only be included in the response if `holiday` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        holiday_name:
-          type: string
-          description: Returns the name of the associated Holiday.
-    Errors:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
     Error:
       type: object
       properties:

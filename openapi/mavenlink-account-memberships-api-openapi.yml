@@ -42,7 +42,7 @@ paths:
         and will be indexed by ID in the `account_memberships` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Get Account Memberships
+      operationId: GetAccountMemberships
       tags:
       - Account Memberships
       parameters:
@@ -299,6 +299,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Account Memberships
   /account_memberships/{id}:
     get:
       summary: Fetching a single Account Membership
@@ -309,7 +311,7 @@ paths:
         and will be indexed by ID in the `account_memberships` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Get Account Membership
+      operationId: GetAccountMembership
       tags:
       - Account Memberships
       parameters:
@@ -459,6 +461,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Account Membership
     put:
       summary: Updating an existing Account Membership
       description: 'This endpoint returns structured Account Membership objects.
@@ -468,7 +472,7 @@ paths:
         and will be indexed by ID in the `account_memberships` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Update Account Membership
+      operationId: UpdateAccountMembership
       tags:
       - Account Memberships
       parameters:
@@ -672,6 +676,8 @@ paths:
                       type: boolean
                       description: If true, the user is required to submit timesheets equal to or less than their workweek hours.
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Update Account Membership
     delete:
       summary: Remove a user from an account
       description: 'This removes the member from your account and places them on a separate Kantata OX account. It is important
@@ -694,7 +700,7 @@ paths:
         The response will contain no content and an HTTP 204 status code if the request was
 
         successful, or a standard Kantata OX error message explaining why the object could not be deleted.'
-      operationId: Delete Account Membership
+      operationId: DeleteAccountMembership
       tags:
       - Account Memberships
       parameters:
@@ -743,6 +749,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Delete Account Membership
   /account_memberships/{id}/disable:
     put:
       summary: Make a user inactive
@@ -756,7 +764,7 @@ paths:
         and will be indexed by ID in the `account_memberships` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Deactivate Account Membership
+      operationId: DeactivateAccountMembership
       tags:
       - Account Memberships
       parameters:
@@ -906,6 +914,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Deactivate Account Membership
   /account_memberships/{id}/enable:
     put:
       summary: Make a user active
@@ -919,7 +929,7 @@ paths:
         and will be indexed by ID in the `account_memberships` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Activate Account Membership
+      operationId: ActivateAccountMembership
       tags:
       - Account Memberships
       parameters:
@@ -1069,33 +1079,132 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Activate Account Membership
 components:
   schemas:
-    Role:
-      title: Role
-      description: 'A Role represents the main position or title assigned to members on an account. Roles may be associated with account memberships, account invitations,
+    CostRate:
+      title: Cost Rate
+      description: 'A Cost Rate represents the hourly cost of an account member, specified in a specific currency. A Cost Rate with the same currency
 
-        participation, project template assignments, rate card roles, rate card versions, resources, or time adjustments.'
+        as the account default currency is called the `default cost rate`. This data can only be accessed by including
+
+        it when querying Account Membership.'
       type: object
       properties:
+        account_membership_id:
+          type: integer
+          format: int32
+          description: The ID of the associated account membership.
+        amount_in_subunits:
+          type: integer
+          format: int32
+          description: The amount of the cost rate in the subunits of the currency (i.e. cents for US Dollars).
         created_at:
           type: string
           format: date-time
-        deleted_at:
+        currency:
           type: string
-          format: date-time
-          description: The time the role was deleted.
-        external_reference_ids:
-          type: array
-          items:
-            type: string
-          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        name:
-          type: string
-          description: The name of the role.
+          description: The ISO code of the cost rate currency.
+        in_use:
+          type: boolean
+          description: 'Indicates whether the account member associated with the cost rate is participating in a workspace
+
+            on the account that uses the same currency as the cost rate.'
         updated_at:
           type: string
           format: date-time
+    BillableUtilization:
+      title: Billable Utilization
+      description: Represents the billable utilization target for an account member. Each record has an effective date; the active billable utilization is the one with the most recent effective date.
+      type: object
+      properties:
+        account_membership_id:
+          type: string
+          description: '`account_membership_id` will only be included in the response if `account_membership` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        created_at:
+          type: string
+          format: date-time
+        creator_id:
+          type: string
+          description: '`creator_id` will only be included in the response if `creator` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        effective_date:
+          type: string
+          format: date
+          description: Date this billable utilization becomes active and the target goes into effect. Targets go into effect on midnight of the date selected (based on the Time Zone set in the Profile of the member).
+        target:
+          type: integer
+          format: int32
+          description: Percentage of logged hours that should be billable.
+        updated_at:
+          type: string
+          format: date-time
+    BackupApproverAssociation:
+      title: Backup Approver Association
+      description: 'Backup Approver Associations describe when a backup approver will be active, or responsible
+
+        for approving time.'
+      type: object
+      properties:
+        approver_id:
+          type: string
+          description: '`approver_id` will only be included in the response if `approver` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        backup_approver_id:
+          type: string
+          description: '`backup_approver_id` will only be included in the response if `backup_approver` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        end_date:
+          type: string
+          format: date-time
+          description: The backup approver end date.
+        start_date:
+          type: string
+          format: date-time
+          description: The backup approver start date.
+    Error:
+      type: object
+      properties:
+        type:
+          type: string
+        message:
+          type: string
+    SkillMembership:
+      title: Skill Membership
+      description: A Skill Membership represents a skill that has been assigned to a specified user.
+      type: object
+      properties:
+        cached_skill_name:
+          type: string
+          description: The name of the skill.
+        created_at:
+          type: string
+          format: date-time
+        creator_id:
+          type: string
+          description: '`creator_id` will only be included in the response if `creator` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        level:
+          type: integer
+          format: int32
+          description: The objects proficiency level for the skill (1-5).
+        max_level:
+          type: integer
+          format: int32
+          description: The maximum level assigned for the skill.
+        skill_id:
+          type: string
+          description: '`skill_id` will only be included in the response if `skill` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        updated_at:
+          type: string
+          format: date-time
+        user_id:
+          type: string
+          description: '`user_id` will only be included in the response if `user` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+    Errors:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
     Workweek:
       title: Workweek
       description: 'Workweeks are owned by an account. A workweek can be used as the account default, or
@@ -1159,166 +1268,6 @@ components:
           items:
             type: string
           description: '`workweek_membership_ids` will only be included in the response if `workweek_memberships` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-    CostRate:
-      title: Cost Rate
-      description: 'A Cost Rate represents the hourly cost of an account member, specified in a specific currency. A Cost Rate with the same currency
-
-        as the account default currency is called the `default cost rate`. This data can only be accessed by including
-
-        it when querying Account Membership.'
-      type: object
-      properties:
-        account_membership_id:
-          type: integer
-          format: int32
-          description: The ID of the associated account membership.
-        amount_in_subunits:
-          type: integer
-          format: int32
-          description: The amount of the cost rate in the subunits of the currency (i.e. cents for US Dollars).
-        created_at:
-          type: string
-          format: date-time
-        currency:
-          type: string
-          description: The ISO code of the cost rate currency.
-        in_use:
-          type: boolean
-          description: 'Indicates whether the account member associated with the cost rate is participating in a workspace
-
-            on the account that uses the same currency as the cost rate.'
-        updated_at:
-          type: string
-          format: date-time
-    Error:
-      type: object
-      properties:
-        type:
-          type: string
-        message:
-          type: string
-    BackupApproverAssociation:
-      title: Backup Approver Association
-      description: 'Backup Approver Associations describe when a backup approver will be active, or responsible
-
-        for approving time.'
-      type: object
-      properties:
-        approver_id:
-          type: string
-          description: '`approver_id` will only be included in the response if `approver` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        backup_approver_id:
-          type: string
-          description: '`backup_approver_id` will only be included in the response if `backup_approver` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        end_date:
-          type: string
-          format: date-time
-          description: The backup approver end date.
-        start_date:
-          type: string
-          format: date-time
-          description: The backup approver start date.
-    User:
-      title: User
-      description: 'Users represent the individuals that are participating in Kantata OX projects. User objects are often returned as
-
-        nested JSON objects within other returned items such as Posts or Stories.'
-      type: object
-      properties:
-        abbreviated_timezone:
-          type: string
-          description: 'The abbreviation for the user''s time zone.
-
-            Only returned when requested through the optional_fields param.'
-        account_membership_id:
-          type: string
-          description: '`account_membership_id` will only be included in the response if `account_membership` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        bio:
-          type: string
-          description: 'A biography (defined by the user).
-
-            Only returned when requested through the optional_fields param.'
-        city:
-          type: string
-          description: 'The home city of the user (based on their profile).
-
-            Only returned when requested through the optional_fields param.'
-        classification:
-          type: string
-          description: 'Indicates whether a user is Internal or External.
-
-            Only returned when requested through the optional_fields param.'
-        country:
-          type: string
-          description: 'The home country of the user (based on their profile).
-
-            Only returned when requested through the optional_fields param.'
-        custom_field_value_ids:
-          type: array
-          items:
-            type: string
-          description: '`custom_field_value_ids` will only be included in the response if `custom_field_values` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        email_address:
-          type: string
-          description: The email address of the user.
-        external_reference_ids:
-          type: array
-          items:
-            type: string
-          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        full_name:
-          type: string
-          description: The full name of the user.
-        headline:
-          type: string
-          description: A short description of the user.
-        last_site_activity:
-          type: string
-          format: date-time
-          description: 'The last time a user logged in. This field is only available in conjunction with the `on_my_account` filter option. Only visible when the API user is an Account Administrator.
-
-            Only returned when requested through the optional_fields param.'
-        manager_id:
-          type: string
-          description: '`manager_id` will only be included in the response if `manager` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        photo_path:
-          type: string
-          description: The URL of the user's profile photo.
-        role_id:
-          type: string
-          description: '`role_id` will only be included in the response if `role` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        skill_ids:
-          type: array
-          items:
-            type: string
-          description: '`skill_ids` will only be included in the response if `skills` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        skill_membership_ids:
-          type: array
-          items:
-            type: string
-          description: '`skill_membership_ids` will only be included in the response if `skill_memberships` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        state:
-          type: string
-          description: 'The home state of the user (based on their profile).
-
-            Only returned when requested through the optional_fields param.'
-        website:
-          type: string
-          description: 'A website (defined by the user).
-
-            Only returned when requested through the optional_fields param.'
-        work_sample_ids:
-          type: array
-          items:
-            type: string
-          description: '`work_sample_ids` will only be included in the response if `work_samples` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-    Errors:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
     AccountMembership:
       title: Account Membership
       description: An Account Membership represents the relationship of a user to an account.
@@ -1457,62 +1406,125 @@ components:
         user_id:
           type: string
           description: '`user_id` will only be included in the response if `user` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-    BillableUtilization:
-      title: Billable Utilization
-      description: Represents the billable utilization target for an account member. Each record has an effective date; the active billable utilization is the one with the most recent effective date.
+    User:
+      title: User
+      description: 'Users represent the individuals that are participating in Kantata OX projects. User objects are often returned as
+
+        nested JSON objects within other returned items such as Posts or Stories.'
       type: object
       properties:
+        abbreviated_timezone:
+          type: string
+          description: 'The abbreviation for the user''s time zone.
+
+            Only returned when requested through the optional_fields param.'
         account_membership_id:
           type: string
           description: '`account_membership_id` will only be included in the response if `account_membership` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        created_at:
+        bio:
+          type: string
+          description: 'A biography (defined by the user).
+
+            Only returned when requested through the optional_fields param.'
+        city:
+          type: string
+          description: 'The home city of the user (based on their profile).
+
+            Only returned when requested through the optional_fields param.'
+        classification:
+          type: string
+          description: 'Indicates whether a user is Internal or External.
+
+            Only returned when requested through the optional_fields param.'
+        country:
+          type: string
+          description: 'The home country of the user (based on their profile).
+
+            Only returned when requested through the optional_fields param.'
+        custom_field_value_ids:
+          type: array
+          items:
+            type: string
+          description: '`custom_field_value_ids` will only be included in the response if `custom_field_values` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        email_address:
+          type: string
+          description: The email address of the user.
+        external_reference_ids:
+          type: array
+          items:
+            type: string
+          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        full_name:
+          type: string
+          description: The full name of the user.
+        headline:
+          type: string
+          description: A short description of the user.
+        last_site_activity:
           type: string
           format: date-time
-        creator_id:
+          description: 'The last time a user logged in. This field is only available in conjunction with the `on_my_account` filter option. Only visible when the API user is an Account Administrator.
+
+            Only returned when requested through the optional_fields param.'
+        manager_id:
           type: string
-          description: '`creator_id` will only be included in the response if `creator` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        effective_date:
+          description: '`manager_id` will only be included in the response if `manager` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        photo_path:
           type: string
-          format: date
-          description: Date this billable utilization becomes active and the target goes into effect. Targets go into effect on midnight of the date selected (based on the Time Zone set in the Profile of the member).
-        target:
-          type: integer
-          format: int32
-          description: Percentage of logged hours that should be billable.
-        updated_at:
+          description: The URL of the user's profile photo.
+        role_id:
           type: string
-          format: date-time
-    SkillMembership:
-      title: Skill Membership
-      description: A Skill Membership represents a skill that has been assigned to a specified user.
+          description: '`role_id` will only be included in the response if `role` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        skill_ids:
+          type: array
+          items:
+            type: string
+          description: '`skill_ids` will only be included in the response if `skills` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        skill_membership_ids:
+          type: array
+          items:
+            type: string
+          description: '`skill_membership_ids` will only be included in the response if `skill_memberships` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        state:
+          type: string
+          description: 'The home state of the user (based on their profile).
+
+            Only returned when requested through the optional_fields param.'
+        website:
+          type: string
+          description: 'A website (defined by the user).
+
+            Only returned when requested through the optional_fields param.'
+        work_sample_ids:
+          type: array
+          items:
+            type: string
+          description: '`work_sample_ids` will only be included in the response if `work_samples` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+    Role:
+      title: Role
+      description: 'A Role represents the main position or title assigned to members on an account. Roles may be associated with account memberships, account invitations,
+
+        participation, project template assignments, rate card roles, rate card versions, resources, or time adjustments.'
       type: object
       properties:
-        cached_skill_name:
-          type: string
-          description: The name of the skill.
         created_at:
           type: string
           format: date-time
-        creator_id:
+        deleted_at:
           type: string
-          description: '`creator_id` will only be included in the response if `creator` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        level:
-          type: integer
-          format: int32
-          description: The objects proficiency level for the skill (1-5).
-        max_level:
-          type: integer
-          format: int32
-          description: The maximum level assigned for the skill.
-        skill_id:
+          format: date-time
+          description: The time the role was deleted.
+        external_reference_ids:
+          type: array
+          items:
+            type: string
+          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        name:
           type: string
-          description: '`skill_id` will only be included in the response if `skill` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+          description: The name of the role.
         updated_at:
           type: string
           format: date-time
-        user_id:
-          type: string
-          description: '`user_id` will only be included in the response if `user` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
   securitySchemes:
     BearerToken:
       type: apiKey

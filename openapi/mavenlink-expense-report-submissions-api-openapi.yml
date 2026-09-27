@@ -40,7 +40,7 @@ paths:
         and will be indexed by ID in the `expense_report_submissions` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Get Expense Report Submissions
+      operationId: GetExpenseReportSubmissions
       tags:
       - Expense Report Submissions
       parameters:
@@ -293,6 +293,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Expense Report Submissions
     post:
       summary: Creating a new Expense Report Submission
       description: 'This endpoint returns structured Expense Report Submission objects.
@@ -302,7 +304,7 @@ paths:
         and will be indexed by ID in the `expense_report_submissions` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Create Expense Report Submission
+      operationId: CreateExpenseReportSubmission
       tags:
       - Expense Report Submissions
       parameters:
@@ -486,6 +488,8 @@ paths:
                   - title
                   - workspace_id
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Create Expense Report Submission
   /expense_report_submissions/{id}:
     get:
       summary: Fetching a single Expense Report Submission
@@ -496,7 +500,7 @@ paths:
         and will be indexed by ID in the `expense_report_submissions` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Get Expense Report Submission
+      operationId: GetExpenseReportSubmission
       tags:
       - Expense Report Submissions
       parameters:
@@ -616,6 +620,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Expense Report Submission
   /expense_report_submissions/{id}/approve:
     put:
       summary: Approve an Expense Report Submission
@@ -629,7 +635,7 @@ paths:
         and will be indexed by ID in the `expense_report_submissions` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Approve Expense Report Submission
+      operationId: ApproveExpenseReportSubmission
       tags:
       - Expense Report Submissions
       parameters:
@@ -762,6 +768,8 @@ paths:
                       type: string
                       description: Any additional details about the resolution can be added in the description.
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Approve Expense Report Submission
   /expense_report_submissions/{id}/cancel:
     put:
       summary: Cancel an Expense Report Submission
@@ -775,7 +783,7 @@ paths:
         and will be indexed by ID in the `expense_report_submissions` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Cancel Expense Report Submission
+      operationId: CancelExpenseReportSubmission
       tags:
       - Expense Report Submissions
       parameters:
@@ -908,6 +916,8 @@ paths:
                       type: string
                       description: Any additional details about the resolution can be added in the description.
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Cancel Expense Report Submission
   /expense_report_submissions/{id}/reject:
     put:
       summary: Reject an Expense Report Submission
@@ -921,7 +931,7 @@ paths:
         and will be indexed by ID in the `expense_report_submissions` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Reject Expense Report Submission
+      operationId: RejectExpenseReportSubmission
       tags:
       - Expense Report Submissions
       parameters:
@@ -1054,205 +1064,10 @@ paths:
                       type: string
                       description: Any additional details about the resolution can be added in the description.
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Reject Expense Report Submission
 components:
   schemas:
-    ExternalReference:
-      title: External Reference
-      description: 'External References allows users see which objects (one of `Assignment`, `BillingMilestone`, `CustomField`, `CustomFieldChoice`, `CustomFieldSet`, `CustomFieldValue`, `Estimate`, `EstimateScenario`, `EstimateScenarioResource`, `Expense`, `ExpenseBudget`, `Invoice`, `Participation`, `Post`, `RateCard`, `Role`, `Skill`, `StatusReport`, `Story`, `StoryAllocationDay`, `Submission`, `SurveyAnswer`, `SurveyQuestion`, `SurveyResponse`, `SurveyTemplate`, `TimeEntry`, `TimeOffEntry`, `User`, `Vendor`, `Workspace`, `WorkspaceAllocation`, `WorkspaceGroup`, or `WorkspaceResource`
-
-        are synced with third party systems. This allows you to view the sync status of items in addition to the integration
-
-        specifics for a synced object.
-
-
-        Objects that are synced with a third party system have external integration
-
-        attributes that include the corresponding ID of the third party object with
-
-        which it is synced, a link that allows you to view the object in the third
-
-        party system, the status of the external object in the external system,
-
-        the status of the sync, and a link to exceptions.'
-      type: object
-      properties:
-        created_at:
-          type: string
-          format: date-time
-          description: The date and time the reference was created.
-        external_link:
-          type: string
-          description: A URL that links to either the external object or event.
-        external_message:
-          type: string
-          description: An optional message about the external object.
-        external_status:
-          type: string
-          description: The status of the external object in the external system.
-        last_synced_at:
-          type: string
-          format: date-time
-        locked:
-          type: boolean
-          description: 'An optional field, indicating whether the subject should be locked. To prevent changes to the
-
-            object in Kantata OX, set this to true. This currently only applies to expense report rejections.'
-        service_model:
-          type: string
-          description: The type of the external object to which this reference belongs.
-        service_model_ref:
-          type: string
-          description: The ID of the external object to which this reference belongs.
-        service_name:
-          type: string
-          description: The provider name of the integration.
-        status:
-          type: string
-          description: The status of the integration. Options are 'pending', 'successful', or 'failed'.
-        subject_id:
-          type: integer
-          format: int32
-          description: The ID of the Kantata OX object to which this external reference belongs.
-        subject_ref:
-          type: object
-          description: '`subject_ref` will only be included in the response if `subject` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-          properties:
-            key:
-              type: string
-            id:
-              type: string
-        subject_type:
-          type: string
-          description: 'The type of Kantata OX object to which this external reference belongs.
-
-            One of `Assignment`, `BillingMilestone`, `CustomField`, `CustomFieldChoice`, `CustomFieldSet`, `CustomFieldValue`, `Estimate`, `EstimateScenario`, `EstimateScenarioResource`, `Expense`, `ExpenseBudget`, `Invoice`, `Participation`, `Post`, `RateCard`, `Role`, `Skill`, `StatusReport`, `Story`, `StoryAllocationDay`, `Submission`, `SurveyAnswer`, `SurveyQuestion`, `SurveyResponse`, `SurveyTemplate`, `TimeEntry`, `TimeOffEntry`, `User`, `Vendor`, `Workspace`, `WorkspaceAllocation`, `WorkspaceGroup`, or `WorkspaceResource`.'
-        updated_at:
-          type: string
-          format: date-time
-          description: The date and time the reference was last updated.
-    ExpenseReportSubmission:
-      title: Expense Report Submission
-      description: "Expense report submissions contain a set of expense line items. These expenses must be approved through\nan expense report submission before they can be added to an invoice. All submission expenses must be in the \nsame workspace (project)."
-      type: object
-      properties:
-        comment:
-          type: string
-          description: Additional comments on the submission.
-        created_at:
-          type: string
-          format: date-time
-          description: The date and time that the submission was created.
-        currency:
-          type: string
-          description: The currency of the submission.
-        currency_base_unit:
-          type: integer
-          format: int32
-          description: The base unit of the submission's currency.
-        currency_symbol:
-          type: string
-          description: The symbol of the submission's currency.
-        current_resolution_created_at_date:
-          type: string
-          format: date-time
-          description: The date and time that the submission's current resolution was created.
-        current_resolution_creator_id:
-          type: integer
-          format: int32
-          description: The creator id on the submission's current resolution.
-        current_resolution_description:
-          type: string
-          description: The description on the submission's current resolution.
-        expense_ids:
-          type: array
-          items:
-            type: string
-          description: '`expense_ids` will only be included in the response if `expenses` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        external_reference_ids:
-          type: array
-          items:
-            type: string
-          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        line_item_total_formatted:
-          type: string
-          description: A formatted total of the line items (time entries or expenses) on the submission.
-        line_item_total_in_cents:
-          type: integer
-          format: int32
-          description: A total in cents of the line items (time entries or expenses) on the submission.
-        locked:
-          type: boolean
-          description: Whether or not the submission can be changed.
-        permissions:
-          type: object
-          properties:
-            can_cancel_submission:
-              type: boolean
-              description: Can the current user cancel the submission.
-            can_approve_submission:
-              type: boolean
-              description: Can the current user approve the submission.
-            can_reject_submission:
-              type: boolean
-              description: Can the current user reject the submission.
-            can_resubmit_submission:
-              type: boolean
-              description: Can the current user resubmit the submission.
-        resolution_description:
-          type: string
-          description: The description on the submission's current resolution.
-        resolution_ids:
-          type: array
-          items:
-            type: string
-          description: '`resolution_ids` will only be included in the response if `resolutions` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        status:
-          type: string
-          description: The current status of the submission ('approved', 'rejected', 'cancelled', 'pending').
-        title:
-          type: string
-          description: The title of the submission.
-        type:
-          type: string
-          description: Either an ExpenseReportSubmission or a TimesheetSubmission.
-        updated_at:
-          type: string
-          format: date-time
-          description: The date and time that the submission was last updated.
-        user_id:
-          type: string
-          description: '`user_id` will only be included in the response if `user` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        workspace_id:
-          type: string
-          description: '`workspace_id` will only be included in the response if `workspace` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-    Resolution:
-      title: Resolution
-      description: "A resolution is a submission approval, rejection, or cancelation. This can be for an expense report \nsubmission or a timesheet submission."
-      type: object
-      properties:
-        created_at:
-          type: string
-          format: date-time
-        description:
-          type: string
-          description: Additional resolution details.
-        target_id:
-          type: integer
-          format: int32
-          description: The id of the associated submission.
-        target_type:
-          type: string
-          description: Whether the resolution is for a timesheet submission or an expense report submission.
-        type:
-          type: string
-          description: The resolution type, either approval, rejection, or cancellation.
-        updated_at:
-          type: string
-          format: date-time
-        user_id:
-          type: integer
-          format: int32
-          description: The id of the user who created the resolution.
     Workspace:
       title: Workspace
       description: Workspaces (also called projects) represent the space in which Kantata OX users plan, communicate, and collaborate.
@@ -1837,6 +1652,136 @@ components:
           type: string
         message:
           type: string
+    Errors:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+    Resolution:
+      title: Resolution
+      description: "A resolution is a submission approval, rejection, or cancelation. This can be for an expense report \nsubmission or a timesheet submission."
+      type: object
+      properties:
+        created_at:
+          type: string
+          format: date-time
+        description:
+          type: string
+          description: Additional resolution details.
+        target_id:
+          type: integer
+          format: int32
+          description: The id of the associated submission.
+        target_type:
+          type: string
+          description: Whether the resolution is for a timesheet submission or an expense report submission.
+        type:
+          type: string
+          description: The resolution type, either approval, rejection, or cancellation.
+        updated_at:
+          type: string
+          format: date-time
+        user_id:
+          type: integer
+          format: int32
+          description: The id of the user who created the resolution.
+    ExpenseReportSubmission:
+      title: Expense Report Submission
+      description: "Expense report submissions contain a set of expense line items. These expenses must be approved through\nan expense report submission before they can be added to an invoice. All submission expenses must be in the \nsame workspace (project)."
+      type: object
+      properties:
+        comment:
+          type: string
+          description: Additional comments on the submission.
+        created_at:
+          type: string
+          format: date-time
+          description: The date and time that the submission was created.
+        currency:
+          type: string
+          description: The currency of the submission.
+        currency_base_unit:
+          type: integer
+          format: int32
+          description: The base unit of the submission's currency.
+        currency_symbol:
+          type: string
+          description: The symbol of the submission's currency.
+        current_resolution_created_at_date:
+          type: string
+          format: date-time
+          description: The date and time that the submission's current resolution was created.
+        current_resolution_creator_id:
+          type: integer
+          format: int32
+          description: The creator id on the submission's current resolution.
+        current_resolution_description:
+          type: string
+          description: The description on the submission's current resolution.
+        expense_ids:
+          type: array
+          items:
+            type: string
+          description: '`expense_ids` will only be included in the response if `expenses` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        external_reference_ids:
+          type: array
+          items:
+            type: string
+          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        line_item_total_formatted:
+          type: string
+          description: A formatted total of the line items (time entries or expenses) on the submission.
+        line_item_total_in_cents:
+          type: integer
+          format: int32
+          description: A total in cents of the line items (time entries or expenses) on the submission.
+        locked:
+          type: boolean
+          description: Whether or not the submission can be changed.
+        permissions:
+          type: object
+          properties:
+            can_cancel_submission:
+              type: boolean
+              description: Can the current user cancel the submission.
+            can_approve_submission:
+              type: boolean
+              description: Can the current user approve the submission.
+            can_reject_submission:
+              type: boolean
+              description: Can the current user reject the submission.
+            can_resubmit_submission:
+              type: boolean
+              description: Can the current user resubmit the submission.
+        resolution_description:
+          type: string
+          description: The description on the submission's current resolution.
+        resolution_ids:
+          type: array
+          items:
+            type: string
+          description: '`resolution_ids` will only be included in the response if `resolutions` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        status:
+          type: string
+          description: The current status of the submission ('approved', 'rejected', 'cancelled', 'pending').
+        title:
+          type: string
+          description: The title of the submission.
+        type:
+          type: string
+          description: Either an ExpenseReportSubmission or a TimesheetSubmission.
+        updated_at:
+          type: string
+          format: date-time
+          description: The date and time that the submission was last updated.
+        user_id:
+          type: string
+          description: '`user_id` will only be included in the response if `user` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        workspace_id:
+          type: string
+          description: '`workspace_id` will only be included in the response if `workspace` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
     User:
       title: User
       description: 'Users represent the individuals that are participating in Kantata OX projects. User objects are often returned as
@@ -1931,13 +1876,80 @@ components:
           items:
             type: string
           description: '`work_sample_ids` will only be included in the response if `work_samples` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-    Errors:
+    ExternalReference:
+      title: External Reference
+      description: 'External References allows users see which objects (one of `Assignment`, `BillingMilestone`, `CustomField`, `CustomFieldChoice`, `CustomFieldSet`, `CustomFieldValue`, `Estimate`, `EstimateScenario`, `EstimateScenarioResource`, `Expense`, `ExpenseBudget`, `Invoice`, `Participation`, `Post`, `RateCard`, `Role`, `Skill`, `StatusReport`, `Story`, `StoryAllocationDay`, `Submission`, `SurveyAnswer`, `SurveyQuestion`, `SurveyResponse`, `SurveyTemplate`, `TimeEntry`, `TimeOffEntry`, `User`, `Vendor`, `Workspace`, `WorkspaceAllocation`, `WorkspaceGroup`, or `WorkspaceResource`
+
+        are synced with third party systems. This allows you to view the sync status of items in addition to the integration
+
+        specifics for a synced object.
+
+
+        Objects that are synced with a third party system have external integration
+
+        attributes that include the corresponding ID of the third party object with
+
+        which it is synced, a link that allows you to view the object in the third
+
+        party system, the status of the external object in the external system,
+
+        the status of the sync, and a link to exceptions.'
       type: object
       properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
+        created_at:
+          type: string
+          format: date-time
+          description: The date and time the reference was created.
+        external_link:
+          type: string
+          description: A URL that links to either the external object or event.
+        external_message:
+          type: string
+          description: An optional message about the external object.
+        external_status:
+          type: string
+          description: The status of the external object in the external system.
+        last_synced_at:
+          type: string
+          format: date-time
+        locked:
+          type: boolean
+          description: 'An optional field, indicating whether the subject should be locked. To prevent changes to the
+
+            object in Kantata OX, set this to true. This currently only applies to expense report rejections.'
+        service_model:
+          type: string
+          description: The type of the external object to which this reference belongs.
+        service_model_ref:
+          type: string
+          description: The ID of the external object to which this reference belongs.
+        service_name:
+          type: string
+          description: The provider name of the integration.
+        status:
+          type: string
+          description: The status of the integration. Options are 'pending', 'successful', or 'failed'.
+        subject_id:
+          type: integer
+          format: int32
+          description: The ID of the Kantata OX object to which this external reference belongs.
+        subject_ref:
+          type: object
+          description: '`subject_ref` will only be included in the response if `subject` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+          properties:
+            key:
+              type: string
+            id:
+              type: string
+        subject_type:
+          type: string
+          description: 'The type of Kantata OX object to which this external reference belongs.
+
+            One of `Assignment`, `BillingMilestone`, `CustomField`, `CustomFieldChoice`, `CustomFieldSet`, `CustomFieldValue`, `Estimate`, `EstimateScenario`, `EstimateScenarioResource`, `Expense`, `ExpenseBudget`, `Invoice`, `Participation`, `Post`, `RateCard`, `Role`, `Skill`, `StatusReport`, `Story`, `StoryAllocationDay`, `Submission`, `SurveyAnswer`, `SurveyQuestion`, `SurveyResponse`, `SurveyTemplate`, `TimeEntry`, `TimeOffEntry`, `User`, `Vendor`, `Workspace`, `WorkspaceAllocation`, `WorkspaceGroup`, or `WorkspaceResource`.'
+        updated_at:
+          type: string
+          format: date-time
+          description: The date and time the reference was last updated.
   securitySchemes:
     BearerToken:
       type: apiKey

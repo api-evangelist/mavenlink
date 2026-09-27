@@ -28,7 +28,7 @@ paths:
     get:
       summary: Get Data Set Schema
       description: Returns a list of the available data sets to export—as well as the respective available columns within each data set, which could include custom fields. The response will include unique `key` values for each individual data set and for each column. You will need to properly pass these keys in when you generate your data export.
-      operationId: Get Exports Available Datasets
+      operationId: GetExportsAvailableDatasets
       tags:
       - Data Export Schema
       responses:
@@ -106,6 +106,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Exports Available Datasets
 components:
   schemas:
     Errors:

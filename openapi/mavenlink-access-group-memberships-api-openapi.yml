@@ -34,7 +34,7 @@ paths:
         and will be indexed by ID in the `access_group_memberships` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Get Access Group Memberships
+      operationId: GetAccessGroupMemberships
       tags:
       - Access Group Memberships
       parameters:
@@ -158,6 +158,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Access Group Memberships
     post:
       summary: Creating a new Access Group Membership
       description: 'Adds a user to an access group. Note: To add a user to the Account Administrators access group, you must update
@@ -172,7 +174,7 @@ paths:
         and will be indexed by ID in the `access_group_memberships` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Create Access Group Membership
+      operationId: CreateAccessGroupMembership
       tags:
       - Access Group Memberships
       parameters:
@@ -285,6 +287,8 @@ paths:
                   - access_group_id
                   - user_id
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Create Access Group Membership
   /access_group_memberships/{id}:
     get:
       summary: Fetching a single Access Group Membership
@@ -295,7 +299,7 @@ paths:
         and will be indexed by ID in the `access_group_memberships` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Get Access Group Membership
+      operationId: GetAccessGroupMembership
       tags:
       - Access Group Memberships
       parameters:
@@ -393,6 +397,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Access Group Membership
     delete:
       summary: Deleting an existing Access Group Membership
       description: 'Deletes the specified access group membership (i.e. removes the user from the access group). Note: To remove a user
@@ -403,7 +409,7 @@ paths:
         The response will contain no content and an HTTP 204 status code if the request was
 
         successful, or a standard Kantata OX error message explaining why the object could not be deleted.'
-      operationId: Delete Access Group Membership
+      operationId: DeleteAccessGroupMembership
       tags:
       - Access Group Memberships
       parameters:
@@ -460,49 +466,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Delete Access Group Membership
 components:
   schemas:
-    Errors:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
-    AccessGroupMembership:
-      title: Access Group Membership
-      description: Access Groups allow you to manage product access for users. An Access Group Membership represents the connection of a user to an Access Group.
-      type: object
-      properties:
-        access_group_id:
-          type: integer
-          format: int32
-          description: The ID of the associated access group.
-        access_group_name:
-          type: string
-          description: The name of the associated access group.
-        created_at:
-          type: string
-          format: date
-          description: When the access group membership was created (i.e. when the user was added to the access group).
-        creator_id:
-          type: integer
-          format: int32
-          description: The ID of the user that created the access group membership (i.e. the person that added the user to the access group).
-        user_id:
-          type: integer
-          format: int32
-          description: The ID of the associated user.
-        user_name:
-          type: string
-          description: The name of the associated user.
-    Error:
-      type: object
-      properties:
-        type:
-          type: string
-        message:
-          type: string
     User:
       title: User
       description: 'Users represent the individuals that are participating in Kantata OX projects. User objects are often returned as
@@ -597,6 +564,47 @@ components:
           items:
             type: string
           description: '`work_sample_ids` will only be included in the response if `work_samples` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+    Errors:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+    AccessGroupMembership:
+      title: Access Group Membership
+      description: Access Groups allow you to manage product access for users. An Access Group Membership represents the connection of a user to an Access Group.
+      type: object
+      properties:
+        access_group_id:
+          type: integer
+          format: int32
+          description: The ID of the associated access group.
+        access_group_name:
+          type: string
+          description: The name of the associated access group.
+        created_at:
+          type: string
+          format: date
+          description: When the access group membership was created (i.e. when the user was added to the access group).
+        creator_id:
+          type: integer
+          format: int32
+          description: The ID of the user that created the access group membership (i.e. the person that added the user to the access group).
+        user_id:
+          type: integer
+          format: int32
+          description: The ID of the associated user.
+        user_name:
+          type: string
+          description: The name of the associated user.
+    Error:
+      type: object
+      properties:
+        type:
+          type: string
+        message:
+          type: string
   securitySchemes:
     BearerToken:
       type: apiKey

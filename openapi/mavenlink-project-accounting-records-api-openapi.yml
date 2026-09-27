@@ -40,7 +40,7 @@ paths:
         and will be indexed by ID in the `project_accounting_records` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Get Project Accounting Records
+      operationId: GetProjectAccountingRecords
       tags:
       - Project Accounting Records
       parameters:
@@ -298,6 +298,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Project Accounting Records
     post:
       summary: Creating a new Project Accounting Records
       description: 'Creates a single or multiple project accounting records.
@@ -310,7 +312,7 @@ paths:
         and will be indexed by ID in the `project_accounting_records` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Create Project Accounting Record
+      operationId: CreateProjectAccountingRecord
       tags:
       - Project Accounting Records
       parameters:
@@ -743,6 +745,8 @@ paths:
                     - end_date
                     - currency
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Create Project Accounting Record
   /project_accounting_records/delete:
     put:
       summary: Soft Deleting a Project Accounting Record
@@ -758,7 +762,7 @@ paths:
         and will be indexed by ID in the `project_accounting_records` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Soft Delete Project Accounting Record
+      operationId: SoftDeleteProjectAccountingRecord
       tags:
       - Project Accounting Records
       parameters:
@@ -878,6 +882,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Soft Delete Project Accounting Record
   /project_accounting_records/export_to_csv:
     get:
       summary: Exporting Project Account Records in a CSV
@@ -891,7 +897,7 @@ paths:
         and will be indexed by ID in the `project_accounting_records` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Export Project Accounting Record To Csv
+      operationId: ExportProjectAccountingRecordToCsv
       tags:
       - Project Accounting Records
       parameters:
@@ -995,6 +1001,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Export Project Accounting Record To Csv
   /project_accounting_records/import_csv:
     post:
       summary: Importing Project Account Records in a CSV
@@ -1087,7 +1095,7 @@ paths:
         and will be indexed by ID in the `project_accounting_records` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Import Project Accounting Records
+      operationId: ImportProjectAccountingRecords
       tags:
       - Project Accounting Records
       parameters:
@@ -1191,6 +1199,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Import Project Accounting Records
   /project_accounting_records/{id}:
     get:
       summary: Fetching a single Project Accounting Records
@@ -1204,7 +1214,7 @@ paths:
         and will be indexed by ID in the `project_accounting_records` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Get Project Accounting Record
+      operationId: GetProjectAccountingRecord
       tags:
       - Project Accounting Records
       parameters:
@@ -1314,443 +1324,164 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Project Accounting Record
 components:
   schemas:
-    ExternalReference:
-      title: External Reference
-      description: 'External References allows users see which objects (one of `Assignment`, `BillingMilestone`, `CustomField`, `CustomFieldChoice`, `CustomFieldSet`, `CustomFieldValue`, `Estimate`, `EstimateScenario`, `EstimateScenarioResource`, `Expense`, `ExpenseBudget`, `Invoice`, `Participation`, `Post`, `RateCard`, `Role`, `Skill`, `StatusReport`, `Story`, `StoryAllocationDay`, `Submission`, `SurveyAnswer`, `SurveyQuestion`, `SurveyResponse`, `SurveyTemplate`, `TimeEntry`, `TimeOffEntry`, `User`, `Vendor`, `Workspace`, `WorkspaceAllocation`, `WorkspaceGroup`, or `WorkspaceResource`
-
-        are synced with third party systems. This allows you to view the sync status of items in addition to the integration
-
-        specifics for a synced object.
-
-
-        Objects that are synced with a third party system have external integration
-
-        attributes that include the corresponding ID of the third party object with
-
-        which it is synced, a link that allows you to view the object in the third
-
-        party system, the status of the external object in the external system,
-
-        the status of the sync, and a link to exceptions.'
+    ProjectAccounting__Models__ProjectAccountingRecord:
+      title: Project Accounting Records
+      description: Project accounting records.
       type: object
       properties:
-        created_at:
-          type: string
-          format: date-time
-          description: The date and time the reference was created.
-        external_link:
-          type: string
-          description: A URL that links to either the external object or event.
-        external_message:
-          type: string
-          description: An optional message about the external object.
-        external_status:
-          type: string
-          description: The status of the external object in the external system.
-        last_synced_at:
-          type: string
-          format: date-time
-        locked:
-          type: boolean
-          description: 'An optional field, indicating whether the subject should be locked. To prevent changes to the
-
-            object in Kantata OX, set this to true. This currently only applies to expense report rejections.'
-        service_model:
-          type: string
-          description: The type of the external object to which this reference belongs.
-        service_model_ref:
-          type: string
-          description: The ID of the external object to which this reference belongs.
-        service_name:
-          type: string
-          description: The provider name of the integration.
-        status:
-          type: string
-          description: The status of the integration. Options are 'pending', 'successful', or 'failed'.
-        subject_id:
+        account_id:
           type: integer
           format: int32
-          description: The ID of the Kantata OX object to which this external reference belongs.
-        subject_ref:
-          type: object
-          description: '`subject_ref` will only be included in the response if `subject` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-          properties:
-            key:
-              type: string
-            id:
-              type: string
-        subject_type:
-          type: string
-          description: 'The type of Kantata OX object to which this external reference belongs.
-
-            One of `Assignment`, `BillingMilestone`, `CustomField`, `CustomFieldChoice`, `CustomFieldSet`, `CustomFieldValue`, `Estimate`, `EstimateScenario`, `EstimateScenarioResource`, `Expense`, `ExpenseBudget`, `Invoice`, `Participation`, `Post`, `RateCard`, `Role`, `Skill`, `StatusReport`, `Story`, `StoryAllocationDay`, `Submission`, `SurveyAnswer`, `SurveyQuestion`, `SurveyResponse`, `SurveyTemplate`, `TimeEntry`, `TimeOffEntry`, `User`, `Vendor`, `Workspace`, `WorkspaceAllocation`, `WorkspaceGroup`, or `WorkspaceResource`.'
-        updated_at:
-          type: string
-          format: date-time
-          description: The date and time the reference was last updated.
-    Story:
-      title: Story
-      description: 'Stories (known as [tasks](https://knowledge.kantata.com/hc/en-us/articles/202806550-Tasks-Overview) in the UI)
-
-        are the tasks, deliverables, issues, and milestones required to complete a project.
-
-        Stories belong to [Workspaces](/tag/Workspaces), appear in the
-
-        [Local Task Tracker](https://knowledge.kantata.com/hc/en-us/articles/202490134-Project-Task-Tracker) and the
-
-        [Global Tasks Tracker](https://knowledge.kantata.com/hc/en-us/articles/216424897-Global-Tasks-Tracker),
-
-        can be linked to [Posts](/tag/Posts), can have substories (subtasks) and
-
-        [Story Tasks](https://developer.kantata.com/tag/Story-Tasks) (checklists), and have many attributes for
-
-        planning, organization, and financials.'
-      type: object
-      properties:
-        ancestor_ids:
-          type: array
-          items:
-            type: string
-          description: The IDs of all the ancestor (i.e. parent) tasks of the task. This is empty for a top-level task.
-        ancestry_depth:
-          type: integer
-          format: int32
-          description: The number of levels a subtask is nested below the top-level task. Possible values are between `0` (i.e. a top-level task) and `4`.
-        archived:
-          type: boolean
-          description: Whether the task is archived.
-        archived_editable:
-          type: boolean
-          description: 'For archived tasks, whether the authenticated user can edit the task.
-
-            Only returned when requested through the optional_fields param.'
-        assigned_role_id:
-          type: string
-          description: '`assigned_role_id` will only be included in the response if `assigned_role` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        assignee_ids:
-          type: array
-          items:
-            type: string
-          description: '`assignee_ids` will only be included in the response if `assignees` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        assignment_timestamped_at:
-          type: string
-          format: date-time
-        attachment_ids:
-          type: array
-          items:
-            type: string
-          description: '`attachment_ids` will only be included in the response if `attachments` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        billable:
-          type: boolean
-          description: Whether the task is billable.
-        budget_estimate_in_cents:
-          type: integer
-          format: int32
-          description: 'The task budget, in the subunits of the currency (e.g. cents for USD).
-
-            Visible when the API user can view story budgets in the story''s workspace.'
-        budget_used_in_cents:
-          type: integer
-          format: int32
-          description: 'How much of the task budget has been used, in the subunits of the currency (e.g. cents for USD).
-
-            Visible when the API user can view story budgets in the story''s workspace.'
-        can_align_time:
-          type: boolean
-          description: 'Whether [Daily Scheduled Hours](/tag/Daily-Scheduled-Hours-(Story-Allocation-Days)) (i.e. Story Allocation Days) that are out of sync with the task start or due date can be realigned to the task start date.
-
-            Only returned when requested through the optional_fields param.'
-        can_edit:
-          type: boolean
-          description: 'Whether the authenticated user can edit the task. For archived tasks, refer to `archived_editable` instead.
-
-            Only returned when requested through the optional_fields param.'
-        can_post:
-          type: boolean
-          description: 'Whether the authenticated user can create posts in the project the task is in.
-
-            Only returned when requested through the optional_fields param.'
-        created_at:
-          type: string
-          format: date-time
-        creator_id:
-          type: string
-          description: '`creator_id` will only be included in the response if `creator` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        current_assignment_ids:
-          type: array
-          items:
-            type: string
-          description: '`current_assignment_ids` will only be included in the response if `current_assignments` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        custom_field_value_ids:
-          type: array
-          items:
-            type: string
-          description: '`custom_field_value_ids` will only be included in the response if `custom_field_values` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        custom_task_status_id:
-          type: integer
-          format: int32
-          description: 'The ID of the task''s custom status. If the workspace is not using a custom task status set, this is `null`.
-
-            Only returned when requested through the optional_fields param.'
-        deleted_at:
-          type: string
-          format: date-time
-        descendant_ids:
-          type: array
-          items:
-            type: string
-          description: '`descendant_ids` will only be included in the response if `descendants` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        description:
-          type: string
-          description: The task description. Markdown syntax is included.
-        due_date:
+          description: The ID of the account this record belongs to.
+        amount:
+          type: number
+          format: float
+          description: "The amount calculated for baseline, forecasting,\n              earned value, earned value forecasting, or revenue recognition\n              within the specified accounting period."
+        amount_to_date:
+          type: number
+          format: float
+          description: The total amount spent to date (for all accounting periods).
+        budget:
+          type: number
+          format: float
+          description: The budget of the project or task.
+        calculated_revenue_amount:
+          type: number
+          format: float
+          description: The calculated revenue amount for this accounting period.
+        contract_date:
           type: string
           format: date
-          description: When the task is due.
+          description: A contract's start or end date, or any other designated date.
+        cost:
+          type: number
+          format: float
+          description: The cost of the project or task within the specified accounting period.
+        cost_eac:
+          type: number
+          format: float
+          description: "The [estimated cost](https://mavenlink.zendesk.com/hc/en-us/articles/360004619334-Project-Completion-Estimates)\n              of the project or task when it is completed. This updates during the course of a project or task, as costs are logged."
+        cost_to_date:
+          type: number
+          format: float
+          description: The total cost accumulated to date for this accounting period.
+        created_at:
+          type: string
+          format: date
+          description: The date the record was created.
+        currency:
+          type: string
+          description: "The currency of the record. See the\n              [ISO codes of currencies supported by Kantata OX](https://mavenlink.zendesk.com/hc/en-us/articles/360041576473)."
+        description:
+          type: string
+          description: A brief description of the record.
+        end_date:
+          type: string
+          format: date
+          description: The date the accounting period ends.
         external_reference_ids:
           type: array
           items:
             type: string
           description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        fixed_fee:
+        fees:
+          type: number
+          format: float
+          description: The fees from the specified accounting period.
+        forecast:
+          type: number
+          format: float
+          description: The forecast value for this accounting period.
+        forecast_locked:
           type: boolean
-          description: Whether the task is fixed fee (`true`) or time and materials (`false`).
-        follower_ids:
-          type: array
-          items:
-            type: string
-          description: '`follower_ids` will only be included in the response if `followers` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        formatted_description:
+          description: "Whether the forecast amount has been verified and locked, which happens when the previous period is closed.\n                If `true`, the forecast amount will not update if forecasted hours or expense budgets are added to the period."
+        has_revenue_override:
+          type: boolean
+          description: Whether this record has a revenue override applied.
+        hours:
+          type: number
+          format: float
+          description: "The [hours](https://mavenlink.zendesk.com/hc/en-us/articles/360059325413)\n              spent within the specified accounting period."
+        hours_eac:
+          type: number
+          format: float
+          description: "The [estimated hours](https://mavenlink.zendesk.com/hc/en-us/articles/360004619334-Project-Completion-Estimates)\n              for the project or task when it is completed. This updates during the course of a project or task, as hours are logged."
+        hours_etc:
+          type: number
+          format: float
+          description: "The [estimated hours](https://mavenlink.zendesk.com/hc/en-us/articles/360004619334-Project-Completion-Estimates)\n              until completion (`hours_eac` - `hours`) of the project or task."
+        labor_type:
           type: string
-          description: 'The task description with special formatting, like emoji and @-mentions.
-
-            Only returned when requested through the optional_fields param.'
-        google_document_ids:
-          type: array
-          items:
-            type: string
-          description: '`google_document_ids` will only be included in the response if `google_documents` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        has_out_of_bounds_sads:
-          type: boolean
-          description: 'Whether the task has any [Daily Scheduled Hours](/tag/Daily-Scheduled-Hours-(Story-Allocation-Days)) (i.e. Story Allocation Days) before its start date or after its due date.
-
-            Only returned when requested through the optional_fields param.'
-        invoiced_balance_in_cents:
-          type: integer
-          format: int32
-          description: 'How much has been invoiced for the task, in the subunits of the currency (e.g. cents for USD).
-
-            Visible when the API user can view story budgets in the story''s workspace.'
-        is_time_trackable_type:
-          type: boolean
-          description: 'Whether the task can have time and expenses tracked against it, as set in account settings.
-
-            Only returned when requested through the optional_fields param.'
-        logged_billable_time_in_minutes:
-          type: integer
-          format: int32
-          description: 'How much billable time has been tracked against the task, in minutes.
-
-            Visible when the API user can view story time estimates in the story''s workspace.'
-        logged_nonbillable_time_in_minutes:
-          type: integer
-          format: int32
-          description: 'How much non-billable time has been tracked against the task, in minutes.
-
-            Visible when the API user can view story time estimates in the story''s workspace.'
-        parent_id:
+          description: Whether the cost associated with the record is for `Labor` or `Non-Labor`.
+        notes:
           type: string
-          description: '`parent_id` will only be included in the response if `parent` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        parsed_description:
+          description: Extra information to note about the record.
+        percent_complete:
+          type: number
+          format: float
+          description: How much of the project or task is complete in decimal format (e.g. 0.75 = 75%).
+        remaining_forecast:
+          type: number
+          format: float
+          description: 'The remaining forecast amount for an Open period. If the period is not Open, this is `null`.
+
+            This field may only have a value when the
+
+            [early access feature Revenue Management](https://knowledge.kantata.com/hc/en-us/articles/38986877019803-Revenue-Management-Early-Access)
+
+            is activated on the account.'
+        revenue_method:
           type: string
-          description: 'The task description. Markdown syntax is not included.
-
-            Only returned when requested through the optional_fields param.'
-        percentage_complete:
-          type: integer
-          format: int32
-          description: The percentage of work done on the task.
-        position:
-          type: integer
-          format: int32
-          description: Represents the task's position in the Task Tracker. This is not the same as the WBS (Work Breakdown Structure) number shown in the UI.
-        potential_workspace_resource_ids:
-          type: array
-          items:
-            type: string
-          description: '`potential_workspace_resource_ids` will only be included in the response if `potential_workspace_resources` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        potential_workspace_resources_with_unnamed_ids:
-          type: array
-          items:
-            type: string
-          description: '`potential_workspace_resources_with_unnamed_ids` will only be included in the response if `potential_workspace_resources_with_unnamed` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        priority:
-          type: integer
-          format: int32
-          description: The priority of the task. Possible values are `critical`, `high`, `normal`, `low`.
-        project_plan:
-          type: boolean
-          description: Whether the story is a project task (`true`) or is a To Do (`false`).
-        read_only:
-          type: boolean
-          description: 'Whether the authenticated user can only view the task and cannot edit it.
-
-            Only returned when requested through the optional_fields param.'
-        render_description_markdown:
-          type: boolean
-          description: 'Whether the account the task is in is set to render Markdown in task descriptions as formatted and styled text.
-
-            Only returned when requested through the optional_fields param.'
-        reply_ids:
-          type: array
-          items:
-            type: string
-          description: '`reply_ids` will only be included in the response if `replies` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        root_id:
+          description: The name of the revenue recognition method from the project accounting record.
+        revenue_override_notes:
           type: string
-          description: '`root_id` will only be included in the response if `root` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        source_dependency_ids:
-          type: array
-          items:
-            type: string
-          description: '`source_dependency_ids` will only be included in the response if `source_dependencies` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+          description: 'A user-entered note added when manually overriding the calculated revenue value on a project accounting record.
+
+            This field may only have a value when the
+
+            [early access feature Revenue Management](https://knowledge.kantata.com/hc/en-us/articles/38986877019803-Revenue-Management-Early-Access)
+
+            is activated on the account.'
+        role_id:
+          type: string
+          description: '`role_id` will only be included in the response if `role` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        service_type:
+          type: string
+          description: "An organization-specific category of services\n              that is related to the record (e.g. Branding, Campaigns, Photography, etc.)."
         start_date:
           type: string
           format: date
-          description: When the task starts.
-        state:
-          type: string
-          description: 'The status type of the story. Possible values are `not started`, `started`, `needs info`, or `completed`. If task status sets are not activated on the account, the following values are also possible: `new`, `reopened`, `in progress`, `blocked`, `fixed`, `duplicate`, `can''t reproduce`, `resolved`, or `won''t fix`. The actual task status is returned in the `status` field.'
+          description: The date the accounting period begins.
         status:
           type: string
-          description: The status of the story.
-        story_state_change_ids:
-          type: array
-          items:
-            type: string
-          description: '`story_state_change_ids` will only be included in the response if `story_state_changes` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        story_task_ids:
-          type: array
-          items:
-            type: string
-          description: '`story_task_ids` will only be included in the response if `story_tasks` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        story_type:
+          description: The status of the record (`Unsubmitted`, `Draft`, `Pending Approval`, `Approved`, `Cancelled`, `Reopened`, or `Adjusted`).
+        story_id:
           type: string
-          description: The task's type. Possible values are `task`, `deliverable `, `milestone`, and `issue`.
-        sub_stories_billable_time_in_minutes:
-          type: integer
-          format: int32
-          description: 'How much billable time has been tracked against the task''s descendants, in minutes.
-
-            Visible when the API user can view story time estimates in the story''s workspace.'
-        sub_stories_budget_estimate_in_cents:
-          type: integer
-          format: int32
-          description: 'The budget of the task''s descendants, in the subunits of the currency (e.g. cents for USD).
-
-            Visible when the API user can view story budgets in the story''s workspace.'
-        sub_stories_budget_used_in_cents:
-          type: integer
-          format: int32
-          description: 'How much of the budgets of the task''s descendants has been used, in the subunits of the currency (e.g. cents for USD).
-
-            Visible when the API user can view story budgets in the story''s workspace.'
-        sub_stories_time_estimate_in_minutes:
-          type: integer
-          format: int32
-          description: 'The estimated time of the task''s descendants, in minutes.
-
-            Visible when the API user can view story time estimates in the story''s workspace.'
-        sub_story_count:
-          type: integer
-          format: int32
-          description: How many descendant tasks the task has.
-        sub_story_ids:
-          type: array
-          items:
-            type: string
-          description: '`sub_story_ids` will only be included in the response if `sub_stories` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        subtree_depth:
-          type: integer
-          format: int32
-          description: How many ancestor tasks the task has.
-        tag_ids:
-          type: array
-          items:
-            type: string
-          description: '`tag_ids` will only be included in the response if `tags` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        target_dependency_ids:
-          type: array
-          items:
-            type: string
-          description: '`target_dependency_ids` will only be included in the response if `target_dependencies` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        time_estimate_in_minutes:
-          type: integer
-          format: int32
-          description: 'The estimated time for the task, in minutes.
-
-            Visible when the API user can view story time estimates in the story''s workspace.'
-        time_trackable:
+          description: '`story_id` will only be included in the response if `story` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        system_generated:
           type: boolean
-          description: Whether time can be tracked against the task.
-        title:
+          description: Whether this record was generated by the system as part of Kantata's revenue recognition process.
+        total_estimated_hours:
+          type: number
+          format: float
+          description: "The hours initially estimated for the project or task.\n              This value does not change over the course of a project."
+        total_hours_to_date:
+          type: number
+          format: float
+          description: The total hours logged to date for the project or task.
+        type:
           type: string
-          description: The title of the task.
-        uninvoiced_balance_in_cents:
-          type: integer
-          format: int32
-          description: 'How much has not yet been invoiced for the task, in the subunits of the currency (e.g. cents for USD).
-
-            Visible when the API user can view story budgets in the story''s workspace.'
-        updated_at:
+          description: "The type of project accounting record (`Baseline`, `Earned Value`,\n                `Earned Value Forecasting`, `Forecasting`, or `Recognition`)."
+        user_id:
           type: string
-          format: date-time
-        weight:
-          type: integer
-          format: int32
-          description: 'If the `story_type` is `milestone`, this is the [weight](https://knowledge.kantata.com/hc/en-us/articles/203499904-Milestone-Weighting) of the task.
-
-            Visible when the API user can view story time estimates in the story''s workspace.'
+          description: '`user_id` will only be included in the response if `user` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
         workspace_id:
           type: string
           description: '`workspace_id` will only be included in the response if `workspace` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        workspace_resource_ids:
-          type: array
-          items:
-            type: string
-          description: '`workspace_resource_ids` will only be included in the response if `workspace_resources` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        workspace_resources_with_unnamed_ids:
-          type: array
-          items:
-            type: string
-          description: '`workspace_resources_with_unnamed_ids` will only be included in the response if `workspace_resources_with_unnamed` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-    Role:
-      title: Role
-      description: 'A Role represents the main position or title assigned to members on an account. Roles may be associated with account memberships, account invitations,
-
-        participation, project template assignments, rate card roles, rate card versions, resources, or time adjustments.'
-      type: object
-      properties:
-        created_at:
-          type: string
-          format: date-time
-        deleted_at:
-          type: string
-          format: date-time
-          description: The time the role was deleted.
-        external_reference_ids:
-          type: array
-          items:
-            type: string
-          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        name:
-          type: string
-          description: The name of the role.
-        updated_at:
-          type: string
-          format: date-time
     Workspace:
       title: Workspace
       description: Workspaces (also called projects) represent the space in which Kantata OX users plan, communicate, and collaborate.
@@ -2225,6 +1956,349 @@ components:
           type: string
         message:
           type: string
+    Story:
+      title: Story
+      description: 'Stories (known as [tasks](https://knowledge.kantata.com/hc/en-us/articles/202806550-Tasks-Overview) in the UI)
+
+        are the tasks, deliverables, issues, and milestones required to complete a project.
+
+        Stories belong to [Workspaces](/tag/Workspaces), appear in the
+
+        [Local Task Tracker](https://knowledge.kantata.com/hc/en-us/articles/202490134-Project-Task-Tracker) and the
+
+        [Global Tasks Tracker](https://knowledge.kantata.com/hc/en-us/articles/216424897-Global-Tasks-Tracker),
+
+        can be linked to [Posts](/tag/Posts), can have substories (subtasks) and
+
+        [Story Tasks](https://developer.kantata.com/tag/Story-Tasks) (checklists), and have many attributes for
+
+        planning, organization, and financials.'
+      type: object
+      properties:
+        ancestor_ids:
+          type: array
+          items:
+            type: string
+          description: The IDs of all the ancestor (i.e. parent) tasks of the task. This is empty for a top-level task.
+        ancestry_depth:
+          type: integer
+          format: int32
+          description: The number of levels a subtask is nested below the top-level task. Possible values are between `0` (i.e. a top-level task) and `4`.
+        archived:
+          type: boolean
+          description: Whether the task is archived.
+        archived_editable:
+          type: boolean
+          description: 'For archived tasks, whether the authenticated user can edit the task.
+
+            Only returned when requested through the optional_fields param.'
+        assigned_role_id:
+          type: string
+          description: '`assigned_role_id` will only be included in the response if `assigned_role` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        assignee_ids:
+          type: array
+          items:
+            type: string
+          description: '`assignee_ids` will only be included in the response if `assignees` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        assignment_timestamped_at:
+          type: string
+          format: date-time
+        attachment_ids:
+          type: array
+          items:
+            type: string
+          description: '`attachment_ids` will only be included in the response if `attachments` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        billable:
+          type: boolean
+          description: Whether the task is billable.
+        budget_estimate_in_cents:
+          type: integer
+          format: int32
+          description: 'The task budget, in the subunits of the currency (e.g. cents for USD).
+
+            Visible when the API user can view story budgets in the story''s workspace.'
+        budget_used_in_cents:
+          type: integer
+          format: int32
+          description: 'How much of the task budget has been used, in the subunits of the currency (e.g. cents for USD).
+
+            Visible when the API user can view story budgets in the story''s workspace.'
+        can_align_time:
+          type: boolean
+          description: 'Whether [Daily Scheduled Hours](/tag/Daily-Scheduled-Hours-(Story-Allocation-Days)) (i.e. Story Allocation Days) that are out of sync with the task start or due date can be realigned to the task start date.
+
+            Only returned when requested through the optional_fields param.'
+        can_edit:
+          type: boolean
+          description: 'Whether the authenticated user can edit the task. For archived tasks, refer to `archived_editable` instead.
+
+            Only returned when requested through the optional_fields param.'
+        can_post:
+          type: boolean
+          description: 'Whether the authenticated user can create posts in the project the task is in.
+
+            Only returned when requested through the optional_fields param.'
+        created_at:
+          type: string
+          format: date-time
+        creator_id:
+          type: string
+          description: '`creator_id` will only be included in the response if `creator` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        current_assignment_ids:
+          type: array
+          items:
+            type: string
+          description: '`current_assignment_ids` will only be included in the response if `current_assignments` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        custom_field_value_ids:
+          type: array
+          items:
+            type: string
+          description: '`custom_field_value_ids` will only be included in the response if `custom_field_values` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        custom_task_status_id:
+          type: integer
+          format: int32
+          description: 'The ID of the task''s custom status. If the workspace is not using a custom task status set, this is `null`.
+
+            Only returned when requested through the optional_fields param.'
+        deleted_at:
+          type: string
+          format: date-time
+        descendant_ids:
+          type: array
+          items:
+            type: string
+          description: '`descendant_ids` will only be included in the response if `descendants` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        description:
+          type: string
+          description: The task description. Markdown syntax is included.
+        due_date:
+          type: string
+          format: date
+          description: When the task is due.
+        external_reference_ids:
+          type: array
+          items:
+            type: string
+          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        fixed_fee:
+          type: boolean
+          description: Whether the task is fixed fee (`true`) or time and materials (`false`).
+        follower_ids:
+          type: array
+          items:
+            type: string
+          description: '`follower_ids` will only be included in the response if `followers` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        formatted_description:
+          type: string
+          description: 'The task description with special formatting, like emoji and @-mentions.
+
+            Only returned when requested through the optional_fields param.'
+        google_document_ids:
+          type: array
+          items:
+            type: string
+          description: '`google_document_ids` will only be included in the response if `google_documents` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        has_out_of_bounds_sads:
+          type: boolean
+          description: 'Whether the task has any [Daily Scheduled Hours](/tag/Daily-Scheduled-Hours-(Story-Allocation-Days)) (i.e. Story Allocation Days) before its start date or after its due date.
+
+            Only returned when requested through the optional_fields param.'
+        invoiced_balance_in_cents:
+          type: integer
+          format: int32
+          description: 'How much has been invoiced for the task, in the subunits of the currency (e.g. cents for USD).
+
+            Visible when the API user can view story budgets in the story''s workspace.'
+        is_time_trackable_type:
+          type: boolean
+          description: 'Whether the task can have time and expenses tracked against it, as set in account settings.
+
+            Only returned when requested through the optional_fields param.'
+        logged_billable_time_in_minutes:
+          type: integer
+          format: int32
+          description: 'How much billable time has been tracked against the task, in minutes.
+
+            Visible when the API user can view story time estimates in the story''s workspace.'
+        logged_nonbillable_time_in_minutes:
+          type: integer
+          format: int32
+          description: 'How much non-billable time has been tracked against the task, in minutes.
+
+            Visible when the API user can view story time estimates in the story''s workspace.'
+        parent_id:
+          type: string
+          description: '`parent_id` will only be included in the response if `parent` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        parsed_description:
+          type: string
+          description: 'The task description. Markdown syntax is not included.
+
+            Only returned when requested through the optional_fields param.'
+        percentage_complete:
+          type: integer
+          format: int32
+          description: The percentage of work done on the task.
+        position:
+          type: integer
+          format: int32
+          description: Represents the task's position in the Task Tracker. This is not the same as the WBS (Work Breakdown Structure) number shown in the UI.
+        potential_workspace_resource_ids:
+          type: array
+          items:
+            type: string
+          description: '`potential_workspace_resource_ids` will only be included in the response if `potential_workspace_resources` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        potential_workspace_resources_with_unnamed_ids:
+          type: array
+          items:
+            type: string
+          description: '`potential_workspace_resources_with_unnamed_ids` will only be included in the response if `potential_workspace_resources_with_unnamed` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        priority:
+          type: integer
+          format: int32
+          description: The priority of the task. Possible values are `critical`, `high`, `normal`, `low`.
+        project_plan:
+          type: boolean
+          description: Whether the story is a project task (`true`) or is a To Do (`false`).
+        read_only:
+          type: boolean
+          description: 'Whether the authenticated user can only view the task and cannot edit it.
+
+            Only returned when requested through the optional_fields param.'
+        render_description_markdown:
+          type: boolean
+          description: 'Whether the account the task is in is set to render Markdown in task descriptions as formatted and styled text.
+
+            Only returned when requested through the optional_fields param.'
+        reply_ids:
+          type: array
+          items:
+            type: string
+          description: '`reply_ids` will only be included in the response if `replies` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        root_id:
+          type: string
+          description: '`root_id` will only be included in the response if `root` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        source_dependency_ids:
+          type: array
+          items:
+            type: string
+          description: '`source_dependency_ids` will only be included in the response if `source_dependencies` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        start_date:
+          type: string
+          format: date
+          description: When the task starts.
+        state:
+          type: string
+          description: 'The status type of the story. Possible values are `not started`, `started`, `needs info`, or `completed`. If task status sets are not activated on the account, the following values are also possible: `new`, `reopened`, `in progress`, `blocked`, `fixed`, `duplicate`, `can''t reproduce`, `resolved`, or `won''t fix`. The actual task status is returned in the `status` field.'
+        status:
+          type: string
+          description: The status of the story.
+        story_state_change_ids:
+          type: array
+          items:
+            type: string
+          description: '`story_state_change_ids` will only be included in the response if `story_state_changes` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        story_task_ids:
+          type: array
+          items:
+            type: string
+          description: '`story_task_ids` will only be included in the response if `story_tasks` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        story_type:
+          type: string
+          description: The task's type. Possible values are `task`, `deliverable `, `milestone`, and `issue`.
+        sub_stories_billable_time_in_minutes:
+          type: integer
+          format: int32
+          description: 'How much billable time has been tracked against the task''s descendants, in minutes.
+
+            Visible when the API user can view story time estimates in the story''s workspace.'
+        sub_stories_budget_estimate_in_cents:
+          type: integer
+          format: int32
+          description: 'The budget of the task''s descendants, in the subunits of the currency (e.g. cents for USD).
+
+            Visible when the API user can view story budgets in the story''s workspace.'
+        sub_stories_budget_used_in_cents:
+          type: integer
+          format: int32
+          description: 'How much of the budgets of the task''s descendants has been used, in the subunits of the currency (e.g. cents for USD).
+
+            Visible when the API user can view story budgets in the story''s workspace.'
+        sub_stories_time_estimate_in_minutes:
+          type: integer
+          format: int32
+          description: 'The estimated time of the task''s descendants, in minutes.
+
+            Visible when the API user can view story time estimates in the story''s workspace.'
+        sub_story_count:
+          type: integer
+          format: int32
+          description: How many descendant tasks the task has.
+        sub_story_ids:
+          type: array
+          items:
+            type: string
+          description: '`sub_story_ids` will only be included in the response if `sub_stories` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        subtree_depth:
+          type: integer
+          format: int32
+          description: How many ancestor tasks the task has.
+        tag_ids:
+          type: array
+          items:
+            type: string
+          description: '`tag_ids` will only be included in the response if `tags` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        target_dependency_ids:
+          type: array
+          items:
+            type: string
+          description: '`target_dependency_ids` will only be included in the response if `target_dependencies` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        time_estimate_in_minutes:
+          type: integer
+          format: int32
+          description: 'The estimated time for the task, in minutes.
+
+            Visible when the API user can view story time estimates in the story''s workspace.'
+        time_trackable:
+          type: boolean
+          description: Whether time can be tracked against the task.
+        title:
+          type: string
+          description: The title of the task.
+        uninvoiced_balance_in_cents:
+          type: integer
+          format: int32
+          description: 'How much has not yet been invoiced for the task, in the subunits of the currency (e.g. cents for USD).
+
+            Visible when the API user can view story budgets in the story''s workspace.'
+        updated_at:
+          type: string
+          format: date-time
+        weight:
+          type: integer
+          format: int32
+          description: 'If the `story_type` is `milestone`, this is the [weight](https://knowledge.kantata.com/hc/en-us/articles/203499904-Milestone-Weighting) of the task.
+
+            Visible when the API user can view story time estimates in the story''s workspace.'
+        workspace_id:
+          type: string
+          description: '`workspace_id` will only be included in the response if `workspace` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        workspace_resource_ids:
+          type: array
+          items:
+            type: string
+          description: '`workspace_resource_ids` will only be included in the response if `workspace_resources` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        workspace_resources_with_unnamed_ids:
+          type: array
+          items:
+            type: string
+          description: '`workspace_resources_with_unnamed_ids` will only be included in the response if `workspace_resources_with_unnamed` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+    Errors:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
     User:
       title: User
       description: 'Users represent the individuals that are participating in Kantata OX projects. User objects are often returned as
@@ -2319,167 +2393,105 @@ components:
           items:
             type: string
           description: '`work_sample_ids` will only be included in the response if `work_samples` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-    Errors:
+    Role:
+      title: Role
+      description: 'A Role represents the main position or title assigned to members on an account. Roles may be associated with account memberships, account invitations,
+
+        participation, project template assignments, rate card roles, rate card versions, resources, or time adjustments.'
       type: object
       properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
-    ProjectAccounting__Models__ProjectAccountingRecord:
-      title: Project Accounting Records
-      description: Project accounting records.
-      type: object
-      properties:
-        account_id:
-          type: integer
-          format: int32
-          description: The ID of the account this record belongs to.
-        amount:
-          type: number
-          format: float
-          description: "The amount calculated for baseline, forecasting,\n              earned value, earned value forecasting, or revenue recognition\n              within the specified accounting period."
-        amount_to_date:
-          type: number
-          format: float
-          description: The total amount spent to date (for all accounting periods).
-        budget:
-          type: number
-          format: float
-          description: The budget of the project or task.
-        calculated_revenue_amount:
-          type: number
-          format: float
-          description: The calculated revenue amount for this accounting period.
-        contract_date:
-          type: string
-          format: date
-          description: A contract's start or end date, or any other designated date.
-        cost:
-          type: number
-          format: float
-          description: The cost of the project or task within the specified accounting period.
-        cost_eac:
-          type: number
-          format: float
-          description: "The [estimated cost](https://mavenlink.zendesk.com/hc/en-us/articles/360004619334-Project-Completion-Estimates)\n              of the project or task when it is completed. This updates during the course of a project or task, as costs are logged."
-        cost_to_date:
-          type: number
-          format: float
-          description: The total cost accumulated to date for this accounting period.
         created_at:
           type: string
-          format: date
-          description: The date the record was created.
-        currency:
+          format: date-time
+        deleted_at:
           type: string
-          description: "The currency of the record. See the\n              [ISO codes of currencies supported by Kantata OX](https://mavenlink.zendesk.com/hc/en-us/articles/360041576473)."
-        description:
-          type: string
-          description: A brief description of the record.
-        end_date:
-          type: string
-          format: date
-          description: The date the accounting period ends.
+          format: date-time
+          description: The time the role was deleted.
         external_reference_ids:
           type: array
           items:
             type: string
           description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        fees:
-          type: number
-          format: float
-          description: The fees from the specified accounting period.
-        forecast:
-          type: number
-          format: float
-          description: The forecast value for this accounting period.
-        forecast_locked:
+        name:
+          type: string
+          description: The name of the role.
+        updated_at:
+          type: string
+          format: date-time
+    ExternalReference:
+      title: External Reference
+      description: 'External References allows users see which objects (one of `Assignment`, `BillingMilestone`, `CustomField`, `CustomFieldChoice`, `CustomFieldSet`, `CustomFieldValue`, `Estimate`, `EstimateScenario`, `EstimateScenarioResource`, `Expense`, `ExpenseBudget`, `Invoice`, `Participation`, `Post`, `RateCard`, `Role`, `Skill`, `StatusReport`, `Story`, `StoryAllocationDay`, `Submission`, `SurveyAnswer`, `SurveyQuestion`, `SurveyResponse`, `SurveyTemplate`, `TimeEntry`, `TimeOffEntry`, `User`, `Vendor`, `Workspace`, `WorkspaceAllocation`, `WorkspaceGroup`, or `WorkspaceResource`
+
+        are synced with third party systems. This allows you to view the sync status of items in addition to the integration
+
+        specifics for a synced object.
+
+
+        Objects that are synced with a third party system have external integration
+
+        attributes that include the corresponding ID of the third party object with
+
+        which it is synced, a link that allows you to view the object in the third
+
+        party system, the status of the external object in the external system,
+
+        the status of the sync, and a link to exceptions.'
+      type: object
+      properties:
+        created_at:
+          type: string
+          format: date-time
+          description: The date and time the reference was created.
+        external_link:
+          type: string
+          description: A URL that links to either the external object or event.
+        external_message:
+          type: string
+          description: An optional message about the external object.
+        external_status:
+          type: string
+          description: The status of the external object in the external system.
+        last_synced_at:
+          type: string
+          format: date-time
+        locked:
           type: boolean
-          description: "Whether the forecast amount has been verified and locked, which happens when the previous period is closed.\n                If `true`, the forecast amount will not update if forecasted hours or expense budgets are added to the period."
-        has_revenue_override:
-          type: boolean
-          description: Whether this record has a revenue override applied.
-        hours:
-          type: number
-          format: float
-          description: "The [hours](https://mavenlink.zendesk.com/hc/en-us/articles/360059325413)\n              spent within the specified accounting period."
-        hours_eac:
-          type: number
-          format: float
-          description: "The [estimated hours](https://mavenlink.zendesk.com/hc/en-us/articles/360004619334-Project-Completion-Estimates)\n              for the project or task when it is completed. This updates during the course of a project or task, as hours are logged."
-        hours_etc:
-          type: number
-          format: float
-          description: "The [estimated hours](https://mavenlink.zendesk.com/hc/en-us/articles/360004619334-Project-Completion-Estimates)\n              until completion (`hours_eac` - `hours`) of the project or task."
-        labor_type:
-          type: string
-          description: Whether the cost associated with the record is for `Labor` or `Non-Labor`.
-        notes:
-          type: string
-          description: Extra information to note about the record.
-        percent_complete:
-          type: number
-          format: float
-          description: How much of the project or task is complete in decimal format (e.g. 0.75 = 75%).
-        remaining_forecast:
-          type: number
-          format: float
-          description: 'The remaining forecast amount for an Open period. If the period is not Open, this is `null`.
+          description: 'An optional field, indicating whether the subject should be locked. To prevent changes to the
 
-            This field may only have a value when the
-
-            [early access feature Revenue Management](https://knowledge.kantata.com/hc/en-us/articles/38986877019803-Revenue-Management-Early-Access)
-
-            is activated on the account.'
-        revenue_method:
+            object in Kantata OX, set this to true. This currently only applies to expense report rejections.'
+        service_model:
           type: string
-          description: The name of the revenue recognition method from the project accounting record.
-        revenue_override_notes:
+          description: The type of the external object to which this reference belongs.
+        service_model_ref:
           type: string
-          description: 'A user-entered note added when manually overriding the calculated revenue value on a project accounting record.
-
-            This field may only have a value when the
-
-            [early access feature Revenue Management](https://knowledge.kantata.com/hc/en-us/articles/38986877019803-Revenue-Management-Early-Access)
-
-            is activated on the account.'
-        role_id:
+          description: The ID of the external object to which this reference belongs.
+        service_name:
           type: string
-          description: '`role_id` will only be included in the response if `role` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        service_type:
-          type: string
-          description: "An organization-specific category of services\n              that is related to the record (e.g. Branding, Campaigns, Photography, etc.)."
-        start_date:
-          type: string
-          format: date
-          description: The date the accounting period begins.
+          description: The provider name of the integration.
         status:
           type: string
-          description: The status of the record (`Unsubmitted`, `Draft`, `Pending Approval`, `Approved`, `Cancelled`, `Reopened`, or `Adjusted`).
-        story_id:
+          description: The status of the integration. Options are 'pending', 'successful', or 'failed'.
+        subject_id:
+          type: integer
+          format: int32
+          description: The ID of the Kantata OX object to which this external reference belongs.
+        subject_ref:
+          type: object
+          description: '`subject_ref` will only be included in the response if `subject` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+          properties:
+            key:
+              type: string
+            id:
+              type: string
+        subject_type:
           type: string
-          description: '`story_id` will only be included in the response if `story` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        system_generated:
-          type: boolean
-          description: Whether this record was generated by the system as part of Kantata's revenue recognition process.
-        total_estimated_hours:
-          type: number
-          format: float
-          description: "The hours initially estimated for the project or task.\n              This value does not change over the course of a project."
-        total_hours_to_date:
-          type: number
-          format: float
-          description: The total hours logged to date for the project or task.
-        type:
+          description: 'The type of Kantata OX object to which this external reference belongs.
+
+            One of `Assignment`, `BillingMilestone`, `CustomField`, `CustomFieldChoice`, `CustomFieldSet`, `CustomFieldValue`, `Estimate`, `EstimateScenario`, `EstimateScenarioResource`, `Expense`, `ExpenseBudget`, `Invoice`, `Participation`, `Post`, `RateCard`, `Role`, `Skill`, `StatusReport`, `Story`, `StoryAllocationDay`, `Submission`, `SurveyAnswer`, `SurveyQuestion`, `SurveyResponse`, `SurveyTemplate`, `TimeEntry`, `TimeOffEntry`, `User`, `Vendor`, `Workspace`, `WorkspaceAllocation`, `WorkspaceGroup`, or `WorkspaceResource`.'
+        updated_at:
           type: string
-          description: "The type of project accounting record (`Baseline`, `Earned Value`,\n                `Earned Value Forecasting`, `Forecasting`, or `Recognition`)."
-        user_id:
-          type: string
-          description: '`user_id` will only be included in the response if `user` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        workspace_id:
-          type: string
-          description: '`workspace_id` will only be included in the response if `workspace` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+          format: date-time
+          description: The date and time the reference was last updated.
   securitySchemes:
     BearerToken:
       type: apiKey

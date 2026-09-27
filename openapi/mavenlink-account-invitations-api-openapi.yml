@@ -31,7 +31,7 @@ paths:
         and will be indexed by ID in the `account_invitations` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Get Account Invitations
+      operationId: GetAccountInvitations
       tags:
       - Account Invitations
       parameters:
@@ -173,6 +173,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Account Invitations
     post:
       summary: Creating a new Account Invitation
       description: 'Adds a user to your account.
@@ -232,7 +234,7 @@ paths:
         and will be indexed by ID in the `account_invitations` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Create Account Invitation
+      operationId: CreateAccountInvitation
       tags:
       - Account Invitations
       parameters:
@@ -416,6 +418,8 @@ paths:
                   - email_address
                   - full_name
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Create Account Invitation
   /account_invitations/{id}:
     get:
       summary: Fetching a single Account Invitation
@@ -426,7 +430,7 @@ paths:
         and will be indexed by ID in the `account_invitations` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Get Account Invitation
+      operationId: GetAccountInvitation
       tags:
       - Account Invitations
       parameters:
@@ -530,6 +534,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Account Invitation
     put:
       summary: Updating an existing Account Invitation
       description: 'This endpoint returns structured Account Invitation objects.
@@ -539,7 +545,7 @@ paths:
         and will be indexed by ID in the `account_invitations` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Update Account Invitation
+      operationId: UpdateAccountInvitation
       tags:
       - Account Invitations
       parameters:
@@ -679,12 +685,14 @@ paths:
 
                         include administrator, reports_viewer_with_cost, reports_viewer, project_lead, project_creator, collaborator, and punch_clock.".'
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Update Account Invitation
     delete:
       summary: Deleting an existing Account Invitation
       description: 'The response will contain no content and an HTTP 204 status code if the request was
 
         successful, or a standard Kantata OX error message explaining why the object could not be deleted.'
-      operationId: Delete Account Invitation
+      operationId: DeleteAccountInvitation
       tags:
       - Account Invitations
       parameters:
@@ -733,6 +741,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Delete Account Invitation
   /account_invitations/{id}/resend:
     put:
       summary: Resend an account invitation
@@ -749,7 +759,7 @@ paths:
         and will be indexed by ID in the `account_invitations` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Resend Account Invitation
+      operationId: ResendAccountInvitation
       tags:
       - Account Invitations
       parameters:
@@ -853,8 +863,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Resend Account Invitation
 components:
   schemas:
+    Error:
+      type: object
+      properties:
+        type:
+          type: string
+        message:
+          type: string
+    Errors:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
     AccountInvitation:
       title: Account Invitation
       description: The Account Invitation represents an invitation to join an existing Kantata OX account as a user.
@@ -904,38 +930,6 @@ components:
         permission:
           type: string
           description: The access level that the invited user will have (one of administrator, reports_viewer_with_cost, reports_viewer, project_lead, project_creator, collaborator, and punch_clock).
-    Role:
-      title: Role
-      description: 'A Role represents the main position or title assigned to members on an account. Roles may be associated with account memberships, account invitations,
-
-        participation, project template assignments, rate card roles, rate card versions, resources, or time adjustments.'
-      type: object
-      properties:
-        created_at:
-          type: string
-          format: date-time
-        deleted_at:
-          type: string
-          format: date-time
-          description: The time the role was deleted.
-        external_reference_ids:
-          type: array
-          items:
-            type: string
-          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        name:
-          type: string
-          description: The name of the role.
-        updated_at:
-          type: string
-          format: date-time
-    Error:
-      type: object
-      properties:
-        type:
-          type: string
-        message:
-          type: string
     User:
       title: User
       description: 'Users represent the individuals that are participating in Kantata OX projects. User objects are often returned as
@@ -1030,13 +1024,31 @@ components:
           items:
             type: string
           description: '`work_sample_ids` will only be included in the response if `work_samples` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-    Errors:
+    Role:
+      title: Role
+      description: 'A Role represents the main position or title assigned to members on an account. Roles may be associated with account memberships, account invitations,
+
+        participation, project template assignments, rate card roles, rate card versions, resources, or time adjustments.'
       type: object
       properties:
-        errors:
+        created_at:
+          type: string
+          format: date-time
+        deleted_at:
+          type: string
+          format: date-time
+          description: The time the role was deleted.
+        external_reference_ids:
           type: array
           items:
-            $ref: '#/components/schemas/Error'
+            type: string
+          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        name:
+          type: string
+          description: The name of the role.
+        updated_at:
+          type: string
+          format: date-time
   securitySchemes:
     BearerToken:
       type: apiKey

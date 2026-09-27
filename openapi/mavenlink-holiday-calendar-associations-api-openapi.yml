@@ -35,7 +35,7 @@ paths:
         and will be indexed by ID in the `holiday_calendar_associations` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Get Holiday Calendar Associations
+      operationId: GetHolidayCalendarAssociations
       tags:
       - Holiday Calendar Associations
       parameters:
@@ -162,6 +162,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Holiday Calendar Associations
     post:
       summary: Creating a new Holiday Calendar Association
       description: 'This endpoint returns structured Holiday Calendar Association objects.
@@ -171,7 +173,7 @@ paths:
         and will be indexed by ID in the `holiday_calendar_associations` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Create Holiday Calendar Association
+      operationId: CreateHolidayCalendarAssociation
       tags:
       - Holiday Calendar Associations
       parameters:
@@ -288,6 +290,8 @@ paths:
                   - holiday_id
                   - holiday_calendar_id
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Create Holiday Calendar Association
   /holiday_calendar_associations/{id}:
     get:
       summary: Fetching a single Holiday Calendar Association
@@ -298,7 +302,7 @@ paths:
         and will be indexed by ID in the `holiday_calendar_associations` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Get Holiday Calendar Association
+      operationId: GetHolidayCalendarAssociation
       tags:
       - Holiday Calendar Associations
       parameters:
@@ -400,12 +404,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Holiday Calendar Association
     delete:
       summary: Deleting an existing Holiday Calendar Association
       description: 'The response will contain no content and an HTTP 204 status code if the request was
 
         successful, or a standard Kantata OX error message explaining why the object could not be deleted.'
-      operationId: Delete Holiday Calendar Association
+      operationId: DeleteHolidayCalendarAssociation
       tags:
       - Holiday Calendar Associations
       parameters:
@@ -454,19 +460,45 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Delete Holiday Calendar Association
 components:
   schemas:
-    HolidayCalendar:
-      title: Holiday Calendar
-      description: A Holiday Calendar defines the days in which account members are unavailable to work due to company-wide days off.
+    Error:
       type: object
       properties:
-        default:
-          type: boolean
-          description: Whether the holiday calendar is the account default.
-        name:
+        type:
           type: string
-          description: The name of the holiday calendar.
+        message:
+          type: string
+    Errors:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+    HolidayCalendarAssociation:
+      title: Holiday Calendar Association
+      description: 'A Holiday Calendar Association represents the relationship between Holiday objects and Holiday Calendar objects.
+
+        A Holiday can be associated with several different Holiday Calendars.
+
+        To associate a Holiday with a Holiday Calendar create a Holiday Calendar Assocation.'
+      type: object
+      properties:
+        holiday_calendar_id:
+          type: string
+          description: '`holiday_calendar_id` will only be included in the response if `holiday_calendar` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        holiday_calendar_name:
+          type: string
+          description: Returns the name of the associated Holiday Calendar.
+        holiday_id:
+          type: string
+          description: '`holiday_id` will only be included in the response if `holiday` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        holiday_name:
+          type: string
+          description: Returns the name of the associated Holiday.
     Holiday:
       title: Holiday
       description: A holiday is a day (or range of days) representing company-wide time off. Holidays are associated with a calendar for scheduling purposes.".
@@ -500,41 +532,17 @@ components:
           type: integer
           format: int32
           description: The number of workweek hours that the holiday includes.
-    HolidayCalendarAssociation:
-      title: Holiday Calendar Association
-      description: 'A Holiday Calendar Association represents the relationship between Holiday objects and Holiday Calendar objects.
-
-        A Holiday can be associated with several different Holiday Calendars.
-
-        To associate a Holiday with a Holiday Calendar create a Holiday Calendar Assocation.'
+    HolidayCalendar:
+      title: Holiday Calendar
+      description: A Holiday Calendar defines the days in which account members are unavailable to work due to company-wide days off.
       type: object
       properties:
-        holiday_calendar_id:
+        default:
+          type: boolean
+          description: Whether the holiday calendar is the account default.
+        name:
           type: string
-          description: '`holiday_calendar_id` will only be included in the response if `holiday_calendar` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        holiday_calendar_name:
-          type: string
-          description: Returns the name of the associated Holiday Calendar.
-        holiday_id:
-          type: string
-          description: '`holiday_id` will only be included in the response if `holiday` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        holiday_name:
-          type: string
-          description: Returns the name of the associated Holiday.
-    Error:
-      type: object
-      properties:
-        type:
-          type: string
-        message:
-          type: string
-    Errors:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
+          description: The name of the holiday calendar.
   securitySchemes:
     BearerToken:
       type: apiKey

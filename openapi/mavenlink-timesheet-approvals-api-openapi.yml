@@ -34,7 +34,7 @@ paths:
         and will be indexed by ID in the `resolutions` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Approve Timesheet Submissions
+      operationId: ApproveTimesheetSubmissions
       tags:
       - Timesheet Approvals
       responses:
@@ -141,6 +141,8 @@ paths:
                   required:
                   - submission_ids
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Approve Timesheet Submissions
 components:
   schemas:
     Errors:

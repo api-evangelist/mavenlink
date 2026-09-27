@@ -34,7 +34,7 @@ paths:
         and will be indexed by ID in the `workspace_status_changes` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Get Workspace Status Changes
+      operationId: GetWorkspaceStatusChanges
       tags:
       - Workspace Status Changes
       parameters:
@@ -190,6 +190,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Workspace Status Changes
     post:
       summary: Creating a new Workspace Status Change
       description: 'This endpoint returns structured Workspace Status Change objects.
@@ -199,7 +201,7 @@ paths:
         and will be indexed by ID in the `workspace_status_changes` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Create Workspace Status Change
+      operationId: CreateWorkspaceStatusChange
       tags:
       - Workspace Status Changes
       parameters:
@@ -316,6 +318,8 @@ paths:
                   - workspace_id
                   - to_status_key
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Create Workspace Status Change
   /workspace_status_changes/{id}:
     get:
       summary: Fetching a single Workspace Status Change
@@ -329,7 +333,7 @@ paths:
         and will be indexed by ID in the `workspace_status_changes` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Get Workspace Status Change
+      operationId: GetWorkspaceStatusChange
       tags:
       - Workspace Status Changes
       parameters:
@@ -431,15 +435,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Workspace Status Change
 components:
   schemas:
-    Error:
-      type: object
-      properties:
-        type:
-          type: string
-        message:
-          type: string
     Workspace:
       title: Workspace
       description: Workspaces (also called projects) represent the space in which Kantata OX users plan, communicate, and collaborate.
@@ -907,6 +906,55 @@ components:
           items:
             type: string
           description: '`workspace_resources_with_unnamed_ids` will only be included in the response if `workspace_resources_with_unnamed` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+    Error:
+      type: object
+      properties:
+        type:
+          type: string
+        message:
+          type: string
+    WorkspaceStatusChange:
+      title: Workspace Status Change
+      description: Workspace Status Changes represents a record of changes made to the status of a project.
+      type: object
+      properties:
+        created_at:
+          type: string
+          format: date-time
+        from_color:
+          type: string
+          description: Color of the previous status.
+        from_message:
+          type: string
+          description: Message of the previous status.
+        from_status_key:
+          type: string
+          description: Value of the previous status key.
+        to_color:
+          type: string
+          description: Color of the new status.
+        to_message:
+          type: string
+          description: Message of the new status.
+        to_status_key:
+          type: string
+          description: Value of the new status key.
+        updated_at:
+          type: string
+          format: date-time
+        user_id:
+          type: string
+          description: '`user_id` will only be included in the response if `user` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        workspace_id:
+          type: string
+          description: '`workspace_id` will only be included in the response if `workspace` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+    Errors:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
     User:
       title: User
       description: 'Users represent the individuals that are participating in Kantata OX projects. User objects are often returned as
@@ -1001,48 +1049,6 @@ components:
           items:
             type: string
           description: '`work_sample_ids` will only be included in the response if `work_samples` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-    Errors:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
-    WorkspaceStatusChange:
-      title: Workspace Status Change
-      description: Workspace Status Changes represents a record of changes made to the status of a project.
-      type: object
-      properties:
-        created_at:
-          type: string
-          format: date-time
-        from_color:
-          type: string
-          description: Color of the previous status.
-        from_message:
-          type: string
-          description: Message of the previous status.
-        from_status_key:
-          type: string
-          description: Value of the previous status key.
-        to_color:
-          type: string
-          description: Color of the new status.
-        to_message:
-          type: string
-          description: Message of the new status.
-        to_status_key:
-          type: string
-          description: Value of the new status key.
-        updated_at:
-          type: string
-          format: date-time
-        user_id:
-          type: string
-          description: '`user_id` will only be included in the response if `user` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        workspace_id:
-          type: string
-          description: '`workspace_id` will only be included in the response if `workspace` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
   securitySchemes:
     BearerToken:
       type: apiKey

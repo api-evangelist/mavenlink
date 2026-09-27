@@ -33,7 +33,7 @@ paths:
         and will be indexed by ID in the `cost_rates` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Get Cost Rates
+      operationId: GetCostRates
       tags:
       - Cost Rates
       parameters:
@@ -176,6 +176,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Cost Rates
     post:
       summary: Creating one or many Cost Rates
       description: 'Creates a new cost rate for a specified account membership and currency. If a cost rate already exists
@@ -195,7 +197,7 @@ paths:
         and will be indexed by ID in the `cost_rates` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Create Cost Rate
+      operationId: CreateCostRate
       tags:
       - Cost Rates
       parameters:
@@ -331,6 +333,8 @@ paths:
                     - currency
                     - amount_in_subunits
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Create Cost Rate
   /cost_rates/{id}:
     put:
       summary: Updating an existing Cost Rate
@@ -341,7 +345,7 @@ paths:
         and will be indexed by ID in the `cost_rates` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Update Cost Rate
+      operationId: UpdateCostRate
       tags:
       - Cost Rates
       parameters:
@@ -453,12 +457,14 @@ paths:
                   required:
                   - amount_in_subunits
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Update Cost Rate
     delete:
       summary: Deleting an existing Cost Rate
       description: 'The response will contain no content and an HTTP 204 status code if the request was
 
         successful, or a standard Kantata OX error message explaining why the object could not be deleted.'
-      operationId: Delete Cost Rate
+      operationId: DeleteCostRate
       tags:
       - Cost Rates
       parameters:
@@ -507,22 +513,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Delete Cost Rate
 components:
   schemas:
-    Error:
-      type: object
-      properties:
-        type:
-          type: string
-        message:
-          type: string
-    Errors:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
     CostRate:
       title: Cost Rate
       description: 'A Cost Rate represents the hourly cost of an account member, specified in a specific currency. A Cost Rate with the same currency
@@ -554,6 +548,20 @@ components:
         updated_at:
           type: string
           format: date-time
+    Error:
+      type: object
+      properties:
+        type:
+          type: string
+        message:
+          type: string
+    Errors:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
     AccountMembership:
       title: Account Membership
       description: An Account Membership represents the relationship of a user to an account.

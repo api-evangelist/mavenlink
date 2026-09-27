@@ -33,7 +33,7 @@ paths:
         and will be indexed by ID in the `estimates` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Get Estimates
+      operationId: GetEstimates
       tags:
       - Estimates
       parameters:
@@ -348,6 +348,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Estimates
     post:
       summary: Creating a new Estimate
       description: 'This endpoint returns structured Estimate objects.
@@ -357,7 +359,7 @@ paths:
         and will be indexed by ID in the `estimates` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Create Estimate
+      operationId: CreateEstimate
       tags:
       - Estimates
       parameters:
@@ -558,6 +560,8 @@ paths:
                   - name
                   - currency
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Create Estimate
   /estimates/{id}:
     get:
       summary: Fetching a single Estimate
@@ -568,7 +572,7 @@ paths:
         and will be indexed by ID in the `estimates` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Get Estimate
+      operationId: GetEstimate
       tags:
       - Estimates
       parameters:
@@ -694,6 +698,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Estimate
     put:
       summary: Updating an existing Estimate
       description: 'This endpoint returns structured Estimate objects.
@@ -703,7 +709,7 @@ paths:
         and will be indexed by ID in the `estimates` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Update Estimate
+      operationId: UpdateEstimate
       tags:
       - Estimates
       parameters:
@@ -885,6 +891,8 @@ paths:
                       - service_model
                       - service_model_ref
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Update Estimate
     delete:
       summary: Deleting an existing Estimate
       description: 'Deletes the estimate and it''s associated scenarios, scenario resources,
@@ -895,7 +903,7 @@ paths:
         The response will contain no content and an HTTP 204 status code if the request was
 
         successful, or a standard Kantata OX error message explaining why the object could not be deleted.'
-      operationId: Delete Estimate
+      operationId: DeleteEstimate
       tags:
       - Estimates
       parameters:
@@ -944,235 +952,104 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Delete Estimate
 components:
   schemas:
-    ExternalReference:
-      title: External Reference
-      description: 'External References allows users see which objects (one of `Assignment`, `BillingMilestone`, `CustomField`, `CustomFieldChoice`, `CustomFieldSet`, `CustomFieldValue`, `Estimate`, `EstimateScenario`, `EstimateScenarioResource`, `Expense`, `ExpenseBudget`, `Invoice`, `Participation`, `Post`, `RateCard`, `Role`, `Skill`, `StatusReport`, `Story`, `StoryAllocationDay`, `Submission`, `SurveyAnswer`, `SurveyQuestion`, `SurveyResponse`, `SurveyTemplate`, `TimeEntry`, `TimeOffEntry`, `User`, `Vendor`, `Workspace`, `WorkspaceAllocation`, `WorkspaceGroup`, or `WorkspaceResource`
+    User:
+      title: User
+      description: 'Users represent the individuals that are participating in Kantata OX projects. User objects are often returned as
 
-        are synced with third party systems. This allows you to view the sync status of items in addition to the integration
-
-        specifics for a synced object.
-
-
-        Objects that are synced with a third party system have external integration
-
-        attributes that include the corresponding ID of the third party object with
-
-        which it is synced, a link that allows you to view the object in the third
-
-        party system, the status of the external object in the external system,
-
-        the status of the sync, and a link to exceptions.'
+        nested JSON objects within other returned items such as Posts or Stories.'
       type: object
       properties:
-        created_at:
+        abbreviated_timezone:
           type: string
-          format: date-time
-          description: The date and time the reference was created.
-        external_link:
-          type: string
-          description: A URL that links to either the external object or event.
-        external_message:
-          type: string
-          description: An optional message about the external object.
-        external_status:
-          type: string
-          description: The status of the external object in the external system.
-        last_synced_at:
-          type: string
-          format: date-time
-        locked:
-          type: boolean
-          description: 'An optional field, indicating whether the subject should be locked. To prevent changes to the
+          description: 'The abbreviation for the user''s time zone.
 
-            object in Kantata OX, set this to true. This currently only applies to expense report rejections.'
-        service_model:
+            Only returned when requested through the optional_fields param.'
+        account_membership_id:
           type: string
-          description: The type of the external object to which this reference belongs.
-        service_model_ref:
+          description: '`account_membership_id` will only be included in the response if `account_membership` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        bio:
           type: string
-          description: The ID of the external object to which this reference belongs.
-        service_name:
-          type: string
-          description: The provider name of the integration.
-        status:
-          type: string
-          description: The status of the integration. Options are 'pending', 'successful', or 'failed'.
-        subject_id:
-          type: integer
-          format: int32
-          description: The ID of the Kantata OX object to which this external reference belongs.
-        subject_ref:
-          type: object
-          description: '`subject_ref` will only be included in the response if `subject` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-          properties:
-            key:
-              type: string
-            id:
-              type: string
-        subject_type:
-          type: string
-          description: 'The type of Kantata OX object to which this external reference belongs.
+          description: 'A biography (defined by the user).
 
-            One of `Assignment`, `BillingMilestone`, `CustomField`, `CustomFieldChoice`, `CustomFieldSet`, `CustomFieldValue`, `Estimate`, `EstimateScenario`, `EstimateScenarioResource`, `Expense`, `ExpenseBudget`, `Invoice`, `Participation`, `Post`, `RateCard`, `Role`, `Skill`, `StatusReport`, `Story`, `StoryAllocationDay`, `Submission`, `SurveyAnswer`, `SurveyQuestion`, `SurveyResponse`, `SurveyTemplate`, `TimeEntry`, `TimeOffEntry`, `User`, `Vendor`, `Workspace`, `WorkspaceAllocation`, `WorkspaceGroup`, or `WorkspaceResource`.'
-        updated_at:
+            Only returned when requested through the optional_fields param.'
+        city:
           type: string
-          format: date-time
-          description: The date and time the reference was last updated.
-    EstimateScenario:
-      title: Estimate Scenario
-      description: 'An Estimate Scenario represents a possible project configuration. It includes a rate card, budget, and
+          description: 'The home city of the user (based on their profile).
 
-        associated resources and allocations.'
-      type: object
-      properties:
-        budget_in_cents:
-          type: integer
-          format: int32
-          description: The maximum budget, in cents, available for the project.
-        created_at:
+            Only returned when requested through the optional_fields param.'
+        classification:
           type: string
-          format: date-time
-        estimate_id:
-          type: integer
-          format: int32
-          description: The ID of the estimate for the scenario.
-        estimate_scenario_resource_ids:
-          type: array
-          items:
-            type: string
-          description: '`estimate_scenario_resource_ids` will only be included in the response if `estimate_scenario_resources` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        external_reference_ids:
-          type: array
-          items:
-            type: string
-          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        name:
-          type: string
-          description: The name of the estimate scenario.
-        rate_card_id:
-          type: string
-          description: '`rate_card_id` will only be included in the response if `rate_card` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        start_date:
-          type: string
-          format: date-time
-          description: The estimated date when the project will start.
-        target_margin_percent:
-          type: integer
-          format: int32
-          description: The target profit margin, in percentage, for the project.
-        updated_at:
-          type: string
-          format: date-time
-    Estimate:
-      title: Estimate
-      description: 'An Estimate represents a potential project. Estimates allow you to plan out a project''s budget, resources,
+          description: 'Indicates whether a user is Internal or External.
 
-        and allocations through associated estimate scenarios.'
-      type: object
-      properties:
-        created_at:
+            Only returned when requested through the optional_fields param.'
+        country:
           type: string
-          format: date-time
-          description: The time the estimate was created.
-        creator_id:
-          type: string
-          description: '`creator_id` will only be included in the response if `creator` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        currency:
-          type: string
-          description: The currency of the estimate, used in all associated estimate scenarios.
+          description: 'The home country of the user (based on their profile).
+
+            Only returned when requested through the optional_fields param.'
         custom_field_value_ids:
           type: array
           items:
             type: string
           description: '`custom_field_value_ids` will only be included in the response if `custom_field_values` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        description:
+        email_address:
           type: string
-          description: The description of the estimate.
-        estimate_scenario_ids:
-          type: array
-          items:
-            type: string
-          description: '`estimate_scenario_ids` will only be included in the response if `estimate_scenarios` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+          description: The email address of the user.
         external_reference_ids:
           type: array
           items:
             type: string
           description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        is_locked:
-          type: boolean
-          description: Whether a project has been created from the estimate. If so, the estimate can no longer be updated.
-        name:
+        full_name:
           type: string
-          description: The name of the estimate.
-        updated_at:
+          description: The full name of the user.
+        headline:
           type: string
-          format: date-time
-        workspace_group_id:
-          type: string
-          description: '`workspace_group_id` will only be included in the response if `workspace_group` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        workspace_id:
-          type: string
-          description: '`workspace_id` will only be included in the response if `workspace` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-    WorkspaceGroup:
-      title: Workspace Group
-      description: 'Workspace Groups (also known as groups) allow for the categorization of Kantata OX Workspaces and Users. Workspace Groups are unique to each Kantata OX Account. These endpoints allow you to fetch, create, update, and delete Workspace Groups.
-
-
-        To add a workspace to a Workspace Group, use the [create workspace](/tag/Workspaces#operation/create-workspace) or [update workspace](/tag/Workspaces#operation/update-workspace) endpoint and set the `workspace_group_ids` field.
-
-
-        To add a user to a Workspace Group, use the [create user group membership](/tag/User-Group-Memberships#operation/create-user-group-memberships) endpoint.'
-      type: object
-      properties:
-        address:
-          type: string
-          description: The address of the company contact.
-        company:
-          type: boolean
-          description: Whether the group represents a company.
-        contact_name:
-          type: string
-          description: The name of the company contact.
-        created_at:
+          description: A short description of the user.
+        last_site_activity:
           type: string
           format: date-time
-          description: When the group was created.
-        email:
+          description: 'The last time a user logged in. This field is only available in conjunction with the `on_my_account` filter option. Only visible when the API user is an Account Administrator.
+
+            Only returned when requested through the optional_fields param.'
+        manager_id:
           type: string
-          description: The email of the company contact.
-        external_reference_ids:
+          description: '`manager_id` will only be included in the response if `manager` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        photo_path:
+          type: string
+          description: The URL of the user's profile photo.
+        role_id:
+          type: string
+          description: '`role_id` will only be included in the response if `role` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        skill_ids:
           type: array
           items:
             type: string
-          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        name:
-          type: string
-          description: The name of the group.
-        notes:
-          type: string
-          description: Notes on the group.
-        phone_number:
-          type: string
-          description: The phone number of the company contact.
-        rate_card_set_ids:
+          description: '`skill_ids` will only be included in the response if `skills` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        skill_membership_ids:
           type: array
           items:
             type: string
-          description: '`rate_card_set_ids` will only be included in the response if `rate_card_sets` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        updated_at:
+          description: '`skill_membership_ids` will only be included in the response if `skill_memberships` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        state:
           type: string
-          format: date-time
-          description: When the group was last updated.
+          description: 'The home state of the user (based on their profile).
+
+            Only returned when requested through the optional_fields param.'
         website:
           type: string
-          description: The website of the company contact.
-        workspace_ids:
+          description: 'A website (defined by the user).
+
+            Only returned when requested through the optional_fields param.'
+        work_sample_ids:
           type: array
           items:
             type: string
-          description: '`workspace_ids` will only be included in the response if `workspaces` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+          description: '`work_sample_ids` will only be included in the response if `work_samples` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
     Workspace:
       title: Workspace
       description: Workspaces (also called projects) represent the space in which Kantata OX users plan, communicate, and collaborate.
@@ -1640,114 +1517,51 @@ components:
           items:
             type: string
           description: '`workspace_resources_with_unnamed_ids` will only be included in the response if `workspace_resources_with_unnamed` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-    Error:
+    EstimateScenario:
+      title: Estimate Scenario
+      description: 'An Estimate Scenario represents a possible project configuration. It includes a rate card, budget, and
+
+        associated resources and allocations.'
       type: object
       properties:
-        type:
+        budget_in_cents:
+          type: integer
+          format: int32
+          description: The maximum budget, in cents, available for the project.
+        created_at:
           type: string
-        message:
-          type: string
-    User:
-      title: User
-      description: 'Users represent the individuals that are participating in Kantata OX projects. User objects are often returned as
-
-        nested JSON objects within other returned items such as Posts or Stories.'
-      type: object
-      properties:
-        abbreviated_timezone:
-          type: string
-          description: 'The abbreviation for the user''s time zone.
-
-            Only returned when requested through the optional_fields param.'
-        account_membership_id:
-          type: string
-          description: '`account_membership_id` will only be included in the response if `account_membership` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        bio:
-          type: string
-          description: 'A biography (defined by the user).
-
-            Only returned when requested through the optional_fields param.'
-        city:
-          type: string
-          description: 'The home city of the user (based on their profile).
-
-            Only returned when requested through the optional_fields param.'
-        classification:
-          type: string
-          description: 'Indicates whether a user is Internal or External.
-
-            Only returned when requested through the optional_fields param.'
-        country:
-          type: string
-          description: 'The home country of the user (based on their profile).
-
-            Only returned when requested through the optional_fields param.'
-        custom_field_value_ids:
+          format: date-time
+        estimate_id:
+          type: integer
+          format: int32
+          description: The ID of the estimate for the scenario.
+        estimate_scenario_resource_ids:
           type: array
           items:
             type: string
-          description: '`custom_field_value_ids` will only be included in the response if `custom_field_values` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        email_address:
-          type: string
-          description: The email address of the user.
+          description: '`estimate_scenario_resource_ids` will only be included in the response if `estimate_scenario_resources` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
         external_reference_ids:
           type: array
           items:
             type: string
           description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        full_name:
+        name:
           type: string
-          description: The full name of the user.
-        headline:
+          description: The name of the estimate scenario.
+        rate_card_id:
           type: string
-          description: A short description of the user.
-        last_site_activity:
+          description: '`rate_card_id` will only be included in the response if `rate_card` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        start_date:
           type: string
           format: date-time
-          description: 'The last time a user logged in. This field is only available in conjunction with the `on_my_account` filter option. Only visible when the API user is an Account Administrator.
-
-            Only returned when requested through the optional_fields param.'
-        manager_id:
+          description: The estimated date when the project will start.
+        target_margin_percent:
+          type: integer
+          format: int32
+          description: The target profit margin, in percentage, for the project.
+        updated_at:
           type: string
-          description: '`manager_id` will only be included in the response if `manager` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        photo_path:
-          type: string
-          description: The URL of the user's profile photo.
-        role_id:
-          type: string
-          description: '`role_id` will only be included in the response if `role` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        skill_ids:
-          type: array
-          items:
-            type: string
-          description: '`skill_ids` will only be included in the response if `skills` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        skill_membership_ids:
-          type: array
-          items:
-            type: string
-          description: '`skill_membership_ids` will only be included in the response if `skill_memberships` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        state:
-          type: string
-          description: 'The home state of the user (based on their profile).
-
-            Only returned when requested through the optional_fields param.'
-        website:
-          type: string
-          description: 'A website (defined by the user).
-
-            Only returned when requested through the optional_fields param.'
-        work_sample_ids:
-          type: array
-          items:
-            type: string
-          description: '`work_sample_ids` will only be included in the response if `work_samples` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-    Errors:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
+          format: date-time
     CustomFieldValue:
       title: Custom Field Value
       description: 'If [Custom Fields](/tag/Custom-Fields) represent the fields themselves,
@@ -1904,6 +1718,202 @@ components:
             - `reports_viewer_with_cost`
 
             - `account_admin` (default).'
+    Error:
+      type: object
+      properties:
+        type:
+          type: string
+        message:
+          type: string
+    Errors:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+    Estimate:
+      title: Estimate
+      description: 'An Estimate represents a potential project. Estimates allow you to plan out a project''s budget, resources,
+
+        and allocations through associated estimate scenarios.'
+      type: object
+      properties:
+        created_at:
+          type: string
+          format: date-time
+          description: The time the estimate was created.
+        creator_id:
+          type: string
+          description: '`creator_id` will only be included in the response if `creator` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        currency:
+          type: string
+          description: The currency of the estimate, used in all associated estimate scenarios.
+        custom_field_value_ids:
+          type: array
+          items:
+            type: string
+          description: '`custom_field_value_ids` will only be included in the response if `custom_field_values` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        description:
+          type: string
+          description: The description of the estimate.
+        estimate_scenario_ids:
+          type: array
+          items:
+            type: string
+          description: '`estimate_scenario_ids` will only be included in the response if `estimate_scenarios` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        external_reference_ids:
+          type: array
+          items:
+            type: string
+          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        is_locked:
+          type: boolean
+          description: Whether a project has been created from the estimate. If so, the estimate can no longer be updated.
+        name:
+          type: string
+          description: The name of the estimate.
+        updated_at:
+          type: string
+          format: date-time
+        workspace_group_id:
+          type: string
+          description: '`workspace_group_id` will only be included in the response if `workspace_group` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        workspace_id:
+          type: string
+          description: '`workspace_id` will only be included in the response if `workspace` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+    WorkspaceGroup:
+      title: Workspace Group
+      description: 'Workspace Groups (also known as groups) allow for the categorization of Kantata OX Workspaces and Users. Workspace Groups are unique to each Kantata OX Account. These endpoints allow you to fetch, create, update, and delete Workspace Groups.
+
+
+        To add a workspace to a Workspace Group, use the [create workspace](/tag/Workspaces#operation/create-workspace) or [update workspace](/tag/Workspaces#operation/update-workspace) endpoint and set the `workspace_group_ids` field.
+
+
+        To add a user to a Workspace Group, use the [create user group membership](/tag/User-Group-Memberships#operation/create-user-group-memberships) endpoint.'
+      type: object
+      properties:
+        address:
+          type: string
+          description: The address of the company contact.
+        company:
+          type: boolean
+          description: Whether the group represents a company.
+        contact_name:
+          type: string
+          description: The name of the company contact.
+        created_at:
+          type: string
+          format: date-time
+          description: When the group was created.
+        email:
+          type: string
+          description: The email of the company contact.
+        external_reference_ids:
+          type: array
+          items:
+            type: string
+          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        name:
+          type: string
+          description: The name of the group.
+        notes:
+          type: string
+          description: Notes on the group.
+        phone_number:
+          type: string
+          description: The phone number of the company contact.
+        rate_card_set_ids:
+          type: array
+          items:
+            type: string
+          description: '`rate_card_set_ids` will only be included in the response if `rate_card_sets` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        updated_at:
+          type: string
+          format: date-time
+          description: When the group was last updated.
+        website:
+          type: string
+          description: The website of the company contact.
+        workspace_ids:
+          type: array
+          items:
+            type: string
+          description: '`workspace_ids` will only be included in the response if `workspaces` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+    ExternalReference:
+      title: External Reference
+      description: 'External References allows users see which objects (one of `Assignment`, `BillingMilestone`, `CustomField`, `CustomFieldChoice`, `CustomFieldSet`, `CustomFieldValue`, `Estimate`, `EstimateScenario`, `EstimateScenarioResource`, `Expense`, `ExpenseBudget`, `Invoice`, `Participation`, `Post`, `RateCard`, `Role`, `Skill`, `StatusReport`, `Story`, `StoryAllocationDay`, `Submission`, `SurveyAnswer`, `SurveyQuestion`, `SurveyResponse`, `SurveyTemplate`, `TimeEntry`, `TimeOffEntry`, `User`, `Vendor`, `Workspace`, `WorkspaceAllocation`, `WorkspaceGroup`, or `WorkspaceResource`
+
+        are synced with third party systems. This allows you to view the sync status of items in addition to the integration
+
+        specifics for a synced object.
+
+
+        Objects that are synced with a third party system have external integration
+
+        attributes that include the corresponding ID of the third party object with
+
+        which it is synced, a link that allows you to view the object in the third
+
+        party system, the status of the external object in the external system,
+
+        the status of the sync, and a link to exceptions.'
+      type: object
+      properties:
+        created_at:
+          type: string
+          format: date-time
+          description: The date and time the reference was created.
+        external_link:
+          type: string
+          description: A URL that links to either the external object or event.
+        external_message:
+          type: string
+          description: An optional message about the external object.
+        external_status:
+          type: string
+          description: The status of the external object in the external system.
+        last_synced_at:
+          type: string
+          format: date-time
+        locked:
+          type: boolean
+          description: 'An optional field, indicating whether the subject should be locked. To prevent changes to the
+
+            object in Kantata OX, set this to true. This currently only applies to expense report rejections.'
+        service_model:
+          type: string
+          description: The type of the external object to which this reference belongs.
+        service_model_ref:
+          type: string
+          description: The ID of the external object to which this reference belongs.
+        service_name:
+          type: string
+          description: The provider name of the integration.
+        status:
+          type: string
+          description: The status of the integration. Options are 'pending', 'successful', or 'failed'.
+        subject_id:
+          type: integer
+          format: int32
+          description: The ID of the Kantata OX object to which this external reference belongs.
+        subject_ref:
+          type: object
+          description: '`subject_ref` will only be included in the response if `subject` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+          properties:
+            key:
+              type: string
+            id:
+              type: string
+        subject_type:
+          type: string
+          description: 'The type of Kantata OX object to which this external reference belongs.
+
+            One of `Assignment`, `BillingMilestone`, `CustomField`, `CustomFieldChoice`, `CustomFieldSet`, `CustomFieldValue`, `Estimate`, `EstimateScenario`, `EstimateScenarioResource`, `Expense`, `ExpenseBudget`, `Invoice`, `Participation`, `Post`, `RateCard`, `Role`, `Skill`, `StatusReport`, `Story`, `StoryAllocationDay`, `Submission`, `SurveyAnswer`, `SurveyQuestion`, `SurveyResponse`, `SurveyTemplate`, `TimeEntry`, `TimeOffEntry`, `User`, `Vendor`, `Workspace`, `WorkspaceAllocation`, `WorkspaceGroup`, or `WorkspaceResource`.'
+        updated_at:
+          type: string
+          format: date-time
+          description: The date and time the reference was last updated.
   securitySchemes:
     BearerToken:
       type: apiKey

@@ -31,7 +31,7 @@ paths:
         and will be indexed by ID in the `account_locations` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Get Account Locations
+      operationId: GetAccountLocations
       tags:
       - Account Locations
       parameters:
@@ -151,6 +151,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Account Locations
     post:
       summary: Creating a new Account Location
       description: 'This endpoint returns structured Account Location objects.
@@ -160,7 +162,7 @@ paths:
         and will be indexed by ID in the `account_locations` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Create Account Location
+      operationId: CreateAccountLocation
       tags:
       - Account Locations
       responses:
@@ -254,6 +256,8 @@ paths:
                       type: boolean
                       description: Whether the account location is archived or active. Defaults to false.
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Create Account Location
   /account_locations/{id}:
     put:
       summary: Updating an existing Account Location
@@ -264,7 +268,7 @@ paths:
         and will be indexed by ID in the `account_locations` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Update Account Location
+      operationId: UpdateAccountLocation
       tags:
       - Account Locations
       parameters:
@@ -365,12 +369,14 @@ paths:
                       type: boolean
                       description: Whether the account location is archived or active.
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Update Account Location
     delete:
       summary: Deleting an existing Account Location
       description: 'The response will contain no content and an HTTP 204 status code if the request was
 
         successful, or a standard Kantata OX error message explaining why the object could not be deleted.'
-      operationId: Delete Account Location
+      operationId: DeleteAccountLocation
       tags:
       - Account Locations
       parameters:
@@ -419,22 +425,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Delete Account Location
 components:
   schemas:
-    Error:
-      type: object
-      properties:
-        type:
-          type: string
-        message:
-          type: string
-    Errors:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
     AccountLocation:
       title: Account Location
       description: Represents a location associated with an account.
@@ -449,6 +443,20 @@ components:
         name:
           type: string
           description: The location the Account Location represents.
+    Errors:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+    Error:
+      type: object
+      properties:
+        type:
+          type: string
+        message:
+          type: string
   securitySchemes:
     BearerToken:
       type: apiKey

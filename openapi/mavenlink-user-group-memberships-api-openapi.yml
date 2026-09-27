@@ -31,7 +31,7 @@ paths:
         and will be indexed by ID in the `user_group_memberships` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Get User Group Memberships
+      operationId: GetUserGroupMemberships
       tags:
       - User Group Memberships
       parameters:
@@ -166,6 +166,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get User Group Memberships
     post:
       summary: Creating a new User Group Membership
       description: 'Adds a user to a Workspace Group.
@@ -213,7 +215,7 @@ paths:
         and will be indexed by ID in the `user_group_memberships` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Create User Group Memberships
+      operationId: CreateUserGroupMemberships
       tags:
       - User Group Memberships
       parameters:
@@ -330,6 +332,8 @@ paths:
                   - user_id
                   - workspace_group_id
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Create User Group Memberships
   /user_group_memberships/{id}:
     delete:
       summary: Deleting an existing User Group Membership
@@ -339,7 +343,7 @@ paths:
         The response will contain no content and an HTTP 204 status code if the request was
 
         successful, or a standard Kantata OX error message explaining why the object could not be deleted.'
-      operationId: Delete User Group Membership
+      operationId: DeleteUserGroupMembership
       tags:
       - User Group Memberships
       parameters:
@@ -388,29 +392,17 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Delete User Group Membership
 components:
   schemas:
-    UserWorkspaceGroup:
-      title: User Group Membership
-      description: A User Group Membership represents the connection of a user to a [Workspace Group](/tag/Workspace-Groups).
+    Error:
       type: object
       properties:
-        created_at:
+        type:
           type: string
-          format: date-time
-          description: When the user was assigned to the Workspace Group.
-        creator_id:
-          type: integer
-          format: int32
-          description: The ID of the user that assigned the associated user to the Workspace Group.
-        user_id:
-          type: integer
-          format: int32
-          description: The ID of the user that is assigned to the Workspace Group.
-        workspace_group_id:
-          type: integer
-          format: int32
-          description: The ID of the Workspace Group the user is assigned to.
+        message:
+          type: string
     WorkspaceGroup:
       title: Workspace Group
       description: 'Workspace Groups (also known as groups) allow for the categorization of Kantata OX Workspaces and Users. Workspace Groups are unique to each Kantata OX Account. These endpoints allow you to fetch, create, update, and delete Workspace Groups.
@@ -469,13 +461,13 @@ components:
           items:
             type: string
           description: '`workspace_ids` will only be included in the response if `workspaces` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-    Error:
+    Errors:
       type: object
       properties:
-        type:
-          type: string
-        message:
-          type: string
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
     User:
       title: User
       description: 'Users represent the individuals that are participating in Kantata OX projects. User objects are often returned as
@@ -570,13 +562,27 @@ components:
           items:
             type: string
           description: '`work_sample_ids` will only be included in the response if `work_samples` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-    Errors:
+    UserWorkspaceGroup:
+      title: User Group Membership
+      description: A User Group Membership represents the connection of a user to a [Workspace Group](/tag/Workspace-Groups).
       type: object
       properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
+        created_at:
+          type: string
+          format: date-time
+          description: When the user was assigned to the Workspace Group.
+        creator_id:
+          type: integer
+          format: int32
+          description: The ID of the user that assigned the associated user to the Workspace Group.
+        user_id:
+          type: integer
+          format: int32
+          description: The ID of the user that is assigned to the Workspace Group.
+        workspace_group_id:
+          type: integer
+          format: int32
+          description: The ID of the Workspace Group the user is assigned to.
   securitySchemes:
     BearerToken:
       type: apiKey

@@ -36,7 +36,7 @@ paths:
         and will be indexed by ID in the `insights_access_group_memberships` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Get Insights Access Group Memberships
+      operationId: GetInsightsAccessGroupMemberships
       tags:
       - Insights Access Group Memberships
       parameters:
@@ -184,6 +184,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Insights Access Group Memberships
     post:
       summary: Creating a new Insights Access Group Membership
       description: 'Adds a user to an Insights Access Group. Only Account Administrators can add users to Insights Access Groups.
@@ -196,7 +198,7 @@ paths:
         and will be indexed by ID in the `insights_access_group_memberships` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Create Insights Access Group Membership
+      operationId: CreateInsightsAccessGroupMembership
       tags:
       - Insights Access Group Memberships
       parameters:
@@ -317,6 +319,8 @@ paths:
                   - user_id
                   - insights_access_group_id
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Create Insights Access Group Membership
   /insights_access_group_memberships/{id}:
     get:
       summary: Fetching a single Insights Access Group Membership
@@ -327,7 +331,7 @@ paths:
         and will be indexed by ID in the `insights_access_group_memberships` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Get Insights Access Group Membership
+      operationId: GetInsightsAccessGroupMembership
       tags:
       - Insights Access Group Memberships
       parameters:
@@ -433,6 +437,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Insights Access Group Membership
     put:
       summary: Updating an existing Insights Access Group Membership
       description: 'Only Account Administrators can update Insights Access Group Memberships.
@@ -450,7 +456,7 @@ paths:
         and will be indexed by ID in the `insights_access_group_memberships` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Update Insights Access Group Membership
+      operationId: UpdateInsightsAccessGroupMembership
       tags:
       - Insights Access Group Memberships
       parameters:
@@ -575,6 +581,8 @@ paths:
 
                         **Note**: It may take up to 15 minutes for the system to sync the `can_edit` field.'
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Update Insights Access Group Membership
     delete:
       summary: Deleting an existing Insights Access Group Membership
       description: 'Removes a user from an Insights Access Group. Only Account Administrators can
@@ -585,7 +593,7 @@ paths:
         The response will contain no content and an HTTP 204 status code if the request was
 
         successful, or a standard Kantata OX error message explaining why the object could not be deleted.'
-      operationId: Delete Insights Access Group Membership
+      operationId: DeleteInsightsAccessGroupMembership
       tags:
       - Insights Access Group Memberships
       parameters:
@@ -634,59 +642,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Delete Insights Access Group Membership
 components:
   schemas:
-    Error:
-      type: object
-      properties:
-        type:
-          type: string
-        message:
-          type: string
-    Errors:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
-    InsightsAccessGroupMembership:
-      title: Insights Access Group Membership
-      description: "[Insights Access Groups](https://mavenlink.zendesk.com/hc/en-us/articles/115002115073) allow you to manage classic Insights access for users. An Insights Access \n        Group Membership represents the connection of a user to an Insights Access Group."
-      type: object
-      properties:
-        account_permission:
-          type: string
-          description: 'The account level permission of the associated user.
-
-            Only returned when requested through the optional_fields param.'
-        can_edit:
-          type: boolean
-          description: "Whether the user can create and edit custom classic Insights dashboards and reports. \n\n**Warning**: Users with `can_edit` permission have access to *all* account data via Insights."
-        created_at:
-          type: string
-          format: date-time
-          description: When the Insights Access Group Membership was created (i.e. when the user was added to the Insights Access Group).
-        insights_access_group_id:
-          type: integer
-          format: int32
-          description: The ID of the associated Insights Access Group.
-        insights_access_group_name:
-          type: string
-          description: The name of the associated Insights Access Group.
-        updated_at:
-          type: string
-          format: date-time
-          description: When the Insights Access Group Membership was updated.
-        user_id:
-          type: integer
-          format: int32
-          description: The ID of the associated user.
-        user_name:
-          type: string
-          description: 'The name of the associated user.
-
-            Only returned when requested through the optional_fields param.'
     User:
       title: User
       description: 'Users represent the individuals that are participating in Kantata OX projects. User objects are often returned as
@@ -781,6 +740,57 @@ components:
           items:
             type: string
           description: '`work_sample_ids` will only be included in the response if `work_samples` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+    Errors:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+    InsightsAccessGroupMembership:
+      title: Insights Access Group Membership
+      description: "[Insights Access Groups](https://mavenlink.zendesk.com/hc/en-us/articles/115002115073) allow you to manage classic Insights access for users. An Insights Access \n        Group Membership represents the connection of a user to an Insights Access Group."
+      type: object
+      properties:
+        account_permission:
+          type: string
+          description: 'The account level permission of the associated user.
+
+            Only returned when requested through the optional_fields param.'
+        can_edit:
+          type: boolean
+          description: "Whether the user can create and edit custom classic Insights dashboards and reports. \n\n**Warning**: Users with `can_edit` permission have access to *all* account data via Insights."
+        created_at:
+          type: string
+          format: date-time
+          description: When the Insights Access Group Membership was created (i.e. when the user was added to the Insights Access Group).
+        insights_access_group_id:
+          type: integer
+          format: int32
+          description: The ID of the associated Insights Access Group.
+        insights_access_group_name:
+          type: string
+          description: The name of the associated Insights Access Group.
+        updated_at:
+          type: string
+          format: date-time
+          description: When the Insights Access Group Membership was updated.
+        user_id:
+          type: integer
+          format: int32
+          description: The ID of the associated user.
+        user_name:
+          type: string
+          description: 'The name of the associated user.
+
+            Only returned when requested through the optional_fields param.'
+    Error:
+      type: object
+      properties:
+        type:
+          type: string
+        message:
+          type: string
   securitySchemes:
     BearerToken:
       type: apiKey

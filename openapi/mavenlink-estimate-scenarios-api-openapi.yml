@@ -33,7 +33,7 @@ paths:
         and will be indexed by ID in the `estimate_scenarios` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Get Estimate Scenarios
+      operationId: GetEstimateScenarios
       tags:
       - Estimate Scenarios
       parameters:
@@ -234,6 +234,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Estimate Scenarios
     post:
       summary: Creating a new Estimate Scenario
       description: 'This endpoint returns structured Estimate Scenario objects.
@@ -243,7 +245,7 @@ paths:
         and will be indexed by ID in the `estimate_scenarios` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Create Estimate Scenario
+      operationId: CreateEstimateScenario
       tags:
       - Estimate Scenarios
       parameters:
@@ -418,6 +420,8 @@ paths:
                   - estimate_id
                   - start_date
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Create Estimate Scenario
   /estimate_scenarios/{id}:
     get:
       summary: Fetching a single Estimate Scenario
@@ -428,7 +432,7 @@ paths:
         and will be indexed by ID in the `estimate_scenarios` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Get Estimate Scenario
+      operationId: GetEstimateScenario
       tags:
       - Estimate Scenarios
       parameters:
@@ -536,6 +540,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Estimate Scenario
     put:
       summary: Updating an existing Estimate Scenario
       description: 'This endpoint returns structured Estimate Scenario objects.
@@ -545,7 +551,7 @@ paths:
         and will be indexed by ID in the `estimate_scenarios` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Update Estimate Scenario
+      operationId: UpdateEstimateScenario
       tags:
       - Estimate Scenarios
       parameters:
@@ -714,6 +720,8 @@ paths:
                       - service_model
                       - service_model_ref
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Update Estimate Scenario
     delete:
       summary: Deleting an existing Estimate Scenario
       description: 'Deletes an estimate scenario, including all of its resources and their allocations.
@@ -722,7 +730,7 @@ paths:
         The response will contain no content and an HTTP 204 status code if the request was
 
         successful, or a standard Kantata OX error message explaining why the object could not be deleted.'
-      operationId: Delete Estimate Scenario
+      operationId: DeleteEstimateScenario
       tags:
       - Estimate Scenarios
       parameters:
@@ -771,8 +779,177 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Delete Estimate Scenario
 components:
   schemas:
+    EstimateScenario:
+      title: Estimate Scenario
+      description: 'An Estimate Scenario represents a possible project configuration. It includes a rate card, budget, and
+
+        associated resources and allocations.'
+      type: object
+      properties:
+        budget_in_cents:
+          type: integer
+          format: int32
+          description: The maximum budget, in cents, available for the project.
+        created_at:
+          type: string
+          format: date-time
+        estimate_id:
+          type: integer
+          format: int32
+          description: The ID of the estimate for the scenario.
+        estimate_scenario_resource_ids:
+          type: array
+          items:
+            type: string
+          description: '`estimate_scenario_resource_ids` will only be included in the response if `estimate_scenario_resources` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        external_reference_ids:
+          type: array
+          items:
+            type: string
+          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        name:
+          type: string
+          description: The name of the estimate scenario.
+        rate_card_id:
+          type: string
+          description: '`rate_card_id` will only be included in the response if `rate_card` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        start_date:
+          type: string
+          format: date-time
+          description: The estimated date when the project will start.
+        target_margin_percent:
+          type: integer
+          format: int32
+          description: The target profit margin, in percentage, for the project.
+        updated_at:
+          type: string
+          format: date-time
+    RateCard:
+      title: Rate Card
+      description: 'A Rate Card belongs to a Rate Card Set, and represents a currency in the set. Rate Cards have
+
+        many Rate Card Versions which represent the effective version of a Rate Card at a specified point of time.
+
+
+        Rate Cards are accessible to users with Financial access (Project Lead or higher) on the account.'
+      type: object
+      properties:
+        created_at:
+          type: string
+          format: date-time
+        currency:
+          type: string
+          description: The currency of the Rate Card.
+        effective_rate_card_version_id:
+          type: string
+          description: '`effective_rate_card_version_id` will only be included in the response if `effective_rate_card_version` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        external_reference_ids:
+          type: array
+          items:
+            type: string
+          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        rate_card_set_id:
+          type: string
+          description: '`rate_card_set_id` will only be included in the response if `rate_card_set` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        rate_card_set_title:
+          type: string
+          description: The Rate Card Set and Currency.
+        rate_card_version_ids:
+          type: array
+          items:
+            type: string
+          description: '`rate_card_version_ids` will only be included in the response if `rate_card_versions` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        removable:
+          type: boolean
+          description: Whether or not the Rate Card can be deleted.
+        updated_at:
+          type: string
+          format: date-time
+        uses:
+          type: integer
+          format: int32
+          description: The total usage count of the Rate Card.
+    Error:
+      type: object
+      properties:
+        type:
+          type: string
+        message:
+          type: string
+    Errors:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+    EstimateScenarioResource:
+      title: Estimate Scenario Resource
+      description: An Estimate Scenario Resource is an unnamed resource in an estimate scenario.
+      type: object
+      properties:
+        allocation_id:
+          type: string
+          description: '`allocation_id` will only be included in the response if `allocation` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        bill_rate:
+          type: integer
+          format: int32
+          description: 'The bill rate, in cents, of the estimate scenario resource.
+
+            When the estimate is unlocked, this is the average bill rate of all active account members in the
+
+            scenario resource''s geography, whose default role matches the role of the scenario resource.
+
+            When the estimate is locked, this the cached value of the average bill rate when the estimate was locked.'
+        cost_rate:
+          type: integer
+          format: int32
+          description: 'The cost rate, in cents, of the estimate scenario resource.
+
+            When the estimate is unlocked, this is the average cost rate of all active account members in the
+
+            scenario resource''s geography, whose default role matches the role of the scenario resource.
+
+            When the estimate is locked, this the cached value of the average cost rate when the estimate was locked.'
+        created_at:
+          type: string
+          format: date-time
+        display_label:
+          type: string
+          description: User facing Identifier for the Resource.
+        estimate_scenario_id:
+          type: integer
+          format: int32
+          description: Id of the Estimate Scenario that the Resource belongs to.
+        external_reference_ids:
+          type: array
+          items:
+            type: string
+          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        geography_id:
+          type: string
+          description: '`geography_id` will only be included in the response if `geography` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        label:
+          type: string
+        organization_membership_id:
+          type: string
+          description: '`organization_membership_id` will only be included in the response if `organization_membership` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        role_id:
+          type: string
+          description: '`role_id` will only be included in the response if `role` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        role_name:
+          type: string
+          description: Name of the Resource's role if any.
+        updated_at:
+          type: string
+          format: date-time
+        user_id:
+          type: string
+          description: '`user_id` will only be included in the response if `user` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
     ExternalReference:
       title: External Reference
       description: 'External References allows users see which objects (one of `Assignment`, `BillingMilestone`, `CustomField`, `CustomFieldChoice`, `CustomFieldSet`, `CustomFieldValue`, `Estimate`, `EstimateScenario`, `EstimateScenarioResource`, `Expense`, `ExpenseBudget`, `Invoice`, `Participation`, `Post`, `RateCard`, `Role`, `Skill`, `StatusReport`, `Story`, `StoryAllocationDay`, `Submission`, `SurveyAnswer`, `SurveyQuestion`, `SurveyResponse`, `SurveyTemplate`, `TimeEntry`, `TimeOffEntry`, `User`, `Vendor`, `Workspace`, `WorkspaceAllocation`, `WorkspaceGroup`, or `WorkspaceResource`
@@ -847,173 +1024,6 @@ components:
           type: string
           format: date-time
           description: The date and time the reference was last updated.
-    EstimateScenario:
-      title: Estimate Scenario
-      description: 'An Estimate Scenario represents a possible project configuration. It includes a rate card, budget, and
-
-        associated resources and allocations.'
-      type: object
-      properties:
-        budget_in_cents:
-          type: integer
-          format: int32
-          description: The maximum budget, in cents, available for the project.
-        created_at:
-          type: string
-          format: date-time
-        estimate_id:
-          type: integer
-          format: int32
-          description: The ID of the estimate for the scenario.
-        estimate_scenario_resource_ids:
-          type: array
-          items:
-            type: string
-          description: '`estimate_scenario_resource_ids` will only be included in the response if `estimate_scenario_resources` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        external_reference_ids:
-          type: array
-          items:
-            type: string
-          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        name:
-          type: string
-          description: The name of the estimate scenario.
-        rate_card_id:
-          type: string
-          description: '`rate_card_id` will only be included in the response if `rate_card` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        start_date:
-          type: string
-          format: date-time
-          description: The estimated date when the project will start.
-        target_margin_percent:
-          type: integer
-          format: int32
-          description: The target profit margin, in percentage, for the project.
-        updated_at:
-          type: string
-          format: date-time
-    Error:
-      type: object
-      properties:
-        type:
-          type: string
-        message:
-          type: string
-    RateCard:
-      title: Rate Card
-      description: 'A Rate Card belongs to a Rate Card Set, and represents a currency in the set. Rate Cards have
-
-        many Rate Card Versions which represent the effective version of a Rate Card at a specified point of time.
-
-
-        Rate Cards are accessible to users with Financial access (Project Lead or higher) on the account.'
-      type: object
-      properties:
-        created_at:
-          type: string
-          format: date-time
-        currency:
-          type: string
-          description: The currency of the Rate Card.
-        effective_rate_card_version_id:
-          type: string
-          description: '`effective_rate_card_version_id` will only be included in the response if `effective_rate_card_version` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        external_reference_ids:
-          type: array
-          items:
-            type: string
-          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        rate_card_set_id:
-          type: string
-          description: '`rate_card_set_id` will only be included in the response if `rate_card_set` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        rate_card_set_title:
-          type: string
-          description: The Rate Card Set and Currency.
-        rate_card_version_ids:
-          type: array
-          items:
-            type: string
-          description: '`rate_card_version_ids` will only be included in the response if `rate_card_versions` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        removable:
-          type: boolean
-          description: Whether or not the Rate Card can be deleted.
-        updated_at:
-          type: string
-          format: date-time
-        uses:
-          type: integer
-          format: int32
-          description: The total usage count of the Rate Card.
-    EstimateScenarioResource:
-      title: Estimate Scenario Resource
-      description: An Estimate Scenario Resource is an unnamed resource in an estimate scenario.
-      type: object
-      properties:
-        allocation_id:
-          type: string
-          description: '`allocation_id` will only be included in the response if `allocation` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        bill_rate:
-          type: integer
-          format: int32
-          description: 'The bill rate, in cents, of the estimate scenario resource.
-
-            When the estimate is unlocked, this is the average bill rate of all active account members in the
-
-            scenario resource''s geography, whose default role matches the role of the scenario resource.
-
-            When the estimate is locked, this the cached value of the average bill rate when the estimate was locked.'
-        cost_rate:
-          type: integer
-          format: int32
-          description: 'The cost rate, in cents, of the estimate scenario resource.
-
-            When the estimate is unlocked, this is the average cost rate of all active account members in the
-
-            scenario resource''s geography, whose default role matches the role of the scenario resource.
-
-            When the estimate is locked, this the cached value of the average cost rate when the estimate was locked.'
-        created_at:
-          type: string
-          format: date-time
-        display_label:
-          type: string
-          description: User facing Identifier for the Resource.
-        estimate_scenario_id:
-          type: integer
-          format: int32
-          description: Id of the Estimate Scenario that the Resource belongs to.
-        external_reference_ids:
-          type: array
-          items:
-            type: string
-          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        geography_id:
-          type: string
-          description: '`geography_id` will only be included in the response if `geography` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        label:
-          type: string
-        organization_membership_id:
-          type: string
-          description: '`organization_membership_id` will only be included in the response if `organization_membership` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        role_id:
-          type: string
-          description: '`role_id` will only be included in the response if `role` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        role_name:
-          type: string
-          description: Name of the Resource's role if any.
-        updated_at:
-          type: string
-          format: date-time
-        user_id:
-          type: string
-          description: '`user_id` will only be included in the response if `user` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-    Errors:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
   securitySchemes:
     BearerToken:
       type: apiKey

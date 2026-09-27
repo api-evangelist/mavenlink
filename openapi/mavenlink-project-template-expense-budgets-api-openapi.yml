@@ -33,7 +33,7 @@ paths:
         and will be indexed by ID in the `project_template_expense_budgets` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Get Project Template Expense Budgets
+      operationId: GetProjectTemplateExpenseBudgets
       tags:
       - Project Template Expense Budgets
       parameters:
@@ -184,6 +184,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Project Template Expense Budgets
     post:
       summary: Creating a new Project Template Expense Budget
       description: 'Adds an expense budget to a project template.
@@ -259,7 +261,7 @@ paths:
         and will be indexed by ID in the `project_template_expense_budgets` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Create Project Template Expense Budget
+      operationId: CreateProjectTemplateExpenseBudget
       tags:
       - Project Template Expense Budgets
       parameters:
@@ -413,6 +415,8 @@ paths:
                   - burns_budget
                   - fixed_fee
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Create Project Template Expense Budget
   /project_template_expense_budgets/{id}:
     get:
       summary: Fetching a single Project Template Expense Budget
@@ -423,7 +427,7 @@ paths:
         and will be indexed by ID in the `project_template_expense_budgets` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Get Project Template Expense Budget
+      operationId: GetProjectTemplateExpenseBudget
       tags:
       - Project Template Expense Budgets
       parameters:
@@ -521,6 +525,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Project Template Expense Budget
     put:
       summary: Updating an existing Project Template Expense Budget
       description: 'This endpoint returns structured Project Template Expense Budget objects.
@@ -530,7 +536,7 @@ paths:
         and will be indexed by ID in the `project_template_expense_budgets` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Update Project Template Expense Budget
+      operationId: UpdateProjectTemplateExpenseBudget
       tags:
       - Project Template Expense Budgets
       parameters:
@@ -680,6 +686,8 @@ paths:
 
                         project’s start date.'
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Update Project Template Expense Budget
     delete:
       summary: Deleting an existing Project Template Expense Budget
       description: 'Removes an expense budget from a project template.
@@ -688,7 +696,7 @@ paths:
         The response will contain no content and an HTTP 204 status code if the request was
 
         successful, or a standard Kantata OX error message explaining why the object could not be deleted.'
-      operationId: Delete Project Template Expense Budget
+      operationId: DeleteProjectTemplateExpenseBudget
       tags:
       - Project Template Expense Budgets
       parameters:
@@ -737,15 +745,17 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Delete Project Template Expense Budget
 components:
   schemas:
-    Error:
+    Errors:
       type: object
       properties:
-        type:
-          type: string
-        message:
-          type: string
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
     ProjectTemplate:
       title: Project Template
       description: "Project Templates are sets of tasks and attributes that can be applied to new or existing projects.\n      A single template can be used on any number of projects."
@@ -811,13 +821,6 @@ components:
         user_id:
           type: string
           description: '`user_id` will only be included in the response if `user` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-    Errors:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
     ProjectTemplateExpenseBudget:
       title: Project Template Expense Budget
       description: 'Project Template Expense Budgets are expense budgets configured in a project
@@ -875,6 +878,13 @@ components:
           type: string
           format: date-time
           description: When the expense budget on the template was last updated.
+    Error:
+      type: object
+      properties:
+        type:
+          type: string
+        message:
+          type: string
   securitySchemes:
     BearerToken:
       type: apiKey

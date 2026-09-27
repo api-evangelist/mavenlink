@@ -38,7 +38,7 @@ paths:
         and will be indexed by ID in the `workspace_invoice_preferences` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Create Workspace Invoice Preferences
+      operationId: CreateWorkspaceInvoicePreferences
       tags:
       - Workspace Invoice Preferences
       responses:
@@ -150,6 +150,8 @@ paths:
                   required:
                   - workspace_id
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Create Workspace Invoice Preferences
   /workspace_invoice_preferences/{id}:
     get:
       summary: Fetching a single Workspace Invoice Preference
@@ -160,7 +162,7 @@ paths:
         and will be indexed by ID in the `workspace_invoice_preferences` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Get Workspace Invoice Preferences
+      operationId: GetWorkspaceInvoicePreferences
       tags:
       - Workspace Invoice Preferences
       parameters:
@@ -245,6 +247,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Workspace Invoice Preferences
     put:
       summary: Updating an existing Workspace Invoice Preference
       description: 'This endpoint returns structured Workspace Invoice Preference objects.
@@ -254,7 +258,7 @@ paths:
         and will be indexed by ID in the `workspace_invoice_preferences` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Update Workspace Invoice Preferences
+      operationId: UpdateWorkspaceInvoicePreferences
       tags:
       - Workspace Invoice Preferences
       parameters:
@@ -367,15 +371,10 @@ paths:
                       type: string
                       description: The address of the provider who is sending the invoice.
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Update Workspace Invoice Preferences
 components:
   schemas:
-    Errors:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
     WorkspaceInvoicePreference:
       title: Workspace Invoice Preference
       description: "Workspace Invoice Preferences specify the default values to be applied to new invoices created for specified \nprojects. It is only used for projects that have financials enabled.\n\nThese preferences can only be created and updated by users who can manage invoice preferences\non the project. This can be found by querying `can_manage_invoice_preferences` on Workspace."
@@ -403,6 +402,13 @@ components:
           type: integer
           format: int32
           description: The ID of the project for which the invoice preferences will apply.
+    Errors:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
     Error:
       type: object
       properties:

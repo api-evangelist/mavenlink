@@ -42,7 +42,7 @@ paths:
         and will be indexed by ID in the `rate_cards` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Get Rate Cards
+      operationId: GetRateCards
       tags:
       - Rate Cards (Multiple Currencies)
       parameters:
@@ -271,6 +271,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Rate Cards
     post:
       summary: Creating a new Rate Card
       description: 'Creating a Rate Card automatically creates a Rate Card Version and associates it with the specified
@@ -295,7 +297,7 @@ paths:
         and will be indexed by ID in the `rate_cards` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Create Rate Card
+      operationId: CreateRateCard
       tags:
       - Rate Cards (Multiple Currencies)
       parameters:
@@ -459,6 +461,8 @@ paths:
                   - rate_card_set_id
                   - currency
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Create Rate Card
   /rate_cards/{id}:
     get:
       summary: Fetching a single Rate Card
@@ -472,7 +476,7 @@ paths:
         and will be indexed by ID in the `rate_cards` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Get Rate Card
+      operationId: GetRateCard
       tags:
       - Rate Cards (Multiple Currencies)
       parameters:
@@ -582,6 +586,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Rate Card
     put:
       summary: Updating an existing Rate Card
       description: 'A Rate Card can only be editied by an Administrator on the account. The currency of the Rate Card
@@ -596,7 +602,7 @@ paths:
         and will be indexed by ID in the `rate_cards` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Update Rate Card
+      operationId: UpdateRateCard
       tags:
       - Rate Cards (Multiple Currencies)
       parameters:
@@ -755,6 +761,8 @@ paths:
                       - service_model
                       - service_model_ref
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Update Rate Card
     delete:
       summary: Deleting an existing Rate Card
       description: 'When you delete a Rate Card, its Rate Card Versions and the Rate Card Roles associated
@@ -769,7 +777,7 @@ paths:
         The response will contain no content and an HTTP 204 status code if the request was
 
         successful, or a standard Kantata OX error message explaining why the object could not be deleted.'
-      operationId: Delete Rate Card
+      operationId: DeleteRateCard
       tags:
       - Rate Cards (Multiple Currencies)
       parameters:
@@ -818,8 +826,69 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Delete Rate Card
 components:
   schemas:
+    RateCard:
+      title: Rate Card
+      description: 'A Rate Card belongs to a Rate Card Set, and represents a currency in the set. Rate Cards have
+
+        many Rate Card Versions which represent the effective version of a Rate Card at a specified point of time.
+
+
+        Rate Cards are accessible to users with Financial access (Project Lead or higher) on the account.'
+      type: object
+      properties:
+        created_at:
+          type: string
+          format: date-time
+        currency:
+          type: string
+          description: The currency of the Rate Card.
+        effective_rate_card_version_id:
+          type: string
+          description: '`effective_rate_card_version_id` will only be included in the response if `effective_rate_card_version` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        external_reference_ids:
+          type: array
+          items:
+            type: string
+          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        rate_card_set_id:
+          type: string
+          description: '`rate_card_set_id` will only be included in the response if `rate_card_set` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        rate_card_set_title:
+          type: string
+          description: The Rate Card Set and Currency.
+        rate_card_version_ids:
+          type: array
+          items:
+            type: string
+          description: '`rate_card_version_ids` will only be included in the response if `rate_card_versions` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        removable:
+          type: boolean
+          description: Whether or not the Rate Card can be deleted.
+        updated_at:
+          type: string
+          format: date-time
+        uses:
+          type: integer
+          format: int32
+          description: The total usage count of the Rate Card.
+    Error:
+      type: object
+      properties:
+        type:
+          type: string
+        message:
+          type: string
+    Errors:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
     RateCardSet:
       title: Rate Card Set
       description: 'A Rate Card Set represents a group of Rate Cards with multiple currencies, that
@@ -869,6 +938,37 @@ components:
           items:
             type: string
           description: '`workspace_group_ids` will only be included in the response if `workspace_groups` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+    RateCardVersion:
+      title: Rate Card Version
+      description: 'A Rate Card Version represents a snapshot of a Rate Card at a specified point in time and is used to set the
+
+        default rate. It belongs to a Rate Card Set Version and can own many Rate Card Roles.
+
+
+        The default Rate is the Rate applied for any Roles that do not explicitly have a Rate set.'
+      type: object
+      properties:
+        created_at:
+          type: string
+          format: date-time
+        default_rate:
+          type: integer
+          format: int32
+          description: The default Rate for any Role that does not explicitly have a Rate associated with it.
+        rate_card_id:
+          type: string
+          description: '`rate_card_id` will only be included in the response if `rate_card` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        rate_card_role_ids:
+          type: array
+          items:
+            type: string
+          description: '`rate_card_role_ids` will only be included in the response if `rate_card_roles` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        rate_card_set_version_id:
+          type: string
+          description: '`rate_card_set_version_id` will only be included in the response if `rate_card_set_version` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        updated_at:
+          type: string
+          format: date-time
     ExternalReference:
       title: External Reference
       description: 'External References allows users see which objects (one of `Assignment`, `BillingMilestone`, `CustomField`, `CustomFieldChoice`, `CustomFieldSet`, `CustomFieldValue`, `Estimate`, `EstimateScenario`, `EstimateScenarioResource`, `Expense`, `ExpenseBudget`, `Invoice`, `Participation`, `Post`, `RateCard`, `Role`, `Skill`, `StatusReport`, `Story`, `StoryAllocationDay`, `Submission`, `SurveyAnswer`, `SurveyQuestion`, `SurveyResponse`, `SurveyTemplate`, `TimeEntry`, `TimeOffEntry`, `User`, `Vendor`, `Workspace`, `WorkspaceAllocation`, `WorkspaceGroup`, or `WorkspaceResource`
@@ -943,96 +1043,6 @@ components:
           type: string
           format: date-time
           description: The date and time the reference was last updated.
-    Error:
-      type: object
-      properties:
-        type:
-          type: string
-        message:
-          type: string
-    RateCard:
-      title: Rate Card
-      description: 'A Rate Card belongs to a Rate Card Set, and represents a currency in the set. Rate Cards have
-
-        many Rate Card Versions which represent the effective version of a Rate Card at a specified point of time.
-
-
-        Rate Cards are accessible to users with Financial access (Project Lead or higher) on the account.'
-      type: object
-      properties:
-        created_at:
-          type: string
-          format: date-time
-        currency:
-          type: string
-          description: The currency of the Rate Card.
-        effective_rate_card_version_id:
-          type: string
-          description: '`effective_rate_card_version_id` will only be included in the response if `effective_rate_card_version` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        external_reference_ids:
-          type: array
-          items:
-            type: string
-          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        rate_card_set_id:
-          type: string
-          description: '`rate_card_set_id` will only be included in the response if `rate_card_set` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        rate_card_set_title:
-          type: string
-          description: The Rate Card Set and Currency.
-        rate_card_version_ids:
-          type: array
-          items:
-            type: string
-          description: '`rate_card_version_ids` will only be included in the response if `rate_card_versions` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        removable:
-          type: boolean
-          description: Whether or not the Rate Card can be deleted.
-        updated_at:
-          type: string
-          format: date-time
-        uses:
-          type: integer
-          format: int32
-          description: The total usage count of the Rate Card.
-    Errors:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
-    RateCardVersion:
-      title: Rate Card Version
-      description: 'A Rate Card Version represents a snapshot of a Rate Card at a specified point in time and is used to set the
-
-        default rate. It belongs to a Rate Card Set Version and can own many Rate Card Roles.
-
-
-        The default Rate is the Rate applied for any Roles that do not explicitly have a Rate set.'
-      type: object
-      properties:
-        created_at:
-          type: string
-          format: date-time
-        default_rate:
-          type: integer
-          format: int32
-          description: The default Rate for any Role that does not explicitly have a Rate associated with it.
-        rate_card_id:
-          type: string
-          description: '`rate_card_id` will only be included in the response if `rate_card` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        rate_card_role_ids:
-          type: array
-          items:
-            type: string
-          description: '`rate_card_role_ids` will only be included in the response if `rate_card_roles` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        rate_card_set_version_id:
-          type: string
-          description: '`rate_card_set_version_id` will only be included in the response if `rate_card_set_version` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        updated_at:
-          type: string
-          format: date-time
   securitySchemes:
     BearerToken:
       type: apiKey

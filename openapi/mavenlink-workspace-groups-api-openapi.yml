@@ -31,7 +31,7 @@ paths:
         and will be indexed by ID in the `workspace_groups` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Get Workspace Groups
+      operationId: GetWorkspaceGroups
       tags:
       - Workspace Groups
       parameters:
@@ -324,6 +324,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Workspace Groups
     post:
       summary: Creating a new Workspace Group
       description: 'This endpoint returns structured Workspace Group objects.
@@ -333,7 +335,7 @@ paths:
         and will be indexed by ID in the `workspace_groups` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Create Workspace Group
+      operationId: CreateWorkspaceGroup
       tags:
       - Workspace Groups
       parameters:
@@ -513,6 +515,8 @@ paths:
                   required:
                   - name
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Create Workspace Group
   /workspace_groups/{id}:
     get:
       summary: Fetching a single Workspace Group
@@ -523,7 +527,7 @@ paths:
         and will be indexed by ID in the `workspace_groups` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Get Workspace Group
+      operationId: GetWorkspaceGroup
       tags:
       - Workspace Groups
       parameters:
@@ -631,6 +635,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Workspace Group
     put:
       summary: Updating an existing Workspace Group
       description: 'This endpoint returns structured Workspace Group objects.
@@ -640,7 +646,7 @@ paths:
         and will be indexed by ID in the `workspace_groups` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Update Workspace Group
+      operationId: UpdateWorkspaceGroup
       tags:
       - Workspace Groups
       parameters:
@@ -832,12 +838,14 @@ paths:
                   required:
                   - name
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Update Workspace Group
     delete:
       summary: Deleting an existing Workspace Group
       description: 'The response will contain no content and an HTTP 204 status code if the request was
 
         successful, or a standard Kantata OX error message explaining why the object could not be deleted.'
-      operationId: Delete Workspace Group
+      operationId: DeleteWorkspaceGroup
       tags:
       - Workspace Groups
       parameters:
@@ -886,189 +894,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Delete Workspace Group
 components:
   schemas:
-    RateCardSet:
-      title: Rate Card Set
-      description: 'A Rate Card Set represents a group of Rate Cards with multiple currencies, that
-
-        can be bundled together. A Rate Card Set belongs to an account, and can have several Rate Card Set Versions, each representing the
-
-        the effective version for a specified date.'
-      type: object
-      properties:
-        account_default:
-          type: boolean
-          description: Whether the Rate Card Set is an account default.
-        active_currencies:
-          type: array
-          items:
-            type: string
-          description: Includes only currencies that belong to published Rate Card Set Versions.
-        created_at:
-          type: string
-          format: date-time
-        default_currencies:
-          type: array
-          items:
-            type: string
-          description: Includes only currencies that belong to published Rate Card Set Versions on the account default Rate Card Set.
-        destroyable:
-          type: boolean
-          description: Whether the Rate Card Set can be deleted.
-        rate_card_ids:
-          type: array
-          items:
-            type: string
-          description: '`rate_card_ids` will only be included in the response if `rate_cards` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        rate_card_set_version_ids:
-          type: array
-          items:
-            type: string
-          description: '`rate_card_set_version_ids` will only be included in the response if `rate_card_set_versions` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        title:
-          type: string
-          description: The title of the Rate Card Set.
-        updated_at:
-          type: string
-          format: date-time
-        workspace_group_ids:
-          type: array
-          items:
-            type: string
-          description: '`workspace_group_ids` will only be included in the response if `workspace_groups` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-    ExternalReference:
-      title: External Reference
-      description: 'External References allows users see which objects (one of `Assignment`, `BillingMilestone`, `CustomField`, `CustomFieldChoice`, `CustomFieldSet`, `CustomFieldValue`, `Estimate`, `EstimateScenario`, `EstimateScenarioResource`, `Expense`, `ExpenseBudget`, `Invoice`, `Participation`, `Post`, `RateCard`, `Role`, `Skill`, `StatusReport`, `Story`, `StoryAllocationDay`, `Submission`, `SurveyAnswer`, `SurveyQuestion`, `SurveyResponse`, `SurveyTemplate`, `TimeEntry`, `TimeOffEntry`, `User`, `Vendor`, `Workspace`, `WorkspaceAllocation`, `WorkspaceGroup`, or `WorkspaceResource`
-
-        are synced with third party systems. This allows you to view the sync status of items in addition to the integration
-
-        specifics for a synced object.
-
-
-        Objects that are synced with a third party system have external integration
-
-        attributes that include the corresponding ID of the third party object with
-
-        which it is synced, a link that allows you to view the object in the third
-
-        party system, the status of the external object in the external system,
-
-        the status of the sync, and a link to exceptions.'
-      type: object
-      properties:
-        created_at:
-          type: string
-          format: date-time
-          description: The date and time the reference was created.
-        external_link:
-          type: string
-          description: A URL that links to either the external object or event.
-        external_message:
-          type: string
-          description: An optional message about the external object.
-        external_status:
-          type: string
-          description: The status of the external object in the external system.
-        last_synced_at:
-          type: string
-          format: date-time
-        locked:
-          type: boolean
-          description: 'An optional field, indicating whether the subject should be locked. To prevent changes to the
-
-            object in Kantata OX, set this to true. This currently only applies to expense report rejections.'
-        service_model:
-          type: string
-          description: The type of the external object to which this reference belongs.
-        service_model_ref:
-          type: string
-          description: The ID of the external object to which this reference belongs.
-        service_name:
-          type: string
-          description: The provider name of the integration.
-        status:
-          type: string
-          description: The status of the integration. Options are 'pending', 'successful', or 'failed'.
-        subject_id:
-          type: integer
-          format: int32
-          description: The ID of the Kantata OX object to which this external reference belongs.
-        subject_ref:
-          type: object
-          description: '`subject_ref` will only be included in the response if `subject` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-          properties:
-            key:
-              type: string
-            id:
-              type: string
-        subject_type:
-          type: string
-          description: 'The type of Kantata OX object to which this external reference belongs.
-
-            One of `Assignment`, `BillingMilestone`, `CustomField`, `CustomFieldChoice`, `CustomFieldSet`, `CustomFieldValue`, `Estimate`, `EstimateScenario`, `EstimateScenarioResource`, `Expense`, `ExpenseBudget`, `Invoice`, `Participation`, `Post`, `RateCard`, `Role`, `Skill`, `StatusReport`, `Story`, `StoryAllocationDay`, `Submission`, `SurveyAnswer`, `SurveyQuestion`, `SurveyResponse`, `SurveyTemplate`, `TimeEntry`, `TimeOffEntry`, `User`, `Vendor`, `Workspace`, `WorkspaceAllocation`, `WorkspaceGroup`, or `WorkspaceResource`.'
-        updated_at:
-          type: string
-          format: date-time
-          description: The date and time the reference was last updated.
-    WorkspaceGroup:
-      title: Workspace Group
-      description: 'Workspace Groups (also known as groups) allow for the categorization of Kantata OX Workspaces and Users. Workspace Groups are unique to each Kantata OX Account. These endpoints allow you to fetch, create, update, and delete Workspace Groups.
-
-
-        To add a workspace to a Workspace Group, use the [create workspace](/tag/Workspaces#operation/create-workspace) or [update workspace](/tag/Workspaces#operation/update-workspace) endpoint and set the `workspace_group_ids` field.
-
-
-        To add a user to a Workspace Group, use the [create user group membership](/tag/User-Group-Memberships#operation/create-user-group-memberships) endpoint.'
-      type: object
-      properties:
-        address:
-          type: string
-          description: The address of the company contact.
-        company:
-          type: boolean
-          description: Whether the group represents a company.
-        contact_name:
-          type: string
-          description: The name of the company contact.
-        created_at:
-          type: string
-          format: date-time
-          description: When the group was created.
-        email:
-          type: string
-          description: The email of the company contact.
-        external_reference_ids:
-          type: array
-          items:
-            type: string
-          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        name:
-          type: string
-          description: The name of the group.
-        notes:
-          type: string
-          description: Notes on the group.
-        phone_number:
-          type: string
-          description: The phone number of the company contact.
-        rate_card_set_ids:
-          type: array
-          items:
-            type: string
-          description: '`rate_card_set_ids` will only be included in the response if `rate_card_sets` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        updated_at:
-          type: string
-          format: date-time
-          description: When the group was last updated.
-        website:
-          type: string
-          description: The website of the company contact.
-        workspace_ids:
-          type: array
-          items:
-            type: string
-          description: '`workspace_ids` will only be included in the response if `workspaces` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
     Workspace:
       title: Workspace
       description: Workspaces (also called projects) represent the space in which Kantata OX users plan, communicate, and collaborate.
@@ -1550,6 +1379,187 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Error'
+    RateCardSet:
+      title: Rate Card Set
+      description: 'A Rate Card Set represents a group of Rate Cards with multiple currencies, that
+
+        can be bundled together. A Rate Card Set belongs to an account, and can have several Rate Card Set Versions, each representing the
+
+        the effective version for a specified date.'
+      type: object
+      properties:
+        account_default:
+          type: boolean
+          description: Whether the Rate Card Set is an account default.
+        active_currencies:
+          type: array
+          items:
+            type: string
+          description: Includes only currencies that belong to published Rate Card Set Versions.
+        created_at:
+          type: string
+          format: date-time
+        default_currencies:
+          type: array
+          items:
+            type: string
+          description: Includes only currencies that belong to published Rate Card Set Versions on the account default Rate Card Set.
+        destroyable:
+          type: boolean
+          description: Whether the Rate Card Set can be deleted.
+        rate_card_ids:
+          type: array
+          items:
+            type: string
+          description: '`rate_card_ids` will only be included in the response if `rate_cards` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        rate_card_set_version_ids:
+          type: array
+          items:
+            type: string
+          description: '`rate_card_set_version_ids` will only be included in the response if `rate_card_set_versions` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        title:
+          type: string
+          description: The title of the Rate Card Set.
+        updated_at:
+          type: string
+          format: date-time
+        workspace_group_ids:
+          type: array
+          items:
+            type: string
+          description: '`workspace_group_ids` will only be included in the response if `workspace_groups` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+    WorkspaceGroup:
+      title: Workspace Group
+      description: 'Workspace Groups (also known as groups) allow for the categorization of Kantata OX Workspaces and Users. Workspace Groups are unique to each Kantata OX Account. These endpoints allow you to fetch, create, update, and delete Workspace Groups.
+
+
+        To add a workspace to a Workspace Group, use the [create workspace](/tag/Workspaces#operation/create-workspace) or [update workspace](/tag/Workspaces#operation/update-workspace) endpoint and set the `workspace_group_ids` field.
+
+
+        To add a user to a Workspace Group, use the [create user group membership](/tag/User-Group-Memberships#operation/create-user-group-memberships) endpoint.'
+      type: object
+      properties:
+        address:
+          type: string
+          description: The address of the company contact.
+        company:
+          type: boolean
+          description: Whether the group represents a company.
+        contact_name:
+          type: string
+          description: The name of the company contact.
+        created_at:
+          type: string
+          format: date-time
+          description: When the group was created.
+        email:
+          type: string
+          description: The email of the company contact.
+        external_reference_ids:
+          type: array
+          items:
+            type: string
+          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        name:
+          type: string
+          description: The name of the group.
+        notes:
+          type: string
+          description: Notes on the group.
+        phone_number:
+          type: string
+          description: The phone number of the company contact.
+        rate_card_set_ids:
+          type: array
+          items:
+            type: string
+          description: '`rate_card_set_ids` will only be included in the response if `rate_card_sets` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        updated_at:
+          type: string
+          format: date-time
+          description: When the group was last updated.
+        website:
+          type: string
+          description: The website of the company contact.
+        workspace_ids:
+          type: array
+          items:
+            type: string
+          description: '`workspace_ids` will only be included in the response if `workspaces` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+    ExternalReference:
+      title: External Reference
+      description: 'External References allows users see which objects (one of `Assignment`, `BillingMilestone`, `CustomField`, `CustomFieldChoice`, `CustomFieldSet`, `CustomFieldValue`, `Estimate`, `EstimateScenario`, `EstimateScenarioResource`, `Expense`, `ExpenseBudget`, `Invoice`, `Participation`, `Post`, `RateCard`, `Role`, `Skill`, `StatusReport`, `Story`, `StoryAllocationDay`, `Submission`, `SurveyAnswer`, `SurveyQuestion`, `SurveyResponse`, `SurveyTemplate`, `TimeEntry`, `TimeOffEntry`, `User`, `Vendor`, `Workspace`, `WorkspaceAllocation`, `WorkspaceGroup`, or `WorkspaceResource`
+
+        are synced with third party systems. This allows you to view the sync status of items in addition to the integration
+
+        specifics for a synced object.
+
+
+        Objects that are synced with a third party system have external integration
+
+        attributes that include the corresponding ID of the third party object with
+
+        which it is synced, a link that allows you to view the object in the third
+
+        party system, the status of the external object in the external system,
+
+        the status of the sync, and a link to exceptions.'
+      type: object
+      properties:
+        created_at:
+          type: string
+          format: date-time
+          description: The date and time the reference was created.
+        external_link:
+          type: string
+          description: A URL that links to either the external object or event.
+        external_message:
+          type: string
+          description: An optional message about the external object.
+        external_status:
+          type: string
+          description: The status of the external object in the external system.
+        last_synced_at:
+          type: string
+          format: date-time
+        locked:
+          type: boolean
+          description: 'An optional field, indicating whether the subject should be locked. To prevent changes to the
+
+            object in Kantata OX, set this to true. This currently only applies to expense report rejections.'
+        service_model:
+          type: string
+          description: The type of the external object to which this reference belongs.
+        service_model_ref:
+          type: string
+          description: The ID of the external object to which this reference belongs.
+        service_name:
+          type: string
+          description: The provider name of the integration.
+        status:
+          type: string
+          description: The status of the integration. Options are 'pending', 'successful', or 'failed'.
+        subject_id:
+          type: integer
+          format: int32
+          description: The ID of the Kantata OX object to which this external reference belongs.
+        subject_ref:
+          type: object
+          description: '`subject_ref` will only be included in the response if `subject` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+          properties:
+            key:
+              type: string
+            id:
+              type: string
+        subject_type:
+          type: string
+          description: 'The type of Kantata OX object to which this external reference belongs.
+
+            One of `Assignment`, `BillingMilestone`, `CustomField`, `CustomFieldChoice`, `CustomFieldSet`, `CustomFieldValue`, `Estimate`, `EstimateScenario`, `EstimateScenarioResource`, `Expense`, `ExpenseBudget`, `Invoice`, `Participation`, `Post`, `RateCard`, `Role`, `Skill`, `StatusReport`, `Story`, `StoryAllocationDay`, `Submission`, `SurveyAnswer`, `SurveyQuestion`, `SurveyResponse`, `SurveyTemplate`, `TimeEntry`, `TimeOffEntry`, `User`, `Vendor`, `Workspace`, `WorkspaceAllocation`, `WorkspaceGroup`, or `WorkspaceResource`.'
+        updated_at:
+          type: string
+          format: date-time
+          description: The date and time the reference was last updated.
   securitySchemes:
     BearerToken:
       type: apiKey

@@ -31,7 +31,7 @@ paths:
         and will be indexed by ID in the `project_templates` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Get Project Templates
+      operationId: GetProjectTemplates
       tags:
       - Project Templates
       parameters:
@@ -186,6 +186,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Project Templates
     post:
       summary: Creating a new Project Template
       description: 'This endpoint returns structured Project Template objects.
@@ -195,7 +197,7 @@ paths:
         and will be indexed by ID in the `project_templates` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Create Project Template
+      operationId: CreateProjectTemplate
       tags:
       - Project Templates
       parameters:
@@ -349,6 +351,8 @@ paths:
                   - title
                   - currency
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Create Project Template
   /project_templates/{id}:
     get:
       summary: Fetching a single Project Template
@@ -359,7 +363,7 @@ paths:
         and will be indexed by ID in the `project_templates` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Get Project Template
+      operationId: GetProjectTemplate
       tags:
       - Project Templates
       parameters:
@@ -476,6 +480,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Project Template
     put:
       summary: Updating an existing Project Template
       description: 'This endpoint returns structured Project Template objects.
@@ -485,7 +491,7 @@ paths:
         and will be indexed by ID in the `project_templates` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Update Project Template
+      operationId: UpdateProjectTemplate
       tags:
       - Project Templates
       parameters:
@@ -644,12 +650,14 @@ paths:
                   required:
                   - title
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Update Project Template
     delete:
       summary: Deleting an existing Project Template
       description: 'The response will contain no content and an HTTP 204 status code if the request was
 
         successful, or a standard Kantata OX error message explaining why the object could not be deleted.'
-      operationId: Delete Project Template
+      operationId: DeleteProjectTemplate
       tags:
       - Project Templates
       parameters:
@@ -698,8 +706,53 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Delete Project Template
 components:
   schemas:
+    ProjectTemplateAssignment:
+      title: Project Template Assignment
+      description: Project Template Assignments represent placeholders for task assignees in project templates.
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of resource or assignment placeholder for the associated project template.
+        project_template_id:
+          type: string
+          description: '`project_template_id` will only be included in the response if `project_template` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        role_id:
+          type: string
+          description: '`role_id` will only be included in the response if `role` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        role_initials:
+          type: string
+          description: 'Three letter initals for the Resource''s Role if any.
+
+            Only returned when requested through the optional_fields param.'
+        role_name:
+          type: string
+          description: 'Name of the Resource''s role if any.
+
+            Only returned when requested through the optional_fields param.'
+        total_count:
+          type: integer
+          format: int32
+          description: '
+
+            Only returned when requested through the optional_fields param.'
+        total_estimated_minutes:
+          type: integer
+          format: int32
+          description: '
+
+            Only returned when requested through the optional_fields param.'
+    Error:
+      type: object
+      properties:
+        type:
+          type: string
+        message:
+          type: string
     ProjectTemplateAdditionalTab:
       title: Project Template Additional Tab
       description: Project Template Additional Tabs are additional tabs configured in a project template that are added to a project when the template is applied.
@@ -716,78 +769,13 @@ components:
         tab_type:
           type: string
           description: The type of additional project tab. Possible values are `form` and `dashboard` (i.e. an Insights dynamic dashboard).
-    ProjectTemplate:
-      title: Project Template
-      description: "Project Templates are sets of tasks and attributes that can be applied to new or existing projects.\n      A single template can be used on any number of projects."
+    Errors:
       type: object
       properties:
-        budget:
-          type: integer
-          format: int32
-          description: The estimated overall budget of the project associated with the template.
-        created_at:
-          type: string
-          format: date-time
-        currency:
-          type: string
-          description: The currency of the project template.
-        description:
-          type: string
-          description: A description of the project template (this does not map over to the project description when applied).
-        duration:
-          type: integer
-          format: int32
-          description: The estimated number of days that the project will take to complete.
-        is_budgeted:
-          type: boolean
-          description: The project template has financial attributes including overall budget, task budgets, and task time estimates.
-        item_count:
-          type: integer
-          format: int32
-          description: The number of tasks in the project template.
-        permissions:
-          type: object
-          properties:
-            can_edit_project_template:
-              type: boolean
-              description: Whether the current user can edit the project template.
-        project_template_additional_tab_ids:
+        errors:
           type: array
           items:
-            type: string
-          description: '`project_template_additional_tab_ids` will only be included in the response if `project_template_additional_tabs` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        project_template_assignment_ids:
-          type: array
-          items:
-            type: string
-          description: '`project_template_assignment_ids` will only be included in the response if `project_template_assignments` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        raw_json:
-          type: string
-          description: 'A json hash that contains all the project templates tasks.
-
-            Only returned when requested through the optional_fields param.'
-        shared:
-          type: boolean
-          description: (Deprecated in favor of sharing) The project template is shared with users on the account, other than the creator.
-        sharing:
-          type: string
-          description: The project template sharing settings. A template can be private, shared, or editable.
-        title:
-          type: string
-          description: The title of the project template.
-        updated_at:
-          type: string
-          format: date-time
-        user_id:
-          type: string
-          description: '`user_id` will only be included in the response if `user` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-    Error:
-      type: object
-      properties:
-        type:
-          type: string
-        message:
-          type: string
+            $ref: '#/components/schemas/Error'
     User:
       title: User
       description: 'Users represent the individuals that are participating in Kantata OX projects. User objects are often returned as
@@ -882,49 +870,71 @@ components:
           items:
             type: string
           description: '`work_sample_ids` will only be included in the response if `work_samples` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-    Errors:
+    ProjectTemplate:
+      title: Project Template
+      description: "Project Templates are sets of tasks and attributes that can be applied to new or existing projects.\n      A single template can be used on any number of projects."
       type: object
       properties:
-        errors:
+        budget:
+          type: integer
+          format: int32
+          description: The estimated overall budget of the project associated with the template.
+        created_at:
+          type: string
+          format: date-time
+        currency:
+          type: string
+          description: The currency of the project template.
+        description:
+          type: string
+          description: A description of the project template (this does not map over to the project description when applied).
+        duration:
+          type: integer
+          format: int32
+          description: The estimated number of days that the project will take to complete.
+        is_budgeted:
+          type: boolean
+          description: The project template has financial attributes including overall budget, task budgets, and task time estimates.
+        item_count:
+          type: integer
+          format: int32
+          description: The number of tasks in the project template.
+        permissions:
+          type: object
+          properties:
+            can_edit_project_template:
+              type: boolean
+              description: Whether the current user can edit the project template.
+        project_template_additional_tab_ids:
           type: array
           items:
-            $ref: '#/components/schemas/Error'
-    ProjectTemplateAssignment:
-      title: Project Template Assignment
-      description: Project Template Assignments represent placeholders for task assignees in project templates.
-      type: object
-      properties:
-        name:
+            type: string
+          description: '`project_template_additional_tab_ids` will only be included in the response if `project_template_additional_tabs` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        project_template_assignment_ids:
+          type: array
+          items:
+            type: string
+          description: '`project_template_assignment_ids` will only be included in the response if `project_template_assignments` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        raw_json:
           type: string
-          description: The name of resource or assignment placeholder for the associated project template.
-        project_template_id:
-          type: string
-          description: '`project_template_id` will only be included in the response if `project_template` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        role_id:
-          type: string
-          description: '`role_id` will only be included in the response if `role` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        role_initials:
-          type: string
-          description: 'Three letter initals for the Resource''s Role if any.
+          description: 'A json hash that contains all the project templates tasks.
 
             Only returned when requested through the optional_fields param.'
-        role_name:
+        shared:
+          type: boolean
+          description: (Deprecated in favor of sharing) The project template is shared with users on the account, other than the creator.
+        sharing:
           type: string
-          description: 'Name of the Resource''s role if any.
-
-            Only returned when requested through the optional_fields param.'
-        total_count:
-          type: integer
-          format: int32
-          description: '
-
-            Only returned when requested through the optional_fields param.'
-        total_estimated_minutes:
-          type: integer
-          format: int32
-          description: '
-
-            Only returned when requested through the optional_fields param.'
+          description: The project template sharing settings. A template can be private, shared, or editable.
+        title:
+          type: string
+          description: The title of the project template.
+        updated_at:
+          type: string
+          format: date-time
+        user_id:
+          type: string
+          description: '`user_id` will only be included in the response if `user` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
   securitySchemes:
     BearerToken:
       type: apiKey

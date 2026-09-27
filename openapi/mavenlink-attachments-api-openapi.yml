@@ -34,7 +34,7 @@ paths:
     post:
       summary: Creating a new Attachment
       description: There are two different ways to upload file attachments.
-      operationId: Create Attachment
+      operationId: CreateAttachment
       tags:
       - Attachments
       responses:
@@ -142,6 +142,8 @@ paths:
                   required:
                   - type
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Create Attachment
   /attachments/{id}:
     put:
       summary: Updating an existing Attachment
@@ -152,7 +154,7 @@ paths:
         and will be indexed by ID in the `attachments` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Update Attachment
+      operationId: UpdateAttachment
       tags:
       - Attachments
       parameters:
@@ -250,6 +252,8 @@ paths:
                       type: string
                       description: Used to rename an already existing attachment within Kantata OX.
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Update Attachment
     delete:
       summary: Deleting an existing Attachment
       description: 'Destroys an attachment from its subject object.
@@ -258,7 +262,7 @@ paths:
         The response will contain no content and an HTTP 204 status code if the request was
 
         successful, or a standard Kantata OX error message explaining why the object could not be deleted.'
-      operationId: Delete Attachment
+      operationId: DeleteAttachment
       tags:
       - Attachments
       parameters:
@@ -307,6 +311,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Delete Attachment
   /attachments/{id}/sync:
     put:
       summary: Sync a created attachment
@@ -320,7 +326,7 @@ paths:
         and will be indexed by ID in the `attachments` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Sync Attachment
+      operationId: SyncAttachment
       tags:
       - Attachments
       parameters:
@@ -405,6 +411,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Sync Attachment
 components:
   schemas:
     Errors:

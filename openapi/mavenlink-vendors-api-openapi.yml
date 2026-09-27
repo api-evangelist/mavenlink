@@ -31,7 +31,7 @@ paths:
         and will be indexed by ID in the `vendors` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Get Vendors
+      operationId: GetVendors
       tags:
       - Vendors
       parameters:
@@ -201,6 +201,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Vendors
     post:
       summary: Creating a new Vendor
       description: 'This endpoint returns structured Vendor objects.
@@ -210,7 +212,7 @@ paths:
         and will be indexed by ID in the `vendors` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Create Vendor
+      operationId: CreateVendor
       tags:
       - Vendors
       parameters:
@@ -348,6 +350,8 @@ paths:
                   required:
                   - name
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Create Vendor
   /vendors/{id}:
     put:
       summary: Updating an existing Vendor
@@ -358,7 +362,7 @@ paths:
         and will be indexed by ID in the `vendors` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Update Vendor
+      operationId: UpdateVendor
       tags:
       - Vendors
       parameters:
@@ -503,12 +507,14 @@ paths:
                       - service_model
                       - service_model_ref
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Update Vendor
     delete:
       summary: Deleting an existing Vendor
       description: 'The response will contain no content and an HTTP 204 status code if the request was
 
         successful, or a standard Kantata OX error message explaining why the object could not be deleted.'
-      operationId: Delete Vendor
+      operationId: DeleteVendor
       tags:
       - Vendors
       parameters:
@@ -557,8 +563,46 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Delete Vendor
 components:
   schemas:
+    Vendor:
+      title: Vendor
+      description: A Vendor is an entity to which an expense can be paid.
+      type: object
+      properties:
+        archived:
+          type: boolean
+          description: Whether the vendor is archived.
+        external_reference_ids:
+          type: array
+          items:
+            type: string
+          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        externally_managed:
+          type: boolean
+          description: Whether the vendor was created by an external system and then imported.
+        in_use:
+          type: boolean
+          description: Whether the vendor is used on an invoice.
+        name:
+          type: string
+          description: The name of the vendor.
+    Error:
+      type: object
+      properties:
+        type:
+          type: string
+        message:
+          type: string
+    Errors:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
     ExternalReference:
       title: External Reference
       description: 'External References allows users see which objects (one of `Assignment`, `BillingMilestone`, `CustomField`, `CustomFieldChoice`, `CustomFieldSet`, `CustomFieldValue`, `Estimate`, `EstimateScenario`, `EstimateScenarioResource`, `Expense`, `ExpenseBudget`, `Invoice`, `Participation`, `Post`, `RateCard`, `Role`, `Skill`, `StatusReport`, `Story`, `StoryAllocationDay`, `Submission`, `SurveyAnswer`, `SurveyQuestion`, `SurveyResponse`, `SurveyTemplate`, `TimeEntry`, `TimeOffEntry`, `User`, `Vendor`, `Workspace`, `WorkspaceAllocation`, `WorkspaceGroup`, or `WorkspaceResource`
@@ -633,42 +677,6 @@ components:
           type: string
           format: date-time
           description: The date and time the reference was last updated.
-    Errors:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
-    Vendor:
-      title: Vendor
-      description: A Vendor is an entity to which an expense can be paid.
-      type: object
-      properties:
-        archived:
-          type: boolean
-          description: Whether the vendor is archived.
-        external_reference_ids:
-          type: array
-          items:
-            type: string
-          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        externally_managed:
-          type: boolean
-          description: Whether the vendor was created by an external system and then imported.
-        in_use:
-          type: boolean
-          description: Whether the vendor is used on an invoice.
-        name:
-          type: string
-          description: The name of the vendor.
-    Error:
-      type: object
-      properties:
-        type:
-          type: string
-        message:
-          type: string
   securitySchemes:
     BearerToken:
       type: apiKey

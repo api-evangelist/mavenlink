@@ -37,7 +37,7 @@ paths:
         and will be indexed by ID in the `rate_card_roles` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Get Rate Card Roles
+      operationId: GetRateCardRoles
       tags:
       - Rate Card Role (Rate for a Role)
       parameters:
@@ -200,6 +200,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Rate Card Roles
     post:
       summary: Creating a new Rate Card Role
       description: 'A Rate Card Role can only be created by an Administrator on the account.
@@ -212,7 +214,7 @@ paths:
         and will be indexed by ID in the `rate_card_roles` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Create Rate Card Role
+      operationId: CreateRateCardRole
       tags:
       - Rate Card Role (Rate for a Role)
       parameters:
@@ -334,6 +336,8 @@ paths:
                   - role_id
                   - rate
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Create Rate Card Role
   /rate_card_roles/{id}:
     get:
       summary: Fetching a single Rate Card Role
@@ -347,7 +351,7 @@ paths:
         and will be indexed by ID in the `rate_card_roles` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Get Rate Card Role
+      operationId: GetRateCardRole
       tags:
       - Rate Card Role (Rate for a Role)
       parameters:
@@ -449,6 +453,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Rate Card Role
     put:
       summary: Updating an existing Rate Card Role
       description: 'A Rate Card Role can only be modified by an Administrator on the account.
@@ -461,7 +467,7 @@ paths:
         and will be indexed by ID in the `rate_card_roles` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Update Rate Card Role
+      operationId: UpdateRateCardRole
       tags:
       - Rate Card Role (Rate for a Role)
       parameters:
@@ -577,6 +583,8 @@ paths:
                       format: int32
                       description: The bill rate, in cents per hour, for the associated role.
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Update Rate Card Role
     delete:
       summary: Deleting an existing Rate Card Role
       description: 'If a A Rate Card Role belongs to a Rate Card Version that is in use, it cannot be deleted. A Rate Card Role can
@@ -587,7 +595,7 @@ paths:
         The response will contain no content and an HTTP 204 status code if the request was
 
         successful, or a standard Kantata OX error message explaining why the object could not be deleted.'
-      operationId: Delete Rate Card Role
+      operationId: DeleteRateCardRole
       tags:
       - Rate Card Role (Rate for a Role)
       parameters:
@@ -636,40 +644,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Delete Rate Card Role
 components:
   schemas:
-    Role:
-      title: Role
-      description: 'A Role represents the main position or title assigned to members on an account. Roles may be associated with account memberships, account invitations,
-
-        participation, project template assignments, rate card roles, rate card versions, resources, or time adjustments.'
-      type: object
-      properties:
-        created_at:
-          type: string
-          format: date-time
-        deleted_at:
-          type: string
-          format: date-time
-          description: The time the role was deleted.
-        external_reference_ids:
-          type: array
-          items:
-            type: string
-          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        name:
-          type: string
-          description: The name of the role.
-        updated_at:
-          type: string
-          format: date-time
-    Error:
-      type: object
-      properties:
-        type:
-          type: string
-        message:
-          type: string
     RateCardRole:
       title: Rate Card Role
       description: 'A Rate Card Role belongs to a Rate Card Version and represents the bill rate, in cents per hour, for a Role
@@ -693,6 +671,13 @@ components:
         updated_at:
           type: string
           format: date-time
+    Error:
+      type: object
+      properties:
+        type:
+          type: string
+        message:
+          type: string
     Errors:
       type: object
       properties:
@@ -728,6 +713,31 @@ components:
         rate_card_set_version_id:
           type: string
           description: '`rate_card_set_version_id` will only be included in the response if `rate_card_set_version` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        updated_at:
+          type: string
+          format: date-time
+    Role:
+      title: Role
+      description: 'A Role represents the main position or title assigned to members on an account. Roles may be associated with account memberships, account invitations,
+
+        participation, project template assignments, rate card roles, rate card versions, resources, or time adjustments.'
+      type: object
+      properties:
+        created_at:
+          type: string
+          format: date-time
+        deleted_at:
+          type: string
+          format: date-time
+          description: The time the role was deleted.
+        external_reference_ids:
+          type: array
+          items:
+            type: string
+          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        name:
+          type: string
+          description: The name of the role.
         updated_at:
           type: string
           format: date-time

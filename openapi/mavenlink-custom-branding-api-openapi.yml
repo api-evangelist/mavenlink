@@ -33,7 +33,7 @@ paths:
         and will be indexed by ID in the `private_label` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Get Custom Branding Settings
+      operationId: GetCustomBrandingSettings
       tags:
       - Custom Branding
       parameters:
@@ -132,8 +132,17 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Custom Branding Settings
 components:
   schemas:
+    Errors:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
     PrivateLabel:
       title: Custom Branding (Private Label)
       description: The Custom Branding values for the current users account.
@@ -174,13 +183,6 @@ components:
           type: string
           format: date-time
           description: The date the custom branding was most recently updated.
-    Errors:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
     Error:
       type: object
       properties:

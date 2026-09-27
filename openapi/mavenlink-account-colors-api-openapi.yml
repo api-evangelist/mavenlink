@@ -38,7 +38,7 @@ paths:
         and will be indexed by ID in the `account_colors` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Get Account Colors
+      operationId: GetAccountColors
       tags:
       - Account Colors
       parameters:
@@ -148,22 +148,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Account Colors
 components:
   schemas:
-    Errors:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
-    Error:
-      type: object
-      properties:
-        type:
-          type: string
-        message:
-          type: string
     AccountColor:
       title: Account Color
       description: A color on the user's account that can be associated with a project.
@@ -187,6 +175,20 @@ components:
         updated_at:
           type: string
           format: date-time
+    Errors:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+    Error:
+      type: object
+      properties:
+        type:
+          type: string
+        message:
+          type: string
   securitySchemes:
     BearerToken:
       type: apiKey

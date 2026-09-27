@@ -34,7 +34,7 @@ paths:
         and will be indexed by ID in the `skill_memberships` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Get Skill Memberships
+      operationId: GetSkillMemberships
       tags:
       - Skill Memberships
       parameters:
@@ -226,6 +226,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Skill Memberships
     post:
       summary: Creating a new Skill Membership
       description: 'Adds a skill to a user.
@@ -273,7 +275,7 @@ paths:
         and will be indexed by ID in the `skill_memberships` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Create Skill Membership
+      operationId: CreateSkillMembership
       tags:
       - Skill Memberships
       parameters:
@@ -398,6 +400,8 @@ paths:
                   - skill_id
                   - user_id
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Create Skill Membership
   /skill_memberships/{id}:
     get:
       summary: Fetching a single Skill Membership
@@ -411,7 +415,7 @@ paths:
         and will be indexed by ID in the `skill_memberships` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Get Skill Membership
+      operationId: GetSkillMembership
       tags:
       - Skill Memberships
       parameters:
@@ -515,6 +519,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Skill Membership
     put:
       summary: Updating an existing Skill Membership
       description: 'This endpoint returns structured Skill Membership objects.
@@ -524,7 +530,7 @@ paths:
         and will be indexed by ID in the `skill_memberships` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Update Skill Membership
+      operationId: UpdateSkillMembership
       tags:
       - Skill Memberships
       parameters:
@@ -644,6 +650,8 @@ paths:
 
                         Note: Not all skills have levels.'
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Update Skill Membership
     delete:
       summary: Deleting an existing Skill Membership
       description: 'Removes a skill from a user.
@@ -652,7 +660,7 @@ paths:
         The response will contain no content and an HTTP 204 status code if the request was
 
         successful, or a standard Kantata OX error message explaining why the object could not be deleted.'
-      operationId: Delete Skill Membership
+      operationId: DeleteSkillMembership
       tags:
       - Skill Memberships
       parameters:
@@ -701,8 +709,44 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Delete Skill Membership
 components:
   schemas:
+    Skill:
+      title: Skill
+      description: 'Skills are used in Kantata OX to describe capabilities of users for the purposes of resource planning.
+
+        They can be associated with a user through a Skill Membership.
+
+        This model includes categories such as ''Skill'', ''Language'', ''Certification'' and ''Other''.'
+      type: object
+      properties:
+        created_at:
+          type: string
+          format: date-time
+          description: The date and time a skill was last updated.
+        description:
+          type: string
+          description: The description of the skill.
+        external_reference_ids:
+          type: array
+          items:
+            type: string
+          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        max_level:
+          type: string
+          description: The max level allowed for the skill.
+        name:
+          type: string
+          description: The name of the skill.
+        skill_category_id:
+          type: string
+          description: '`skill_category_id` will only be included in the response if `skill_category` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        updated_at:
+          type: string
+          format: date-time
+          description: The date and time at skill a workweek was created.
     Error:
       type: object
       properties:
@@ -710,6 +754,44 @@ components:
           type: string
         message:
           type: string
+    SkillMembership:
+      title: Skill Membership
+      description: A Skill Membership represents a skill that has been assigned to a specified user.
+      type: object
+      properties:
+        cached_skill_name:
+          type: string
+          description: The name of the skill.
+        created_at:
+          type: string
+          format: date-time
+        creator_id:
+          type: string
+          description: '`creator_id` will only be included in the response if `creator` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        level:
+          type: integer
+          format: int32
+          description: The objects proficiency level for the skill (1-5).
+        max_level:
+          type: integer
+          format: int32
+          description: The maximum level assigned for the skill.
+        skill_id:
+          type: string
+          description: '`skill_id` will only be included in the response if `skill` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        updated_at:
+          type: string
+          format: date-time
+        user_id:
+          type: string
+          description: '`user_id` will only be included in the response if `user` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+    Errors:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
     User:
       title: User
       description: 'Users represent the individuals that are participating in Kantata OX projects. User objects are often returned as
@@ -804,78 +886,6 @@ components:
           items:
             type: string
           description: '`work_sample_ids` will only be included in the response if `work_samples` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-    Errors:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
-    SkillMembership:
-      title: Skill Membership
-      description: A Skill Membership represents a skill that has been assigned to a specified user.
-      type: object
-      properties:
-        cached_skill_name:
-          type: string
-          description: The name of the skill.
-        created_at:
-          type: string
-          format: date-time
-        creator_id:
-          type: string
-          description: '`creator_id` will only be included in the response if `creator` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        level:
-          type: integer
-          format: int32
-          description: The objects proficiency level for the skill (1-5).
-        max_level:
-          type: integer
-          format: int32
-          description: The maximum level assigned for the skill.
-        skill_id:
-          type: string
-          description: '`skill_id` will only be included in the response if `skill` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        updated_at:
-          type: string
-          format: date-time
-        user_id:
-          type: string
-          description: '`user_id` will only be included in the response if `user` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-    Skill:
-      title: Skill
-      description: 'Skills are used in Kantata OX to describe capabilities of users for the purposes of resource planning.
-
-        They can be associated with a user through a Skill Membership.
-
-        This model includes categories such as ''Skill'', ''Language'', ''Certification'' and ''Other''.'
-      type: object
-      properties:
-        created_at:
-          type: string
-          format: date-time
-          description: The date and time a skill was last updated.
-        description:
-          type: string
-          description: The description of the skill.
-        external_reference_ids:
-          type: array
-          items:
-            type: string
-          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        max_level:
-          type: string
-          description: The max level allowed for the skill.
-        name:
-          type: string
-          description: The name of the skill.
-        skill_category_id:
-          type: string
-          description: '`skill_category_id` will only be included in the response if `skill_category` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        updated_at:
-          type: string
-          format: date-time
-          description: The date and time at skill a workweek was created.
   securitySchemes:
     BearerToken:
       type: apiKey

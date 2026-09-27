@@ -36,7 +36,7 @@ paths:
         and will be indexed by ID in the `external_payments` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Get External Payments
+      operationId: GetExternalPayments
       tags:
       - External Payments
       parameters:
@@ -209,6 +209,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get External Payments
     post:
       summary: Creating a new External Payment
       description: 'Creates an external payment for the specified project or invoice. If an invoice ID is provided, a
@@ -223,7 +225,7 @@ paths:
         and will be indexed by ID in the `external_payments` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Create External Payment
+      operationId: CreateExternalPayment
       tags:
       - External Payments
       parameters:
@@ -356,6 +358,8 @@ paths:
                   required:
                   - workspace_id
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Create External Payment
   /external_payments/{id}:
     get:
       summary: Fetching a single External Payment
@@ -366,7 +370,7 @@ paths:
         and will be indexed by ID in the `external_payments` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Get External Payment
+      operationId: GetExternalPayment
       tags:
       - External Payments
       parameters:
@@ -474,12 +478,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get External Payment
     delete:
       summary: Deleting an existing External Payment
       description: 'The response will contain no content and an HTTP 204 status code if the request was
 
         successful, or a standard Kantata OX error message explaining why the object could not be deleted.'
-      operationId: Delete External Payment
+      operationId: DeleteExternalPayment
       tags:
       - External Payments
       parameters:
@@ -528,40 +534,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Delete External Payment
 components:
   schemas:
-    ExternalPayment:
-      title: External Payment
-      description: An External Payment is a record within a workspace of a payment that happened outside of Kantata OX.
-      type: object
-      properties:
-        amount_in_cents:
-          type: integer
-          format: int32
-          description: The amount the payment was for, in cents.
-        created_at:
-          type: string
-          format: date-time
-          description: The date and time the payment was created.
-        invoice_id:
-          type: integer
-          format: int32
-          description: The id of the invoice, if any, for which the payment was created.
-        message:
-          type: string
-          description: The message that accompanied the payment.
-        updated_at:
-          type: string
-          format: date-time
-          description: The date and time the payment was last updated.
-        user_id:
-          type: integer
-          format: int32
-          description: The id of the user who created the payment.
-        workspace_id:
-          type: integer
-          format: int32
-          description: The id of the project in which the payment was created.
     Workspace:
       title: Workspace
       description: Workspaces (also called projects) represent the space in which Kantata OX users plan, communicate, and collaborate.
@@ -1029,6 +1005,52 @@ components:
           items:
             type: string
           description: '`workspace_resources_with_unnamed_ids` will only be included in the response if `workspace_resources_with_unnamed` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+    Error:
+      type: object
+      properties:
+        type:
+          type: string
+        message:
+          type: string
+    ExternalPayment:
+      title: External Payment
+      description: An External Payment is a record within a workspace of a payment that happened outside of Kantata OX.
+      type: object
+      properties:
+        amount_in_cents:
+          type: integer
+          format: int32
+          description: The amount the payment was for, in cents.
+        created_at:
+          type: string
+          format: date-time
+          description: The date and time the payment was created.
+        invoice_id:
+          type: integer
+          format: int32
+          description: The id of the invoice, if any, for which the payment was created.
+        message:
+          type: string
+          description: The message that accompanied the payment.
+        updated_at:
+          type: string
+          format: date-time
+          description: The date and time the payment was last updated.
+        user_id:
+          type: integer
+          format: int32
+          description: The id of the user who created the payment.
+        workspace_id:
+          type: integer
+          format: int32
+          description: The id of the project in which the payment was created.
+    Errors:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
     User:
       title: User
       description: 'Users represent the individuals that are participating in Kantata OX projects. User objects are often returned as
@@ -1123,20 +1145,6 @@ components:
           items:
             type: string
           description: '`work_sample_ids` will only be included in the response if `work_samples` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-    Error:
-      type: object
-      properties:
-        type:
-          type: string
-        message:
-          type: string
-    Errors:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
     Invoice:
       title: Invoice
       description: An Invoice is defined as a list of costs incurred during a Kantata OX project, which are billable to an end user.

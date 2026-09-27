@@ -31,7 +31,7 @@ paths:
         and will be indexed by ID in the `holiday_calendars` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Get Holiday Calendars
+      operationId: GetHolidayCalendars
       tags:
       - Holiday Calendars
       parameters:
@@ -144,6 +144,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Holiday Calendars
     post:
       summary: Creating a new Holiday Calendar
       description: 'This endpoint returns structured Holiday Calendar objects.
@@ -153,7 +155,7 @@ paths:
         and will be indexed by ID in the `holiday_calendars` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Create Holiday Calendar
+      operationId: CreateHolidayCalendar
       tags:
       - Holiday Calendars
       responses:
@@ -246,6 +248,8 @@ paths:
                   required:
                   - name
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Create Holiday Calendar
   /holiday_calendars/{id}:
     get:
       summary: Fetching a single Holiday Calendar
@@ -256,7 +260,7 @@ paths:
         and will be indexed by ID in the `holiday_calendars` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Get Holiday Calendar
+      operationId: GetHolidayCalendar
       tags:
       - Holiday Calendars
       parameters:
@@ -341,6 +345,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Holiday Calendar
     put:
       summary: Updating an existing Holiday Calendar
       description: 'This endpoint returns structured Holiday Calendar objects.
@@ -350,7 +356,7 @@ paths:
         and will be indexed by ID in the `holiday_calendars` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Update Holiday Calendar
+      operationId: UpdateHolidayCalendar
       tags:
       - Holiday Calendars
       parameters:
@@ -450,12 +456,14 @@ paths:
                   required:
                   - name
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Update Holiday Calendar
     delete:
       summary: Deleting an existing Holiday Calendar
       description: 'The response will contain no content and an HTTP 204 status code if the request was
 
         successful, or a standard Kantata OX error message explaining why the object could not be deleted.'
-      operationId: Delete Holiday Calendar
+      operationId: DeleteHolidayCalendar
       tags:
       - Holiday Calendars
       parameters:
@@ -504,8 +512,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Delete Holiday Calendar
 components:
   schemas:
+    Error:
+      type: object
+      properties:
+        type:
+          type: string
+        message:
+          type: string
+    Errors:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
     HolidayCalendar:
       title: Holiday Calendar
       description: A Holiday Calendar defines the days in which account members are unavailable to work due to company-wide days off.
@@ -517,20 +541,6 @@ components:
         name:
           type: string
           description: The name of the holiday calendar.
-    Errors:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
-    Error:
-      type: object
-      properties:
-        type:
-          type: string
-        message:
-          type: string
   securitySchemes:
     BearerToken:
       type: apiKey

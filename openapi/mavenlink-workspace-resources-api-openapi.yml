@@ -31,7 +31,7 @@ paths:
         and will be indexed by ID in the `workspace_resources` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Get Workspace Resources
+      operationId: GetWorkspaceResources
       tags:
       - Workspace Resources
       parameters:
@@ -419,6 +419,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Workspace Resources
     post:
       summary: Creating a new Workspace Resource
       description: 'Adds a named or unnamed resource to a project (workspace).
@@ -470,7 +472,7 @@ paths:
         and will be indexed by ID in the `workspace_resources` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Create Workspace Resource
+      operationId: CreateWorkspaceResource
       tags:
       - Workspace Resources
       parameters:
@@ -668,6 +670,8 @@ paths:
                   required:
                   - workspace_id
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Create Workspace Resource
   /workspace_resources/allocations_matching_scheduled_hours:
     post:
       summary: Creating Allocations from Scheduled Hours for Resources
@@ -687,7 +691,7 @@ paths:
         and will be indexed by ID in the `workspace_resources` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Create Workspace Resource Allocations From Scheduled Hours
+      operationId: CreateWorkspaceResourceAllocationsFromScheduledHours
       tags:
       - Workspace Resources
       parameters:
@@ -823,6 +827,8 @@ paths:
                     - hard
                     - occurrence
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Create Workspace Resource Allocations From Scheduled Hours
   /workspace_resources/{id}:
     get:
       summary: Fetching a single Workspace Resource
@@ -833,7 +839,7 @@ paths:
         and will be indexed by ID in the `workspace_resources` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Get Workspace Resource
+      operationId: GetWorkspaceResource
       tags:
       - Workspace Resources
       parameters:
@@ -975,6 +981,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Workspace Resource
     put:
       summary: Updating an existing Workspace Resource
       description: 'This endpoint returns structured Workspace Resource objects.
@@ -984,7 +992,7 @@ paths:
         and will be indexed by ID in the `workspace_resources` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Update Workspace Resource
+      operationId: UpdateWorkspaceResource
       tags:
       - Workspace Resources
       parameters:
@@ -1186,6 +1194,8 @@ paths:
                       - service_model
                       - service_model_ref
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Update Workspace Resource
     delete:
       summary: Deleting an existing Workspace Resource
       description: 'This will delete a workspace resource and their assignments if the resource is deletable.
@@ -1198,7 +1208,7 @@ paths:
         The response will contain no content and an HTTP 204 status code if the request was
 
         successful, or a standard Kantata OX error message explaining why the object could not be deleted.'
-      operationId: Delete Workspace Resource
+      operationId: DeleteWorkspaceResource
       tags:
       - Workspace Resources
       parameters:
@@ -1247,6 +1257,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Delete Workspace Resource
   /workspace_resources/{id}/allocations_matching_scheduled_hours:
     post:
       summary: Creating Allocations from Scheduled Hours for Resources
@@ -1266,7 +1278,7 @@ paths:
         and will be indexed by ID in the `workspace_resources` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Create Workspace Resource Allocations From Scheduled Hours By Id
+      operationId: CreateWorkspaceResourceAllocationsFromScheduledHoursById
       tags:
       - Workspace Resources
       parameters:
@@ -1408,231 +1420,10 @@ paths:
                     - hard
                     - occurrence
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Create Workspace Resource Allocations From Scheduled Hours By Id
 components:
   schemas:
-    ExternalReference:
-      title: External Reference
-      description: 'External References allows users see which objects (one of `Assignment`, `BillingMilestone`, `CustomField`, `CustomFieldChoice`, `CustomFieldSet`, `CustomFieldValue`, `Estimate`, `EstimateScenario`, `EstimateScenarioResource`, `Expense`, `ExpenseBudget`, `Invoice`, `Participation`, `Post`, `RateCard`, `Role`, `Skill`, `StatusReport`, `Story`, `StoryAllocationDay`, `Submission`, `SurveyAnswer`, `SurveyQuestion`, `SurveyResponse`, `SurveyTemplate`, `TimeEntry`, `TimeOffEntry`, `User`, `Vendor`, `Workspace`, `WorkspaceAllocation`, `WorkspaceGroup`, or `WorkspaceResource`
-
-        are synced with third party systems. This allows you to view the sync status of items in addition to the integration
-
-        specifics for a synced object.
-
-
-        Objects that are synced with a third party system have external integration
-
-        attributes that include the corresponding ID of the third party object with
-
-        which it is synced, a link that allows you to view the object in the third
-
-        party system, the status of the external object in the external system,
-
-        the status of the sync, and a link to exceptions.'
-      type: object
-      properties:
-        created_at:
-          type: string
-          format: date-time
-          description: The date and time the reference was created.
-        external_link:
-          type: string
-          description: A URL that links to either the external object or event.
-        external_message:
-          type: string
-          description: An optional message about the external object.
-        external_status:
-          type: string
-          description: The status of the external object in the external system.
-        last_synced_at:
-          type: string
-          format: date-time
-        locked:
-          type: boolean
-          description: 'An optional field, indicating whether the subject should be locked. To prevent changes to the
-
-            object in Kantata OX, set this to true. This currently only applies to expense report rejections.'
-        service_model:
-          type: string
-          description: The type of the external object to which this reference belongs.
-        service_model_ref:
-          type: string
-          description: The ID of the external object to which this reference belongs.
-        service_name:
-          type: string
-          description: The provider name of the integration.
-        status:
-          type: string
-          description: The status of the integration. Options are 'pending', 'successful', or 'failed'.
-        subject_id:
-          type: integer
-          format: int32
-          description: The ID of the Kantata OX object to which this external reference belongs.
-        subject_ref:
-          type: object
-          description: '`subject_ref` will only be included in the response if `subject` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-          properties:
-            key:
-              type: string
-            id:
-              type: string
-        subject_type:
-          type: string
-          description: 'The type of Kantata OX object to which this external reference belongs.
-
-            One of `Assignment`, `BillingMilestone`, `CustomField`, `CustomFieldChoice`, `CustomFieldSet`, `CustomFieldValue`, `Estimate`, `EstimateScenario`, `EstimateScenarioResource`, `Expense`, `ExpenseBudget`, `Invoice`, `Participation`, `Post`, `RateCard`, `Role`, `Skill`, `StatusReport`, `Story`, `StoryAllocationDay`, `Submission`, `SurveyAnswer`, `SurveyQuestion`, `SurveyResponse`, `SurveyTemplate`, `TimeEntry`, `TimeOffEntry`, `User`, `Vendor`, `Workspace`, `WorkspaceAllocation`, `WorkspaceGroup`, or `WorkspaceResource`.'
-        updated_at:
-          type: string
-          format: date-time
-          description: The date and time the reference was last updated.
-    Role:
-      title: Role
-      description: 'A Role represents the main position or title assigned to members on an account. Roles may be associated with account memberships, account invitations,
-
-        participation, project template assignments, rate card roles, rate card versions, resources, or time adjustments.'
-      type: object
-      properties:
-        created_at:
-          type: string
-          format: date-time
-        deleted_at:
-          type: string
-          format: date-time
-          description: The time the role was deleted.
-        external_reference_ids:
-          type: array
-          items:
-            type: string
-          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        name:
-          type: string
-          description: The name of the role.
-        updated_at:
-          type: string
-          format: date-time
-    OrganizationMembership:
-      title: Organization Membership
-      description: An Organization Membership represents the connection of a user and project to an organization.
-      type: object
-      properties:
-        created_at:
-          type: string
-          format: date-time
-        department_id:
-          type: string
-          description: '`department_id` will only be included in the response if `department` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        geography_id:
-          type: string
-          description: '`geography_id` will only be included in the response if `geography` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        member_id:
-          type: string
-          description: The ID of the project or user.
-        member_type:
-          type: string
-          description: The type of object that describes the member (workspace or user).
-        primary:
-          type: boolean
-          description: 'Indicates whether this is the primary organization for the member (user or workspace).
-
-            Visible when the primary organization feature is enabled.'
-        updated_at:
-          type: string
-          format: date-time
-    WorkspaceResource:
-      title: Workspace Resource
-      description: 'With workspace resources it is possible for a user to have many resources with different roles
-
-        within a single workspace. Workspace resource can be assigned to tasks via Assignments which
-
-        enables specifying a specific role / rate per assigned task.'
-      type: object
-      properties:
-        created_at:
-          type: string
-          format: date-time
-        custom_field_value_ids:
-          type: array
-          items:
-            type: string
-          description: '`custom_field_value_ids` will only be included in the response if `custom_field_values` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        display_label:
-          type: string
-          description: User facing Identifer for the Resource.
-        external_reference_ids:
-          type: array
-          items:
-            type: string
-          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        full_name:
-          type: string
-          description: Full Name of the Resource's user if any.
-        label:
-          type: string
-        organization_membership_id:
-          type: string
-          description: '`organization_membership_id` will only be included in the response if `organization_membership` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        participation_id:
-          type: string
-          description: '`participation_id` will only be included in the response if `participation` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        photo_path:
-          type: string
-          description: URI of the Workspace Resource User Profile Photo if there is an user of the Resource.
-        resource_bill_rate:
-          type: integer
-          format: int32
-          description: 'The bill rate of the resource in a project, in the subunits of the currency (e.g. cents for USD).
-
-            If the resource''s bill rate was overridden for the project, this field returns the overridden rate.
-
-
-            Including this field in your request may result in a slower response. We recommend including this field only if necessary.
-
-            Visible when the authenticated user has financial access in the project and is on the provider team.
-
-
-            Only returned when requested through the optional_fields param.'
-        resource_cost_rate:
-          type: integer
-          format: int32
-          description: 'The cost rate of the resource in a project, in the subunits of the currency (e.g. cents for USD).
-
-            If the resource''s cost rate was overridden for the project, this field returns the overridden rate.
-
-
-            Including this field in your request may result in a slower response. We recommend including this field only if necessary.
-
-            Visible when the authenticated user has financial access in the project and is on the provider team.
-
-
-            Only returned when requested through the optional_fields param.'
-        role_id:
-          type: string
-          description: '`role_id` will only be included in the response if `role` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        role_initials:
-          type: string
-          description: Three letter initals for the Resource's Role if any.
-        role_name:
-          type: string
-          description: Name of the Resource's role if any.
-        updated_at:
-          type: string
-          format: date-time
-        user_id:
-          type: string
-          description: '`user_id` will only be included in the response if `user` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        workspace_id:
-          type: integer
-          format: int32
-          description: Id of the Workspace that the Resource belongs to.
-        workspace_title:
-          type: string
-          description: Title of the Workspace that the Resource belongs to.
-    Error:
-      type: object
-      properties:
-        type:
-          type: string
-        message:
-          type: string
     User:
       title: User
       description: 'Users represent the individuals that are participating in Kantata OX projects. User objects are often returned as
@@ -2194,146 +1985,34 @@ components:
           items:
             type: string
           description: '`workspace_resources_with_unnamed_ids` will only be included in the response if `workspace_resources_with_unnamed` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-    Errors:
+    OrganizationMembership:
+      title: Organization Membership
+      description: An Organization Membership represents the connection of a user and project to an organization.
       type: object
       properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
-    Participation:
-      title: Participation
-      description: 'Participations in Kantata OX connect Users and Workspaces (projects). It includes
-
-        permissions, cost rate, bill rate and role details for the participant in the workspace.'
-      type: object
-      properties:
-        access_level:
-          type: string
-          description: 'Access level for the user in the workspace. It must be one of "admin", "financial", "time_logging", "collaboration".
-
-            Visible when the API user is an administrator on the project.
-
-
-            Only returned when requested through the optional_fields param.'
-        active_role_ids:
-          type: array
-          items:
-            type: string
-          description: '`active_role_ids` will only be included in the response if `active_roles` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        allocated_workspace_minutes:
-          type: integer
-          format: int32
-          description: 'The allocated minutes for the participant scoped to this project.
-
-            Visible when the API user is a reports viewer on the project''s account..'
-        can_edit:
-          type: boolean
-          description: 'Whether the participant has edit permissions to the project.
-
-            Visible when the API user is an administrator on the project.'
-        can_edit_expense:
-          type: boolean
-          description: 'Whether the participant can edit expenses in the project.
-
-            Visible when the API user is an administrator on the project.'
-        can_edit_time:
-          type: boolean
-          description: 'Whether the participant can edit time in the project.
-
-            Visible when the API user is an administrator on the project.'
-        can_invite:
-          type: boolean
-          description: Whether the participant can invite others to the project.
-        can_post:
-          type: boolean
-          description: 'Whether the participant can post in the project.
-
-            Visible when the API user is an administrator on the project.'
-        can_schedule_team_hours:
-          type: boolean
-          description: 'Whether the participant can schedule hours for team members.
-
-            Only returned when requested through the optional_fields param.'
-        can_schedule_their_hours:
-          type: boolean
-          description: 'Whether the participant can schedule their hours.
-
-            Only returned when requested through the optional_fields param.'
-        cost_in_cents:
-          type: integer
-          format: int32
-          description: 'The cost (in cents) for the participant for this this project.
-
-            Visible when the API user is an administrator and a consultant on the project..'
         created_at:
           type: string
           format: date-time
-        default_rate_in_cents:
-          type: integer
-          format: int32
-          description: 'The default rate (in cents) for the participant for this project.
-
-            Visible when the API user is a consultant on the project and has financial access on the project.'
-        estimated_workspace_minutes:
-          type: integer
-          format: int32
-          description: 'The estimated minutes for the participant scoped to this project.
-
-            Visible when the API user is a reports viewer on the project''s account..'
-        external_reference_ids:
-          type: array
-          items:
-            type: string
-          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        is_foreign_participant:
-          type: boolean
-          description: 'Whether the participant is part of the project''s account.
-
-            Only returned when requested through the optional_fields param.'
-        is_team_lead:
-          type: boolean
-          description: Whether the participant is a team lead in the project.
-        permissions_label:
+        department_id:
           type: string
-          description: 'Whether the user has an edit permission, a view only permission, or a view permission with additional access. Possible values are `edit`, `view_only`, or `view_with_custom`.
-
-            Visible when the API user is an administrator on the project.
-
-
-            Only returned when requested through the optional_fields param.'
-        primary_role_id:
+          description: '`department_id` will only be included in the response if `department` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        geography_id:
           type: string
-          description: '`primary_role_id` will only be included in the response if `primary_role` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        rate_in_cents:
-          type: integer
-          format: int32
-          description: 'The rate (in cents) for the participant for this project.
-
-            Visible when the API user is a consultant on the project and has financial access on the project.'
-        role:
+          description: '`geography_id` will only be included in the response if `geography` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        member_id:
           type: string
-          description: The role for the participant.
-        show_as_read_only:
+          description: The ID of the project or user.
+        member_type:
+          type: string
+          description: The type of object that describes the member (workspace or user).
+        primary:
           type: boolean
-          description: Whether the API user can only read the project.
+          description: 'Indicates whether this is the primary organization for the member (user or workspace).
+
+            Visible when the primary organization feature is enabled.'
         updated_at:
           type: string
           format: date-time
-        user_id:
-          type: string
-          description: '`user_id` will only be included in the response if `user` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        workspace_id:
-          type: string
-          description: '`workspace_id` will only be included in the response if `workspace` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        workspace_resource_ids:
-          type: array
-          items:
-            type: string
-          description: '`workspace_resource_ids` will only be included in the response if `workspace_resources` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        workspace_role_id:
-          type: string
-          description: '`workspace_role_id` will only be included in the response if `workspace_role` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
     CustomFieldValue:
       title: Custom Field Value
       description: 'If [Custom Fields](/tag/Custom-Fields) represent the fields themselves,
@@ -2490,6 +2169,341 @@ components:
             - `reports_viewer_with_cost`
 
             - `account_admin` (default).'
+    Error:
+      type: object
+      properties:
+        type:
+          type: string
+        message:
+          type: string
+    Errors:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+    Participation:
+      title: Participation
+      description: 'Participations in Kantata OX connect Users and Workspaces (projects). It includes
+
+        permissions, cost rate, bill rate and role details for the participant in the workspace.'
+      type: object
+      properties:
+        access_level:
+          type: string
+          description: 'Access level for the user in the workspace. It must be one of "admin", "financial", "time_logging", "collaboration".
+
+            Visible when the API user is an administrator on the project.
+
+
+            Only returned when requested through the optional_fields param.'
+        active_role_ids:
+          type: array
+          items:
+            type: string
+          description: '`active_role_ids` will only be included in the response if `active_roles` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        allocated_workspace_minutes:
+          type: integer
+          format: int32
+          description: 'The allocated minutes for the participant scoped to this project.
+
+            Visible when the API user is a reports viewer on the project''s account..'
+        can_edit:
+          type: boolean
+          description: 'Whether the participant has edit permissions to the project.
+
+            Visible when the API user is an administrator on the project.'
+        can_edit_expense:
+          type: boolean
+          description: 'Whether the participant can edit expenses in the project.
+
+            Visible when the API user is an administrator on the project.'
+        can_edit_time:
+          type: boolean
+          description: 'Whether the participant can edit time in the project.
+
+            Visible when the API user is an administrator on the project.'
+        can_invite:
+          type: boolean
+          description: Whether the participant can invite others to the project.
+        can_post:
+          type: boolean
+          description: 'Whether the participant can post in the project.
+
+            Visible when the API user is an administrator on the project.'
+        can_schedule_team_hours:
+          type: boolean
+          description: 'Whether the participant can schedule hours for team members.
+
+            Only returned when requested through the optional_fields param.'
+        can_schedule_their_hours:
+          type: boolean
+          description: 'Whether the participant can schedule their hours.
+
+            Only returned when requested through the optional_fields param.'
+        cost_in_cents:
+          type: integer
+          format: int32
+          description: 'The cost (in cents) for the participant for this this project.
+
+            Visible when the API user is an administrator and a consultant on the project..'
+        created_at:
+          type: string
+          format: date-time
+        default_rate_in_cents:
+          type: integer
+          format: int32
+          description: 'The default rate (in cents) for the participant for this project.
+
+            Visible when the API user is a consultant on the project and has financial access on the project.'
+        estimated_workspace_minutes:
+          type: integer
+          format: int32
+          description: 'The estimated minutes for the participant scoped to this project.
+
+            Visible when the API user is a reports viewer on the project''s account..'
+        external_reference_ids:
+          type: array
+          items:
+            type: string
+          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        is_foreign_participant:
+          type: boolean
+          description: 'Whether the participant is part of the project''s account.
+
+            Only returned when requested through the optional_fields param.'
+        is_team_lead:
+          type: boolean
+          description: Whether the participant is a team lead in the project.
+        permissions_label:
+          type: string
+          description: 'Whether the user has an edit permission, a view only permission, or a view permission with additional access. Possible values are `edit`, `view_only`, or `view_with_custom`.
+
+            Visible when the API user is an administrator on the project.
+
+
+            Only returned when requested through the optional_fields param.'
+        primary_role_id:
+          type: string
+          description: '`primary_role_id` will only be included in the response if `primary_role` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        rate_in_cents:
+          type: integer
+          format: int32
+          description: 'The rate (in cents) for the participant for this project.
+
+            Visible when the API user is a consultant on the project and has financial access on the project.'
+        role:
+          type: string
+          description: The role for the participant.
+        show_as_read_only:
+          type: boolean
+          description: Whether the API user can only read the project.
+        updated_at:
+          type: string
+          format: date-time
+        user_id:
+          type: string
+          description: '`user_id` will only be included in the response if `user` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        workspace_id:
+          type: string
+          description: '`workspace_id` will only be included in the response if `workspace` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        workspace_resource_ids:
+          type: array
+          items:
+            type: string
+          description: '`workspace_resource_ids` will only be included in the response if `workspace_resources` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        workspace_role_id:
+          type: string
+          description: '`workspace_role_id` will only be included in the response if `workspace_role` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+    WorkspaceResource:
+      title: Workspace Resource
+      description: 'With workspace resources it is possible for a user to have many resources with different roles
+
+        within a single workspace. Workspace resource can be assigned to tasks via Assignments which
+
+        enables specifying a specific role / rate per assigned task.'
+      type: object
+      properties:
+        created_at:
+          type: string
+          format: date-time
+        custom_field_value_ids:
+          type: array
+          items:
+            type: string
+          description: '`custom_field_value_ids` will only be included in the response if `custom_field_values` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        display_label:
+          type: string
+          description: User facing Identifer for the Resource.
+        external_reference_ids:
+          type: array
+          items:
+            type: string
+          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        full_name:
+          type: string
+          description: Full Name of the Resource's user if any.
+        label:
+          type: string
+        organization_membership_id:
+          type: string
+          description: '`organization_membership_id` will only be included in the response if `organization_membership` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        participation_id:
+          type: string
+          description: '`participation_id` will only be included in the response if `participation` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        photo_path:
+          type: string
+          description: URI of the Workspace Resource User Profile Photo if there is an user of the Resource.
+        resource_bill_rate:
+          type: integer
+          format: int32
+          description: 'The bill rate of the resource in a project, in the subunits of the currency (e.g. cents for USD).
+
+            If the resource''s bill rate was overridden for the project, this field returns the overridden rate.
+
+
+            Including this field in your request may result in a slower response. We recommend including this field only if necessary.
+
+            Visible when the authenticated user has financial access in the project and is on the provider team.
+
+
+            Only returned when requested through the optional_fields param.'
+        resource_cost_rate:
+          type: integer
+          format: int32
+          description: 'The cost rate of the resource in a project, in the subunits of the currency (e.g. cents for USD).
+
+            If the resource''s cost rate was overridden for the project, this field returns the overridden rate.
+
+
+            Including this field in your request may result in a slower response. We recommend including this field only if necessary.
+
+            Visible when the authenticated user has financial access in the project and is on the provider team.
+
+
+            Only returned when requested through the optional_fields param.'
+        role_id:
+          type: string
+          description: '`role_id` will only be included in the response if `role` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        role_initials:
+          type: string
+          description: Three letter initals for the Resource's Role if any.
+        role_name:
+          type: string
+          description: Name of the Resource's role if any.
+        updated_at:
+          type: string
+          format: date-time
+        user_id:
+          type: string
+          description: '`user_id` will only be included in the response if `user` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        workspace_id:
+          type: integer
+          format: int32
+          description: Id of the Workspace that the Resource belongs to.
+        workspace_title:
+          type: string
+          description: Title of the Workspace that the Resource belongs to.
+    Role:
+      title: Role
+      description: 'A Role represents the main position or title assigned to members on an account. Roles may be associated with account memberships, account invitations,
+
+        participation, project template assignments, rate card roles, rate card versions, resources, or time adjustments.'
+      type: object
+      properties:
+        created_at:
+          type: string
+          format: date-time
+        deleted_at:
+          type: string
+          format: date-time
+          description: The time the role was deleted.
+        external_reference_ids:
+          type: array
+          items:
+            type: string
+          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        name:
+          type: string
+          description: The name of the role.
+        updated_at:
+          type: string
+          format: date-time
+    ExternalReference:
+      title: External Reference
+      description: 'External References allows users see which objects (one of `Assignment`, `BillingMilestone`, `CustomField`, `CustomFieldChoice`, `CustomFieldSet`, `CustomFieldValue`, `Estimate`, `EstimateScenario`, `EstimateScenarioResource`, `Expense`, `ExpenseBudget`, `Invoice`, `Participation`, `Post`, `RateCard`, `Role`, `Skill`, `StatusReport`, `Story`, `StoryAllocationDay`, `Submission`, `SurveyAnswer`, `SurveyQuestion`, `SurveyResponse`, `SurveyTemplate`, `TimeEntry`, `TimeOffEntry`, `User`, `Vendor`, `Workspace`, `WorkspaceAllocation`, `WorkspaceGroup`, or `WorkspaceResource`
+
+        are synced with third party systems. This allows you to view the sync status of items in addition to the integration
+
+        specifics for a synced object.
+
+
+        Objects that are synced with a third party system have external integration
+
+        attributes that include the corresponding ID of the third party object with
+
+        which it is synced, a link that allows you to view the object in the third
+
+        party system, the status of the external object in the external system,
+
+        the status of the sync, and a link to exceptions.'
+      type: object
+      properties:
+        created_at:
+          type: string
+          format: date-time
+          description: The date and time the reference was created.
+        external_link:
+          type: string
+          description: A URL that links to either the external object or event.
+        external_message:
+          type: string
+          description: An optional message about the external object.
+        external_status:
+          type: string
+          description: The status of the external object in the external system.
+        last_synced_at:
+          type: string
+          format: date-time
+        locked:
+          type: boolean
+          description: 'An optional field, indicating whether the subject should be locked. To prevent changes to the
+
+            object in Kantata OX, set this to true. This currently only applies to expense report rejections.'
+        service_model:
+          type: string
+          description: The type of the external object to which this reference belongs.
+        service_model_ref:
+          type: string
+          description: The ID of the external object to which this reference belongs.
+        service_name:
+          type: string
+          description: The provider name of the integration.
+        status:
+          type: string
+          description: The status of the integration. Options are 'pending', 'successful', or 'failed'.
+        subject_id:
+          type: integer
+          format: int32
+          description: The ID of the Kantata OX object to which this external reference belongs.
+        subject_ref:
+          type: object
+          description: '`subject_ref` will only be included in the response if `subject` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+          properties:
+            key:
+              type: string
+            id:
+              type: string
+        subject_type:
+          type: string
+          description: 'The type of Kantata OX object to which this external reference belongs.
+
+            One of `Assignment`, `BillingMilestone`, `CustomField`, `CustomFieldChoice`, `CustomFieldSet`, `CustomFieldValue`, `Estimate`, `EstimateScenario`, `EstimateScenarioResource`, `Expense`, `ExpenseBudget`, `Invoice`, `Participation`, `Post`, `RateCard`, `Role`, `Skill`, `StatusReport`, `Story`, `StoryAllocationDay`, `Submission`, `SurveyAnswer`, `SurveyQuestion`, `SurveyResponse`, `SurveyTemplate`, `TimeEntry`, `TimeOffEntry`, `User`, `Vendor`, `Workspace`, `WorkspaceAllocation`, `WorkspaceGroup`, or `WorkspaceResource`.'
+        updated_at:
+          type: string
+          format: date-time
+          description: The date and time the reference was last updated.
   securitySchemes:
     BearerToken:
       type: apiKey

@@ -29,7 +29,7 @@ paths:
         you will see every story follow on your account. Otherwise you will see every story follow in projects
 
         in which you are participating.'
-      operationId: Get Story Follows
+      operationId: GetStoryFollows
       tags:
       - Followers
       responses:
@@ -69,9 +69,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Story Follows
     post:
       summary: Following a story
-      operationId: Create Story Follow
+      operationId: CreateStoryFollow
       tags:
       - Followers
       responses:
@@ -132,10 +134,12 @@ paths:
                   - story_id
                   - follower_id
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Create Story Follow
   /story_follows/{id}:
     get:
       summary: Retrieving a single Story Follow
-      operationId: Get Story Follow
+      operationId: GetStoryFollow
       tags:
       - Followers
       parameters:
@@ -182,12 +186,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Story Follow
     delete:
       summary: Unfollowing a story
       description: 'The response will contain no content and an HTTP 204 status code if the request was
 
         successful, or a standard Kantata OX error message explaining why the object could not be deleted.'
-      operationId: Delete Story Follow
+      operationId: DeleteStoryFollow
       tags:
       - Followers
       parameters:
@@ -236,6 +242,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Delete Story Follow
 components:
   schemas:
     Errors:

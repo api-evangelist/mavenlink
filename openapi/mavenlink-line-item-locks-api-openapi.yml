@@ -33,7 +33,7 @@ paths:
         and will be indexed by ID in the `line_item_locks` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Get Line Item Locks
+      operationId: GetLineItemLocks
       tags:
       - Line Item Locks
       parameters:
@@ -143,6 +143,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Line Item Locks
     post:
       summary: Creating a new Line Item Lock
       description: 'A line item lock will be created on your account at the specified lock date. On successful creation of a
@@ -164,7 +166,7 @@ paths:
         and will be indexed by ID in the `line_item_locks` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Create Line Item Lock
+      operationId: CreateLineItemLock
       tags:
       - Line Item Locks
       parameters:
@@ -274,6 +276,8 @@ paths:
                   required:
                   - locked_to
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Create Line Item Lock
   /line_item_locks/{id}:
     get:
       summary: Fetching a single Line Item Lock
@@ -284,7 +288,7 @@ paths:
         and will be indexed by ID in the `line_item_locks` top-level JSON key.
 
         Please see our Response Format section for more information.'
-      operationId: Get Line Item Lock
+      operationId: GetLineItemLock
       tags:
       - Line Item Locks
       parameters:
@@ -380,6 +384,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+      x-operation-id-source: normalized
+      x-operation-id-original: Get Line Item Lock
 components:
   schemas:
     LineItemLock:
@@ -398,20 +404,6 @@ components:
           type: string
           format: date
           description: The date before which you would like line items to be locked.
-    Errors:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
-    Error:
-      type: object
-      properties:
-        type:
-          type: string
-        message:
-          type: string
     User:
       title: User
       description: 'Users represent the individuals that are participating in Kantata OX projects. User objects are often returned as
@@ -506,6 +498,20 @@ components:
           items:
             type: string
           description: '`work_sample_ids` will only be included in the response if `work_samples` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+    Errors:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+    Error:
+      type: object
+      properties:
+        type:
+          type: string
+        message:
+          type: string
   securitySchemes:
     BearerToken:
       type: apiKey
