@@ -826,13 +826,6 @@ paths:
       x-operation-id-original: Delete Workweek Membership
 components:
   schemas:
-    Error:
-      type: object
-      properties:
-        type:
-          type: string
-        message:
-          type: string
     Workweek:
       title: Workweek
       description: 'Workweeks are owned by an account. A workweek can be used as the account default, or
@@ -896,13 +889,13 @@ components:
           items:
             type: string
           description: '`workweek_membership_ids` will only be included in the response if `workweek_memberships` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-    Errors:
+    Error:
       type: object
       properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
+        type:
+          type: string
+        message:
+          type: string
     WorkweekMembership:
       title: Workweek Membership
       description: A Workweek Membership represents the relationship of a user to a workweek.
@@ -931,6 +924,13 @@ components:
         workweek_id:
           type: string
           description: '`workweek_id` will only be included in the response if `workweek` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+    Errors:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
     User:
       title: User
       description: 'Users represent the individuals that are participating in Kantata OX projects. User objects are often returned as

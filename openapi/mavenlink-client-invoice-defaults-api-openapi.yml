@@ -596,6 +596,20 @@ paths:
       x-operation-id-original: Delete Client Invoice Defaults By Id
 components:
   schemas:
+    Errors:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+    Error:
+      type: object
+      properties:
+        type:
+          type: string
+        message:
+          type: string
     ClientInvoiceDefault:
       title: Client Invoice Defaults
       description: Represents the default configuration for presenting invoices to clients.
@@ -650,20 +664,6 @@ components:
           type: string
           format: date-time
           description: The date and time that the invoice default was last updated.
-    Errors:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
-    Error:
-      type: object
-      properties:
-        type:
-          type: string
-        message:
-          type: string
   securitySchemes:
     BearerToken:
       type: apiKey

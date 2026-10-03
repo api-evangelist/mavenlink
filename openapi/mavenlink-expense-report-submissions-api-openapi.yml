@@ -1535,116 +1535,6 @@ components:
           items:
             type: string
           description: '`workspace_resources_with_unnamed_ids` will only be included in the response if `workspace_resources_with_unnamed` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-    Expense:
-      title: Expense
-      description: 'Expenses are non-time related costs incurred in a project. Once created, expenses can
-
-        be included in generated invoices.'
-      type: object
-      properties:
-        active_submission_id:
-          type: string
-          description: '`active_submission_id` will only be included in the response if `active_submission` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        amount_in_cents:
-          type: integer
-          format: int32
-          description: The amount, in cents, of the expense.
-        category:
-          type: string
-          description: 'The category of the expense (can be any string). Built-in categories are:
-
-            Travel, Mileage, Lodging, Food, Entertainment, and Other.'
-        created_at:
-          type: string
-          format: date-time
-        currency:
-          type: string
-          description: The currency of the expense.
-        currency_base_unit:
-          type: integer
-          format: int32
-          description: The number of the units in the `amount_as_cents` attribute that are required to make up a single unit of the `currency`.
-        currency_symbol:
-          type: string
-          description: The symbol that represents the currency of the expense.
-        date:
-          type: string
-          format: date
-          description: The date the expense was incurred.
-        expense_budget_id:
-          type: string
-          description: '`expense_budget_id` will only be included in the response if `expense_budget` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        expense_category_id:
-          type: string
-          description: '`expense_category_id` will only be included in the response if `expense_category` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        external_reference_ids:
-          type: array
-          items:
-            type: string
-          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        foreign_exchange_amount:
-          type: object
-          description: The currency conversion data for a converted expense.
-          properties:
-            date:
-              type: string
-              format: date-time
-              description: The date the expense was converted.
-            rate:
-              type: number
-              format: float
-              description: The exchange rate used to convert the expense.
-            source_currency:
-              type: string
-              description: The [ISO code](https://mavenlink.zendesk.com/hc/en-us/articles/360041576473-Supported-Currency-ISO-Codes) of the foreign currency in which the expense was incurred.
-            source_value:
-              type: number
-              format: float
-              description: The amount of the expense, in foreign currency units.
-        is_billable:
-          type: boolean
-          description: Whether this is a billable expense.
-        is_invoiced:
-          type: boolean
-          description: Whether this expense has been included on an invoice.
-        notes:
-          type: string
-          description: All notes that have been added to the expense.
-        receipt_id:
-          type: string
-          description: '`receipt_id` will only be included in the response if `receipt` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        recent_submission_id:
-          type: string
-          description: '`recent_submission_id` will only be included in the response if `recent_submission` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        reimbursable:
-          type: boolean
-          description: Whether this expense is reimbursable to the creator or to a vendor.
-        role_id:
-          type: string
-          description: '`role_id` will only be included in the response if `role` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        story_id:
-          type: string
-          description: '`story_id` will only be included in the response if `story` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        taxable:
-          type: boolean
-          description: Whether this expense is marked as taxable when invoiced.
-        updated_at:
-          type: string
-          format: date-time
-        user_can_edit:
-          type: boolean
-          description: 'Whether the viewing user can edit this expense.
-
-            Only returned when requested through the optional_fields param.'
-        user_id:
-          type: string
-          description: '`user_id` will only be included in the response if `user` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        vendor_id:
-          type: string
-          description: '`vendor_id` will only be included in the response if `vendor` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        workspace_id:
-          type: string
-          description: '`workspace_id` will only be included in the response if `workspace` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
     Error:
       type: object
       properties:
@@ -1779,6 +1669,116 @@ components:
         user_id:
           type: string
           description: '`user_id` will only be included in the response if `user` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        workspace_id:
+          type: string
+          description: '`workspace_id` will only be included in the response if `workspace` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+    Expense:
+      title: Expense
+      description: 'Expenses are non-time related costs incurred in a project. Once created, expenses can
+
+        be included in generated invoices.'
+      type: object
+      properties:
+        active_submission_id:
+          type: string
+          description: '`active_submission_id` will only be included in the response if `active_submission` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        amount_in_cents:
+          type: integer
+          format: int32
+          description: The amount, in cents, of the expense.
+        category:
+          type: string
+          description: 'The category of the expense (can be any string). Built-in categories are:
+
+            Travel, Mileage, Lodging, Food, Entertainment, and Other.'
+        created_at:
+          type: string
+          format: date-time
+        currency:
+          type: string
+          description: The currency of the expense.
+        currency_base_unit:
+          type: integer
+          format: int32
+          description: The number of the units in the `amount_as_cents` attribute that are required to make up a single unit of the `currency`.
+        currency_symbol:
+          type: string
+          description: The symbol that represents the currency of the expense.
+        date:
+          type: string
+          format: date
+          description: The date the expense was incurred.
+        expense_budget_id:
+          type: string
+          description: '`expense_budget_id` will only be included in the response if `expense_budget` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        expense_category_id:
+          type: string
+          description: '`expense_category_id` will only be included in the response if `expense_category` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        external_reference_ids:
+          type: array
+          items:
+            type: string
+          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        foreign_exchange_amount:
+          type: object
+          description: The currency conversion data for a converted expense.
+          properties:
+            date:
+              type: string
+              format: date-time
+              description: The date the expense was converted.
+            rate:
+              type: number
+              format: float
+              description: The exchange rate used to convert the expense.
+            source_currency:
+              type: string
+              description: The [ISO code](https://mavenlink.zendesk.com/hc/en-us/articles/360041576473-Supported-Currency-ISO-Codes) of the foreign currency in which the expense was incurred.
+            source_value:
+              type: number
+              format: float
+              description: The amount of the expense, in foreign currency units.
+        is_billable:
+          type: boolean
+          description: Whether this is a billable expense.
+        is_invoiced:
+          type: boolean
+          description: Whether this expense has been included on an invoice.
+        notes:
+          type: string
+          description: All notes that have been added to the expense.
+        receipt_id:
+          type: string
+          description: '`receipt_id` will only be included in the response if `receipt` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        recent_submission_id:
+          type: string
+          description: '`recent_submission_id` will only be included in the response if `recent_submission` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        reimbursable:
+          type: boolean
+          description: Whether this expense is reimbursable to the creator or to a vendor.
+        role_id:
+          type: string
+          description: '`role_id` will only be included in the response if `role` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        story_id:
+          type: string
+          description: '`story_id` will only be included in the response if `story` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        taxable:
+          type: boolean
+          description: Whether this expense is marked as taxable when invoiced.
+        updated_at:
+          type: string
+          format: date-time
+        user_can_edit:
+          type: boolean
+          description: 'Whether the viewing user can edit this expense.
+
+            Only returned when requested through the optional_fields param.'
+        user_id:
+          type: string
+          description: '`user_id` will only be included in the response if `user` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        vendor_id:
+          type: string
+          description: '`vendor_id` will only be included in the response if `vendor` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
         workspace_id:
           type: string
           description: '`workspace_id` will only be included in the response if `workspace` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'

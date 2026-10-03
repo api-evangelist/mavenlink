@@ -167,6 +167,13 @@ paths:
       x-operation-id-original: List Insights Mapping Dashboards
 components:
   schemas:
+    Errors:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
     AccountInsightsMapping:
       title: Account Insights Mapping
       description: Account Insights Mapping represent the Insights dashboards on your account.
@@ -189,13 +196,6 @@ components:
         name:
           type: string
           description: The name of the dashboard.
-    Errors:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
     Error:
       type: object
       properties:

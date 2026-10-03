@@ -673,6 +673,20 @@ paths:
       x-operation-id-original: Update Account Default
 components:
   schemas:
+    Errors:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+    Error:
+      type: object
+      properties:
+        type:
+          type: string
+        message:
+          type: string
     StatusSetOption:
       title: Custom Task Status
       description: A custom task status is in a Task Status Set. A task status set is assigned to a workspace (project), then custom task statuses can be applied to the stories (tasks) within the workspace.
@@ -701,13 +715,6 @@ components:
         updated_at:
           type: string
           format: date-time
-    Errors:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
     StatusSet:
       title: Task Status Set
       description: Task Status Sets allow you to create custom statuses for tasks (stories) that can then be applied to projects (workspaces).
@@ -727,13 +734,6 @@ components:
         updated_at:
           type: string
           format: date-time
-    Error:
-      type: object
-      properties:
-        type:
-          type: string
-        message:
-          type: string
   securitySchemes:
     BearerToken:
       type: apiKey

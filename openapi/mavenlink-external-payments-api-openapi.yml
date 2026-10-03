@@ -1012,38 +1012,6 @@ components:
           type: string
         message:
           type: string
-    ExternalPayment:
-      title: External Payment
-      description: An External Payment is a record within a workspace of a payment that happened outside of Kantata OX.
-      type: object
-      properties:
-        amount_in_cents:
-          type: integer
-          format: int32
-          description: The amount the payment was for, in cents.
-        created_at:
-          type: string
-          format: date-time
-          description: The date and time the payment was created.
-        invoice_id:
-          type: integer
-          format: int32
-          description: The id of the invoice, if any, for which the payment was created.
-        message:
-          type: string
-          description: The message that accompanied the payment.
-        updated_at:
-          type: string
-          format: date-time
-          description: The date and time the payment was last updated.
-        user_id:
-          type: integer
-          format: int32
-          description: The id of the user who created the payment.
-        workspace_id:
-          type: integer
-          format: int32
-          description: The id of the project in which the payment was created.
     Errors:
       type: object
       properties:
@@ -1254,6 +1222,38 @@ components:
           items:
             type: string
           description: '`workspace_ids` will only be included in the response if `workspaces` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+    ExternalPayment:
+      title: External Payment
+      description: An External Payment is a record within a workspace of a payment that happened outside of Kantata OX.
+      type: object
+      properties:
+        amount_in_cents:
+          type: integer
+          format: int32
+          description: The amount the payment was for, in cents.
+        created_at:
+          type: string
+          format: date-time
+          description: The date and time the payment was created.
+        invoice_id:
+          type: integer
+          format: int32
+          description: The id of the invoice, if any, for which the payment was created.
+        message:
+          type: string
+          description: The message that accompanied the payment.
+        updated_at:
+          type: string
+          format: date-time
+          description: The date and time the payment was last updated.
+        user_id:
+          type: integer
+          format: int32
+          description: The id of the user who created the payment.
+        workspace_id:
+          type: integer
+          format: int32
+          description: The id of the project in which the payment was created.
   securitySchemes:
     BearerToken:
       type: apiKey

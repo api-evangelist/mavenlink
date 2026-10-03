@@ -653,6 +653,41 @@ paths:
       x-operation-id-original: Delete Workweek
 components:
   schemas:
+    WorkweekMembership:
+      title: Workweek Membership
+      description: A Workweek Membership represents the relationship of a user to a workweek.
+      type: object
+      properties:
+        created_at:
+          type: string
+          format: date-time
+          description: The date and time the workweek membership was last updated.
+        end_date:
+          type: string
+          format: date
+          description: The end date of the workweek.
+        start_date:
+          type: string
+          format: date
+          description: The start date of the workweek.
+        updated_at:
+          type: string
+          format: date-time
+          description: The date and time the workweek membership was created.
+        user_id:
+          type: integer
+          format: int32
+          description: The ID of the associated user.
+        workweek_id:
+          type: string
+          description: '`workweek_id` will only be included in the response if `workweek` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+    Errors:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
     Workweek:
       title: Workweek
       description: 'Workweeks are owned by an account. A workweek can be used as the account default, or
@@ -716,41 +751,6 @@ components:
           items:
             type: string
           description: '`workweek_membership_ids` will only be included in the response if `workweek_memberships` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-    Errors:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
-    WorkweekMembership:
-      title: Workweek Membership
-      description: A Workweek Membership represents the relationship of a user to a workweek.
-      type: object
-      properties:
-        created_at:
-          type: string
-          format: date-time
-          description: The date and time the workweek membership was last updated.
-        end_date:
-          type: string
-          format: date
-          description: The end date of the workweek.
-        start_date:
-          type: string
-          format: date
-          description: The start date of the workweek.
-        updated_at:
-          type: string
-          format: date-time
-          description: The date and time the workweek membership was created.
-        user_id:
-          type: integer
-          format: int32
-          description: The ID of the associated user.
-        workweek_id:
-          type: string
-          description: '`workweek_id` will only be included in the response if `workweek` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
     Error:
       type: object
       properties:

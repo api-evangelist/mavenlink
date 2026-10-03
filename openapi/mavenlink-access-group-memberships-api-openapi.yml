@@ -571,6 +571,13 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Error'
+    Error:
+      type: object
+      properties:
+        type:
+          type: string
+        message:
+          type: string
     AccessGroupMembership:
       title: Access Group Membership
       description: Access Groups allow you to manage product access for users. An Access Group Membership represents the connection of a user to an Access Group.
@@ -598,13 +605,6 @@ components:
         user_name:
           type: string
           description: The name of the associated user.
-    Error:
-      type: object
-      properties:
-        type:
-          type: string
-        message:
-          type: string
   securitySchemes:
     BearerToken:
       type: apiKey

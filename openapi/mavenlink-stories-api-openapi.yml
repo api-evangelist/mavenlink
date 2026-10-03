@@ -1788,100 +1788,101 @@ paths:
       x-operation-id-original: Delete Story
 components:
   schemas:
-    User:
-      title: User
-      description: 'Users represent the individuals that are participating in Kantata OX projects. User objects are often returned as
-
-        nested JSON objects within other returned items such as Posts or Stories.'
+    Post:
+      title: Post
+      description: A Post represents a message written by participants in a project that appears in the project.
       type: object
       properties:
-        abbreviated_timezone:
-          type: string
-          description: 'The abbreviation for the user''s time zone.
-
-            Only returned when requested through the optional_fields param.'
-        account_membership_id:
-          type: string
-          description: '`account_membership_id` will only be included in the response if `account_membership` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        bio:
-          type: string
-          description: 'A biography (defined by the user).
-
-            Only returned when requested through the optional_fields param.'
-        city:
-          type: string
-          description: 'The home city of the user (based on their profile).
-
-            Only returned when requested through the optional_fields param.'
-        classification:
-          type: string
-          description: 'Indicates whether a user is Internal or External.
-
-            Only returned when requested through the optional_fields param.'
-        country:
-          type: string
-          description: 'The home country of the user (based on their profile).
-
-            Only returned when requested through the optional_fields param.'
-        custom_field_value_ids:
+        attachment_ids:
           type: array
           items:
             type: string
-          description: '`custom_field_value_ids` will only be included in the response if `custom_field_values` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        email_address:
+          description: '`attachment_ids` will only be included in the response if `attachments` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        created_at:
           type: string
-          description: The email address of the user.
+          format: date-time
         external_reference_ids:
           type: array
           items:
             type: string
           description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        full_name:
+        formatted_message:
           type: string
-          description: The full name of the user.
-        headline:
+          description: Sanitized HTML representation of the message with links, user mentions and emoji images.
+        google_document_ids:
+          type: array
+          items:
+            type: string
+          description: '`google_document_ids` will only be included in the response if `google_documents` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        has_attachments:
+          type: boolean
+          description: Whether the post contains any attachments.
+        message:
           type: string
-          description: A short description of the user.
-        last_site_activity:
+          description: The message of the post.
+        newest_reply_at:
           type: string
           format: date-time
-          description: 'The last time a user logged in. This field is only available in conjunction with the `on_my_account` filter option. Only visible when the API user is an Account Administrator.
-
-            Only returned when requested through the optional_fields param.'
-        manager_id:
+          description: The date and time of the most recent reply.
+        newest_reply_id:
           type: string
-          description: '`manager_id` will only be included in the response if `manager` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        photo_path:
+          description: '`newest_reply_id` will only be included in the response if `newest_reply` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        newest_reply_user_id:
           type: string
-          description: The URL of the user's profile photo.
-        role_id:
+          description: '`newest_reply_user_id` will only be included in the response if `newest_reply_user` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        parsed_message:
           type: string
-          description: '`role_id` will only be included in the response if `role` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        skill_ids:
+          description: Based on the markdown preference, includes either the parsed markdown or the message.
+        private:
+          type: boolean
+          description: Whether the post is private.
+        recipient_ids:
           type: array
           items:
             type: string
-          description: '`skill_ids` will only be included in the response if `skills` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        skill_membership_ids:
+          description: '`recipient_ids` will only be included in the response if `recipients` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        reply:
+          type: boolean
+          description: Whether there are any replies to the post.
+        reply_count:
+          type: integer
+          format: int32
+          description: The number of replies to the post.
+        reply_ids:
           type: array
           items:
             type: string
-          description: '`skill_membership_ids` will only be included in the response if `skill_memberships` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        state:
+          description: '`reply_ids` will only be included in the response if `replies` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        story_id:
           type: string
-          description: 'The home state of the user (based on their profile).
-
-            Only returned when requested through the optional_fields param.'
-        website:
+          description: '`story_id` will only be included in the response if `story` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        subject_id:
+          type: integer
+          format: int32
+          description: Whether the post is a reply, the internal ID of the parent post, or the object to which the reply is made.
+        subject_ref:
+          type: object
+          description: '`subject_ref` will only be included in the response if `subject` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+          properties:
+            key:
+              type: string
+            id:
+              type: string
+        subject_title:
           type: string
-          description: 'A website (defined by the user).
-
-            Only returned when requested through the optional_fields param.'
-        work_sample_ids:
-          type: array
-          items:
-            type: string
-          description: '`work_sample_ids` will only be included in the response if `work_samples` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+          description: The subject title for proof posts.
+        subject_type:
+          type: string
+          description: The class name of the object to which the reply is made.
+        updated_at:
+          type: string
+          format: date-time
+        user_id:
+          type: string
+          description: '`user_id` will only be included in the response if `user` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        workspace_id:
+          type: string
+          description: '`workspace_id` will only be included in the response if `workspace` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
     Workspace:
       title: Workspace
       description: Workspaces (also called projects) represent the space in which Kantata OX users plan, communicate, and collaborate.
@@ -2349,316 +2350,6 @@ components:
           items:
             type: string
           description: '`workspace_resources_with_unnamed_ids` will only be included in the response if `workspace_resources_with_unnamed` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-    Post:
-      title: Post
-      description: A Post represents a message written by participants in a project that appears in the project.
-      type: object
-      properties:
-        attachment_ids:
-          type: array
-          items:
-            type: string
-          description: '`attachment_ids` will only be included in the response if `attachments` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        created_at:
-          type: string
-          format: date-time
-        external_reference_ids:
-          type: array
-          items:
-            type: string
-          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        formatted_message:
-          type: string
-          description: Sanitized HTML representation of the message with links, user mentions and emoji images.
-        google_document_ids:
-          type: array
-          items:
-            type: string
-          description: '`google_document_ids` will only be included in the response if `google_documents` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        has_attachments:
-          type: boolean
-          description: Whether the post contains any attachments.
-        message:
-          type: string
-          description: The message of the post.
-        newest_reply_at:
-          type: string
-          format: date-time
-          description: The date and time of the most recent reply.
-        newest_reply_id:
-          type: string
-          description: '`newest_reply_id` will only be included in the response if `newest_reply` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        newest_reply_user_id:
-          type: string
-          description: '`newest_reply_user_id` will only be included in the response if `newest_reply_user` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        parsed_message:
-          type: string
-          description: Based on the markdown preference, includes either the parsed markdown or the message.
-        private:
-          type: boolean
-          description: Whether the post is private.
-        recipient_ids:
-          type: array
-          items:
-            type: string
-          description: '`recipient_ids` will only be included in the response if `recipients` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        reply:
-          type: boolean
-          description: Whether there are any replies to the post.
-        reply_count:
-          type: integer
-          format: int32
-          description: The number of replies to the post.
-        reply_ids:
-          type: array
-          items:
-            type: string
-          description: '`reply_ids` will only be included in the response if `replies` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        story_id:
-          type: string
-          description: '`story_id` will only be included in the response if `story` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        subject_id:
-          type: integer
-          format: int32
-          description: Whether the post is a reply, the internal ID of the parent post, or the object to which the reply is made.
-        subject_ref:
-          type: object
-          description: '`subject_ref` will only be included in the response if `subject` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-          properties:
-            key:
-              type: string
-            id:
-              type: string
-        subject_title:
-          type: string
-          description: The subject title for proof posts.
-        subject_type:
-          type: string
-          description: The class name of the object to which the reply is made.
-        updated_at:
-          type: string
-          format: date-time
-        user_id:
-          type: string
-          description: '`user_id` will only be included in the response if `user` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        workspace_id:
-          type: string
-          description: '`workspace_id` will only be included in the response if `workspace` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-    Assignment:
-      title: Assignment
-      description: 'An Assignment represents the relationship of a resource to a task. It owns
-
-        Story Allocation Days.'
-      type: object
-      properties:
-        allocated_minutes:
-          type: integer
-          format: int32
-          description: The calculated sum of the assignment's Story Allocation Day minutes.
-        assignee_id:
-          type: string
-          description: '`assignee_id` will only be included in the response if `assignee` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        created_at:
-          type: string
-          format: date-time
-        current:
-          type: boolean
-          description: Whether the assignment is active.
-        estimated_minutes:
-          type: integer
-          format: int32
-          description: The estimated number of minutes that the resource is expected to work on this task.
-        external_reference_ids:
-          type: array
-          items:
-            type: string
-          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        resource_id:
-          type: integer
-          format: int32
-          description: The ID of the resource who owns the assignment.
-        story_allocation_day_ids:
-          type: array
-          items:
-            type: string
-          description: '`story_allocation_day_ids` will only be included in the response if `story_allocation_days` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        story_id:
-          type: string
-          description: '`story_id` will only be included in the response if `story` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        updated_at:
-          type: string
-          format: date-time
-    ActsAsTaggableOn__Tag:
-      title: Acts As Taggable On/Tag
-      type: object
-      properties:
-        name:
-          type: string
-        status:
-          type: string
-    CustomFieldValue:
-      title: Custom Field Value
-      description: 'If [Custom Fields](/tag/Custom-Fields) represent the fields themselves,
-
-        Custom Field Values represent the values in/of those fields.'
-      type: object
-      properties:
-        account_id:
-          type: integer
-          format: int32
-          description: The ID of the account the Custom Field Value is in.
-        can_edit:
-          type: boolean
-          description: Whether the Custom Field Value can be edited by the requester.
-        created_at:
-          type: string
-          format: date-time
-        custom_field_id:
-          type: string
-          description: '`custom_field_id` will only be included in the response if `custom_field` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        custom_field_name:
-          type: string
-          description: The name of the Custom Field.
-        display_value:
-          type: string
-          description: 'The Custom Field Values, but in more understandable formats:
-
-            * For Custom Fields with values that are selected choices, the labels on those choices are returned.
-
-            * For Custom Fields with currency values, the amount with the currency symbol ($100) is returned.
-
-            * All other values are converted into a string.'
-        external_reference_ids:
-          type: array
-          items:
-            type: string
-          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        selected_choice_ids:
-          type: array
-          items:
-            type: string
-          description: '`selected_choice_ids` will only be included in the response if `selected_choices` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        setter_id:
-          type: string
-          description: '`setter_id` will only be included in the response if `setter` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        subject_id:
-          type: integer
-          format: int32
-          description: The ID of the Estimate, Project, Group, Resource, Task, or User the custom field is for.
-        subject_ref:
-          type: object
-          description: '`subject_ref` will only be included in the response if `subject` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-          properties:
-            key:
-              type: string
-            id:
-              type: string
-        subject_type:
-          type: string
-          description: 'The set of Custom Fields that values are returned for:
-
-            * `Estimate`
-
-            * `Workspace` (Project)
-
-            * `WorkspaceGroup` (Group)
-
-            * `Resource`
-
-            * `Story` (Task)
-
-            * `User`.'
-        type:
-          type: string
-          description: 'Potential formats of values:
-
-
-            | Value Type           | Format                                   | Sample         |
-
-            | -------------------- |:----------------------------------------:| --------------:|
-
-            | `string`             | `<text_string>`                          |        `"foo"` |
-
-            | `date`               | `<ISO_8601 Date Format>`                 | `"2014-02-25"` |
-
-            | `number`             | `<integer_value>`                        |           `13` |
-
-            | `currency`           | `[<int_value_in_cents>, <currency_code>]`| `[998, "USD"]` |
-
-            | `single` and `multi` | `[<choice_ids>]`                         |    `[1, 2, 4]` |.'
-        updated_at:
-          type: string
-          format: date-time
-        value:
-          type: string
-          description: 'The value created or updated for the specified custom field.
-
-
-            Values can be created or updated in these formats:
-
-
-            | Value Type           | Format                                   | Sample         |
-
-            | -------------------- |:----------------------------------------:| --------------:|
-
-            | `string`             | `<text_string>`                          |        `"foo"` |
-
-            | `date`               | `<ISO_8601 Date Format>`                 | `"2014-02-25"` |
-
-            | `number`             | `<integer_value>`                        |           `13` |
-
-            | `currency`           | `[<int_value_in_cents>, <currency_code>]`| `[998, "USD"]` |
-
-            | `single` and `multi` | `[<choice_ids>]`                         |    `[1, 2, 4]` |
-
-
-            ##### Note:
-
-            The `read_access` [permission setting on each custom field](https://mavenlink.zendesk.com/hc/en-us/articles/202924760#see)
-
-            determines the minimum permission needed to view a custom field and its value.
-
-            * `Workspace` (Project), `Resource`, and `Story` (Task) custom fields are project-specific objects,
-
-            so their minimum permissions are set at the [project level](https://mavenlink.zendesk.com/hc/en-us/articles/115002779293-Project-Permissions):
-
-            - `project_collaboration` (default)
-
-            - `time_logging`
-
-            - `financial`
-
-            - `project_admin`
-
-
-            Most account-level permissions supercede project-level permissions. Therefore, Account Administrators
-
-            are able to view all Project, Resource, and Task custom fields and values across the account,
-
-            regardless of project participation or `read_access` settings.
-
-            * `Estimate`, `WorkspaceGroup` (Group), and `User` custom fields are account-wide objects,
-
-            so their minimum permissions are set at the [account level](https://mavenlink.zendesk.com/hc/en-us/articles/203041364):
-
-            - `account_collaboration`
-
-            - `project_creator`
-
-            - `project_lead`
-
-            - `reports_viewer`
-
-            - `reports_viewer_with_cost`
-
-            - `account_admin` (default).'
-    Error:
-      type: object
-      properties:
-        type:
-          type: string
-        message:
-          type: string
     Story:
       title: Story
       description: 'Stories (known as [tasks](https://knowledge.kantata.com/hc/en-us/articles/202806550-Tasks-Overview) in the UI)
@@ -2995,6 +2686,38 @@ components:
           items:
             type: string
           description: '`workspace_resources_with_unnamed_ids` will only be included in the response if `workspace_resources_with_unnamed` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+    Error:
+      type: object
+      properties:
+        type:
+          type: string
+        message:
+          type: string
+    Role:
+      title: Role
+      description: 'A Role represents the main position or title assigned to members on an account. Roles may be associated with account memberships, account invitations,
+
+        participation, project template assignments, rate card roles, rate card versions, resources, or time adjustments.'
+      type: object
+      properties:
+        created_at:
+          type: string
+          format: date-time
+        deleted_at:
+          type: string
+          format: date-time
+          description: The time the role was deleted.
+        external_reference_ids:
+          type: array
+          items:
+            type: string
+          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        name:
+          type: string
+          description: The name of the role.
+        updated_at:
+          type: string
+          format: date-time
     Errors:
       type: object
       properties:
@@ -3002,83 +2725,50 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Error'
-    Attachments__PostAttachment:
-      title: Attachment
-      description: 'Attachments are files that accompany other resources provided by the Kantata OX API.  Expenses can have an
+    Assignment:
+      title: Assignment
+      description: 'An Assignment represents the relationship of a resource to a task. It owns
 
-        attachment (tracked as a receipt).  Posts can also have attachments, which are displayed along with the post
-
-        in the activity feed or in task tracker.'
+        Story Allocation Days.'
       type: object
       properties:
+        allocated_minutes:
+          type: integer
+          format: int32
+          description: The calculated sum of the assignment's Story Allocation Day minutes.
+        assignee_id:
+          type: string
+          description: '`assignee_id` will only be included in the response if `assignee` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
         created_at:
           type: string
           format: date-time
-        creator_name:
-          type: string
-          description: 'The user who originally uploaded the attachment.
-
-            Visible when the attachment belongs to a post.'
-        deletable:
+        current:
           type: boolean
-          description: 'Whether the current user can delete the attachment.
-
-            Visible when the attachment belongs to a post.'
-        deleted_at:
-          type: string
-          format: date-time
-        filename:
-          type: string
-          description: The original filename of the attachment when it was uploaded.
-        filesize:
+          description: Whether the assignment is active.
+        estimated_minutes:
           type: integer
           format: int32
-          description: The size of the attachment, in bytes.
-        previewable:
-          type: boolean
-          description: Whether the attachment is a previewable thumbnailed image.
-        updated_at:
-          type: string
-          format: date-time
-        url:
-          type: string
-          description: The url from which to download the attachment from the CDN.
-        view_in_new_tab:
-          type: boolean
-          description: Whether the attachment is a filetype that should be viewed in a new tab; usually PDFs.
-    StoryTask:
-      title: Story Task
-      description: A Story Task is a checklist item within a Story.
-      type: object
-      properties:
-        completed:
-          type: boolean
-          description: Represents the completion of the Story Task.
-        completed_at:
-          type: string
-          format: date-time
-          description: The time the Story Task was completed.
-        completed_by_id:
-          type: string
-          description: '`completed_by_id` will only be included in the response if `completed_by` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        created_at:
-          type: string
-          format: date-time
-          description: The time the Story Task was created.
-        name:
-          type: string
-          description: The name of the Story Task.
-        position:
+          description: The estimated number of minutes that the resource is expected to work on this task.
+        external_reference_ids:
+          type: array
+          items:
+            type: string
+          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        resource_id:
           type: integer
           format: int32
-          description: Represents the order of the Story Task in the list.
+          description: The ID of the resource who owns the assignment.
+        story_allocation_day_ids:
+          type: array
+          items:
+            type: string
+          description: '`story_allocation_day_ids` will only be included in the response if `story_allocation_days` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
         story_id:
           type: string
           description: '`story_id` will only be included in the response if `story` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
         updated_at:
           type: string
           format: date-time
-          description: The time the Story Task was last updated.
     StoryStateChange:
       title: Story State Change
       description: A Story State Changes in Kantata OX acts as an audit trail for a change to the state of a Story.
@@ -3191,6 +2881,50 @@ components:
         workspace_title:
           type: string
           description: Title of the Workspace that the Resource belongs to.
+    Attachments__PostAttachment:
+      title: Attachment
+      description: 'Attachments are files that accompany other resources provided by the Kantata OX API.  Expenses can have an
+
+        attachment (tracked as a receipt).  Posts can also have attachments, which are displayed along with the post
+
+        in the activity feed or in task tracker.'
+      type: object
+      properties:
+        created_at:
+          type: string
+          format: date-time
+        creator_name:
+          type: string
+          description: 'The user who originally uploaded the attachment.
+
+            Visible when the attachment belongs to a post.'
+        deletable:
+          type: boolean
+          description: 'Whether the current user can delete the attachment.
+
+            Visible when the attachment belongs to a post.'
+        deleted_at:
+          type: string
+          format: date-time
+        filename:
+          type: string
+          description: The original filename of the attachment when it was uploaded.
+        filesize:
+          type: integer
+          format: int32
+          description: The size of the attachment, in bytes.
+        previewable:
+          type: boolean
+          description: Whether the attachment is a previewable thumbnailed image.
+        updated_at:
+          type: string
+          format: date-time
+        url:
+          type: string
+          description: The url from which to download the attachment from the CDN.
+        view_in_new_tab:
+          type: boolean
+          description: Whether the attachment is a filetype that should be viewed in a new tab; usually PDFs.
     StoryDependency:
       title: Story Dependency
       description: Story dependencies define relationships between tasks and the sequence in which they must be completed in order to close a project. A dependency is between two tasks (stories) in a project (workspace), with one being the predecessor (source) task, and the other the successor (target) task. To learn more about dependencies, see our [Gantt Chart Dependencies article](https://mavenlink.zendesk.com/hc/en-us/articles/360000456874-Gantt-Chart-Dependencies).
@@ -3224,31 +2958,289 @@ components:
         updated_at:
           type: string
           format: date-time
-    Role:
-      title: Role
-      description: 'A Role represents the main position or title assigned to members on an account. Roles may be associated with account memberships, account invitations,
-
-        participation, project template assignments, rate card roles, rate card versions, resources, or time adjustments.'
+    StoryTask:
+      title: Story Task
+      description: A Story Task is a checklist item within a Story.
       type: object
       properties:
+        completed:
+          type: boolean
+          description: Represents the completion of the Story Task.
+        completed_at:
+          type: string
+          format: date-time
+          description: The time the Story Task was completed.
+        completed_by_id:
+          type: string
+          description: '`completed_by_id` will only be included in the response if `completed_by` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
         created_at:
           type: string
           format: date-time
-        deleted_at:
+          description: The time the Story Task was created.
+        name:
+          type: string
+          description: The name of the Story Task.
+        position:
+          type: integer
+          format: int32
+          description: Represents the order of the Story Task in the list.
+        story_id:
+          type: string
+          description: '`story_id` will only be included in the response if `story` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        updated_at:
           type: string
           format: date-time
-          description: The time the role was deleted.
+          description: The time the Story Task was last updated.
+    CustomFieldValue:
+      title: Custom Field Value
+      description: 'If [Custom Fields](/tag/Custom-Fields) represent the fields themselves,
+
+        Custom Field Values represent the values in/of those fields.'
+      type: object
+      properties:
+        account_id:
+          type: integer
+          format: int32
+          description: The ID of the account the Custom Field Value is in.
+        can_edit:
+          type: boolean
+          description: Whether the Custom Field Value can be edited by the requester.
+        created_at:
+          type: string
+          format: date-time
+        custom_field_id:
+          type: string
+          description: '`custom_field_id` will only be included in the response if `custom_field` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        custom_field_name:
+          type: string
+          description: The name of the Custom Field.
+        display_value:
+          type: string
+          description: 'The Custom Field Values, but in more understandable formats:
+
+            * For Custom Fields with values that are selected choices, the labels on those choices are returned.
+
+            * For Custom Fields with currency values, the amount with the currency symbol ($100) is returned.
+
+            * All other values are converted into a string.'
         external_reference_ids:
           type: array
           items:
             type: string
           description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        name:
+        selected_choice_ids:
+          type: array
+          items:
+            type: string
+          description: '`selected_choice_ids` will only be included in the response if `selected_choices` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        setter_id:
           type: string
-          description: The name of the role.
+          description: '`setter_id` will only be included in the response if `setter` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        subject_id:
+          type: integer
+          format: int32
+          description: The ID of the Estimate, Project, Group, Resource, Task, or User the custom field is for.
+        subject_ref:
+          type: object
+          description: '`subject_ref` will only be included in the response if `subject` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+          properties:
+            key:
+              type: string
+            id:
+              type: string
+        subject_type:
+          type: string
+          description: 'The set of Custom Fields that values are returned for:
+
+            * `Estimate`
+
+            * `Workspace` (Project)
+
+            * `WorkspaceGroup` (Group)
+
+            * `Resource`
+
+            * `Story` (Task)
+
+            * `User`.'
+        type:
+          type: string
+          description: 'Potential formats of values:
+
+
+            | Value Type           | Format                                   | Sample         |
+
+            | -------------------- |:----------------------------------------:| --------------:|
+
+            | `string`             | `<text_string>`                          |        `"foo"` |
+
+            | `date`               | `<ISO_8601 Date Format>`                 | `"2014-02-25"` |
+
+            | `number`             | `<integer_value>`                        |           `13` |
+
+            | `currency`           | `[<int_value_in_cents>, <currency_code>]`| `[998, "USD"]` |
+
+            | `single` and `multi` | `[<choice_ids>]`                         |    `[1, 2, 4]` |.'
         updated_at:
           type: string
           format: date-time
+        value:
+          type: string
+          description: 'The value created or updated for the specified custom field.
+
+
+            Values can be created or updated in these formats:
+
+
+            | Value Type           | Format                                   | Sample         |
+
+            | -------------------- |:----------------------------------------:| --------------:|
+
+            | `string`             | `<text_string>`                          |        `"foo"` |
+
+            | `date`               | `<ISO_8601 Date Format>`                 | `"2014-02-25"` |
+
+            | `number`             | `<integer_value>`                        |           `13` |
+
+            | `currency`           | `[<int_value_in_cents>, <currency_code>]`| `[998, "USD"]` |
+
+            | `single` and `multi` | `[<choice_ids>]`                         |    `[1, 2, 4]` |
+
+
+            ##### Note:
+
+            The `read_access` [permission setting on each custom field](https://mavenlink.zendesk.com/hc/en-us/articles/202924760#see)
+
+            determines the minimum permission needed to view a custom field and its value.
+
+            * `Workspace` (Project), `Resource`, and `Story` (Task) custom fields are project-specific objects,
+
+            so their minimum permissions are set at the [project level](https://mavenlink.zendesk.com/hc/en-us/articles/115002779293-Project-Permissions):
+
+            - `project_collaboration` (default)
+
+            - `time_logging`
+
+            - `financial`
+
+            - `project_admin`
+
+
+            Most account-level permissions supercede project-level permissions. Therefore, Account Administrators
+
+            are able to view all Project, Resource, and Task custom fields and values across the account,
+
+            regardless of project participation or `read_access` settings.
+
+            * `Estimate`, `WorkspaceGroup` (Group), and `User` custom fields are account-wide objects,
+
+            so their minimum permissions are set at the [account level](https://mavenlink.zendesk.com/hc/en-us/articles/203041364):
+
+            - `account_collaboration`
+
+            - `project_creator`
+
+            - `project_lead`
+
+            - `reports_viewer`
+
+            - `reports_viewer_with_cost`
+
+            - `account_admin` (default).'
+    User:
+      title: User
+      description: 'Users represent the individuals that are participating in Kantata OX projects. User objects are often returned as
+
+        nested JSON objects within other returned items such as Posts or Stories.'
+      type: object
+      properties:
+        abbreviated_timezone:
+          type: string
+          description: 'The abbreviation for the user''s time zone.
+
+            Only returned when requested through the optional_fields param.'
+        account_membership_id:
+          type: string
+          description: '`account_membership_id` will only be included in the response if `account_membership` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        bio:
+          type: string
+          description: 'A biography (defined by the user).
+
+            Only returned when requested through the optional_fields param.'
+        city:
+          type: string
+          description: 'The home city of the user (based on their profile).
+
+            Only returned when requested through the optional_fields param.'
+        classification:
+          type: string
+          description: 'Indicates whether a user is Internal or External.
+
+            Only returned when requested through the optional_fields param.'
+        country:
+          type: string
+          description: 'The home country of the user (based on their profile).
+
+            Only returned when requested through the optional_fields param.'
+        custom_field_value_ids:
+          type: array
+          items:
+            type: string
+          description: '`custom_field_value_ids` will only be included in the response if `custom_field_values` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        email_address:
+          type: string
+          description: The email address of the user.
+        external_reference_ids:
+          type: array
+          items:
+            type: string
+          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        full_name:
+          type: string
+          description: The full name of the user.
+        headline:
+          type: string
+          description: A short description of the user.
+        last_site_activity:
+          type: string
+          format: date-time
+          description: 'The last time a user logged in. This field is only available in conjunction with the `on_my_account` filter option. Only visible when the API user is an Account Administrator.
+
+            Only returned when requested through the optional_fields param.'
+        manager_id:
+          type: string
+          description: '`manager_id` will only be included in the response if `manager` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        photo_path:
+          type: string
+          description: The URL of the user's profile photo.
+        role_id:
+          type: string
+          description: '`role_id` will only be included in the response if `role` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        skill_ids:
+          type: array
+          items:
+            type: string
+          description: '`skill_ids` will only be included in the response if `skills` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        skill_membership_ids:
+          type: array
+          items:
+            type: string
+          description: '`skill_membership_ids` will only be included in the response if `skill_memberships` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        state:
+          type: string
+          description: 'The home state of the user (based on their profile).
+
+            Only returned when requested through the optional_fields param.'
+        website:
+          type: string
+          description: 'A website (defined by the user).
+
+            Only returned when requested through the optional_fields param.'
+        work_sample_ids:
+          type: array
+          items:
+            type: string
+          description: '`work_sample_ids` will only be included in the response if `work_samples` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
     ExternalReference:
       title: External Reference
       description: 'External References allows users see which objects (one of `Assignment`, `BillingMilestone`, `CustomField`, `CustomFieldChoice`, `CustomFieldSet`, `CustomFieldValue`, `Estimate`, `EstimateScenario`, `EstimateScenarioResource`, `Expense`, `ExpenseBudget`, `Invoice`, `Participation`, `Post`, `RateCard`, `Role`, `Skill`, `StatusReport`, `Story`, `StoryAllocationDay`, `Submission`, `SurveyAnswer`, `SurveyQuestion`, `SurveyResponse`, `SurveyTemplate`, `TimeEntry`, `TimeOffEntry`, `User`, `Vendor`, `Workspace`, `WorkspaceAllocation`, `WorkspaceGroup`, or `WorkspaceResource`
@@ -3323,6 +3315,14 @@ components:
           type: string
           format: date-time
           description: The date and time the reference was last updated.
+    ActsAsTaggableOn__Tag:
+      title: Acts As Taggable On/Tag
+      type: object
+      properties:
+        name:
+          type: string
+        status:
+          type: string
   securitySchemes:
     BearerToken:
       type: apiKey

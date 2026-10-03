@@ -1160,51 +1160,6 @@ components:
           type: string
           format: date-time
           description: The backup approver start date.
-    Error:
-      type: object
-      properties:
-        type:
-          type: string
-        message:
-          type: string
-    SkillMembership:
-      title: Skill Membership
-      description: A Skill Membership represents a skill that has been assigned to a specified user.
-      type: object
-      properties:
-        cached_skill_name:
-          type: string
-          description: The name of the skill.
-        created_at:
-          type: string
-          format: date-time
-        creator_id:
-          type: string
-          description: '`creator_id` will only be included in the response if `creator` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        level:
-          type: integer
-          format: int32
-          description: The objects proficiency level for the skill (1-5).
-        max_level:
-          type: integer
-          format: int32
-          description: The maximum level assigned for the skill.
-        skill_id:
-          type: string
-          description: '`skill_id` will only be included in the response if `skill` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        updated_at:
-          type: string
-          format: date-time
-        user_id:
-          type: string
-          description: '`user_id` will only be included in the response if `user` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-    Errors:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
     Workweek:
       title: Workweek
       description: 'Workweeks are owned by an account. A workweek can be used as the account default, or
@@ -1268,6 +1223,51 @@ components:
           items:
             type: string
           description: '`workweek_membership_ids` will only be included in the response if `workweek_memberships` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+    Error:
+      type: object
+      properties:
+        type:
+          type: string
+        message:
+          type: string
+    Errors:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+    SkillMembership:
+      title: Skill Membership
+      description: A Skill Membership represents a skill that has been assigned to a specified user.
+      type: object
+      properties:
+        cached_skill_name:
+          type: string
+          description: The name of the skill.
+        created_at:
+          type: string
+          format: date-time
+        creator_id:
+          type: string
+          description: '`creator_id` will only be included in the response if `creator` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        level:
+          type: integer
+          format: int32
+          description: The objects proficiency level for the skill (1-5).
+        max_level:
+          type: integer
+          format: int32
+          description: The maximum level assigned for the skill.
+        skill_id:
+          type: string
+          description: '`skill_id` will only be included in the response if `skill` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        updated_at:
+          type: string
+          format: date-time
+        user_id:
+          type: string
+          description: '`user_id` will only be included in the response if `user` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
     AccountMembership:
       title: Account Membership
       description: An Account Membership represents the relationship of a user to an account.

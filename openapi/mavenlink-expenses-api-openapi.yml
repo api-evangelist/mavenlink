@@ -1337,80 +1337,50 @@ paths:
       x-operation-id-original: Delete Expense
 components:
   schemas:
-    ExpenseBudget:
-      title: Expense Budgets
-      description: Expense budgets allow you to plan for non-labor expenses.
+    Attachments__ReceiptAttachment:
+      title: Attachment
+      description: 'Attachments are files that accompany other resources provided by the Kantata OX API.  Expenses can have an
+
+        attachment (tracked as a receipt).  Posts can also have attachments, which are displayed along with the post
+
+        in the activity feed or in task tracker.'
       type: object
       properties:
-        billable:
+        created_at:
+          type: string
+          format: date-time
+        creator_name:
+          type: string
+          description: 'The user who originally uploaded the attachment.
+
+            Visible when the attachment belongs to a post.'
+        deletable:
           type: boolean
-          description: Whether the expense will be billed to the client.
-        burns_budget:
+          description: 'Whether the current user can delete the attachment.
+
+            Visible when the attachment belongs to a post.'
+        deleted_at:
+          type: string
+          format: date-time
+        filename:
+          type: string
+          description: The original filename of the attachment when it was uploaded.
+        filesize:
+          type: integer
+          format: int32
+          description: The size of the attachment, in bytes.
+        previewable:
           type: boolean
-          description: Whether the expense budget impacts the project margin.
-        cost_per_unit_in_subunits:
-          type: integer
-          format: int32
-          description: The cost, in the subunits of the currency (e.g. cents for USD).
-        description:
+          description: Whether the attachment is a previewable thumbnailed image.
+        updated_at:
           type: string
-          description: The description of the expense budget.
-        expected_by:
+          format: date-time
+        url:
           type: string
-          format: date
-          description: When the expenses are expected to be logged by.
-        expense_ids:
-          type: array
-          items:
-            type: string
-          description: '`expense_ids` will only be included in the response if `expenses` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        external_reference_ids:
-          type: array
-          items:
-            type: string
-          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        fixed_fee:
+          description: The url from which to download the attachment from the CDN.
+        view_in_new_tab:
           type: boolean
-          description: Whether the expense will be billed as a fixed cost.
-        fixed_fee_item_ids:
-          type: array
-          items:
-            type: string
-          description: '`fixed_fee_item_ids` will only be included in the response if `fixed_fee_items` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        markup_per_unit_in_subunits:
-          type: integer
-          format: int32
-          description: 'When the `markup_type` is `flat_fee`, this is the markup per unit, in the subunits of the currency
-
-            (e.g. cents for USD). This is multiplied by the `quantity` and added to the total cost to produce
-
-            the total fees.'
-        markup_percentage:
-          type: number
-          format: float
-          description: 'When the `markup_type` is set to `percentage`, this is the markup percentage.
-
-            This is multiplied by the total cost to produce the total markup,
-
-            then added to the total cost to produce the total fees.'
-        markup_type:
-          type: string
-          description: The markup type. Possible values are `percentage` and `flat_fee`.
-        quantity:
-          type: integer
-          format: int32
-          description: The number of units.
-        story_id:
-          type: integer
-          format: int32
-          description: The ID of the associated story (task).
-        title:
-          type: string
-          description: The name of the expense budget.
-        workspace_id:
-          type: integer
-          format: int32
-          description: The ID of the workspace the expense budget belongs to.
+          description: Whether the attachment is a filetype that should be viewed in a new tab; usually PDFs.
     Workspace:
       title: Workspace
       description: Workspaces (also called projects) represent the space in which Kantata OX users plan, communicate, and collaborate.
@@ -1878,116 +1848,22 @@ components:
           items:
             type: string
           description: '`workspace_resources_with_unnamed_ids` will only be included in the response if `workspace_resources_with_unnamed` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-    Expense:
-      title: Expense
-      description: 'Expenses are non-time related costs incurred in a project. Once created, expenses can
+    ExpenseCategory:
+      title: Expense Category
+      description: 'An Expense Category represents the type of expense that is being reported.
 
-        be included in generated invoices.'
+        Expense categories have no attributes and consist of just their name
+
+        as a string. They can be changed by Account Administrators.'
       type: object
       properties:
-        active_submission_id:
-          type: string
-          description: '`active_submission_id` will only be included in the response if `active_submission` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        amount_in_cents:
-          type: integer
-          format: int32
-          description: The amount, in cents, of the expense.
-        category:
-          type: string
-          description: 'The category of the expense (can be any string). Built-in categories are:
-
-            Travel, Mileage, Lodging, Food, Entertainment, and Other.'
-        created_at:
+        deleted_at:
           type: string
           format: date-time
-        currency:
+          description: The time when the expense category was deleted (if it has been deleted).
+        name:
           type: string
-          description: The currency of the expense.
-        currency_base_unit:
-          type: integer
-          format: int32
-          description: The number of the units in the `amount_as_cents` attribute that are required to make up a single unit of the `currency`.
-        currency_symbol:
-          type: string
-          description: The symbol that represents the currency of the expense.
-        date:
-          type: string
-          format: date
-          description: The date the expense was incurred.
-        expense_budget_id:
-          type: string
-          description: '`expense_budget_id` will only be included in the response if `expense_budget` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        expense_category_id:
-          type: string
-          description: '`expense_category_id` will only be included in the response if `expense_category` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        external_reference_ids:
-          type: array
-          items:
-            type: string
-          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        foreign_exchange_amount:
-          type: object
-          description: The currency conversion data for a converted expense.
-          properties:
-            date:
-              type: string
-              format: date-time
-              description: The date the expense was converted.
-            rate:
-              type: number
-              format: float
-              description: The exchange rate used to convert the expense.
-            source_currency:
-              type: string
-              description: The [ISO code](https://mavenlink.zendesk.com/hc/en-us/articles/360041576473-Supported-Currency-ISO-Codes) of the foreign currency in which the expense was incurred.
-            source_value:
-              type: number
-              format: float
-              description: The amount of the expense, in foreign currency units.
-        is_billable:
-          type: boolean
-          description: Whether this is a billable expense.
-        is_invoiced:
-          type: boolean
-          description: Whether this expense has been included on an invoice.
-        notes:
-          type: string
-          description: All notes that have been added to the expense.
-        receipt_id:
-          type: string
-          description: '`receipt_id` will only be included in the response if `receipt` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        recent_submission_id:
-          type: string
-          description: '`recent_submission_id` will only be included in the response if `recent_submission` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        reimbursable:
-          type: boolean
-          description: Whether this expense is reimbursable to the creator or to a vendor.
-        role_id:
-          type: string
-          description: '`role_id` will only be included in the response if `role` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        story_id:
-          type: string
-          description: '`story_id` will only be included in the response if `story` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        taxable:
-          type: boolean
-          description: Whether this expense is marked as taxable when invoiced.
-        updated_at:
-          type: string
-          format: date-time
-        user_can_edit:
-          type: boolean
-          description: 'Whether the viewing user can edit this expense.
-
-            Only returned when requested through the optional_fields param.'
-        user_id:
-          type: string
-          description: '`user_id` will only be included in the response if `user` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        vendor_id:
-          type: string
-          description: '`vendor_id` will only be included in the response if `vendor` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        workspace_id:
-          type: string
-          description: '`workspace_id` will only be included in the response if `workspace` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+          description: The name of the expense category.
     Error:
       type: object
       properties:
@@ -2331,6 +2207,13 @@ components:
           items:
             type: string
           description: '`workspace_resources_with_unnamed_ids` will only be included in the response if `workspace_resources_with_unnamed` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+    Errors:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
     Vendor:
       title: Vendor
       description: A Vendor is an entity to which an expense can be paid.
@@ -2353,73 +2236,80 @@ components:
         name:
           type: string
           description: The name of the vendor.
-    Errors:
+    ExpenseBudget:
+      title: Expense Budgets
+      description: Expense budgets allow you to plan for non-labor expenses.
       type: object
       properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
-    Attachments__ReceiptAttachment:
-      title: Attachment
-      description: 'Attachments are files that accompany other resources provided by the Kantata OX API.  Expenses can have an
-
-        attachment (tracked as a receipt).  Posts can also have attachments, which are displayed along with the post
-
-        in the activity feed or in task tracker.'
-      type: object
-      properties:
-        created_at:
-          type: string
-          format: date-time
-        creator_name:
-          type: string
-          description: 'The user who originally uploaded the attachment.
-
-            Visible when the attachment belongs to a post.'
-        deletable:
+        billable:
           type: boolean
-          description: 'Whether the current user can delete the attachment.
-
-            Visible when the attachment belongs to a post.'
-        deleted_at:
-          type: string
-          format: date-time
-        filename:
-          type: string
-          description: The original filename of the attachment when it was uploaded.
-        filesize:
+          description: Whether the expense will be billed to the client.
+        burns_budget:
+          type: boolean
+          description: Whether the expense budget impacts the project margin.
+        cost_per_unit_in_subunits:
           type: integer
           format: int32
-          description: The size of the attachment, in bytes.
-        previewable:
+          description: The cost, in the subunits of the currency (e.g. cents for USD).
+        description:
+          type: string
+          description: The description of the expense budget.
+        expected_by:
+          type: string
+          format: date
+          description: When the expenses are expected to be logged by.
+        expense_ids:
+          type: array
+          items:
+            type: string
+          description: '`expense_ids` will only be included in the response if `expenses` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        external_reference_ids:
+          type: array
+          items:
+            type: string
+          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        fixed_fee:
           type: boolean
-          description: Whether the attachment is a previewable thumbnailed image.
-        updated_at:
-          type: string
-          format: date-time
-        url:
-          type: string
-          description: The url from which to download the attachment from the CDN.
-        view_in_new_tab:
-          type: boolean
-          description: Whether the attachment is a filetype that should be viewed in a new tab; usually PDFs.
-    ExpenseCategory:
-      title: Expense Category
-      description: 'An Expense Category represents the type of expense that is being reported.
+          description: Whether the expense will be billed as a fixed cost.
+        fixed_fee_item_ids:
+          type: array
+          items:
+            type: string
+          description: '`fixed_fee_item_ids` will only be included in the response if `fixed_fee_items` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        markup_per_unit_in_subunits:
+          type: integer
+          format: int32
+          description: 'When the `markup_type` is `flat_fee`, this is the markup per unit, in the subunits of the currency
 
-        Expense categories have no attributes and consist of just their name
+            (e.g. cents for USD). This is multiplied by the `quantity` and added to the total cost to produce
 
-        as a string. They can be changed by Account Administrators.'
-      type: object
-      properties:
-        deleted_at:
+            the total fees.'
+        markup_percentage:
+          type: number
+          format: float
+          description: 'When the `markup_type` is set to `percentage`, this is the markup percentage.
+
+            This is multiplied by the total cost to produce the total markup,
+
+            then added to the total cost to produce the total fees.'
+        markup_type:
           type: string
-          format: date-time
-          description: The time when the expense category was deleted (if it has been deleted).
-        name:
+          description: The markup type. Possible values are `percentage` and `flat_fee`.
+        quantity:
+          type: integer
+          format: int32
+          description: The number of units.
+        story_id:
+          type: integer
+          format: int32
+          description: The ID of the associated story (task).
+        title:
           type: string
-          description: The name of the expense category.
+          description: The name of the expense budget.
+        workspace_id:
+          type: integer
+          format: int32
+          description: The ID of the workspace the expense budget belongs to.
     ExpenseReportSubmission:
       title: Expense Report Submission
       description: "Expense report submissions contain a set of expense line items. These expenses must be approved through\nan expense report submission before they can be added to an invoice. All submission expenses must be in the \nsame workspace (project)."
@@ -2512,6 +2402,116 @@ components:
         user_id:
           type: string
           description: '`user_id` will only be included in the response if `user` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        workspace_id:
+          type: string
+          description: '`workspace_id` will only be included in the response if `workspace` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+    Expense:
+      title: Expense
+      description: 'Expenses are non-time related costs incurred in a project. Once created, expenses can
+
+        be included in generated invoices.'
+      type: object
+      properties:
+        active_submission_id:
+          type: string
+          description: '`active_submission_id` will only be included in the response if `active_submission` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        amount_in_cents:
+          type: integer
+          format: int32
+          description: The amount, in cents, of the expense.
+        category:
+          type: string
+          description: 'The category of the expense (can be any string). Built-in categories are:
+
+            Travel, Mileage, Lodging, Food, Entertainment, and Other.'
+        created_at:
+          type: string
+          format: date-time
+        currency:
+          type: string
+          description: The currency of the expense.
+        currency_base_unit:
+          type: integer
+          format: int32
+          description: The number of the units in the `amount_as_cents` attribute that are required to make up a single unit of the `currency`.
+        currency_symbol:
+          type: string
+          description: The symbol that represents the currency of the expense.
+        date:
+          type: string
+          format: date
+          description: The date the expense was incurred.
+        expense_budget_id:
+          type: string
+          description: '`expense_budget_id` will only be included in the response if `expense_budget` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        expense_category_id:
+          type: string
+          description: '`expense_category_id` will only be included in the response if `expense_category` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        external_reference_ids:
+          type: array
+          items:
+            type: string
+          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        foreign_exchange_amount:
+          type: object
+          description: The currency conversion data for a converted expense.
+          properties:
+            date:
+              type: string
+              format: date-time
+              description: The date the expense was converted.
+            rate:
+              type: number
+              format: float
+              description: The exchange rate used to convert the expense.
+            source_currency:
+              type: string
+              description: The [ISO code](https://mavenlink.zendesk.com/hc/en-us/articles/360041576473-Supported-Currency-ISO-Codes) of the foreign currency in which the expense was incurred.
+            source_value:
+              type: number
+              format: float
+              description: The amount of the expense, in foreign currency units.
+        is_billable:
+          type: boolean
+          description: Whether this is a billable expense.
+        is_invoiced:
+          type: boolean
+          description: Whether this expense has been included on an invoice.
+        notes:
+          type: string
+          description: All notes that have been added to the expense.
+        receipt_id:
+          type: string
+          description: '`receipt_id` will only be included in the response if `receipt` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        recent_submission_id:
+          type: string
+          description: '`recent_submission_id` will only be included in the response if `recent_submission` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        reimbursable:
+          type: boolean
+          description: Whether this expense is reimbursable to the creator or to a vendor.
+        role_id:
+          type: string
+          description: '`role_id` will only be included in the response if `role` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        story_id:
+          type: string
+          description: '`story_id` will only be included in the response if `story` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        taxable:
+          type: boolean
+          description: Whether this expense is marked as taxable when invoiced.
+        updated_at:
+          type: string
+          format: date-time
+        user_can_edit:
+          type: boolean
+          description: 'Whether the viewing user can edit this expense.
+
+            Only returned when requested through the optional_fields param.'
+        user_id:
+          type: string
+          description: '`user_id` will only be included in the response if `user` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        vendor_id:
+          type: string
+          description: '`vendor_id` will only be included in the response if `vendor` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
         workspace_id:
           type: string
           description: '`workspace_id` will only be included in the response if `workspace` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
@@ -2609,31 +2609,6 @@ components:
           items:
             type: string
           description: '`work_sample_ids` will only be included in the response if `work_samples` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-    Role:
-      title: Role
-      description: 'A Role represents the main position or title assigned to members on an account. Roles may be associated with account memberships, account invitations,
-
-        participation, project template assignments, rate card roles, rate card versions, resources, or time adjustments.'
-      type: object
-      properties:
-        created_at:
-          type: string
-          format: date-time
-        deleted_at:
-          type: string
-          format: date-time
-          description: The time the role was deleted.
-        external_reference_ids:
-          type: array
-          items:
-            type: string
-          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        name:
-          type: string
-          description: The name of the role.
-        updated_at:
-          type: string
-          format: date-time
     ExternalReference:
       title: External Reference
       description: 'External References allows users see which objects (one of `Assignment`, `BillingMilestone`, `CustomField`, `CustomFieldChoice`, `CustomFieldSet`, `CustomFieldValue`, `Estimate`, `EstimateScenario`, `EstimateScenarioResource`, `Expense`, `ExpenseBudget`, `Invoice`, `Participation`, `Post`, `RateCard`, `Role`, `Skill`, `StatusReport`, `Story`, `StoryAllocationDay`, `Submission`, `SurveyAnswer`, `SurveyQuestion`, `SurveyResponse`, `SurveyTemplate`, `TimeEntry`, `TimeOffEntry`, `User`, `Vendor`, `Workspace`, `WorkspaceAllocation`, `WorkspaceGroup`, or `WorkspaceResource`
@@ -2708,6 +2683,31 @@ components:
           type: string
           format: date-time
           description: The date and time the reference was last updated.
+    Role:
+      title: Role
+      description: 'A Role represents the main position or title assigned to members on an account. Roles may be associated with account memberships, account invitations,
+
+        participation, project template assignments, rate card roles, rate card versions, resources, or time adjustments.'
+      type: object
+      properties:
+        created_at:
+          type: string
+          format: date-time
+        deleted_at:
+          type: string
+          format: date-time
+          description: The time the role was deleted.
+        external_reference_ids:
+          type: array
+          items:
+            type: string
+          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        name:
+          type: string
+          description: The name of the role.
+        updated_at:
+          type: string
+          format: date-time
   securitySchemes:
     BearerToken:
       type: apiKey

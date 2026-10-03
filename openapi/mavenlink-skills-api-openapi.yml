@@ -841,6 +841,33 @@ paths:
       x-operation-id-original: Delete Skill
 components:
   schemas:
+    Error:
+      type: object
+      properties:
+        type:
+          type: string
+        message:
+          type: string
+    SkillCategory:
+      title: Skill Category
+      description: The classification for a group of skills.
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the skill category.
+        skill_ids:
+          type: array
+          items:
+            type: string
+          description: '`skill_ids` will only be included in the response if `skills` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+    Errors:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
     Skill:
       title: Skill
       description: 'Skills are used in Kantata OX to describe capabilities of users for the purposes of resource planning.
@@ -875,33 +902,6 @@ components:
           type: string
           format: date-time
           description: The date and time at skill a workweek was created.
-    SkillCategory:
-      title: Skill Category
-      description: The classification for a group of skills.
-      type: object
-      properties:
-        name:
-          type: string
-          description: The name of the skill category.
-        skill_ids:
-          type: array
-          items:
-            type: string
-          description: '`skill_ids` will only be included in the response if `skills` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-    Error:
-      type: object
-      properties:
-        type:
-          type: string
-        message:
-          type: string
-    Errors:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
     ExternalReference:
       title: External Reference
       description: 'External References allows users see which objects (one of `Assignment`, `BillingMilestone`, `CustomField`, `CustomFieldChoice`, `CustomFieldSet`, `CustomFieldValue`, `Estimate`, `EstimateScenario`, `EstimateScenarioResource`, `Expense`, `ExpenseBudget`, `Invoice`, `Participation`, `Post`, `RateCard`, `Role`, `Skill`, `StatusReport`, `Story`, `StoryAllocationDay`, `Submission`, `SurveyAnswer`, `SurveyQuestion`, `SurveyResponse`, `SurveyTemplate`, `TimeEntry`, `TimeOffEntry`, `User`, `Vendor`, `Workspace`, `WorkspaceAllocation`, `WorkspaceGroup`, or `WorkspaceResource`

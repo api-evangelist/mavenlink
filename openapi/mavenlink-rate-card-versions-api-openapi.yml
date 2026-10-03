@@ -487,29 +487,82 @@ paths:
       x-operation-id-original: Update Rate Card Version
 components:
   schemas:
-    RateCardRole:
-      title: Rate Card Role
-      description: 'A Rate Card Role belongs to a Rate Card Version and represents the bill rate, in cents per hour, for a Role
+    RateCardVersion:
+      title: Rate Card Version
+      description: 'A Rate Card Version represents a snapshot of a Rate Card at a specified point in time and is used to set the
 
-        For example, the rate for a developer may be 2000 cents per hour.'
+        default rate. It belongs to a Rate Card Set Version and can own many Rate Card Roles.
+
+
+        The default Rate is the Rate applied for any Roles that do not explicitly have a Rate set.'
       type: object
       properties:
         created_at:
           type: string
           format: date-time
-        rate:
+        default_rate:
           type: integer
           format: int32
-          description: The bill rate, in cents per hour, for the Rate Card Role.
-        rate_card_version_id:
+          description: The default Rate for any Role that does not explicitly have a Rate associated with it.
+        rate_card_id:
           type: string
-          description: '`rate_card_version_id` will only be included in the response if `rate_card_version` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        role_id:
+          description: '`rate_card_id` will only be included in the response if `rate_card` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        rate_card_role_ids:
+          type: array
+          items:
+            type: string
+          description: '`rate_card_role_ids` will only be included in the response if `rate_card_roles` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        rate_card_set_version_id:
           type: string
-          description: '`role_id` will only be included in the response if `role` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+          description: '`rate_card_set_version_id` will only be included in the response if `rate_card_set_version` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
         updated_at:
           type: string
           format: date-time
+    Error:
+      type: object
+      properties:
+        type:
+          type: string
+        message:
+          type: string
+    Errors:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+    RateCardSetVersion:
+      title: Rate Card Set Version
+      description: "Rate Card Set Versions represent a snapshot of a Rate Card Set\n  which takes effect on the set published date. A Rate Card Set Version owns a copy of each Rate Card Version\n   of a Rate Card on the associated Rate Card Set.\nRate Card Set Versions are only accessible, editable and publishable by Administrators on the account."
+      type: object
+      properties:
+        active:
+          type: boolean
+          description: Whether the Rate Card Set Version is published.
+        created_at:
+          type: string
+          format: date-time
+        effective_date:
+          type: string
+          format: date
+          description: The date on which the Rate Card Set Version take effect.
+        rate_card_set_id:
+          type: string
+          description: '`rate_card_set_id` will only be included in the response if `rate_card_set` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        rate_card_version_ids:
+          type: array
+          items:
+            type: string
+          description: '`rate_card_version_ids` will only be included in the response if `rate_card_versions` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        updated_at:
+          type: string
+          format: date-time
+        used_currencies:
+          type: array
+          items:
+            type: string
+          description: Available currencies on Rate Cards associated with this Rate Card Set Version.
     RateCard:
       title: Rate Card
       description: 'A Rate Card belongs to a Rate Card Set, and represents a currency in the set. Rate Cards have
@@ -555,79 +608,26 @@ components:
           type: integer
           format: int32
           description: The total usage count of the Rate Card.
-    Error:
-      type: object
-      properties:
-        type:
-          type: string
-        message:
-          type: string
-    RateCardSetVersion:
-      title: Rate Card Set Version
-      description: "Rate Card Set Versions represent a snapshot of a Rate Card Set\n  which takes effect on the set published date. A Rate Card Set Version owns a copy of each Rate Card Version\n   of a Rate Card on the associated Rate Card Set.\nRate Card Set Versions are only accessible, editable and publishable by Administrators on the account."
-      type: object
-      properties:
-        active:
-          type: boolean
-          description: Whether the Rate Card Set Version is published.
-        created_at:
-          type: string
-          format: date-time
-        effective_date:
-          type: string
-          format: date
-          description: The date on which the Rate Card Set Version take effect.
-        rate_card_set_id:
-          type: string
-          description: '`rate_card_set_id` will only be included in the response if `rate_card_set` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        rate_card_version_ids:
-          type: array
-          items:
-            type: string
-          description: '`rate_card_version_ids` will only be included in the response if `rate_card_versions` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        updated_at:
-          type: string
-          format: date-time
-        used_currencies:
-          type: array
-          items:
-            type: string
-          description: Available currencies on Rate Cards associated with this Rate Card Set Version.
-    Errors:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
-    RateCardVersion:
-      title: Rate Card Version
-      description: 'A Rate Card Version represents a snapshot of a Rate Card at a specified point in time and is used to set the
+    RateCardRole:
+      title: Rate Card Role
+      description: 'A Rate Card Role belongs to a Rate Card Version and represents the bill rate, in cents per hour, for a Role
 
-        default rate. It belongs to a Rate Card Set Version and can own many Rate Card Roles.
-
-
-        The default Rate is the Rate applied for any Roles that do not explicitly have a Rate set.'
+        For example, the rate for a developer may be 2000 cents per hour.'
       type: object
       properties:
         created_at:
           type: string
           format: date-time
-        default_rate:
+        rate:
           type: integer
           format: int32
-          description: The default Rate for any Role that does not explicitly have a Rate associated with it.
-        rate_card_id:
+          description: The bill rate, in cents per hour, for the Rate Card Role.
+        rate_card_version_id:
           type: string
-          description: '`rate_card_id` will only be included in the response if `rate_card` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        rate_card_role_ids:
-          type: array
-          items:
-            type: string
-          description: '`rate_card_role_ids` will only be included in the response if `rate_card_roles` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        rate_card_set_version_id:
+          description: '`rate_card_version_id` will only be included in the response if `rate_card_version` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        role_id:
           type: string
-          description: '`rate_card_set_version_id` will only be included in the response if `rate_card_set_version` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+          description: '`role_id` will only be included in the response if `role` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
         updated_at:
           type: string
           format: date-time

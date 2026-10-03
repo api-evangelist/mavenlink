@@ -687,13 +687,6 @@ components:
           type: string
         message:
           type: string
-    Errors:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
     ProjectTemplate:
       title: Project Template
       description: "Project Templates are sets of tasks and attributes that can be applied to new or existing projects.\n      A single template can be used on any number of projects."
@@ -759,6 +752,13 @@ components:
         user_id:
           type: string
           description: '`user_id` will only be included in the response if `user` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+    Errors:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
     Role:
       title: Role
       description: 'A Role represents the main position or title assigned to members on an account. Roles may be associated with account memberships, account invitations,

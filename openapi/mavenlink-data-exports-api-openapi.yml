@@ -663,68 +663,6 @@ paths:
       x-operation-id-original: Download Export
 components:
   schemas:
-    AccountDataExportResult:
-      title: Data Export
-      description: Account data exports are used to download account data from Kantata OX.
-      type: object
-      properties:
-        account_id:
-          type: integer
-          format: int32
-          description: The account ID the export was generated for.
-        created_at:
-          type: string
-          format: date-time
-          description: The date and time the export was generated.
-        export_definition:
-          type: object
-          description: The data set and columns that were exported.
-          additionalProperties:
-            type: object
-            description: The `key` value for a data set.
-            properties:
-              display_name:
-                type: string
-                description: The name of the data set as it appears in the Data Exporter.
-              key:
-                type: string
-                description: The `key` value for a data set.
-              columns:
-                type: array
-                description: The columns included in the export.
-                items:
-                  type: object
-                  properties:
-                    key:
-                      type: string
-                      description: The `key` value for a column in a data set.
-                    display_name:
-                      type: string
-                      description: The names of columns as they appear in the Data Exporter.
-                    description:
-                      type: string
-                      description: The description of a column in an export.
-                    type:
-                      type: string
-                      description: The data type of a column.
-              filters:
-                type: object
-                description: The filters that were applied to the export.
-                properties:
-                  start_date:
-                    type: string
-                    format: date
-                    description: The start date the export was filtered by, which restricts data to objects that were created on or after the given date.
-                  end_date:
-                    type: string
-                    format: date
-                    description: The end date the export was filtered by, which restricts data to objects that were created on or before the given date.
-        status:
-          type: string
-          description: The status of an export.
-        user_id:
-          type: string
-          description: '`user_id` will only be included in the response if `user` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
     User:
       title: User
       description: 'Users represent the individuals that are participating in Kantata OX projects. User objects are often returned as
@@ -826,6 +764,68 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Error'
+    AccountDataExportResult:
+      title: Data Export
+      description: Account data exports are used to download account data from Kantata OX.
+      type: object
+      properties:
+        account_id:
+          type: integer
+          format: int32
+          description: The account ID the export was generated for.
+        created_at:
+          type: string
+          format: date-time
+          description: The date and time the export was generated.
+        export_definition:
+          type: object
+          description: The data set and columns that were exported.
+          additionalProperties:
+            type: object
+            description: The `key` value for a data set.
+            properties:
+              display_name:
+                type: string
+                description: The name of the data set as it appears in the Data Exporter.
+              key:
+                type: string
+                description: The `key` value for a data set.
+              columns:
+                type: array
+                description: The columns included in the export.
+                items:
+                  type: object
+                  properties:
+                    key:
+                      type: string
+                      description: The `key` value for a column in a data set.
+                    display_name:
+                      type: string
+                      description: The names of columns as they appear in the Data Exporter.
+                    description:
+                      type: string
+                      description: The description of a column in an export.
+                    type:
+                      type: string
+                      description: The data type of a column.
+              filters:
+                type: object
+                description: The filters that were applied to the export.
+                properties:
+                  start_date:
+                    type: string
+                    format: date
+                    description: The start date the export was filtered by, which restricts data to objects that were created on or after the given date.
+                  end_date:
+                    type: string
+                    format: date
+                    description: The end date the export was filtered by, which restricts data to objects that were created on or before the given date.
+        status:
+          type: string
+          description: The status of an export.
+        user_id:
+          type: string
+          description: '`user_id` will only be included in the response if `user` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
     Error:
       type: object
       properties:

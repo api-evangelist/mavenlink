@@ -478,27 +478,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Error'
-    HolidayCalendarAssociation:
-      title: Holiday Calendar Association
-      description: 'A Holiday Calendar Association represents the relationship between Holiday objects and Holiday Calendar objects.
-
-        A Holiday can be associated with several different Holiday Calendars.
-
-        To associate a Holiday with a Holiday Calendar create a Holiday Calendar Assocation.'
-      type: object
-      properties:
-        holiday_calendar_id:
-          type: string
-          description: '`holiday_calendar_id` will only be included in the response if `holiday_calendar` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        holiday_calendar_name:
-          type: string
-          description: Returns the name of the associated Holiday Calendar.
-        holiday_id:
-          type: string
-          description: '`holiday_id` will only be included in the response if `holiday` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        holiday_name:
-          type: string
-          description: Returns the name of the associated Holiday.
     Holiday:
       title: Holiday
       description: A holiday is a day (or range of days) representing company-wide time off. Holidays are associated with a calendar for scheduling purposes.".
@@ -543,6 +522,27 @@ components:
         name:
           type: string
           description: The name of the holiday calendar.
+    HolidayCalendarAssociation:
+      title: Holiday Calendar Association
+      description: 'A Holiday Calendar Association represents the relationship between Holiday objects and Holiday Calendar objects.
+
+        A Holiday can be associated with several different Holiday Calendars.
+
+        To associate a Holiday with a Holiday Calendar create a Holiday Calendar Assocation.'
+      type: object
+      properties:
+        holiday_calendar_id:
+          type: string
+          description: '`holiday_calendar_id` will only be included in the response if `holiday_calendar` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        holiday_calendar_name:
+          type: string
+          description: Returns the name of the associated Holiday Calendar.
+        holiday_id:
+          type: string
+          description: '`holiday_id` will only be included in the response if `holiday` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        holiday_name:
+          type: string
+          description: Returns the name of the associated Holiday.
   securitySchemes:
     BearerToken:
       type: apiKey

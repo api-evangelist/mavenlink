@@ -915,95 +915,6 @@ paths:
       x-operation-id-original: Delete Assignment
 components:
   schemas:
-    Assignment:
-      title: Assignment
-      description: 'An Assignment represents the relationship of a resource to a task. It owns
-
-        Story Allocation Days.'
-      type: object
-      properties:
-        allocated_minutes:
-          type: integer
-          format: int32
-          description: The calculated sum of the assignment's Story Allocation Day minutes.
-        assignee_id:
-          type: string
-          description: '`assignee_id` will only be included in the response if `assignee` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        created_at:
-          type: string
-          format: date-time
-        current:
-          type: boolean
-          description: Whether the assignment is active.
-        estimated_minutes:
-          type: integer
-          format: int32
-          description: The estimated number of minutes that the resource is expected to work on this task.
-        external_reference_ids:
-          type: array
-          items:
-            type: string
-          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        resource_id:
-          type: integer
-          format: int32
-          description: The ID of the resource who owns the assignment.
-        story_allocation_day_ids:
-          type: array
-          items:
-            type: string
-          description: '`story_allocation_day_ids` will only be included in the response if `story_allocation_days` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        story_id:
-          type: string
-          description: '`story_id` will only be included in the response if `story` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        updated_at:
-          type: string
-          format: date-time
-    StoryAllocationDay:
-      title: Daily Scheduled Hours (Story Allocation Day)
-      description: 'Daily Scheduled Hours (Story Allocation Day) is the planned amount of time for a project resource
-
-        on a specific task for a specified day. Daily Scheduled Hours in Kantata OX are owned by an Assignment.'
-      type: object
-      properties:
-        assignment_id:
-          type: string
-          description: '`assignment_id` will only be included in the response if `assignment` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        created_at:
-          type: string
-          format: date-time
-        current:
-          type: boolean
-          description: Whether or not the Story Allocation Day's Assignment is active.
-        date:
-          type: string
-          format: date
-          description: The date of the Story Allocation Day.
-        external_reference_ids:
-          type: array
-          items:
-            type: string
-          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        minutes:
-          type: integer
-          format: int32
-          description: The number of minutes allocated for the Story Allocation Day.
-        story_id:
-          type: string
-          description: '`story_id` will only be included in the response if `story` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        updated_at:
-          type: string
-          format: date-time
-        workspace_id:
-          type: string
-          description: '`workspace_id` will only be included in the response if `workspace` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-    Error:
-      type: object
-      properties:
-        type:
-          type: string
-        message:
-          type: string
     Story:
       title: Story
       description: 'Stories (known as [tasks](https://knowledge.kantata.com/hc/en-us/articles/202806550-Tasks-Overview) in the UI)
@@ -1340,6 +1251,51 @@ components:
           items:
             type: string
           description: '`workspace_resources_with_unnamed_ids` will only be included in the response if `workspace_resources_with_unnamed` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+    Error:
+      type: object
+      properties:
+        type:
+          type: string
+        message:
+          type: string
+    StoryAllocationDay:
+      title: Daily Scheduled Hours (Story Allocation Day)
+      description: 'Daily Scheduled Hours (Story Allocation Day) is the planned amount of time for a project resource
+
+        on a specific task for a specified day. Daily Scheduled Hours in Kantata OX are owned by an Assignment.'
+      type: object
+      properties:
+        assignment_id:
+          type: string
+          description: '`assignment_id` will only be included in the response if `assignment` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        created_at:
+          type: string
+          format: date-time
+        current:
+          type: boolean
+          description: Whether or not the Story Allocation Day's Assignment is active.
+        date:
+          type: string
+          format: date
+          description: The date of the Story Allocation Day.
+        external_reference_ids:
+          type: array
+          items:
+            type: string
+          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        minutes:
+          type: integer
+          format: int32
+          description: The number of minutes allocated for the Story Allocation Day.
+        story_id:
+          type: string
+          description: '`story_id` will only be included in the response if `story` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        updated_at:
+          type: string
+          format: date-time
+        workspace_id:
+          type: string
+          description: '`workspace_id` will only be included in the response if `workspace` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
     Errors:
       type: object
       properties:
@@ -1347,6 +1303,50 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Error'
+    Assignment:
+      title: Assignment
+      description: 'An Assignment represents the relationship of a resource to a task. It owns
+
+        Story Allocation Days.'
+      type: object
+      properties:
+        allocated_minutes:
+          type: integer
+          format: int32
+          description: The calculated sum of the assignment's Story Allocation Day minutes.
+        assignee_id:
+          type: string
+          description: '`assignee_id` will only be included in the response if `assignee` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        created_at:
+          type: string
+          format: date-time
+        current:
+          type: boolean
+          description: Whether the assignment is active.
+        estimated_minutes:
+          type: integer
+          format: int32
+          description: The estimated number of minutes that the resource is expected to work on this task.
+        external_reference_ids:
+          type: array
+          items:
+            type: string
+          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        resource_id:
+          type: integer
+          format: int32
+          description: The ID of the resource who owns the assignment.
+        story_allocation_day_ids:
+          type: array
+          items:
+            type: string
+          description: '`story_allocation_day_ids` will only be included in the response if `story_allocation_days` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        story_id:
+          type: string
+          description: '`story_id` will only be included in the response if `story` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        updated_at:
+          type: string
+          format: date-time
     User:
       title: User
       description: 'Users represent the individuals that are participating in Kantata OX projects. User objects are often returned as

@@ -749,6 +749,63 @@ paths:
       x-operation-id-original: Delete Project Template Expense Budget
 components:
   schemas:
+    ProjectTemplateExpenseBudget:
+      title: Project Template Expense Budget
+      description: 'Project Template Expense Budgets are expense budgets configured in a project
+
+        template that are added to a project when the template is applied.'
+      type: object
+      properties:
+        billable:
+          type: boolean
+          description: Whether the expense will be billed to the client.
+        burns_budget:
+          type: boolean
+          description: Whether the expense budget affects the project margin.
+        cost_per_unit_in_subunits:
+          type: integer
+          format: int32
+          description: The cost per unit, in the subunits of the currency (e.g. cents for USD).
+        created_at:
+          type: string
+          format: date-time
+          description: When the expense budget on the template was created.
+        description:
+          type: string
+          description: The description of the expense budget.
+        fixed_fee:
+          type: boolean
+          description: Whether the expense will be billed as a fixed cost.
+        markup_per_unit_in_subunits:
+          type: integer
+          format: int32
+          description: The markup per unit, in the subunits of the currency (e.g. cents for USD).
+        markup_percentage:
+          type: integer
+          format: int32
+          description: If the `markup_type` is `percentage`, this is the percentage markup for the expense budget.
+        markup_type:
+          type: string
+          description: The type of markup for the expense budget. Possible values are `flat_fee` and `percentage`.
+        project_template_id:
+          type: integer
+          format: int32
+          description: The ID of the project template the expense budget is on.
+        quantity:
+          type: integer
+          format: int32
+          description: The number of expected units for the expense budget.
+        relative_expected_by_date:
+          type: integer
+          format: int32
+          description: When the expenses are expected to be logged, relative to the project’s start date.
+        title:
+          type: string
+          description: The title of the expense budget.
+        updated_at:
+          type: string
+          format: date-time
+          description: When the expense budget on the template was last updated.
     Errors:
       type: object
       properties:
@@ -756,6 +813,13 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Error'
+    Error:
+      type: object
+      properties:
+        type:
+          type: string
+        message:
+          type: string
     ProjectTemplate:
       title: Project Template
       description: "Project Templates are sets of tasks and attributes that can be applied to new or existing projects.\n      A single template can be used on any number of projects."
@@ -821,70 +885,6 @@ components:
         user_id:
           type: string
           description: '`user_id` will only be included in the response if `user` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-    ProjectTemplateExpenseBudget:
-      title: Project Template Expense Budget
-      description: 'Project Template Expense Budgets are expense budgets configured in a project
-
-        template that are added to a project when the template is applied.'
-      type: object
-      properties:
-        billable:
-          type: boolean
-          description: Whether the expense will be billed to the client.
-        burns_budget:
-          type: boolean
-          description: Whether the expense budget affects the project margin.
-        cost_per_unit_in_subunits:
-          type: integer
-          format: int32
-          description: The cost per unit, in the subunits of the currency (e.g. cents for USD).
-        created_at:
-          type: string
-          format: date-time
-          description: When the expense budget on the template was created.
-        description:
-          type: string
-          description: The description of the expense budget.
-        fixed_fee:
-          type: boolean
-          description: Whether the expense will be billed as a fixed cost.
-        markup_per_unit_in_subunits:
-          type: integer
-          format: int32
-          description: The markup per unit, in the subunits of the currency (e.g. cents for USD).
-        markup_percentage:
-          type: integer
-          format: int32
-          description: If the `markup_type` is `percentage`, this is the percentage markup for the expense budget.
-        markup_type:
-          type: string
-          description: The type of markup for the expense budget. Possible values are `flat_fee` and `percentage`.
-        project_template_id:
-          type: integer
-          format: int32
-          description: The ID of the project template the expense budget is on.
-        quantity:
-          type: integer
-          format: int32
-          description: The number of expected units for the expense budget.
-        relative_expected_by_date:
-          type: integer
-          format: int32
-          description: When the expenses are expected to be logged, relative to the project’s start date.
-        title:
-          type: string
-          description: The title of the expense budget.
-        updated_at:
-          type: string
-          format: date-time
-          description: When the expense budget on the template was last updated.
-    Error:
-      type: object
-      properties:
-        type:
-          type: string
-        message:
-          type: string
   securitySchemes:
     BearerToken:
       type: apiKey

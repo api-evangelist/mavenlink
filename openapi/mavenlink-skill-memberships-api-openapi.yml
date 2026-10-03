@@ -713,6 +713,51 @@ paths:
       x-operation-id-original: Delete Skill Membership
 components:
   schemas:
+    Error:
+      type: object
+      properties:
+        type:
+          type: string
+        message:
+          type: string
+    Errors:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+    SkillMembership:
+      title: Skill Membership
+      description: A Skill Membership represents a skill that has been assigned to a specified user.
+      type: object
+      properties:
+        cached_skill_name:
+          type: string
+          description: The name of the skill.
+        created_at:
+          type: string
+          format: date-time
+        creator_id:
+          type: string
+          description: '`creator_id` will only be included in the response if `creator` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        level:
+          type: integer
+          format: int32
+          description: The objects proficiency level for the skill (1-5).
+        max_level:
+          type: integer
+          format: int32
+          description: The maximum level assigned for the skill.
+        skill_id:
+          type: string
+          description: '`skill_id` will only be included in the response if `skill` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        updated_at:
+          type: string
+          format: date-time
+        user_id:
+          type: string
+          description: '`user_id` will only be included in the response if `user` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
     Skill:
       title: Skill
       description: 'Skills are used in Kantata OX to describe capabilities of users for the purposes of resource planning.
@@ -747,51 +792,6 @@ components:
           type: string
           format: date-time
           description: The date and time at skill a workweek was created.
-    Error:
-      type: object
-      properties:
-        type:
-          type: string
-        message:
-          type: string
-    SkillMembership:
-      title: Skill Membership
-      description: A Skill Membership represents a skill that has been assigned to a specified user.
-      type: object
-      properties:
-        cached_skill_name:
-          type: string
-          description: The name of the skill.
-        created_at:
-          type: string
-          format: date-time
-        creator_id:
-          type: string
-          description: '`creator_id` will only be included in the response if `creator` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        level:
-          type: integer
-          format: int32
-          description: The objects proficiency level for the skill (1-5).
-        max_level:
-          type: integer
-          format: int32
-          description: The maximum level assigned for the skill.
-        skill_id:
-          type: string
-          description: '`skill_id` will only be included in the response if `skill` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        updated_at:
-          type: string
-          format: date-time
-        user_id:
-          type: string
-          description: '`user_id` will only be included in the response if `user` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-    Errors:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
     User:
       title: User
       description: 'Users represent the individuals that are participating in Kantata OX projects. User objects are often returned as

@@ -673,34 +673,6 @@ paths:
       x-operation-id-original: Delete Organization Membership
 components:
   schemas:
-    OrganizationMembership:
-      title: Organization Membership
-      description: An Organization Membership represents the connection of a user and project to an organization.
-      type: object
-      properties:
-        created_at:
-          type: string
-          format: date-time
-        department_id:
-          type: string
-          description: '`department_id` will only be included in the response if `department` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        geography_id:
-          type: string
-          description: '`geography_id` will only be included in the response if `geography` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        member_id:
-          type: string
-          description: The ID of the project or user.
-        member_type:
-          type: string
-          description: The type of object that describes the member (workspace or user).
-        primary:
-          type: boolean
-          description: 'Indicates whether this is the primary organization for the member (user or workspace).
-
-            Visible when the primary organization feature is enabled.'
-        updated_at:
-          type: string
-          format: date-time
     Organization:
       title: Organization
       description: 'An Organization allows you to structure and group your projects and account members by
@@ -742,6 +714,34 @@ components:
           type: string
         message:
           type: string
+    OrganizationMembership:
+      title: Organization Membership
+      description: An Organization Membership represents the connection of a user and project to an organization.
+      type: object
+      properties:
+        created_at:
+          type: string
+          format: date-time
+        department_id:
+          type: string
+          description: '`department_id` will only be included in the response if `department` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        geography_id:
+          type: string
+          description: '`geography_id` will only be included in the response if `geography` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        member_id:
+          type: string
+          description: The ID of the project or user.
+        member_type:
+          type: string
+          description: The type of object that describes the member (workspace or user).
+        primary:
+          type: boolean
+          description: 'Indicates whether this is the primary organization for the member (user or workspace).
+
+            Visible when the primary organization feature is enabled.'
+        updated_at:
+          type: string
+          format: date-time
   securitySchemes:
     BearerToken:
       type: apiKey

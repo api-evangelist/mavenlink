@@ -589,27 +589,6 @@ paths:
       x-operation-id-original: Delete Backup Approver Association
 components:
   schemas:
-    BackupApproverAssociation:
-      title: Backup Approver Association
-      description: 'Backup Approver Associations describe when a backup approver will be active, or responsible
-
-        for approving time.'
-      type: object
-      properties:
-        approver_id:
-          type: string
-          description: '`approver_id` will only be included in the response if `approver` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        backup_approver_id:
-          type: string
-          description: '`backup_approver_id` will only be included in the response if `backup_approver` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        end_date:
-          type: string
-          format: date-time
-          description: The backup approver end date.
-        start_date:
-          type: string
-          format: date-time
-          description: The backup approver start date.
     User:
       title: User
       description: 'Users represent the individuals that are participating in Kantata OX projects. User objects are often returned as
@@ -711,6 +690,27 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Error'
+    BackupApproverAssociation:
+      title: Backup Approver Association
+      description: 'Backup Approver Associations describe when a backup approver will be active, or responsible
+
+        for approving time.'
+      type: object
+      properties:
+        approver_id:
+          type: string
+          description: '`approver_id` will only be included in the response if `approver` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        backup_approver_id:
+          type: string
+          description: '`backup_approver_id` will only be included in the response if `backup_approver` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        end_date:
+          type: string
+          format: date-time
+          description: The backup approver end date.
+        start_date:
+          type: string
+          format: date-time
+          description: The backup approver start date.
     Error:
       type: object
       properties:

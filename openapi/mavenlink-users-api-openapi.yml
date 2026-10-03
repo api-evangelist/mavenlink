@@ -1531,6 +1531,189 @@ components:
           description: Redirected version of a work sample url.
         website_url:
           type: string
+    Error:
+      type: object
+      properties:
+        type:
+          type: string
+        message:
+          type: string
+    Errors:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+    SkillMembership:
+      title: Skill Membership
+      description: A Skill Membership represents a skill that has been assigned to a specified user.
+      type: object
+      properties:
+        cached_skill_name:
+          type: string
+          description: The name of the skill.
+        created_at:
+          type: string
+          format: date-time
+        creator_id:
+          type: string
+          description: '`creator_id` will only be included in the response if `creator` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        level:
+          type: integer
+          format: int32
+          description: The objects proficiency level for the skill (1-5).
+        max_level:
+          type: integer
+          format: int32
+          description: The maximum level assigned for the skill.
+        skill_id:
+          type: string
+          description: '`skill_id` will only be included in the response if `skill` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        updated_at:
+          type: string
+          format: date-time
+        user_id:
+          type: string
+          description: '`user_id` will only be included in the response if `user` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+    AccountMembership:
+      title: Account Membership
+      description: An Account Membership represents the relationship of a user to an account.
+      type: object
+      properties:
+        backup_approver_association_ids:
+          type: array
+          items:
+            type: string
+          description: '`backup_approver_association_ids` will only be included in the response if `backup_approver_associations` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        bill_rate_in_cents:
+          type: integer
+          format: int32
+          description: 'The default billing rate, in cents, for the user in a workspace on this account when the workspace
+
+            does not use rate card. This attribute is only accessible if the current user is a Project Lead.
+
+            Visible when the account membership is on the same account as the API user. and the API user is an Account Project Lead..'
+        billability_target:
+          type: integer
+          format: int32
+          description: '
+
+            Visible when the account membership is on the same account as the API user. and the API user is an Account Project Lead..'
+        can_create_workspace:
+          type: boolean
+          description: Whether the user can create projects.
+        can_log_in:
+          type: boolean
+          description: 'Whether the user can log in.
+
+            Only returned when requested through the optional_fields param.'
+        can_view_reports:
+          type: boolean
+          description: Whether the user can view reports.
+        collaborator_only_license:
+          type: boolean
+          description: 'Whether the user is always a Collaborator in projects.
+
+            Visible when the account membership is on the same account as the API user..'
+        cost_rate_ids:
+          type: array
+          items:
+            type: string
+          description: '`cost_rate_ids` will only be included in the response if `cost_rates` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        cost_rate_in_cents:
+          type: integer
+          format: int32
+          description: 'The default cost rate, in cents, for the user in a workspace on this account. This attribute is only
+
+            accessible if the current user is an Administrator on the account.
+
+            Visible when the account membership is on the same account as the API user. and the API user is an Account Administrator..'
+        created_at:
+          type: string
+          format: date-time
+        default_read_only:
+          type: boolean
+          description: Whether the user is always read-only in projects.
+        default_role_id:
+          type: string
+          description: '`default_role_id` will only be included in the response if `default_role` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        disabled_at:
+          type: string
+          format: date-time
+          description: The date when the account membership was disabled.
+        effective_workweek_id:
+          type: string
+          description: '`effective_workweek_id` will only be included in the response if `effective_workweek` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        future_billable_utilization_ids:
+          type: array
+          items:
+            type: string
+          description: '`future_billable_utilization_ids` will only be included in the response if `future_billable_utilizations` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        is_administrator:
+          type: boolean
+          description: Whether the user is an Administrator.
+        is_backup_approver:
+          type: boolean
+          description: Whether the user is a backup approver for others users on the account.
+        is_owner:
+          type: boolean
+          description: The owner of the account.
+        is_project_lead:
+          type: boolean
+          description: Whether the user is a Project Lead.
+        is_punch_clock_user:
+          type: boolean
+          description: Whether the user is a Punch Clock User.
+        managee_ids:
+          type: array
+          items:
+            type: string
+          description: '`managee_ids` will only be included in the response if `managees` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        manager_can_approve:
+          type: boolean
+          description: If present, the assigned manager can approve submitted time and expenses.
+        manager_can_edit_skills:
+          type: boolean
+          description: If present, the assigned manager can edit the user's skills.
+        manager_id:
+          type: string
+          description: '`manager_id` will only be included in the response if `manager` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        non_participant:
+          type: boolean
+          description: '
+
+            Visible when the account membership is on the same account as the API user..
+
+
+            Only returned when requested through the optional_fields param.'
+        permission:
+          type: string
+          description: The user's access level. Options are administrator, reports_viewer_with_cost, reports_viewer, project_lead, project_creator, collaborator, external_collaborator, and punch_clock.
+        possible_managee_ids:
+          type: array
+          items:
+            type: string
+          description: '`possible_managee_ids` will only be included in the response if `possible_managees` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        possible_manager_ids:
+          type: array
+          items:
+            type: string
+          description: '`possible_manager_ids` will only be included in the response if `possible_managers` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        should_show_alert_on_timesheet_submission:
+          type: boolean
+          description: Show an alert on a user's timesheet submission.
+        skill_membership_ids:
+          type: array
+          items:
+            type: string
+          description: '`skill_membership_ids` will only be included in the response if `skill_memberships` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        updated_at:
+          type: string
+          format: date-time
+        user_id:
+          type: string
+          description: '`user_id` will only be included in the response if `user` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
     Skill:
       title: Skill
       description: 'Skills are used in Kantata OX to describe capabilities of users for the purposes of resource planning.
@@ -1721,189 +1904,80 @@ components:
             - `reports_viewer_with_cost`
 
             - `account_admin` (default).'
-    Error:
+    ExternalReference:
+      title: External Reference
+      description: 'External References allows users see which objects (one of `Assignment`, `BillingMilestone`, `CustomField`, `CustomFieldChoice`, `CustomFieldSet`, `CustomFieldValue`, `Estimate`, `EstimateScenario`, `EstimateScenarioResource`, `Expense`, `ExpenseBudget`, `Invoice`, `Participation`, `Post`, `RateCard`, `Role`, `Skill`, `StatusReport`, `Story`, `StoryAllocationDay`, `Submission`, `SurveyAnswer`, `SurveyQuestion`, `SurveyResponse`, `SurveyTemplate`, `TimeEntry`, `TimeOffEntry`, `User`, `Vendor`, `Workspace`, `WorkspaceAllocation`, `WorkspaceGroup`, or `WorkspaceResource`
+
+        are synced with third party systems. This allows you to view the sync status of items in addition to the integration
+
+        specifics for a synced object.
+
+
+        Objects that are synced with a third party system have external integration
+
+        attributes that include the corresponding ID of the third party object with
+
+        which it is synced, a link that allows you to view the object in the third
+
+        party system, the status of the external object in the external system,
+
+        the status of the sync, and a link to exceptions.'
       type: object
       properties:
-        type:
-          type: string
-        message:
-          type: string
-    SkillMembership:
-      title: Skill Membership
-      description: A Skill Membership represents a skill that has been assigned to a specified user.
-      type: object
-      properties:
-        cached_skill_name:
-          type: string
-          description: The name of the skill.
         created_at:
           type: string
           format: date-time
-        creator_id:
+          description: The date and time the reference was created.
+        external_link:
           type: string
-          description: '`creator_id` will only be included in the response if `creator` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        level:
+          description: A URL that links to either the external object or event.
+        external_message:
+          type: string
+          description: An optional message about the external object.
+        external_status:
+          type: string
+          description: The status of the external object in the external system.
+        last_synced_at:
+          type: string
+          format: date-time
+        locked:
+          type: boolean
+          description: 'An optional field, indicating whether the subject should be locked. To prevent changes to the
+
+            object in Kantata OX, set this to true. This currently only applies to expense report rejections.'
+        service_model:
+          type: string
+          description: The type of the external object to which this reference belongs.
+        service_model_ref:
+          type: string
+          description: The ID of the external object to which this reference belongs.
+        service_name:
+          type: string
+          description: The provider name of the integration.
+        status:
+          type: string
+          description: The status of the integration. Options are 'pending', 'successful', or 'failed'.
+        subject_id:
           type: integer
           format: int32
-          description: The objects proficiency level for the skill (1-5).
-        max_level:
-          type: integer
-          format: int32
-          description: The maximum level assigned for the skill.
-        skill_id:
+          description: The ID of the Kantata OX object to which this external reference belongs.
+        subject_ref:
+          type: object
+          description: '`subject_ref` will only be included in the response if `subject` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+          properties:
+            key:
+              type: string
+            id:
+              type: string
+        subject_type:
           type: string
-          description: '`skill_id` will only be included in the response if `skill` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+          description: 'The type of Kantata OX object to which this external reference belongs.
+
+            One of `Assignment`, `BillingMilestone`, `CustomField`, `CustomFieldChoice`, `CustomFieldSet`, `CustomFieldValue`, `Estimate`, `EstimateScenario`, `EstimateScenarioResource`, `Expense`, `ExpenseBudget`, `Invoice`, `Participation`, `Post`, `RateCard`, `Role`, `Skill`, `StatusReport`, `Story`, `StoryAllocationDay`, `Submission`, `SurveyAnswer`, `SurveyQuestion`, `SurveyResponse`, `SurveyTemplate`, `TimeEntry`, `TimeOffEntry`, `User`, `Vendor`, `Workspace`, `WorkspaceAllocation`, `WorkspaceGroup`, or `WorkspaceResource`.'
         updated_at:
           type: string
           format: date-time
-        user_id:
-          type: string
-          description: '`user_id` will only be included in the response if `user` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-    Errors:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
-    AccountMembership:
-      title: Account Membership
-      description: An Account Membership represents the relationship of a user to an account.
-      type: object
-      properties:
-        backup_approver_association_ids:
-          type: array
-          items:
-            type: string
-          description: '`backup_approver_association_ids` will only be included in the response if `backup_approver_associations` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        bill_rate_in_cents:
-          type: integer
-          format: int32
-          description: 'The default billing rate, in cents, for the user in a workspace on this account when the workspace
-
-            does not use rate card. This attribute is only accessible if the current user is a Project Lead.
-
-            Visible when the account membership is on the same account as the API user. and the API user is an Account Project Lead..'
-        billability_target:
-          type: integer
-          format: int32
-          description: '
-
-            Visible when the account membership is on the same account as the API user. and the API user is an Account Project Lead..'
-        can_create_workspace:
-          type: boolean
-          description: Whether the user can create projects.
-        can_log_in:
-          type: boolean
-          description: 'Whether the user can log in.
-
-            Only returned when requested through the optional_fields param.'
-        can_view_reports:
-          type: boolean
-          description: Whether the user can view reports.
-        collaborator_only_license:
-          type: boolean
-          description: 'Whether the user is always a Collaborator in projects.
-
-            Visible when the account membership is on the same account as the API user..'
-        cost_rate_ids:
-          type: array
-          items:
-            type: string
-          description: '`cost_rate_ids` will only be included in the response if `cost_rates` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        cost_rate_in_cents:
-          type: integer
-          format: int32
-          description: 'The default cost rate, in cents, for the user in a workspace on this account. This attribute is only
-
-            accessible if the current user is an Administrator on the account.
-
-            Visible when the account membership is on the same account as the API user. and the API user is an Account Administrator..'
-        created_at:
-          type: string
-          format: date-time
-        default_read_only:
-          type: boolean
-          description: Whether the user is always read-only in projects.
-        default_role_id:
-          type: string
-          description: '`default_role_id` will only be included in the response if `default_role` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        disabled_at:
-          type: string
-          format: date-time
-          description: The date when the account membership was disabled.
-        effective_workweek_id:
-          type: string
-          description: '`effective_workweek_id` will only be included in the response if `effective_workweek` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        future_billable_utilization_ids:
-          type: array
-          items:
-            type: string
-          description: '`future_billable_utilization_ids` will only be included in the response if `future_billable_utilizations` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        is_administrator:
-          type: boolean
-          description: Whether the user is an Administrator.
-        is_backup_approver:
-          type: boolean
-          description: Whether the user is a backup approver for others users on the account.
-        is_owner:
-          type: boolean
-          description: The owner of the account.
-        is_project_lead:
-          type: boolean
-          description: Whether the user is a Project Lead.
-        is_punch_clock_user:
-          type: boolean
-          description: Whether the user is a Punch Clock User.
-        managee_ids:
-          type: array
-          items:
-            type: string
-          description: '`managee_ids` will only be included in the response if `managees` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        manager_can_approve:
-          type: boolean
-          description: If present, the assigned manager can approve submitted time and expenses.
-        manager_can_edit_skills:
-          type: boolean
-          description: If present, the assigned manager can edit the user's skills.
-        manager_id:
-          type: string
-          description: '`manager_id` will only be included in the response if `manager` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        non_participant:
-          type: boolean
-          description: '
-
-            Visible when the account membership is on the same account as the API user..
-
-
-            Only returned when requested through the optional_fields param.'
-        permission:
-          type: string
-          description: The user's access level. Options are administrator, reports_viewer_with_cost, reports_viewer, project_lead, project_creator, collaborator, external_collaborator, and punch_clock.
-        possible_managee_ids:
-          type: array
-          items:
-            type: string
-          description: '`possible_managee_ids` will only be included in the response if `possible_managees` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        possible_manager_ids:
-          type: array
-          items:
-            type: string
-          description: '`possible_manager_ids` will only be included in the response if `possible_managers` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        should_show_alert_on_timesheet_submission:
-          type: boolean
-          description: Show an alert on a user's timesheet submission.
-        skill_membership_ids:
-          type: array
-          items:
-            type: string
-          description: '`skill_membership_ids` will only be included in the response if `skill_memberships` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        updated_at:
-          type: string
-          format: date-time
-        user_id:
-          type: string
-          description: '`user_id` will only be included in the response if `user` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+          description: The date and time the reference was last updated.
     User:
       title: User
       description: 'Users represent the individuals that are participating in Kantata OX projects. User objects are often returned as
@@ -2023,80 +2097,6 @@ components:
         updated_at:
           type: string
           format: date-time
-    ExternalReference:
-      title: External Reference
-      description: 'External References allows users see which objects (one of `Assignment`, `BillingMilestone`, `CustomField`, `CustomFieldChoice`, `CustomFieldSet`, `CustomFieldValue`, `Estimate`, `EstimateScenario`, `EstimateScenarioResource`, `Expense`, `ExpenseBudget`, `Invoice`, `Participation`, `Post`, `RateCard`, `Role`, `Skill`, `StatusReport`, `Story`, `StoryAllocationDay`, `Submission`, `SurveyAnswer`, `SurveyQuestion`, `SurveyResponse`, `SurveyTemplate`, `TimeEntry`, `TimeOffEntry`, `User`, `Vendor`, `Workspace`, `WorkspaceAllocation`, `WorkspaceGroup`, or `WorkspaceResource`
-
-        are synced with third party systems. This allows you to view the sync status of items in addition to the integration
-
-        specifics for a synced object.
-
-
-        Objects that are synced with a third party system have external integration
-
-        attributes that include the corresponding ID of the third party object with
-
-        which it is synced, a link that allows you to view the object in the third
-
-        party system, the status of the external object in the external system,
-
-        the status of the sync, and a link to exceptions.'
-      type: object
-      properties:
-        created_at:
-          type: string
-          format: date-time
-          description: The date and time the reference was created.
-        external_link:
-          type: string
-          description: A URL that links to either the external object or event.
-        external_message:
-          type: string
-          description: An optional message about the external object.
-        external_status:
-          type: string
-          description: The status of the external object in the external system.
-        last_synced_at:
-          type: string
-          format: date-time
-        locked:
-          type: boolean
-          description: 'An optional field, indicating whether the subject should be locked. To prevent changes to the
-
-            object in Kantata OX, set this to true. This currently only applies to expense report rejections.'
-        service_model:
-          type: string
-          description: The type of the external object to which this reference belongs.
-        service_model_ref:
-          type: string
-          description: The ID of the external object to which this reference belongs.
-        service_name:
-          type: string
-          description: The provider name of the integration.
-        status:
-          type: string
-          description: The status of the integration. Options are 'pending', 'successful', or 'failed'.
-        subject_id:
-          type: integer
-          format: int32
-          description: The ID of the Kantata OX object to which this external reference belongs.
-        subject_ref:
-          type: object
-          description: '`subject_ref` will only be included in the response if `subject` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-          properties:
-            key:
-              type: string
-            id:
-              type: string
-        subject_type:
-          type: string
-          description: 'The type of Kantata OX object to which this external reference belongs.
-
-            One of `Assignment`, `BillingMilestone`, `CustomField`, `CustomFieldChoice`, `CustomFieldSet`, `CustomFieldValue`, `Estimate`, `EstimateScenario`, `EstimateScenarioResource`, `Expense`, `ExpenseBudget`, `Invoice`, `Participation`, `Post`, `RateCard`, `Role`, `Skill`, `StatusReport`, `Story`, `StoryAllocationDay`, `Submission`, `SurveyAnswer`, `SurveyQuestion`, `SurveyResponse`, `SurveyTemplate`, `TimeEntry`, `TimeOffEntry`, `User`, `Vendor`, `Workspace`, `WorkspaceAllocation`, `WorkspaceGroup`, or `WorkspaceResource`.'
-        updated_at:
-          type: string
-          format: date-time
-          description: The date and time the reference was last updated.
   securitySchemes:
     BearerToken:
       type: apiKey

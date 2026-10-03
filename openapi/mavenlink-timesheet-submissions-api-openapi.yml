@@ -1527,101 +1527,6 @@ components:
           items:
             type: string
           description: '`workspace_resources_with_unnamed_ids` will only be included in the response if `workspace_resources_with_unnamed` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-    TimesheetSubmission:
-      title: Timesheet Submission
-      description: 'Timesheet Submissions contain a set of Time Entries for a specific week. These Time Entries must be
-
-        approved through a Timesheet Submission before creating an invoice.'
-      type: object
-      properties:
-        comment:
-          type: string
-          description: Additional comments on the submission.
-        created_at:
-          type: string
-          format: date-time
-        currency:
-          type: string
-          description: The currency of the submission.
-        currency_base_unit:
-          type: integer
-          format: int32
-          description: The base unit of the submission's currency.
-        currency_symbol:
-          type: string
-          description: The symbol of the submission's currency.
-        current_resolution_created_at_date:
-          type: string
-          format: date-time
-          description: The date and time that the submission's current resolution was created.
-        current_resolution_creator_id:
-          type: integer
-          format: int32
-          description: The creator id on the submission's current resolution.
-        current_resolution_description:
-          type: string
-          description: The description on the submission's current resolution.
-        end_date:
-          type: string
-          format: date
-          description: The last day of the week.
-        external_reference_ids:
-          type: array
-          items:
-            type: string
-          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        line_item_total_formatted:
-          type: string
-          description: A formatted total of the line items (time entries or expenses) on the submission.
-        line_item_total_in_cents:
-          type: integer
-          format: int32
-          description: A total in cents of the line items (time entries or expenses) on the submission.
-        permissions:
-          type: object
-          properties:
-            can_cancel_submission:
-              type: boolean
-              description: Can the current user cancel the submission.
-            can_approve_submission:
-              type: boolean
-              description: Can the current user approve the submission.
-            can_reject_submission:
-              type: boolean
-              description: Can the current user reject the submission.
-            can_resubmit_submission:
-              type: boolean
-              description: Can the current user resubmit the submission.
-        resolution_description:
-          type: string
-          description: The description on the submission's current resolution.
-        start_date:
-          type: string
-          format: date
-          description: The first day of the week.
-        status:
-          type: string
-          description: The current status of the submission ('approved', 'rejected', 'cancelled', 'pending').
-        time_entry_ids:
-          type: array
-          items:
-            type: string
-          description: '`time_entry_ids` will only be included in the response if `time_entries` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        title:
-          type: string
-          description: The title of the submission.
-        type:
-          type: string
-          description: Either an ExpenseReportSubmission or a TimesheetSubmission.
-        updated_at:
-          type: string
-          format: date-time
-        user_id:
-          type: string
-          description: '`user_id` will only be included in the response if `user` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        workspace_id:
-          type: string
-          description: '`workspace_id` will only be included in the response if `workspace` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
     Error:
       type: object
       properties:
@@ -1730,6 +1635,175 @@ components:
           items:
             type: string
           description: '`work_sample_ids` will only be included in the response if `work_samples` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+    ExternalReference:
+      title: External Reference
+      description: 'External References allows users see which objects (one of `Assignment`, `BillingMilestone`, `CustomField`, `CustomFieldChoice`, `CustomFieldSet`, `CustomFieldValue`, `Estimate`, `EstimateScenario`, `EstimateScenarioResource`, `Expense`, `ExpenseBudget`, `Invoice`, `Participation`, `Post`, `RateCard`, `Role`, `Skill`, `StatusReport`, `Story`, `StoryAllocationDay`, `Submission`, `SurveyAnswer`, `SurveyQuestion`, `SurveyResponse`, `SurveyTemplate`, `TimeEntry`, `TimeOffEntry`, `User`, `Vendor`, `Workspace`, `WorkspaceAllocation`, `WorkspaceGroup`, or `WorkspaceResource`
+
+        are synced with third party systems. This allows you to view the sync status of items in addition to the integration
+
+        specifics for a synced object.
+
+
+        Objects that are synced with a third party system have external integration
+
+        attributes that include the corresponding ID of the third party object with
+
+        which it is synced, a link that allows you to view the object in the third
+
+        party system, the status of the external object in the external system,
+
+        the status of the sync, and a link to exceptions.'
+      type: object
+      properties:
+        created_at:
+          type: string
+          format: date-time
+          description: The date and time the reference was created.
+        external_link:
+          type: string
+          description: A URL that links to either the external object or event.
+        external_message:
+          type: string
+          description: An optional message about the external object.
+        external_status:
+          type: string
+          description: The status of the external object in the external system.
+        last_synced_at:
+          type: string
+          format: date-time
+        locked:
+          type: boolean
+          description: 'An optional field, indicating whether the subject should be locked. To prevent changes to the
+
+            object in Kantata OX, set this to true. This currently only applies to expense report rejections.'
+        service_model:
+          type: string
+          description: The type of the external object to which this reference belongs.
+        service_model_ref:
+          type: string
+          description: The ID of the external object to which this reference belongs.
+        service_name:
+          type: string
+          description: The provider name of the integration.
+        status:
+          type: string
+          description: The status of the integration. Options are 'pending', 'successful', or 'failed'.
+        subject_id:
+          type: integer
+          format: int32
+          description: The ID of the Kantata OX object to which this external reference belongs.
+        subject_ref:
+          type: object
+          description: '`subject_ref` will only be included in the response if `subject` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+          properties:
+            key:
+              type: string
+            id:
+              type: string
+        subject_type:
+          type: string
+          description: 'The type of Kantata OX object to which this external reference belongs.
+
+            One of `Assignment`, `BillingMilestone`, `CustomField`, `CustomFieldChoice`, `CustomFieldSet`, `CustomFieldValue`, `Estimate`, `EstimateScenario`, `EstimateScenarioResource`, `Expense`, `ExpenseBudget`, `Invoice`, `Participation`, `Post`, `RateCard`, `Role`, `Skill`, `StatusReport`, `Story`, `StoryAllocationDay`, `Submission`, `SurveyAnswer`, `SurveyQuestion`, `SurveyResponse`, `SurveyTemplate`, `TimeEntry`, `TimeOffEntry`, `User`, `Vendor`, `Workspace`, `WorkspaceAllocation`, `WorkspaceGroup`, or `WorkspaceResource`.'
+        updated_at:
+          type: string
+          format: date-time
+          description: The date and time the reference was last updated.
+    TimesheetSubmission:
+      title: Timesheet Submission
+      description: 'Timesheet Submissions contain a set of Time Entries for a specific week. These Time Entries must be
+
+        approved through a Timesheet Submission before creating an invoice.'
+      type: object
+      properties:
+        comment:
+          type: string
+          description: Additional comments on the submission.
+        created_at:
+          type: string
+          format: date-time
+        currency:
+          type: string
+          description: The currency of the submission.
+        currency_base_unit:
+          type: integer
+          format: int32
+          description: The base unit of the submission's currency.
+        currency_symbol:
+          type: string
+          description: The symbol of the submission's currency.
+        current_resolution_created_at_date:
+          type: string
+          format: date-time
+          description: The date and time that the submission's current resolution was created.
+        current_resolution_creator_id:
+          type: integer
+          format: int32
+          description: The creator id on the submission's current resolution.
+        current_resolution_description:
+          type: string
+          description: The description on the submission's current resolution.
+        end_date:
+          type: string
+          format: date
+          description: The last day of the week.
+        external_reference_ids:
+          type: array
+          items:
+            type: string
+          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        line_item_total_formatted:
+          type: string
+          description: A formatted total of the line items (time entries or expenses) on the submission.
+        line_item_total_in_cents:
+          type: integer
+          format: int32
+          description: A total in cents of the line items (time entries or expenses) on the submission.
+        permissions:
+          type: object
+          properties:
+            can_cancel_submission:
+              type: boolean
+              description: Can the current user cancel the submission.
+            can_approve_submission:
+              type: boolean
+              description: Can the current user approve the submission.
+            can_reject_submission:
+              type: boolean
+              description: Can the current user reject the submission.
+            can_resubmit_submission:
+              type: boolean
+              description: Can the current user resubmit the submission.
+        resolution_description:
+          type: string
+          description: The description on the submission's current resolution.
+        start_date:
+          type: string
+          format: date
+          description: The first day of the week.
+        status:
+          type: string
+          description: The current status of the submission ('approved', 'rejected', 'cancelled', 'pending').
+        time_entry_ids:
+          type: array
+          items:
+            type: string
+          description: '`time_entry_ids` will only be included in the response if `time_entries` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        title:
+          type: string
+          description: The title of the submission.
+        type:
+          type: string
+          description: Either an ExpenseReportSubmission or a TimesheetSubmission.
+        updated_at:
+          type: string
+          format: date-time
+        user_id:
+          type: string
+          description: '`user_id` will only be included in the response if `user` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        workspace_id:
+          type: string
+          description: '`workspace_id` will only be included in the response if `workspace` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
     TimeEntry:
       title: Time Entry
       description: 'This object allows you to manage Kantata OX time entries, depending on your permissions.
@@ -1831,80 +1905,6 @@ components:
         workspace_id:
           type: string
           description: '`workspace_id` will only be included in the response if `workspace` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-    ExternalReference:
-      title: External Reference
-      description: 'External References allows users see which objects (one of `Assignment`, `BillingMilestone`, `CustomField`, `CustomFieldChoice`, `CustomFieldSet`, `CustomFieldValue`, `Estimate`, `EstimateScenario`, `EstimateScenarioResource`, `Expense`, `ExpenseBudget`, `Invoice`, `Participation`, `Post`, `RateCard`, `Role`, `Skill`, `StatusReport`, `Story`, `StoryAllocationDay`, `Submission`, `SurveyAnswer`, `SurveyQuestion`, `SurveyResponse`, `SurveyTemplate`, `TimeEntry`, `TimeOffEntry`, `User`, `Vendor`, `Workspace`, `WorkspaceAllocation`, `WorkspaceGroup`, or `WorkspaceResource`
-
-        are synced with third party systems. This allows you to view the sync status of items in addition to the integration
-
-        specifics for a synced object.
-
-
-        Objects that are synced with a third party system have external integration
-
-        attributes that include the corresponding ID of the third party object with
-
-        which it is synced, a link that allows you to view the object in the third
-
-        party system, the status of the external object in the external system,
-
-        the status of the sync, and a link to exceptions.'
-      type: object
-      properties:
-        created_at:
-          type: string
-          format: date-time
-          description: The date and time the reference was created.
-        external_link:
-          type: string
-          description: A URL that links to either the external object or event.
-        external_message:
-          type: string
-          description: An optional message about the external object.
-        external_status:
-          type: string
-          description: The status of the external object in the external system.
-        last_synced_at:
-          type: string
-          format: date-time
-        locked:
-          type: boolean
-          description: 'An optional field, indicating whether the subject should be locked. To prevent changes to the
-
-            object in Kantata OX, set this to true. This currently only applies to expense report rejections.'
-        service_model:
-          type: string
-          description: The type of the external object to which this reference belongs.
-        service_model_ref:
-          type: string
-          description: The ID of the external object to which this reference belongs.
-        service_name:
-          type: string
-          description: The provider name of the integration.
-        status:
-          type: string
-          description: The status of the integration. Options are 'pending', 'successful', or 'failed'.
-        subject_id:
-          type: integer
-          format: int32
-          description: The ID of the Kantata OX object to which this external reference belongs.
-        subject_ref:
-          type: object
-          description: '`subject_ref` will only be included in the response if `subject` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-          properties:
-            key:
-              type: string
-            id:
-              type: string
-        subject_type:
-          type: string
-          description: 'The type of Kantata OX object to which this external reference belongs.
-
-            One of `Assignment`, `BillingMilestone`, `CustomField`, `CustomFieldChoice`, `CustomFieldSet`, `CustomFieldValue`, `Estimate`, `EstimateScenario`, `EstimateScenarioResource`, `Expense`, `ExpenseBudget`, `Invoice`, `Participation`, `Post`, `RateCard`, `Role`, `Skill`, `StatusReport`, `Story`, `StoryAllocationDay`, `Submission`, `SurveyAnswer`, `SurveyQuestion`, `SurveyResponse`, `SurveyTemplate`, `TimeEntry`, `TimeOffEntry`, `User`, `Vendor`, `Workspace`, `WorkspaceAllocation`, `WorkspaceGroup`, or `WorkspaceResource`.'
-        updated_at:
-          type: string
-          format: date-time
-          description: The date and time the reference was last updated.
   securitySchemes:
     BearerToken:
       type: apiKey

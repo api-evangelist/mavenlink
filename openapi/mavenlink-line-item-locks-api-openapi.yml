@@ -388,22 +388,6 @@ paths:
       x-operation-id-original: Get Line Item Lock
 components:
   schemas:
-    LineItemLock:
-      title: Line Item Lock
-      description: "LineItemLocks provide a way for you to lock time in the past so that previous time entries \ncannot be edited or updated and new time entries cannot be created before the selected lock date.\n\nLine Items can be locked to any Saturday in the past on a per account basis.\n\nKeep in mind that this feature does not lock the ability to invoice approved time entries,\nnor does it lock the submission or approval of expenses."
-      type: object
-      properties:
-        account_id:
-          type: integer
-          format: int32
-          description: The account for which line items will be locked.
-        creator_id:
-          type: string
-          description: '`creator_id` will only be included in the response if `creator` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        locked_to:
-          type: string
-          format: date
-          description: The date before which you would like line items to be locked.
     User:
       title: User
       description: 'Users represent the individuals that are participating in Kantata OX projects. User objects are often returned as
@@ -505,6 +489,22 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Error'
+    LineItemLock:
+      title: Line Item Lock
+      description: "LineItemLocks provide a way for you to lock time in the past so that previous time entries \ncannot be edited or updated and new time entries cannot be created before the selected lock date.\n\nLine Items can be locked to any Saturday in the past on a per account basis.\n\nKeep in mind that this feature does not lock the ability to invoice approved time entries,\nnor does it lock the submission or approval of expenses."
+      type: object
+      properties:
+        account_id:
+          type: integer
+          format: int32
+          description: The account for which line items will be locked.
+        creator_id:
+          type: string
+          description: '`creator_id` will only be included in the response if `creator` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        locked_to:
+          type: string
+          format: date
+          description: The date before which you would like line items to be locked.
     Error:
       type: object
       properties:

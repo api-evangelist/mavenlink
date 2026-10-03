@@ -826,13 +826,6 @@ components:
           type: string
         message:
           type: string
-    Errors:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
     TimeOffEntry:
       title: Time Off Entry
       description: A Time Off Entry represents the number of hours a specific user has scheduled off for a requested date.
@@ -861,6 +854,87 @@ components:
         user_id:
           type: string
           description: '`user_id` will only be included in the response if `user` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+    Errors:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+    ExternalReference:
+      title: External Reference
+      description: 'External References allows users see which objects (one of `Assignment`, `BillingMilestone`, `CustomField`, `CustomFieldChoice`, `CustomFieldSet`, `CustomFieldValue`, `Estimate`, `EstimateScenario`, `EstimateScenarioResource`, `Expense`, `ExpenseBudget`, `Invoice`, `Participation`, `Post`, `RateCard`, `Role`, `Skill`, `StatusReport`, `Story`, `StoryAllocationDay`, `Submission`, `SurveyAnswer`, `SurveyQuestion`, `SurveyResponse`, `SurveyTemplate`, `TimeEntry`, `TimeOffEntry`, `User`, `Vendor`, `Workspace`, `WorkspaceAllocation`, `WorkspaceGroup`, or `WorkspaceResource`
+
+        are synced with third party systems. This allows you to view the sync status of items in addition to the integration
+
+        specifics for a synced object.
+
+
+        Objects that are synced with a third party system have external integration
+
+        attributes that include the corresponding ID of the third party object with
+
+        which it is synced, a link that allows you to view the object in the third
+
+        party system, the status of the external object in the external system,
+
+        the status of the sync, and a link to exceptions.'
+      type: object
+      properties:
+        created_at:
+          type: string
+          format: date-time
+          description: The date and time the reference was created.
+        external_link:
+          type: string
+          description: A URL that links to either the external object or event.
+        external_message:
+          type: string
+          description: An optional message about the external object.
+        external_status:
+          type: string
+          description: The status of the external object in the external system.
+        last_synced_at:
+          type: string
+          format: date-time
+        locked:
+          type: boolean
+          description: 'An optional field, indicating whether the subject should be locked. To prevent changes to the
+
+            object in Kantata OX, set this to true. This currently only applies to expense report rejections.'
+        service_model:
+          type: string
+          description: The type of the external object to which this reference belongs.
+        service_model_ref:
+          type: string
+          description: The ID of the external object to which this reference belongs.
+        service_name:
+          type: string
+          description: The provider name of the integration.
+        status:
+          type: string
+          description: The status of the integration. Options are 'pending', 'successful', or 'failed'.
+        subject_id:
+          type: integer
+          format: int32
+          description: The ID of the Kantata OX object to which this external reference belongs.
+        subject_ref:
+          type: object
+          description: '`subject_ref` will only be included in the response if `subject` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+          properties:
+            key:
+              type: string
+            id:
+              type: string
+        subject_type:
+          type: string
+          description: 'The type of Kantata OX object to which this external reference belongs.
+
+            One of `Assignment`, `BillingMilestone`, `CustomField`, `CustomFieldChoice`, `CustomFieldSet`, `CustomFieldValue`, `Estimate`, `EstimateScenario`, `EstimateScenarioResource`, `Expense`, `ExpenseBudget`, `Invoice`, `Participation`, `Post`, `RateCard`, `Role`, `Skill`, `StatusReport`, `Story`, `StoryAllocationDay`, `Submission`, `SurveyAnswer`, `SurveyQuestion`, `SurveyResponse`, `SurveyTemplate`, `TimeEntry`, `TimeOffEntry`, `User`, `Vendor`, `Workspace`, `WorkspaceAllocation`, `WorkspaceGroup`, or `WorkspaceResource`.'
+        updated_at:
+          type: string
+          format: date-time
+          description: The date and time the reference was last updated.
     User:
       title: User
       description: 'Users represent the individuals that are participating in Kantata OX projects. User objects are often returned as
@@ -980,80 +1054,6 @@ components:
         updated_at:
           type: string
           format: date-time
-    ExternalReference:
-      title: External Reference
-      description: 'External References allows users see which objects (one of `Assignment`, `BillingMilestone`, `CustomField`, `CustomFieldChoice`, `CustomFieldSet`, `CustomFieldValue`, `Estimate`, `EstimateScenario`, `EstimateScenarioResource`, `Expense`, `ExpenseBudget`, `Invoice`, `Participation`, `Post`, `RateCard`, `Role`, `Skill`, `StatusReport`, `Story`, `StoryAllocationDay`, `Submission`, `SurveyAnswer`, `SurveyQuestion`, `SurveyResponse`, `SurveyTemplate`, `TimeEntry`, `TimeOffEntry`, `User`, `Vendor`, `Workspace`, `WorkspaceAllocation`, `WorkspaceGroup`, or `WorkspaceResource`
-
-        are synced with third party systems. This allows you to view the sync status of items in addition to the integration
-
-        specifics for a synced object.
-
-
-        Objects that are synced with a third party system have external integration
-
-        attributes that include the corresponding ID of the third party object with
-
-        which it is synced, a link that allows you to view the object in the third
-
-        party system, the status of the external object in the external system,
-
-        the status of the sync, and a link to exceptions.'
-      type: object
-      properties:
-        created_at:
-          type: string
-          format: date-time
-          description: The date and time the reference was created.
-        external_link:
-          type: string
-          description: A URL that links to either the external object or event.
-        external_message:
-          type: string
-          description: An optional message about the external object.
-        external_status:
-          type: string
-          description: The status of the external object in the external system.
-        last_synced_at:
-          type: string
-          format: date-time
-        locked:
-          type: boolean
-          description: 'An optional field, indicating whether the subject should be locked. To prevent changes to the
-
-            object in Kantata OX, set this to true. This currently only applies to expense report rejections.'
-        service_model:
-          type: string
-          description: The type of the external object to which this reference belongs.
-        service_model_ref:
-          type: string
-          description: The ID of the external object to which this reference belongs.
-        service_name:
-          type: string
-          description: The provider name of the integration.
-        status:
-          type: string
-          description: The status of the integration. Options are 'pending', 'successful', or 'failed'.
-        subject_id:
-          type: integer
-          format: int32
-          description: The ID of the Kantata OX object to which this external reference belongs.
-        subject_ref:
-          type: object
-          description: '`subject_ref` will only be included in the response if `subject` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-          properties:
-            key:
-              type: string
-            id:
-              type: string
-        subject_type:
-          type: string
-          description: 'The type of Kantata OX object to which this external reference belongs.
-
-            One of `Assignment`, `BillingMilestone`, `CustomField`, `CustomFieldChoice`, `CustomFieldSet`, `CustomFieldValue`, `Estimate`, `EstimateScenario`, `EstimateScenarioResource`, `Expense`, `ExpenseBudget`, `Invoice`, `Participation`, `Post`, `RateCard`, `Role`, `Skill`, `StatusReport`, `Story`, `StoryAllocationDay`, `Submission`, `SurveyAnswer`, `SurveyQuestion`, `SurveyResponse`, `SurveyTemplate`, `TimeEntry`, `TimeOffEntry`, `User`, `Vendor`, `Workspace`, `WorkspaceAllocation`, `WorkspaceGroup`, or `WorkspaceResource`.'
-        updated_at:
-          type: string
-          format: date-time
-          description: The date and time the reference was last updated.
   securitySchemes:
     BearerToken:
       type: apiKey

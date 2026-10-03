@@ -673,6 +673,36 @@ paths:
       x-operation-id-original: Delete Custom Field Set
 components:
   schemas:
+    CustomFieldSet:
+      title: Custom Field Set
+      description: 'Custom Field Sets contain custom fields and definitions of each fields'' subject type. The supported
+
+        subjects are currently Estimate, Project, Project Group, Resource, Task, and User.'
+      type: object
+      properties:
+        created_at:
+          type: string
+          format: date-time
+        custom_field_ids:
+          type: array
+          items:
+            type: string
+          description: '`custom_field_ids` will only be included in the response if `custom_fields` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        external_reference_ids:
+          type: array
+          items:
+            type: string
+          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        name:
+          type: string
+        subject_type:
+          type: string
+          description: 'The type of objects contained in the custom field set. The supported subjects are currently
+
+            *Workspace*, *Story*, *User*, and *WorkspaceGroup*.'
+        updated_at:
+          type: string
+          format: date-time
     Error:
       type: object
       properties:
@@ -751,36 +781,6 @@ components:
           type: integer
           format: int32
           description: The permission level required for a user to create, update, or delete a custom field's value.
-    CustomFieldSet:
-      title: Custom Field Set
-      description: 'Custom Field Sets contain custom fields and definitions of each fields'' subject type. The supported
-
-        subjects are currently Estimate, Project, Project Group, Resource, Task, and User.'
-      type: object
-      properties:
-        created_at:
-          type: string
-          format: date-time
-        custom_field_ids:
-          type: array
-          items:
-            type: string
-          description: '`custom_field_ids` will only be included in the response if `custom_fields` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        external_reference_ids:
-          type: array
-          items:
-            type: string
-          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        name:
-          type: string
-        subject_type:
-          type: string
-          description: 'The type of objects contained in the custom field set. The supported subjects are currently
-
-            *Workspace*, *Story*, *User*, and *WorkspaceGroup*.'
-        updated_at:
-          type: string
-          format: date-time
     ExternalReference:
       title: External Reference
       description: 'External References allows users see which objects (one of `Assignment`, `BillingMilestone`, `CustomField`, `CustomFieldChoice`, `CustomFieldSet`, `CustomFieldValue`, `Estimate`, `EstimateScenario`, `EstimateScenarioResource`, `Expense`, `ExpenseBudget`, `Invoice`, `Participation`, `Post`, `RateCard`, `Role`, `Skill`, `StatusReport`, `Story`, `StoryAllocationDay`, `Submission`, `SurveyAnswer`, `SurveyQuestion`, `SurveyResponse`, `SurveyTemplate`, `TimeEntry`, `TimeOffEntry`, `User`, `Vendor`, `Workspace`, `WorkspaceAllocation`, `WorkspaceGroup`, or `WorkspaceResource`

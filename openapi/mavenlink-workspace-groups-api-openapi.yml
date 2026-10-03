@@ -1372,62 +1372,6 @@ components:
           type: string
         message:
           type: string
-    Errors:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
-    RateCardSet:
-      title: Rate Card Set
-      description: 'A Rate Card Set represents a group of Rate Cards with multiple currencies, that
-
-        can be bundled together. A Rate Card Set belongs to an account, and can have several Rate Card Set Versions, each representing the
-
-        the effective version for a specified date.'
-      type: object
-      properties:
-        account_default:
-          type: boolean
-          description: Whether the Rate Card Set is an account default.
-        active_currencies:
-          type: array
-          items:
-            type: string
-          description: Includes only currencies that belong to published Rate Card Set Versions.
-        created_at:
-          type: string
-          format: date-time
-        default_currencies:
-          type: array
-          items:
-            type: string
-          description: Includes only currencies that belong to published Rate Card Set Versions on the account default Rate Card Set.
-        destroyable:
-          type: boolean
-          description: Whether the Rate Card Set can be deleted.
-        rate_card_ids:
-          type: array
-          items:
-            type: string
-          description: '`rate_card_ids` will only be included in the response if `rate_cards` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        rate_card_set_version_ids:
-          type: array
-          items:
-            type: string
-          description: '`rate_card_set_version_ids` will only be included in the response if `rate_card_set_versions` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        title:
-          type: string
-          description: The title of the Rate Card Set.
-        updated_at:
-          type: string
-          format: date-time
-        workspace_group_ids:
-          type: array
-          items:
-            type: string
-          description: '`workspace_group_ids` will only be included in the response if `workspace_groups` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
     WorkspaceGroup:
       title: Workspace Group
       description: 'Workspace Groups (also known as groups) allow for the categorization of Kantata OX Workspaces and Users. Workspace Groups are unique to each Kantata OX Account. These endpoints allow you to fetch, create, update, and delete Workspace Groups.
@@ -1486,6 +1430,62 @@ components:
           items:
             type: string
           description: '`workspace_ids` will only be included in the response if `workspaces` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+    Errors:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+    RateCardSet:
+      title: Rate Card Set
+      description: 'A Rate Card Set represents a group of Rate Cards with multiple currencies, that
+
+        can be bundled together. A Rate Card Set belongs to an account, and can have several Rate Card Set Versions, each representing the
+
+        the effective version for a specified date.'
+      type: object
+      properties:
+        account_default:
+          type: boolean
+          description: Whether the Rate Card Set is an account default.
+        active_currencies:
+          type: array
+          items:
+            type: string
+          description: Includes only currencies that belong to published Rate Card Set Versions.
+        created_at:
+          type: string
+          format: date-time
+        default_currencies:
+          type: array
+          items:
+            type: string
+          description: Includes only currencies that belong to published Rate Card Set Versions on the account default Rate Card Set.
+        destroyable:
+          type: boolean
+          description: Whether the Rate Card Set can be deleted.
+        rate_card_ids:
+          type: array
+          items:
+            type: string
+          description: '`rate_card_ids` will only be included in the response if `rate_cards` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        rate_card_set_version_ids:
+          type: array
+          items:
+            type: string
+          description: '`rate_card_set_version_ids` will only be included in the response if `rate_card_set_versions` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        title:
+          type: string
+          description: The title of the Rate Card Set.
+        updated_at:
+          type: string
+          format: date-time
+        workspace_group_ids:
+          type: array
+          items:
+            type: string
+          description: '`workspace_group_ids` will only be included in the response if `workspace_groups` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
     ExternalReference:
       title: External Reference
       description: 'External References allows users see which objects (one of `Assignment`, `BillingMilestone`, `CustomField`, `CustomFieldChoice`, `CustomFieldSet`, `CustomFieldValue`, `Estimate`, `EstimateScenario`, `EstimateScenarioResource`, `Expense`, `ExpenseBudget`, `Invoice`, `Participation`, `Post`, `RateCard`, `Role`, `Skill`, `StatusReport`, `Story`, `StoryAllocationDay`, `Submission`, `SurveyAnswer`, `SurveyQuestion`, `SurveyResponse`, `SurveyTemplate`, `TimeEntry`, `TimeOffEntry`, `User`, `Vendor`, `Workspace`, `WorkspaceAllocation`, `WorkspaceGroup`, or `WorkspaceResource`

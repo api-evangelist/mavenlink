@@ -783,6 +783,20 @@ paths:
       x-operation-id-original: Delete Estimate Scenario
 components:
   schemas:
+    Error:
+      type: object
+      properties:
+        type:
+          type: string
+        message:
+          type: string
+    Errors:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
     EstimateScenario:
       title: Estimate Scenario
       description: 'An Estimate Scenario represents a possible project configuration. It includes a rate card, budget, and
@@ -828,65 +842,6 @@ components:
         updated_at:
           type: string
           format: date-time
-    RateCard:
-      title: Rate Card
-      description: 'A Rate Card belongs to a Rate Card Set, and represents a currency in the set. Rate Cards have
-
-        many Rate Card Versions which represent the effective version of a Rate Card at a specified point of time.
-
-
-        Rate Cards are accessible to users with Financial access (Project Lead or higher) on the account.'
-      type: object
-      properties:
-        created_at:
-          type: string
-          format: date-time
-        currency:
-          type: string
-          description: The currency of the Rate Card.
-        effective_rate_card_version_id:
-          type: string
-          description: '`effective_rate_card_version_id` will only be included in the response if `effective_rate_card_version` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        external_reference_ids:
-          type: array
-          items:
-            type: string
-          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        rate_card_set_id:
-          type: string
-          description: '`rate_card_set_id` will only be included in the response if `rate_card_set` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        rate_card_set_title:
-          type: string
-          description: The Rate Card Set and Currency.
-        rate_card_version_ids:
-          type: array
-          items:
-            type: string
-          description: '`rate_card_version_ids` will only be included in the response if `rate_card_versions` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        removable:
-          type: boolean
-          description: Whether or not the Rate Card can be deleted.
-        updated_at:
-          type: string
-          format: date-time
-        uses:
-          type: integer
-          format: int32
-          description: The total usage count of the Rate Card.
-    Error:
-      type: object
-      properties:
-        type:
-          type: string
-        message:
-          type: string
-    Errors:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
     EstimateScenarioResource:
       title: Estimate Scenario Resource
       description: An Estimate Scenario Resource is an unnamed resource in an estimate scenario.
@@ -950,6 +905,51 @@ components:
         user_id:
           type: string
           description: '`user_id` will only be included in the response if `user` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+    RateCard:
+      title: Rate Card
+      description: 'A Rate Card belongs to a Rate Card Set, and represents a currency in the set. Rate Cards have
+
+        many Rate Card Versions which represent the effective version of a Rate Card at a specified point of time.
+
+
+        Rate Cards are accessible to users with Financial access (Project Lead or higher) on the account.'
+      type: object
+      properties:
+        created_at:
+          type: string
+          format: date-time
+        currency:
+          type: string
+          description: The currency of the Rate Card.
+        effective_rate_card_version_id:
+          type: string
+          description: '`effective_rate_card_version_id` will only be included in the response if `effective_rate_card_version` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        external_reference_ids:
+          type: array
+          items:
+            type: string
+          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        rate_card_set_id:
+          type: string
+          description: '`rate_card_set_id` will only be included in the response if `rate_card_set` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        rate_card_set_title:
+          type: string
+          description: The Rate Card Set and Currency.
+        rate_card_version_ids:
+          type: array
+          items:
+            type: string
+          description: '`rate_card_version_ids` will only be included in the response if `rate_card_versions` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        removable:
+          type: boolean
+          description: Whether or not the Rate Card can be deleted.
+        updated_at:
+          type: string
+          format: date-time
+        uses:
+          type: integer
+          format: int32
+          description: The total usage count of the Rate Card.
     ExternalReference:
       title: External Reference
       description: 'External References allows users see which objects (one of `Assignment`, `BillingMilestone`, `CustomField`, `CustomFieldChoice`, `CustomFieldSet`, `CustomFieldValue`, `Estimate`, `EstimateScenario`, `EstimateScenarioResource`, `Expense`, `ExpenseBudget`, `Invoice`, `Participation`, `Post`, `RateCard`, `Role`, `Skill`, `StatusReport`, `Story`, `StoryAllocationDay`, `Submission`, `SurveyAnswer`, `SurveyQuestion`, `SurveyResponse`, `SurveyTemplate`, `TimeEntry`, `TimeOffEntry`, `User`, `Vendor`, `Workspace`, `WorkspaceAllocation`, `WorkspaceGroup`, or `WorkspaceResource`

@@ -676,6 +676,17 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Error'
+    HolidayCalendar:
+      title: Holiday Calendar
+      description: A Holiday Calendar defines the days in which account members are unavailable to work due to company-wide days off.
+      type: object
+      properties:
+        default:
+          type: boolean
+          description: Whether the holiday calendar is the account default.
+        name:
+          type: string
+          description: The name of the holiday calendar.
     User:
       title: User
       description: 'Users represent the individuals that are participating in Kantata OX projects. User objects are often returned as
@@ -770,17 +781,6 @@ components:
           items:
             type: string
           description: '`work_sample_ids` will only be included in the response if `work_samples` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-    HolidayCalendar:
-      title: Holiday Calendar
-      description: A Holiday Calendar defines the days in which account members are unavailable to work due to company-wide days off.
-      type: object
-      properties:
-        default:
-          type: boolean
-          description: Whether the holiday calendar is the account default.
-        name:
-          type: string
-          description: The name of the holiday calendar.
   securitySchemes:
     BearerToken:
       type: apiKey

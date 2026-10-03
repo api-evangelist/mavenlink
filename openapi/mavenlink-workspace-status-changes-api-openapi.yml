@@ -913,6 +913,13 @@ components:
           type: string
         message:
           type: string
+    Errors:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
     WorkspaceStatusChange:
       title: Workspace Status Change
       description: Workspace Status Changes represents a record of changes made to the status of a project.
@@ -948,13 +955,6 @@ components:
         workspace_id:
           type: string
           description: '`workspace_id` will only be included in the response if `workspace` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-    Errors:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
     User:
       title: User
       description: 'Users represent the individuals that are participating in Kantata OX projects. User objects are often returned as

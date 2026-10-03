@@ -881,55 +881,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Error'
-    AccountInvitation:
-      title: Account Invitation
-      description: The Account Invitation represents an invitation to join an existing Kantata OX account as a user.
-      type: object
-      properties:
-        bill_rate_in_cents:
-          type: integer
-          format: int32
-          description: 'The default billing rate, in cents, for the user in a workspace on this account.
-
-            Visible when the API user is on the invitation account. and the API user is an Account Project Lead..'
-        billability_target:
-          type: integer
-          format: int32
-          description: '
-
-            Visible when the API user is on the invitation account. and the API user is an Account Project Lead..'
-        cost_rate_in_cents:
-          type: integer
-          format: int32
-          description: 'The default cost rate, in cents, for the user in a workspace on this account.
-
-            Visible when the API user is on the invitation account. and the API user is an Account Administrator..'
-        default_role_id:
-          type: string
-          description: '`default_role_id` will only be included in the response if `default_role` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        email_address:
-          type: string
-          description: The email address of the invited user. An email is sent to this address with a link to accept the invitation.
-        expiration_date:
-          type: string
-          description: The invitation's expiration date.
-        full_name:
-          type: string
-          description: The full name of the invited user.
-        headline:
-          type: string
-        invitee_id:
-          type: string
-          description: '`invitee_id` will only be included in the response if `invitee` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        inviter_id:
-          type: string
-          description: '`inviter_id` will only be included in the response if `inviter` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        pending:
-          type: boolean
-          description: The status of the invitation.
-        permission:
-          type: string
-          description: The access level that the invited user will have (one of administrator, reports_viewer_with_cost, reports_viewer, project_lead, project_creator, collaborator, and punch_clock).
     User:
       title: User
       description: 'Users represent the individuals that are participating in Kantata OX projects. User objects are often returned as
@@ -1024,6 +975,55 @@ components:
           items:
             type: string
           description: '`work_sample_ids` will only be included in the response if `work_samples` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+    AccountInvitation:
+      title: Account Invitation
+      description: The Account Invitation represents an invitation to join an existing Kantata OX account as a user.
+      type: object
+      properties:
+        bill_rate_in_cents:
+          type: integer
+          format: int32
+          description: 'The default billing rate, in cents, for the user in a workspace on this account.
+
+            Visible when the API user is on the invitation account. and the API user is an Account Project Lead..'
+        billability_target:
+          type: integer
+          format: int32
+          description: '
+
+            Visible when the API user is on the invitation account. and the API user is an Account Project Lead..'
+        cost_rate_in_cents:
+          type: integer
+          format: int32
+          description: 'The default cost rate, in cents, for the user in a workspace on this account.
+
+            Visible when the API user is on the invitation account. and the API user is an Account Administrator..'
+        default_role_id:
+          type: string
+          description: '`default_role_id` will only be included in the response if `default_role` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        email_address:
+          type: string
+          description: The email address of the invited user. An email is sent to this address with a link to accept the invitation.
+        expiration_date:
+          type: string
+          description: The invitation's expiration date.
+        full_name:
+          type: string
+          description: The full name of the invited user.
+        headline:
+          type: string
+        invitee_id:
+          type: string
+          description: '`invitee_id` will only be included in the response if `invitee` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        inviter_id:
+          type: string
+          description: '`inviter_id` will only be included in the response if `inviter` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        pending:
+          type: boolean
+          description: The status of the invitation.
+        permission:
+          type: string
+          description: The access level that the invited user will have (one of administrator, reports_viewer_with_cost, reports_viewer, project_lead, project_creator, collaborator, and punch_clock).
     Role:
       title: Role
       description: 'A Role represents the main position or title assigned to members on an account. Roles may be associated with account memberships, account invitations,

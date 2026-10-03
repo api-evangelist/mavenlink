@@ -516,13 +516,6 @@ paths:
       x-operation-id-original: Delete Holiday Calendar
 components:
   schemas:
-    Error:
-      type: object
-      properties:
-        type:
-          type: string
-        message:
-          type: string
     Errors:
       type: object
       properties:
@@ -530,6 +523,13 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Error'
+    Error:
+      type: object
+      properties:
+        type:
+          type: string
+        message:
+          type: string
     HolidayCalendar:
       title: Holiday Calendar
       description: A Holiday Calendar defines the days in which account members are unavailable to work due to company-wide days off.

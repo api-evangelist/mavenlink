@@ -1612,243 +1612,6 @@ components:
           items:
             type: string
           description: '`workspace_resources_with_unnamed_ids` will only be included in the response if `workspace_resources_with_unnamed` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-    ExternalReference:
-      title: External Reference
-      description: 'External References allows users see which objects (one of `Assignment`, `BillingMilestone`, `CustomField`, `CustomFieldChoice`, `CustomFieldSet`, `CustomFieldValue`, `Estimate`, `EstimateScenario`, `EstimateScenarioResource`, `Expense`, `ExpenseBudget`, `Invoice`, `Participation`, `Post`, `RateCard`, `Role`, `Skill`, `StatusReport`, `Story`, `StoryAllocationDay`, `Submission`, `SurveyAnswer`, `SurveyQuestion`, `SurveyResponse`, `SurveyTemplate`, `TimeEntry`, `TimeOffEntry`, `User`, `Vendor`, `Workspace`, `WorkspaceAllocation`, `WorkspaceGroup`, or `WorkspaceResource`
-
-        are synced with third party systems. This allows you to view the sync status of items in addition to the integration
-
-        specifics for a synced object.
-
-
-        Objects that are synced with a third party system have external integration
-
-        attributes that include the corresponding ID of the third party object with
-
-        which it is synced, a link that allows you to view the object in the third
-
-        party system, the status of the external object in the external system,
-
-        the status of the sync, and a link to exceptions.'
-      type: object
-      properties:
-        created_at:
-          type: string
-          format: date-time
-          description: The date and time the reference was created.
-        external_link:
-          type: string
-          description: A URL that links to either the external object or event.
-        external_message:
-          type: string
-          description: An optional message about the external object.
-        external_status:
-          type: string
-          description: The status of the external object in the external system.
-        last_synced_at:
-          type: string
-          format: date-time
-        locked:
-          type: boolean
-          description: 'An optional field, indicating whether the subject should be locked. To prevent changes to the
-
-            object in Kantata OX, set this to true. This currently only applies to expense report rejections.'
-        service_model:
-          type: string
-          description: The type of the external object to which this reference belongs.
-        service_model_ref:
-          type: string
-          description: The ID of the external object to which this reference belongs.
-        service_name:
-          type: string
-          description: The provider name of the integration.
-        status:
-          type: string
-          description: The status of the integration. Options are 'pending', 'successful', or 'failed'.
-        subject_id:
-          type: integer
-          format: int32
-          description: The ID of the Kantata OX object to which this external reference belongs.
-        subject_ref:
-          type: object
-          description: '`subject_ref` will only be included in the response if `subject` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-          properties:
-            key:
-              type: string
-            id:
-              type: string
-        subject_type:
-          type: string
-          description: 'The type of Kantata OX object to which this external reference belongs.
-
-            One of `Assignment`, `BillingMilestone`, `CustomField`, `CustomFieldChoice`, `CustomFieldSet`, `CustomFieldValue`, `Estimate`, `EstimateScenario`, `EstimateScenarioResource`, `Expense`, `ExpenseBudget`, `Invoice`, `Participation`, `Post`, `RateCard`, `Role`, `Skill`, `StatusReport`, `Story`, `StoryAllocationDay`, `Submission`, `SurveyAnswer`, `SurveyQuestion`, `SurveyResponse`, `SurveyTemplate`, `TimeEntry`, `TimeOffEntry`, `User`, `Vendor`, `Workspace`, `WorkspaceAllocation`, `WorkspaceGroup`, or `WorkspaceResource`.'
-        updated_at:
-          type: string
-          format: date-time
-          description: The date and time the reference was last updated.
-    CustomFieldValue:
-      title: Custom Field Value
-      description: 'If [Custom Fields](/tag/Custom-Fields) represent the fields themselves,
-
-        Custom Field Values represent the values in/of those fields.'
-      type: object
-      properties:
-        account_id:
-          type: integer
-          format: int32
-          description: The ID of the account the Custom Field Value is in.
-        can_edit:
-          type: boolean
-          description: Whether the Custom Field Value can be edited by the requester.
-        created_at:
-          type: string
-          format: date-time
-        custom_field_id:
-          type: string
-          description: '`custom_field_id` will only be included in the response if `custom_field` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        custom_field_name:
-          type: string
-          description: The name of the Custom Field.
-        display_value:
-          type: string
-          description: 'The Custom Field Values, but in more understandable formats:
-
-            * For Custom Fields with values that are selected choices, the labels on those choices are returned.
-
-            * For Custom Fields with currency values, the amount with the currency symbol ($100) is returned.
-
-            * All other values are converted into a string.'
-        external_reference_ids:
-          type: array
-          items:
-            type: string
-          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        selected_choice_ids:
-          type: array
-          items:
-            type: string
-          description: '`selected_choice_ids` will only be included in the response if `selected_choices` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        setter_id:
-          type: string
-          description: '`setter_id` will only be included in the response if `setter` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        subject_id:
-          type: integer
-          format: int32
-          description: The ID of the Estimate, Project, Group, Resource, Task, or User the custom field is for.
-        subject_ref:
-          type: object
-          description: '`subject_ref` will only be included in the response if `subject` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-          properties:
-            key:
-              type: string
-            id:
-              type: string
-        subject_type:
-          type: string
-          description: 'The set of Custom Fields that values are returned for:
-
-            * `Estimate`
-
-            * `Workspace` (Project)
-
-            * `WorkspaceGroup` (Group)
-
-            * `Resource`
-
-            * `Story` (Task)
-
-            * `User`.'
-        type:
-          type: string
-          description: 'Potential formats of values:
-
-
-            | Value Type           | Format                                   | Sample         |
-
-            | -------------------- |:----------------------------------------:| --------------:|
-
-            | `string`             | `<text_string>`                          |        `"foo"` |
-
-            | `date`               | `<ISO_8601 Date Format>`                 | `"2014-02-25"` |
-
-            | `number`             | `<integer_value>`                        |           `13` |
-
-            | `currency`           | `[<int_value_in_cents>, <currency_code>]`| `[998, "USD"]` |
-
-            | `single` and `multi` | `[<choice_ids>]`                         |    `[1, 2, 4]` |.'
-        updated_at:
-          type: string
-          format: date-time
-        value:
-          type: string
-          description: 'The value created or updated for the specified custom field.
-
-
-            Values can be created or updated in these formats:
-
-
-            | Value Type           | Format                                   | Sample         |
-
-            | -------------------- |:----------------------------------------:| --------------:|
-
-            | `string`             | `<text_string>`                          |        `"foo"` |
-
-            | `date`               | `<ISO_8601 Date Format>`                 | `"2014-02-25"` |
-
-            | `number`             | `<integer_value>`                        |           `13` |
-
-            | `currency`           | `[<int_value_in_cents>, <currency_code>]`| `[998, "USD"]` |
-
-            | `single` and `multi` | `[<choice_ids>]`                         |    `[1, 2, 4]` |
-
-
-            ##### Note:
-
-            The `read_access` [permission setting on each custom field](https://mavenlink.zendesk.com/hc/en-us/articles/202924760#see)
-
-            determines the minimum permission needed to view a custom field and its value.
-
-            * `Workspace` (Project), `Resource`, and `Story` (Task) custom fields are project-specific objects,
-
-            so their minimum permissions are set at the [project level](https://mavenlink.zendesk.com/hc/en-us/articles/115002779293-Project-Permissions):
-
-            - `project_collaboration` (default)
-
-            - `time_logging`
-
-            - `financial`
-
-            - `project_admin`
-
-
-            Most account-level permissions supercede project-level permissions. Therefore, Account Administrators
-
-            are able to view all Project, Resource, and Task custom fields and values across the account,
-
-            regardless of project participation or `read_access` settings.
-
-            * `Estimate`, `WorkspaceGroup` (Group), and `User` custom fields are account-wide objects,
-
-            so their minimum permissions are set at the [account level](https://mavenlink.zendesk.com/hc/en-us/articles/203041364):
-
-            - `account_collaboration`
-
-            - `project_creator`
-
-            - `project_lead`
-
-            - `reports_viewer`
-
-            - `reports_viewer_with_cost`
-
-            - `account_admin` (default).'
-    Error:
-      type: object
-      properties:
-        type:
-          type: string
-        message:
-          type: string
     Story:
       title: Story
       description: 'Stories (known as [tasks](https://knowledge.kantata.com/hc/en-us/articles/202806550-Tasks-Overview) in the UI)
@@ -2185,6 +1948,95 @@ components:
           items:
             type: string
           description: '`workspace_resources_with_unnamed_ids` will only be included in the response if `workspace_resources_with_unnamed` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+    Error:
+      type: object
+      properties:
+        type:
+          type: string
+        message:
+          type: string
+    CustomFieldChoice:
+      title: Custom Field Choice
+      description: Custom Field Choices are possible values for `single` and `multi` type custom fields.
+      type: object
+      properties:
+        created_at:
+          type: string
+          format: date-time
+        custom_field_id:
+          type: string
+          description: '`custom_field_id` will only be included in the response if `custom_field` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        external_reference_ids:
+          type: array
+          items:
+            type: string
+          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        label:
+          type: string
+        position:
+          type: integer
+          format: int32
+        updated_at:
+          type: string
+          format: date-time
+    WorkspaceGroup:
+      title: Workspace Group
+      description: 'Workspace Groups (also known as groups) allow for the categorization of Kantata OX Workspaces and Users. Workspace Groups are unique to each Kantata OX Account. These endpoints allow you to fetch, create, update, and delete Workspace Groups.
+
+
+        To add a workspace to a Workspace Group, use the [create workspace](/tag/Workspaces#operation/create-workspace) or [update workspace](/tag/Workspaces#operation/update-workspace) endpoint and set the `workspace_group_ids` field.
+
+
+        To add a user to a Workspace Group, use the [create user group membership](/tag/User-Group-Memberships#operation/create-user-group-memberships) endpoint.'
+      type: object
+      properties:
+        address:
+          type: string
+          description: The address of the company contact.
+        company:
+          type: boolean
+          description: Whether the group represents a company.
+        contact_name:
+          type: string
+          description: The name of the company contact.
+        created_at:
+          type: string
+          format: date-time
+          description: When the group was created.
+        email:
+          type: string
+          description: The email of the company contact.
+        external_reference_ids:
+          type: array
+          items:
+            type: string
+          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        name:
+          type: string
+          description: The name of the group.
+        notes:
+          type: string
+          description: Notes on the group.
+        phone_number:
+          type: string
+          description: The phone number of the company contact.
+        rate_card_set_ids:
+          type: array
+          items:
+            type: string
+          description: '`rate_card_set_ids` will only be included in the response if `rate_card_sets` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        updated_at:
+          type: string
+          format: date-time
+          description: When the group was last updated.
+        website:
+          type: string
+          description: The website of the company contact.
+        workspace_ids:
+          type: array
+          items:
+            type: string
+          description: '`workspace_ids` will only be included in the response if `workspaces` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
     Errors:
       type: object
       properties:
@@ -2256,6 +2108,162 @@ components:
           type: integer
           format: int32
           description: The permission level required for a user to create, update, or delete a custom field's value.
+    CustomFieldValue:
+      title: Custom Field Value
+      description: 'If [Custom Fields](/tag/Custom-Fields) represent the fields themselves,
+
+        Custom Field Values represent the values in/of those fields.'
+      type: object
+      properties:
+        account_id:
+          type: integer
+          format: int32
+          description: The ID of the account the Custom Field Value is in.
+        can_edit:
+          type: boolean
+          description: Whether the Custom Field Value can be edited by the requester.
+        created_at:
+          type: string
+          format: date-time
+        custom_field_id:
+          type: string
+          description: '`custom_field_id` will only be included in the response if `custom_field` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        custom_field_name:
+          type: string
+          description: The name of the Custom Field.
+        display_value:
+          type: string
+          description: 'The Custom Field Values, but in more understandable formats:
+
+            * For Custom Fields with values that are selected choices, the labels on those choices are returned.
+
+            * For Custom Fields with currency values, the amount with the currency symbol ($100) is returned.
+
+            * All other values are converted into a string.'
+        external_reference_ids:
+          type: array
+          items:
+            type: string
+          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        selected_choice_ids:
+          type: array
+          items:
+            type: string
+          description: '`selected_choice_ids` will only be included in the response if `selected_choices` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        setter_id:
+          type: string
+          description: '`setter_id` will only be included in the response if `setter` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        subject_id:
+          type: integer
+          format: int32
+          description: The ID of the Estimate, Project, Group, Resource, Task, or User the custom field is for.
+        subject_ref:
+          type: object
+          description: '`subject_ref` will only be included in the response if `subject` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+          properties:
+            key:
+              type: string
+            id:
+              type: string
+        subject_type:
+          type: string
+          description: 'The set of Custom Fields that values are returned for:
+
+            * `Estimate`
+
+            * `Workspace` (Project)
+
+            * `WorkspaceGroup` (Group)
+
+            * `Resource`
+
+            * `Story` (Task)
+
+            * `User`.'
+        type:
+          type: string
+          description: 'Potential formats of values:
+
+
+            | Value Type           | Format                                   | Sample         |
+
+            | -------------------- |:----------------------------------------:| --------------:|
+
+            | `string`             | `<text_string>`                          |        `"foo"` |
+
+            | `date`               | `<ISO_8601 Date Format>`                 | `"2014-02-25"` |
+
+            | `number`             | `<integer_value>`                        |           `13` |
+
+            | `currency`           | `[<int_value_in_cents>, <currency_code>]`| `[998, "USD"]` |
+
+            | `single` and `multi` | `[<choice_ids>]`                         |    `[1, 2, 4]` |.'
+        updated_at:
+          type: string
+          format: date-time
+        value:
+          type: string
+          description: 'The value created or updated for the specified custom field.
+
+
+            Values can be created or updated in these formats:
+
+
+            | Value Type           | Format                                   | Sample         |
+
+            | -------------------- |:----------------------------------------:| --------------:|
+
+            | `string`             | `<text_string>`                          |        `"foo"` |
+
+            | `date`               | `<ISO_8601 Date Format>`                 | `"2014-02-25"` |
+
+            | `number`             | `<integer_value>`                        |           `13` |
+
+            | `currency`           | `[<int_value_in_cents>, <currency_code>]`| `[998, "USD"]` |
+
+            | `single` and `multi` | `[<choice_ids>]`                         |    `[1, 2, 4]` |
+
+
+            ##### Note:
+
+            The `read_access` [permission setting on each custom field](https://mavenlink.zendesk.com/hc/en-us/articles/202924760#see)
+
+            determines the minimum permission needed to view a custom field and its value.
+
+            * `Workspace` (Project), `Resource`, and `Story` (Task) custom fields are project-specific objects,
+
+            so their minimum permissions are set at the [project level](https://mavenlink.zendesk.com/hc/en-us/articles/115002779293-Project-Permissions):
+
+            - `project_collaboration` (default)
+
+            - `time_logging`
+
+            - `financial`
+
+            - `project_admin`
+
+
+            Most account-level permissions supercede project-level permissions. Therefore, Account Administrators
+
+            are able to view all Project, Resource, and Task custom fields and values across the account,
+
+            regardless of project participation or `read_access` settings.
+
+            * `Estimate`, `WorkspaceGroup` (Group), and `User` custom fields are account-wide objects,
+
+            so their minimum permissions are set at the [account level](https://mavenlink.zendesk.com/hc/en-us/articles/203041364):
+
+            - `account_collaboration`
+
+            - `project_creator`
+
+            - `project_lead`
+
+            - `reports_viewer`
+
+            - `reports_viewer_with_cost`
+
+            - `account_admin` (default).'
     User:
       title: User
       description: 'Users represent the individuals that are participating in Kantata OX projects. User objects are often returned as
@@ -2350,88 +2358,80 @@ components:
           items:
             type: string
           description: '`work_sample_ids` will only be included in the response if `work_samples` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-    WorkspaceGroup:
-      title: Workspace Group
-      description: 'Workspace Groups (also known as groups) allow for the categorization of Kantata OX Workspaces and Users. Workspace Groups are unique to each Kantata OX Account. These endpoints allow you to fetch, create, update, and delete Workspace Groups.
+    ExternalReference:
+      title: External Reference
+      description: 'External References allows users see which objects (one of `Assignment`, `BillingMilestone`, `CustomField`, `CustomFieldChoice`, `CustomFieldSet`, `CustomFieldValue`, `Estimate`, `EstimateScenario`, `EstimateScenarioResource`, `Expense`, `ExpenseBudget`, `Invoice`, `Participation`, `Post`, `RateCard`, `Role`, `Skill`, `StatusReport`, `Story`, `StoryAllocationDay`, `Submission`, `SurveyAnswer`, `SurveyQuestion`, `SurveyResponse`, `SurveyTemplate`, `TimeEntry`, `TimeOffEntry`, `User`, `Vendor`, `Workspace`, `WorkspaceAllocation`, `WorkspaceGroup`, or `WorkspaceResource`
+
+        are synced with third party systems. This allows you to view the sync status of items in addition to the integration
+
+        specifics for a synced object.
 
 
-        To add a workspace to a Workspace Group, use the [create workspace](/tag/Workspaces#operation/create-workspace) or [update workspace](/tag/Workspaces#operation/update-workspace) endpoint and set the `workspace_group_ids` field.
+        Objects that are synced with a third party system have external integration
 
+        attributes that include the corresponding ID of the third party object with
 
-        To add a user to a Workspace Group, use the [create user group membership](/tag/User-Group-Memberships#operation/create-user-group-memberships) endpoint.'
+        which it is synced, a link that allows you to view the object in the third
+
+        party system, the status of the external object in the external system,
+
+        the status of the sync, and a link to exceptions.'
       type: object
       properties:
-        address:
+        created_at:
           type: string
-          description: The address of the company contact.
-        company:
+          format: date-time
+          description: The date and time the reference was created.
+        external_link:
+          type: string
+          description: A URL that links to either the external object or event.
+        external_message:
+          type: string
+          description: An optional message about the external object.
+        external_status:
+          type: string
+          description: The status of the external object in the external system.
+        last_synced_at:
+          type: string
+          format: date-time
+        locked:
           type: boolean
-          description: Whether the group represents a company.
-        contact_name:
+          description: 'An optional field, indicating whether the subject should be locked. To prevent changes to the
+
+            object in Kantata OX, set this to true. This currently only applies to expense report rejections.'
+        service_model:
           type: string
-          description: The name of the company contact.
-        created_at:
+          description: The type of the external object to which this reference belongs.
+        service_model_ref:
           type: string
-          format: date-time
-          description: When the group was created.
-        email:
+          description: The ID of the external object to which this reference belongs.
+        service_name:
           type: string
-          description: The email of the company contact.
-        external_reference_ids:
-          type: array
-          items:
-            type: string
-          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        name:
+          description: The provider name of the integration.
+        status:
           type: string
-          description: The name of the group.
-        notes:
-          type: string
-          description: Notes on the group.
-        phone_number:
-          type: string
-          description: The phone number of the company contact.
-        rate_card_set_ids:
-          type: array
-          items:
-            type: string
-          description: '`rate_card_set_ids` will only be included in the response if `rate_card_sets` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        updated_at:
-          type: string
-          format: date-time
-          description: When the group was last updated.
-        website:
-          type: string
-          description: The website of the company contact.
-        workspace_ids:
-          type: array
-          items:
-            type: string
-          description: '`workspace_ids` will only be included in the response if `workspaces` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-    CustomFieldChoice:
-      title: Custom Field Choice
-      description: Custom Field Choices are possible values for `single` and `multi` type custom fields.
-      type: object
-      properties:
-        created_at:
-          type: string
-          format: date-time
-        custom_field_id:
-          type: string
-          description: '`custom_field_id` will only be included in the response if `custom_field` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        external_reference_ids:
-          type: array
-          items:
-            type: string
-          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        label:
-          type: string
-        position:
+          description: The status of the integration. Options are 'pending', 'successful', or 'failed'.
+        subject_id:
           type: integer
           format: int32
+          description: The ID of the Kantata OX object to which this external reference belongs.
+        subject_ref:
+          type: object
+          description: '`subject_ref` will only be included in the response if `subject` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+          properties:
+            key:
+              type: string
+            id:
+              type: string
+        subject_type:
+          type: string
+          description: 'The type of Kantata OX object to which this external reference belongs.
+
+            One of `Assignment`, `BillingMilestone`, `CustomField`, `CustomFieldChoice`, `CustomFieldSet`, `CustomFieldValue`, `Estimate`, `EstimateScenario`, `EstimateScenarioResource`, `Expense`, `ExpenseBudget`, `Invoice`, `Participation`, `Post`, `RateCard`, `Role`, `Skill`, `StatusReport`, `Story`, `StoryAllocationDay`, `Submission`, `SurveyAnswer`, `SurveyQuestion`, `SurveyResponse`, `SurveyTemplate`, `TimeEntry`, `TimeOffEntry`, `User`, `Vendor`, `Workspace`, `WorkspaceAllocation`, `WorkspaceGroup`, or `WorkspaceResource`.'
         updated_at:
           type: string
           format: date-time
+          description: The date and time the reference was last updated.
   securitySchemes:
     BearerToken:
       type: apiKey

@@ -418,80 +418,100 @@ paths:
       x-operation-id-original: Get Subscribed Events
 components:
   schemas:
-    ExpenseBudget:
-      title: Expense Budgets
-      description: Expense budgets allow you to plan for non-labor expenses.
+    CostRate:
+      title: Cost Rate
+      description: 'A Cost Rate represents the hourly cost of an account member, specified in a specific currency. A Cost Rate with the same currency
+
+        as the account default currency is called the `default cost rate`. This data can only be accessed by including
+
+        it when querying Account Membership.'
       type: object
       properties:
-        billable:
-          type: boolean
-          description: Whether the expense will be billed to the client.
-        burns_budget:
-          type: boolean
-          description: Whether the expense budget impacts the project margin.
-        cost_per_unit_in_subunits:
+        account_membership_id:
           type: integer
           format: int32
-          description: The cost, in the subunits of the currency (e.g. cents for USD).
-        description:
+          description: The ID of the associated account membership.
+        amount_in_subunits:
+          type: integer
+          format: int32
+          description: The amount of the cost rate in the subunits of the currency (i.e. cents for US Dollars).
+        created_at:
           type: string
-          description: The description of the expense budget.
-        expected_by:
+          format: date-time
+        currency:
+          type: string
+          description: The ISO code of the cost rate currency.
+        in_use:
+          type: boolean
+          description: 'Indicates whether the account member associated with the cost rate is participating in a workspace
+
+            on the account that uses the same currency as the cost rate.'
+        updated_at:
+          type: string
+          format: date-time
+    Workweek:
+      title: Workweek
+      description: 'Workweeks are owned by an account. A workweek can be used as the account default, or
+
+        can be associated to a user through a workweek membership.'
+      type: object
+      properties:
+        created_at:
+          type: string
+          format: date-time
+          description: The date and time a workweek was last updated.
+        default:
+          type: boolean
+          description: Whether the workweek is the default for the account.
+        end_date:
           type: string
           format: date
-          description: When the expenses are expected to be logged by.
-        expense_ids:
-          type: array
-          items:
-            type: string
-          description: '`expense_ids` will only be included in the response if `expenses` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        external_reference_ids:
-          type: array
-          items:
-            type: string
-          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        fixed_fee:
-          type: boolean
-          description: Whether the expense will be billed as a fixed cost.
-        fixed_fee_item_ids:
-          type: array
-          items:
-            type: string
-          description: '`fixed_fee_item_ids` will only be included in the response if `fixed_fee_items` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        markup_per_unit_in_subunits:
+          description: The end date of the workweek.
+        friday_minutes:
           type: integer
           format: int32
-          description: 'When the `markup_type` is `flat_fee`, this is the markup per unit, in the subunits of the currency
-
-            (e.g. cents for USD). This is multiplied by the `quantity` and added to the total cost to produce
-
-            the total fees.'
-        markup_percentage:
-          type: number
-          format: float
-          description: 'When the `markup_type` is set to `percentage`, this is the markup percentage.
-
-            This is multiplied by the total cost to produce the total markup,
-
-            then added to the total cost to produce the total fees.'
-        markup_type:
+          description: The number of available working minutes on Friday.
+        monday_minutes:
+          type: integer
+          format: int32
+          description: The number of available working minutes on Monday.
+        saturday_minutes:
+          type: integer
+          format: int32
+          description: The number of available working minutes on Saturday.
+        start_date:
           type: string
-          description: The markup type. Possible values are `percentage` and `flat_fee`.
-        quantity:
+          format: date
+          description: The start date of the workweek.
+        sunday_minutes:
           type: integer
           format: int32
-          description: The number of units.
-        story_id:
+          description: The number of available working minutes on Sunday.
+        thursday_minutes:
           type: integer
           format: int32
-          description: The ID of the associated story (task).
-        title:
+          description: The number of available working minutes on Thursday.
+        total_minutes:
+          type: integer
+          format: int32
+          description: The total number of available working minutes for the week.
+        tuesday_minutes:
+          type: integer
+          format: int32
+          description: The number of available working minutes on Tuesday.
+        updated_at:
           type: string
-          description: The name of the expense budget.
-        workspace_id:
+          format: date-time
+          description: The date and time at which a workweek was created.
+        wednesday_minutes:
           type: integer
           format: int32
-          description: The ID of the workspace the expense budget belongs to.
+          description: The number of available working minutes on Wednesday.
+        workweek_membership_ids:
+          type: array
+          items:
+            type: string
+          description: '`workweek_membership_ids` will only be included in the response if `workweek_memberships` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
     Workspace:
       title: Workspace
       description: Workspaces (also called projects) represent the space in which Kantata OX users plan, communicate, and collaborate.
@@ -959,251 +979,6 @@ components:
           items:
             type: string
           description: '`workspace_resources_with_unnamed_ids` will only be included in the response if `workspace_resources_with_unnamed` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-    StatusSet:
-      title: Task Status Set
-      description: Task Status Sets allow you to create custom statuses for tasks (stories) that can then be applied to projects (workspaces).
-      type: object
-      properties:
-        created_at:
-          type: string
-          format: date-time
-        custom_task_status_ids:
-          type: array
-          items:
-            type: string
-          description: '`custom_task_status_ids` will only be included in the response if `custom_task_statuses` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        name:
-          type: string
-          description: The name of this status set.
-        updated_at:
-          type: string
-          format: date-time
-    WorkspaceInvitation:
-      title: Workspace Invitation
-      type: object
-      properties:
-        email_address:
-          type: string
-        full_name:
-          type: string
-        invitee_role:
-          type: string
-        message:
-          type: string
-        subject:
-          type: string
-    OrganizationMembership:
-      title: Organization Membership
-      description: An Organization Membership represents the connection of a user and project to an organization.
-      type: object
-      properties:
-        created_at:
-          type: string
-          format: date-time
-        department_id:
-          type: string
-          description: '`department_id` will only be included in the response if `department` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        geography_id:
-          type: string
-          description: '`geography_id` will only be included in the response if `geography` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        member_id:
-          type: string
-          description: The ID of the project or user.
-        member_type:
-          type: string
-          description: The type of object that describes the member (workspace or user).
-        primary:
-          type: boolean
-          description: 'Indicates whether this is the primary organization for the member (user or workspace).
-
-            Visible when the primary organization feature is enabled.'
-        updated_at:
-          type: string
-          format: date-time
-    Assignment:
-      title: Assignment
-      description: 'An Assignment represents the relationship of a resource to a task. It owns
-
-        Story Allocation Days.'
-      type: object
-      properties:
-        allocated_minutes:
-          type: integer
-          format: int32
-          description: The calculated sum of the assignment's Story Allocation Day minutes.
-        assignee_id:
-          type: string
-          description: '`assignee_id` will only be included in the response if `assignee` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        created_at:
-          type: string
-          format: date-time
-        current:
-          type: boolean
-          description: Whether the assignment is active.
-        estimated_minutes:
-          type: integer
-          format: int32
-          description: The estimated number of minutes that the resource is expected to work on this task.
-        external_reference_ids:
-          type: array
-          items:
-            type: string
-          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        resource_id:
-          type: integer
-          format: int32
-          description: The ID of the resource who owns the assignment.
-        story_allocation_day_ids:
-          type: array
-          items:
-            type: string
-          description: '`story_allocation_day_ids` will only be included in the response if `story_allocation_days` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        story_id:
-          type: string
-          description: '`story_id` will only be included in the response if `story` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        updated_at:
-          type: string
-          format: date-time
-    EstimateScenario:
-      title: Estimate Scenario
-      description: 'An Estimate Scenario represents a possible project configuration. It includes a rate card, budget, and
-
-        associated resources and allocations.'
-      type: object
-      properties:
-        budget_in_cents:
-          type: integer
-          format: int32
-          description: The maximum budget, in cents, available for the project.
-        created_at:
-          type: string
-          format: date-time
-        estimate_id:
-          type: integer
-          format: int32
-          description: The ID of the estimate for the scenario.
-        estimate_scenario_resource_ids:
-          type: array
-          items:
-            type: string
-          description: '`estimate_scenario_resource_ids` will only be included in the response if `estimate_scenario_resources` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        external_reference_ids:
-          type: array
-          items:
-            type: string
-          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        name:
-          type: string
-          description: The name of the estimate scenario.
-        rate_card_id:
-          type: string
-          description: '`rate_card_id` will only be included in the response if `rate_card` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        start_date:
-          type: string
-          format: date-time
-          description: The estimated date when the project will start.
-        target_margin_percent:
-          type: integer
-          format: int32
-          description: The target profit margin, in percentage, for the project.
-        updated_at:
-          type: string
-          format: date-time
-    BillingMilestone:
-      title: Billing Milestones
-      description: 'Billing milestones allow you to set up billable items in a project that are separate from the Task Tracker work and have invoicing rules.
-
-        A set of billing milestones in a project is known as the [Billing Schedule](https://knowledge.kantata.com/hc/en-us/articles/35123275585947).'
-      type: object
-      properties:
-        amount_in_cents:
-          type: integer
-          format: int32
-          description: The billing milestone amount, in the subunits of the currency (e.g. cents for USD).
-        billing_type:
-          type: string
-          description: Determines how and when we bill clients for a particular billing milestone. Possible values are `fixed_date` and `upon_completion`.
-        created_at:
-          type: string
-          format: date-time
-        currency:
-          type: string
-          description: The [ISO code](https://knowledge.kantata.com/hc/en-us/articles/360041576473-Supported-Currency-ISO-Codes-and-Formats) of the currency of the billing milestone.
-        date_to_invoice:
-          type: string
-          format: date
-          description: When the billing milestone becomes invoiceable.
-        external_reference_ids:
-          type: array
-          items:
-            type: string
-          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        invoice_id:
-          type: string
-          description: The ID of the invoice associated with the billing milestone.
-        invoice_ids:
-          type: array
-          items:
-            type: string
-          description: '`invoice_ids` will only be included in the response if `invoices` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        story_id:
-          type: string
-          description: The ID of the story associated with the billing milestone. This field is required when the `billing_type` is set to `upon_completion`.
-        title:
-          type: string
-          description: The title of the billing milestone.
-        updated_at:
-          type: string
-          format: date-time
-        workspace_id:
-          type: string
-          description: The ID of the workspace associated with the billing milestone.
-    CustomFieldSet:
-      title: Custom Field Set
-      description: 'Custom Field Sets contain custom fields and definitions of each fields'' subject type. The supported
-
-        subjects are currently Estimate, Project, Project Group, Resource, Task, and User.'
-      type: object
-      properties:
-        created_at:
-          type: string
-          format: date-time
-        custom_field_ids:
-          type: array
-          items:
-            type: string
-          description: '`custom_field_ids` will only be included in the response if `custom_fields` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        external_reference_ids:
-          type: array
-          items:
-            type: string
-          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        name:
-          type: string
-        subject_type:
-          type: string
-          description: 'The type of objects contained in the custom field set. The supported subjects are currently
-
-            *Workspace*, *Story*, *User*, and *WorkspaceGroup*.'
-        updated_at:
-          type: string
-          format: date-time
-    LineItemLock:
-      title: Line Item Lock
-      description: "LineItemLocks provide a way for you to lock time in the past so that previous time entries \ncannot be edited or updated and new time entries cannot be created before the selected lock date.\n\nLine Items can be locked to any Saturday in the past on a per account basis.\n\nKeep in mind that this feature does not lock the ability to invoice approved time entries,\nnor does it lock the submission or approval of expenses."
-      type: object
-      properties:
-        account_id:
-          type: integer
-          format: int32
-          description: The account for which line items will be locked.
-        creator_id:
-          type: string
-          description: '`creator_id` will only be included in the response if `creator` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        locked_to:
-          type: string
-          format: date
-          description: The date before which you would like line items to be locked.
     Story:
       title: Story
       description: 'Stories (known as [tasks](https://knowledge.kantata.com/hc/en-us/articles/202806550-Tasks-Overview) in the UI)
@@ -1540,31 +1315,381 @@ components:
           items:
             type: string
           description: '`workspace_resources_with_unnamed_ids` will only be included in the response if `workspace_resources_with_unnamed` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-    StatusSetOption:
-      title: Custom Task Status
-      description: A custom task status is in a Task Status Set. A task status set is assigned to a workspace (project), then custom task statuses can be applied to the stories (tasks) within the workspace.
+    CustomFieldSet:
+      title: Custom Field Set
+      description: 'Custom Field Sets contain custom fields and definitions of each fields'' subject type. The supported
+
+        subjects are currently Estimate, Project, Project Group, Resource, Task, and User.'
       type: object
       properties:
-        category:
-          type: string
-          description: The type of the status. Possible values are `not started`, `started`, `needs info`, or `completed`.
         created_at:
           type: string
           format: date-time
-        position:
+        custom_field_ids:
+          type: array
+          items:
+            type: string
+          description: '`custom_field_ids` will only be included in the response if `custom_fields` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        external_reference_ids:
+          type: array
+          items:
+            type: string
+          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        name:
+          type: string
+        subject_type:
+          type: string
+          description: 'The type of objects contained in the custom field set. The supported subjects are currently
+
+            *Workspace*, *Story*, *User*, and *WorkspaceGroup*.'
+        updated_at:
+          type: string
+          format: date-time
+    WorkspaceGroup:
+      title: Workspace Group
+      description: 'Workspace Groups (also known as groups) allow for the categorization of Kantata OX Workspaces and Users. Workspace Groups are unique to each Kantata OX Account. These endpoints allow you to fetch, create, update, and delete Workspace Groups.
+
+
+        To add a workspace to a Workspace Group, use the [create workspace](/tag/Workspaces#operation/create-workspace) or [update workspace](/tag/Workspaces#operation/update-workspace) endpoint and set the `workspace_group_ids` field.
+
+
+        To add a user to a Workspace Group, use the [create user group membership](/tag/User-Group-Memberships#operation/create-user-group-memberships) endpoint.'
+      type: object
+      properties:
+        address:
+          type: string
+          description: The address of the company contact.
+        company:
+          type: boolean
+          description: Whether the group represents a company.
+        contact_name:
+          type: string
+          description: The name of the company contact.
+        created_at:
+          type: string
+          format: date-time
+          description: When the group was created.
+        email:
+          type: string
+          description: The email of the company contact.
+        external_reference_ids:
+          type: array
+          items:
+            type: string
+          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        name:
+          type: string
+          description: The name of the group.
+        notes:
+          type: string
+          description: Notes on the group.
+        phone_number:
+          type: string
+          description: The phone number of the company contact.
+        rate_card_set_ids:
+          type: array
+          items:
+            type: string
+          description: '`rate_card_set_ids` will only be included in the response if `rate_card_sets` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        updated_at:
+          type: string
+          format: date-time
+          description: When the group was last updated.
+        website:
+          type: string
+          description: The website of the company contact.
+        workspace_ids:
+          type: array
+          items:
+            type: string
+          description: '`workspace_ids` will only be included in the response if `workspaces` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+    EstimateScenarioResource:
+      title: Estimate Scenario Resource
+      description: An Estimate Scenario Resource is an unnamed resource in an estimate scenario.
+      type: object
+      properties:
+        allocation_id:
+          type: string
+          description: '`allocation_id` will only be included in the response if `allocation` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        bill_rate:
           type: integer
           format: int32
-          description: The position of this status within the task status set.
-        status:
+          description: 'The bill rate, in cents, of the estimate scenario resource.
+
+            When the estimate is unlocked, this is the average bill rate of all active account members in the
+
+            scenario resource''s geography, whose default role matches the role of the scenario resource.
+
+            When the estimate is locked, this the cached value of the average bill rate when the estimate was locked.'
+        cost_rate:
+          type: integer
+          format: int32
+          description: 'The cost rate, in cents, of the estimate scenario resource.
+
+            When the estimate is unlocked, this is the average cost rate of all active account members in the
+
+            scenario resource''s geography, whose default role matches the role of the scenario resource.
+
+            When the estimate is locked, this the cached value of the average cost rate when the estimate was locked.'
+        created_at:
           type: string
-          description: The name of the custom task status.
+          format: date-time
+        display_label:
+          type: string
+          description: User facing Identifier for the Resource.
+        estimate_scenario_id:
+          type: integer
+          format: int32
+          description: Id of the Estimate Scenario that the Resource belongs to.
+        external_reference_ids:
+          type: array
+          items:
+            type: string
+          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        geography_id:
+          type: string
+          description: '`geography_id` will only be included in the response if `geography` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        label:
+          type: string
+        organization_membership_id:
+          type: string
+          description: '`organization_membership_id` will only be included in the response if `organization_membership` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        role_id:
+          type: string
+          description: '`role_id` will only be included in the response if `role` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        role_name:
+          type: string
+          description: Name of the Resource's role if any.
+        updated_at:
+          type: string
+          format: date-time
+        user_id:
+          type: string
+          description: '`user_id` will only be included in the response if `user` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+    WorkspaceAllocation:
+      title: Workspace Allocation
+      description: 'A workspace allocation represents a resource’s allocation over a specific period of time,
+
+        and is always associated with a workspace resource.
+
+
+        *Note:* When an allocation is split, two allocations are returned in the response.'
+      type: object
+      properties:
+        created_at:
+          type: string
+          format: date-time
+        creator_id:
+          type: string
+          description: '`creator_id` will only be included in the response if `creator` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        end_date:
+          type: string
+          format: date
+          description: The date the allocation ends on.
+        external_reference_ids:
+          type: array
+          items:
+            type: string
+          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        hard:
+          type: boolean
+          description: Indicates if the allocation is a Hard Allocation (“true”) or Soft (“false”).
+        minutes:
+          type: integer
+          format: int32
+          description: Total minutes the resource is allocated over the date range.
+        notes:
+          type: string
+          description: User entered notes about the allocation.
+        percentage:
+          type: number
+          format: float
+          description: Percentage that a user is allocated compared to their capacity between the start and end date of the allocation.
+        start_date:
+          type: string
+          format: date
+          description: The date the allocation starts on.
+        updated_at:
+          type: string
+          format: date-time
+        updater_id:
+          type: string
+          description: '`updater_id` will only be included in the response if `updater` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        workspace_id:
+          type: string
+          description: '`workspace_id` will only be included in the response if `workspace` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        workspace_resource_id:
+          type: string
+          description: The ID of the workspace resource that the allocation will be associated with.
+    BillingMilestone:
+      title: Billing Milestones
+      description: 'Billing milestones allow you to set up billable items in a project that are separate from the Task Tracker work and have invoicing rules.
+
+        A set of billing milestones in a project is known as the [Billing Schedule](https://knowledge.kantata.com/hc/en-us/articles/35123275585947).'
+      type: object
+      properties:
+        amount_in_cents:
+          type: integer
+          format: int32
+          description: The billing milestone amount, in the subunits of the currency (e.g. cents for USD).
+        billing_type:
+          type: string
+          description: Determines how and when we bill clients for a particular billing milestone. Possible values are `fixed_date` and `upon_completion`.
+        created_at:
+          type: string
+          format: date-time
+        currency:
+          type: string
+          description: The [ISO code](https://knowledge.kantata.com/hc/en-us/articles/360041576473-Supported-Currency-ISO-Codes-and-Formats) of the currency of the billing milestone.
+        date_to_invoice:
+          type: string
+          format: date
+          description: When the billing milestone becomes invoiceable.
+        external_reference_ids:
+          type: array
+          items:
+            type: string
+          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        invoice_id:
+          type: string
+          description: The ID of the invoice associated with the billing milestone.
+        invoice_ids:
+          type: array
+          items:
+            type: string
+          description: '`invoice_ids` will only be included in the response if `invoices` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        story_id:
+          type: string
+          description: The ID of the story associated with the billing milestone. This field is required when the `billing_type` is set to `upon_completion`.
+        title:
+          type: string
+          description: The title of the billing milestone.
+        updated_at:
+          type: string
+          format: date-time
+        workspace_id:
+          type: string
+          description: The ID of the workspace associated with the billing milestone.
+    SubscribedEvents__Models__SubscribedEvent:
+      title: Subscribed Event
+      description: 'An API feature that returns the last 9 days of trackable changes ("events") in an account.
+
+
+        For a list of all the event types tracked by Subscribed Events, please see the [Knowledge Base](https://knowledge.kantata.com/hc/en-us/articles/4407962435227-Subscribed-Events-Reference).'
+      type: object
+      properties:
+        account_id:
+          type: integer
+          format: int32
+          description: The ID of the account that the change occurred in.
+        context_workspace_id:
+          type: string
+          description: The ID of the workspace associated with the event, if any.
+        created_at:
+          type: string
+          format: date-time
+          description: The date and time the event record was created. Note that this is not when the action was actually performed and may be different from `subject_changed_at`.
+        current_payload:
+          type: string
+          description: 'The updated data record, as metadata in JSON format.
+
+            Only returned when requested through the optional_fields param.'
+        event_type:
+          type: string
+          description: The type of change event. For a list of all the event types tracked by Subscribed Events, please see the [Knowledge Base](https://knowledge.kantata.com/hc/en-us/articles/4407962435227-Subscribed-Events-Reference).
+        payload_changes:
+          type: string
+          description: 'The previous and current values for the changed fields in the data record, as metadata in JSON format.
+
+            Only returned when requested through the optional_fields param.'
+        previous_payload:
+          type: string
+          description: 'The data record before it was changed, as metadata in JSON format.
+
+            Only returned when requested through the optional_fields param.'
+        subject_changed_at:
+          type: string
+          format: date-time
+          description: The date and time the event was triggered (i.e. when the action was performed).
+        subject_id:
+          type: integer
+          format: int32
+          description: The ID of the data record that was changed.
+        subject_ref:
+          type: object
+          description: '`subject_ref` will only be included in the response if `subject` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+          properties:
+            key:
+              type: string
+            id:
+              type: string
+        subject_type:
+          type: string
+          description: The type of data record that was changed (e.g. TimeEntry).
+        user_id:
+          type: integer
+          format: int32
+          description: The ID of the user who made the change.
+    WorkspaceStatusSet:
+      title: Workspace Task Status Sets
+      description: Workspace Task Status Sets represent the connection between workspaces (projects) and task (story) status sets, which enable the use of custom task statuses.
+      type: object
+      properties:
+        created_at:
+          type: string
+          format: date-time
         status_set_id:
           type: integer
           format: int32
-          description: The ID of the task status set that this status is within.
-        task_status_set_id:
+          description: The id of the status set that belongs to a project.
+        updated_at:
           type: string
-          description: '`task_status_set_id` will only be included in the response if `task_status_set` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+          format: date-time
+        workspace_id:
+          type: integer
+          format: int32
+          description: The id of the workspace with a status set.
+    Assignment:
+      title: Assignment
+      description: 'An Assignment represents the relationship of a resource to a task. It owns
+
+        Story Allocation Days.'
+      type: object
+      properties:
+        allocated_minutes:
+          type: integer
+          format: int32
+          description: The calculated sum of the assignment's Story Allocation Day minutes.
+        assignee_id:
+          type: string
+          description: '`assignee_id` will only be included in the response if `assignee` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        created_at:
+          type: string
+          format: date-time
+        current:
+          type: boolean
+          description: Whether the assignment is active.
+        estimated_minutes:
+          type: integer
+          format: int32
+          description: The estimated number of minutes that the resource is expected to work on this task.
+        external_reference_ids:
+          type: array
+          items:
+            type: string
+          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        resource_id:
+          type: integer
+          format: int32
+          description: The ID of the resource who owns the assignment.
+        story_allocation_day_ids:
+          type: array
+          items:
+            type: string
+          description: '`story_allocation_day_ids` will only be included in the response if `story_allocation_days` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        story_id:
+          type: string
+          description: '`story_id` will only be included in the response if `story` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
         updated_at:
           type: string
           format: date-time
@@ -1701,699 +1826,13 @@ components:
         workspace_role_id:
           type: string
           description: '`workspace_role_id` will only be included in the response if `workspace_role` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-    AccountMembership:
-      title: Account Membership
-      description: An Account Membership represents the relationship of a user to an account.
+    Error:
       type: object
       properties:
-        backup_approver_association_ids:
-          type: array
-          items:
-            type: string
-          description: '`backup_approver_association_ids` will only be included in the response if `backup_approver_associations` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        bill_rate_in_cents:
-          type: integer
-          format: int32
-          description: 'The default billing rate, in cents, for the user in a workspace on this account when the workspace
-
-            does not use rate card. This attribute is only accessible if the current user is a Project Lead.
-
-            Visible when the account membership is on the same account as the API user. and the API user is an Account Project Lead..'
-        billability_target:
-          type: integer
-          format: int32
-          description: '
-
-            Visible when the account membership is on the same account as the API user. and the API user is an Account Project Lead..'
-        can_create_workspace:
-          type: boolean
-          description: Whether the user can create projects.
-        can_log_in:
-          type: boolean
-          description: 'Whether the user can log in.
-
-            Only returned when requested through the optional_fields param.'
-        can_view_reports:
-          type: boolean
-          description: Whether the user can view reports.
-        collaborator_only_license:
-          type: boolean
-          description: 'Whether the user is always a Collaborator in projects.
-
-            Visible when the account membership is on the same account as the API user..'
-        cost_rate_ids:
-          type: array
-          items:
-            type: string
-          description: '`cost_rate_ids` will only be included in the response if `cost_rates` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        cost_rate_in_cents:
-          type: integer
-          format: int32
-          description: 'The default cost rate, in cents, for the user in a workspace on this account. This attribute is only
-
-            accessible if the current user is an Administrator on the account.
-
-            Visible when the account membership is on the same account as the API user. and the API user is an Account Administrator..'
-        created_at:
-          type: string
-          format: date-time
-        default_read_only:
-          type: boolean
-          description: Whether the user is always read-only in projects.
-        default_role_id:
-          type: string
-          description: '`default_role_id` will only be included in the response if `default_role` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        disabled_at:
-          type: string
-          format: date-time
-          description: The date when the account membership was disabled.
-        effective_workweek_id:
-          type: string
-          description: '`effective_workweek_id` will only be included in the response if `effective_workweek` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        future_billable_utilization_ids:
-          type: array
-          items:
-            type: string
-          description: '`future_billable_utilization_ids` will only be included in the response if `future_billable_utilizations` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        is_administrator:
-          type: boolean
-          description: Whether the user is an Administrator.
-        is_backup_approver:
-          type: boolean
-          description: Whether the user is a backup approver for others users on the account.
-        is_owner:
-          type: boolean
-          description: The owner of the account.
-        is_project_lead:
-          type: boolean
-          description: Whether the user is a Project Lead.
-        is_punch_clock_user:
-          type: boolean
-          description: Whether the user is a Punch Clock User.
-        managee_ids:
-          type: array
-          items:
-            type: string
-          description: '`managee_ids` will only be included in the response if `managees` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        manager_can_approve:
-          type: boolean
-          description: If present, the assigned manager can approve submitted time and expenses.
-        manager_can_edit_skills:
-          type: boolean
-          description: If present, the assigned manager can edit the user's skills.
-        manager_id:
-          type: string
-          description: '`manager_id` will only be included in the response if `manager` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        non_participant:
-          type: boolean
-          description: '
-
-            Visible when the account membership is on the same account as the API user..
-
-
-            Only returned when requested through the optional_fields param.'
-        permission:
-          type: string
-          description: The user's access level. Options are administrator, reports_viewer_with_cost, reports_viewer, project_lead, project_creator, collaborator, external_collaborator, and punch_clock.
-        possible_managee_ids:
-          type: array
-          items:
-            type: string
-          description: '`possible_managee_ids` will only be included in the response if `possible_managees` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        possible_manager_ids:
-          type: array
-          items:
-            type: string
-          description: '`possible_manager_ids` will only be included in the response if `possible_managers` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        should_show_alert_on_timesheet_submission:
-          type: boolean
-          description: Show an alert on a user's timesheet submission.
-        skill_membership_ids:
-          type: array
-          items:
-            type: string
-          description: '`skill_membership_ids` will only be included in the response if `skill_memberships` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        updated_at:
-          type: string
-          format: date-time
-        user_id:
-          type: string
-          description: '`user_id` will only be included in the response if `user` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-    WorkspaceResource:
-      title: Workspace Resource
-      description: 'With workspace resources it is possible for a user to have many resources with different roles
-
-        within a single workspace. Workspace resource can be assigned to tasks via Assignments which
-
-        enables specifying a specific role / rate per assigned task.'
-      type: object
-      properties:
-        created_at:
-          type: string
-          format: date-time
-        custom_field_value_ids:
-          type: array
-          items:
-            type: string
-          description: '`custom_field_value_ids` will only be included in the response if `custom_field_values` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        display_label:
-          type: string
-          description: User facing Identifer for the Resource.
-        external_reference_ids:
-          type: array
-          items:
-            type: string
-          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        full_name:
-          type: string
-          description: Full Name of the Resource's user if any.
-        label:
-          type: string
-        organization_membership_id:
-          type: string
-          description: '`organization_membership_id` will only be included in the response if `organization_membership` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        participation_id:
-          type: string
-          description: '`participation_id` will only be included in the response if `participation` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        photo_path:
-          type: string
-          description: URI of the Workspace Resource User Profile Photo if there is an user of the Resource.
-        resource_bill_rate:
-          type: integer
-          format: int32
-          description: 'The bill rate of the resource in a project, in the subunits of the currency (e.g. cents for USD).
-
-            If the resource''s bill rate was overridden for the project, this field returns the overridden rate.
-
-
-            Including this field in your request may result in a slower response. We recommend including this field only if necessary.
-
-            Visible when the authenticated user has financial access in the project and is on the provider team.
-
-
-            Only returned when requested through the optional_fields param.'
-        resource_cost_rate:
-          type: integer
-          format: int32
-          description: 'The cost rate of the resource in a project, in the subunits of the currency (e.g. cents for USD).
-
-            If the resource''s cost rate was overridden for the project, this field returns the overridden rate.
-
-
-            Including this field in your request may result in a slower response. We recommend including this field only if necessary.
-
-            Visible when the authenticated user has financial access in the project and is on the provider team.
-
-
-            Only returned when requested through the optional_fields param.'
-        role_id:
-          type: string
-          description: '`role_id` will only be included in the response if `role` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        role_initials:
-          type: string
-          description: Three letter initals for the Resource's Role if any.
-        role_name:
-          type: string
-          description: Name of the Resource's role if any.
-        updated_at:
-          type: string
-          format: date-time
-        user_id:
-          type: string
-          description: '`user_id` will only be included in the response if `user` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        workspace_id:
-          type: integer
-          format: int32
-          description: Id of the Workspace that the Resource belongs to.
-        workspace_title:
-          type: string
-          description: Title of the Workspace that the Resource belongs to.
-    TimeEntry:
-      title: Time Entry
-      description: 'This object allows you to manage Kantata OX time entries, depending on your permissions.
-
-        Creating and updating time entries allows you to include time when invoicing clients.'
-      type: object
-      properties:
-        active_submission_id:
-          type: string
-          description: '`active_submission_id` will only be included in the response if `active_submission` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        approved:
-          type: boolean
-          description: Specifies whether the time entry has been approved.
-        billable:
-          type: boolean
-          description: Whether the work for the time entry is billable.
-        cost_rate_in_cents:
-          type: integer
-          format: int32
-          description: Cost to perform the work in time entry's currency per hour.
-        created_at:
-          type: string
-          format: date-time
-          description: "Date the time entry was created, but not necessarily when the work was performed.\n        The work can be performed at a different time."
-        currency:
-          type: string
-          description: Currency of the project when the time entry was made.
-        currency_base_unit:
-          type: integer
-          format: int32
-          description: The number of subunits to make a regular unit of time entries currency.
-        currency_symbol:
-          type: string
-          description: Symbol for the currency of the time entry.
-        date_performed:
-          type: string
-          format: date
-          description: Date the time entry work was performed by the specified user.
-        external_reference_ids:
-          type: array
-          items:
-            type: string
-          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        invoice_id:
-          type: string
-          description: '`invoice_id` will only be included in the response if `invoice` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        is_invoiced:
-          type: boolean
-          description: Specifies whether the time entry has been invoiced.
-        location:
-          type: string
-          description: 'The location of the time entry.
-
-            Visible when the account has locations.'
-        location_id:
-          type: integer
-          format: int32
-          description: 'The location id of the time entry.
-
-            Visible when the account has locations.
-
-
-            Only returned when requested through the optional_fields param.'
-        notes:
-          type: string
-          description: Notes about the time entries work.
-        rate_in_cents:
-          type: integer
-          format: int32
-          description: Billable rate for the work in time entry currency's cents per hour.
-        recent_submission_id:
-          type: string
-          description: '`recent_submission_id` will only be included in the response if `recent_submission` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        role_id:
-          type: string
-          description: '`role_id` will only be included in the response if `role` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        story_id:
-          type: string
-          description: '`story_id` will only be included in the response if `story` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        taxable:
-          type: boolean
-          description: Specifies whether the time entry is taxable.
-        time_in_minutes:
-          type: integer
-          format: int32
-          description: Amount of work that was performed in minutes.
-        updated_at:
-          type: string
-          format: date-time
-          description: Date the time entry was last updated.
-        user_can_edit:
-          type: boolean
-          description: 'Returns true if the requesting user can edit the time entry.
-
-            Only returned when requested through the optional_fields param.'
-        user_id:
-          type: string
-          description: '`user_id` will only be included in the response if `user` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        workspace_id:
-          type: string
-          description: '`workspace_id` will only be included in the response if `workspace` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-    WorkspaceGroup:
-      title: Workspace Group
-      description: 'Workspace Groups (also known as groups) allow for the categorization of Kantata OX Workspaces and Users. Workspace Groups are unique to each Kantata OX Account. These endpoints allow you to fetch, create, update, and delete Workspace Groups.
-
-
-        To add a workspace to a Workspace Group, use the [create workspace](/tag/Workspaces#operation/create-workspace) or [update workspace](/tag/Workspaces#operation/update-workspace) endpoint and set the `workspace_group_ids` field.
-
-
-        To add a user to a Workspace Group, use the [create user group membership](/tag/User-Group-Memberships#operation/create-user-group-memberships) endpoint.'
-      type: object
-      properties:
-        address:
-          type: string
-          description: The address of the company contact.
-        company:
-          type: boolean
-          description: Whether the group represents a company.
-        contact_name:
-          type: string
-          description: The name of the company contact.
-        created_at:
-          type: string
-          format: date-time
-          description: When the group was created.
-        email:
-          type: string
-          description: The email of the company contact.
-        external_reference_ids:
-          type: array
-          items:
-            type: string
-          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        name:
-          type: string
-          description: The name of the group.
-        notes:
-          type: string
-          description: Notes on the group.
-        phone_number:
-          type: string
-          description: The phone number of the company contact.
-        rate_card_set_ids:
-          type: array
-          items:
-            type: string
-          description: '`rate_card_set_ids` will only be included in the response if `rate_card_sets` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        updated_at:
-          type: string
-          format: date-time
-          description: When the group was last updated.
-        website:
-          type: string
-          description: The website of the company contact.
-        workspace_ids:
-          type: array
-          items:
-            type: string
-          description: '`workspace_ids` will only be included in the response if `workspaces` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-    EstimateScenarioResource:
-      title: Estimate Scenario Resource
-      description: An Estimate Scenario Resource is an unnamed resource in an estimate scenario.
-      type: object
-      properties:
-        allocation_id:
-          type: string
-          description: '`allocation_id` will only be included in the response if `allocation` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        bill_rate:
-          type: integer
-          format: int32
-          description: 'The bill rate, in cents, of the estimate scenario resource.
-
-            When the estimate is unlocked, this is the average bill rate of all active account members in the
-
-            scenario resource''s geography, whose default role matches the role of the scenario resource.
-
-            When the estimate is locked, this the cached value of the average bill rate when the estimate was locked.'
-        cost_rate:
-          type: integer
-          format: int32
-          description: 'The cost rate, in cents, of the estimate scenario resource.
-
-            When the estimate is unlocked, this is the average cost rate of all active account members in the
-
-            scenario resource''s geography, whose default role matches the role of the scenario resource.
-
-            When the estimate is locked, this the cached value of the average cost rate when the estimate was locked.'
-        created_at:
-          type: string
-          format: date-time
-        display_label:
-          type: string
-          description: User facing Identifier for the Resource.
-        estimate_scenario_id:
-          type: integer
-          format: int32
-          description: Id of the Estimate Scenario that the Resource belongs to.
-        external_reference_ids:
-          type: array
-          items:
-            type: string
-          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        geography_id:
-          type: string
-          description: '`geography_id` will only be included in the response if `geography` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        label:
-          type: string
-        organization_membership_id:
-          type: string
-          description: '`organization_membership_id` will only be included in the response if `organization_membership` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        role_id:
-          type: string
-          description: '`role_id` will only be included in the response if `role` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        role_name:
-          type: string
-          description: Name of the Resource's role if any.
-        updated_at:
-          type: string
-          format: date-time
-        user_id:
-          type: string
-          description: '`user_id` will only be included in the response if `user` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-    Role:
-      title: Role
-      description: 'A Role represents the main position or title assigned to members on an account. Roles may be associated with account memberships, account invitations,
-
-        participation, project template assignments, rate card roles, rate card versions, resources, or time adjustments.'
-      type: object
-      properties:
-        created_at:
-          type: string
-          format: date-time
-        deleted_at:
-          type: string
-          format: date-time
-          description: The time the role was deleted.
-        external_reference_ids:
-          type: array
-          items:
-            type: string
-          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        name:
-          type: string
-          description: The name of the role.
-        updated_at:
-          type: string
-          format: date-time
-    AccountLocation:
-      title: Account Location
-      description: Represents a location associated with an account.
-      type: object
-      properties:
-        archived:
-          type: boolean
-          description: Whether the Account Location is archived.
-        in_use:
-          type: boolean
-          description: Whether the Account Location is in use.
-        name:
-          type: string
-          description: The location the Account Location represents.
-    TimesheetSubmission:
-      title: Timesheet Submission
-      description: 'Timesheet Submissions contain a set of Time Entries for a specific week. These Time Entries must be
-
-        approved through a Timesheet Submission before creating an invoice.'
-      type: object
-      properties:
-        comment:
-          type: string
-          description: Additional comments on the submission.
-        created_at:
-          type: string
-          format: date-time
-        currency:
-          type: string
-          description: The currency of the submission.
-        currency_base_unit:
-          type: integer
-          format: int32
-          description: The base unit of the submission's currency.
-        currency_symbol:
-          type: string
-          description: The symbol of the submission's currency.
-        current_resolution_created_at_date:
-          type: string
-          format: date-time
-          description: The date and time that the submission's current resolution was created.
-        current_resolution_creator_id:
-          type: integer
-          format: int32
-          description: The creator id on the submission's current resolution.
-        current_resolution_description:
-          type: string
-          description: The description on the submission's current resolution.
-        end_date:
-          type: string
-          format: date
-          description: The last day of the week.
-        external_reference_ids:
-          type: array
-          items:
-            type: string
-          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        line_item_total_formatted:
-          type: string
-          description: A formatted total of the line items (time entries or expenses) on the submission.
-        line_item_total_in_cents:
-          type: integer
-          format: int32
-          description: A total in cents of the line items (time entries or expenses) on the submission.
-        permissions:
-          type: object
-          properties:
-            can_cancel_submission:
-              type: boolean
-              description: Can the current user cancel the submission.
-            can_approve_submission:
-              type: boolean
-              description: Can the current user approve the submission.
-            can_reject_submission:
-              type: boolean
-              description: Can the current user reject the submission.
-            can_resubmit_submission:
-              type: boolean
-              description: Can the current user resubmit the submission.
-        resolution_description:
-          type: string
-          description: The description on the submission's current resolution.
-        start_date:
-          type: string
-          format: date
-          description: The first day of the week.
-        status:
-          type: string
-          description: The current status of the submission ('approved', 'rejected', 'cancelled', 'pending').
-        time_entry_ids:
-          type: array
-          items:
-            type: string
-          description: '`time_entry_ids` will only be included in the response if `time_entries` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        title:
-          type: string
-          description: The title of the submission.
         type:
           type: string
-          description: Either an ExpenseReportSubmission or a TimesheetSubmission.
-        updated_at:
+        message:
           type: string
-          format: date-time
-        user_id:
-          type: string
-          description: '`user_id` will only be included in the response if `user` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        workspace_id:
-          type: string
-          description: '`workspace_id` will only be included in the response if `workspace` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-    Expense:
-      title: Expense
-      description: 'Expenses are non-time related costs incurred in a project. Once created, expenses can
-
-        be included in generated invoices.'
-      type: object
-      properties:
-        active_submission_id:
-          type: string
-          description: '`active_submission_id` will only be included in the response if `active_submission` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        amount_in_cents:
-          type: integer
-          format: int32
-          description: The amount, in cents, of the expense.
-        category:
-          type: string
-          description: 'The category of the expense (can be any string). Built-in categories are:
-
-            Travel, Mileage, Lodging, Food, Entertainment, and Other.'
-        created_at:
-          type: string
-          format: date-time
-        currency:
-          type: string
-          description: The currency of the expense.
-        currency_base_unit:
-          type: integer
-          format: int32
-          description: The number of the units in the `amount_as_cents` attribute that are required to make up a single unit of the `currency`.
-        currency_symbol:
-          type: string
-          description: The symbol that represents the currency of the expense.
-        date:
-          type: string
-          format: date
-          description: The date the expense was incurred.
-        expense_budget_id:
-          type: string
-          description: '`expense_budget_id` will only be included in the response if `expense_budget` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        expense_category_id:
-          type: string
-          description: '`expense_category_id` will only be included in the response if `expense_category` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        external_reference_ids:
-          type: array
-          items:
-            type: string
-          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        foreign_exchange_amount:
-          type: object
-          description: The currency conversion data for a converted expense.
-          properties:
-            date:
-              type: string
-              format: date-time
-              description: The date the expense was converted.
-            rate:
-              type: number
-              format: float
-              description: The exchange rate used to convert the expense.
-            source_currency:
-              type: string
-              description: The [ISO code](https://mavenlink.zendesk.com/hc/en-us/articles/360041576473-Supported-Currency-ISO-Codes) of the foreign currency in which the expense was incurred.
-            source_value:
-              type: number
-              format: float
-              description: The amount of the expense, in foreign currency units.
-        is_billable:
-          type: boolean
-          description: Whether this is a billable expense.
-        is_invoiced:
-          type: boolean
-          description: Whether this expense has been included on an invoice.
-        notes:
-          type: string
-          description: All notes that have been added to the expense.
-        receipt_id:
-          type: string
-          description: '`receipt_id` will only be included in the response if `receipt` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        recent_submission_id:
-          type: string
-          description: '`recent_submission_id` will only be included in the response if `recent_submission` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        reimbursable:
-          type: boolean
-          description: Whether this expense is reimbursable to the creator or to a vendor.
-        role_id:
-          type: string
-          description: '`role_id` will only be included in the response if `role` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        story_id:
-          type: string
-          description: '`story_id` will only be included in the response if `story` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        taxable:
-          type: boolean
-          description: Whether this expense is marked as taxable when invoiced.
-        updated_at:
-          type: string
-          format: date-time
-        user_can_edit:
-          type: boolean
-          description: 'Whether the viewing user can edit this expense.
-
-            Only returned when requested through the optional_fields param.'
-        user_id:
-          type: string
-          description: '`user_id` will only be included in the response if `user` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        vendor_id:
-          type: string
-          description: '`vendor_id` will only be included in the response if `vendor` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        workspace_id:
-          type: string
-          description: '`workspace_id` will only be included in the response if `workspace` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
     StoryAllocationDay:
       title: Daily Scheduled Hours (Story Allocation Day)
       description: 'Daily Scheduled Hours (Story Allocation Day) is the planned amount of time for a project resource
@@ -2432,529 +1871,79 @@ components:
         workspace_id:
           type: string
           description: '`workspace_id` will only be included in the response if `workspace` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-    Workweek:
-      title: Workweek
-      description: 'Workweeks are owned by an account. A workweek can be used as the account default, or
-
-        can be associated to a user through a workweek membership.'
+    WorkweekMembership:
+      title: Workweek Membership
+      description: A Workweek Membership represents the relationship of a user to a workweek.
       type: object
       properties:
         created_at:
           type: string
           format: date-time
-          description: The date and time a workweek was last updated.
-        default:
-          type: boolean
-          description: Whether the workweek is the default for the account.
+          description: The date and time the workweek membership was last updated.
         end_date:
           type: string
           format: date
           description: The end date of the workweek.
-        friday_minutes:
-          type: integer
-          format: int32
-          description: The number of available working minutes on Friday.
-        monday_minutes:
-          type: integer
-          format: int32
-          description: The number of available working minutes on Monday.
-        saturday_minutes:
-          type: integer
-          format: int32
-          description: The number of available working minutes on Saturday.
         start_date:
           type: string
           format: date
           description: The start date of the workweek.
-        sunday_minutes:
-          type: integer
-          format: int32
-          description: The number of available working minutes on Sunday.
-        thursday_minutes:
-          type: integer
-          format: int32
-          description: The number of available working minutes on Thursday.
-        total_minutes:
-          type: integer
-          format: int32
-          description: The total number of available working minutes for the week.
-        tuesday_minutes:
-          type: integer
-          format: int32
-          description: The number of available working minutes on Tuesday.
         updated_at:
           type: string
           format: date-time
-          description: The date and time at which a workweek was created.
-        wednesday_minutes:
+          description: The date and time the workweek membership was created.
+        user_id:
           type: integer
           format: int32
-          description: The number of available working minutes on Wednesday.
-        workweek_membership_ids:
-          type: array
-          items:
-            type: string
-          description: '`workweek_membership_ids` will only be included in the response if `workweek_memberships` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-    WorkspaceAllocation:
-      title: Workspace Allocation
-      description: 'A workspace allocation represents a resource’s allocation over a specific period of time,
+          description: The ID of the associated user.
+        workweek_id:
+          type: string
+          description: '`workweek_id` will only be included in the response if `workweek` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+    EstimateScenario:
+      title: Estimate Scenario
+      description: 'An Estimate Scenario represents a possible project configuration. It includes a rate card, budget, and
 
-        and is always associated with a workspace resource.
-
-
-        *Note:* When an allocation is split, two allocations are returned in the response.'
+        associated resources and allocations.'
       type: object
       properties:
+        budget_in_cents:
+          type: integer
+          format: int32
+          description: The maximum budget, in cents, available for the project.
         created_at:
           type: string
           format: date-time
-        creator_id:
-          type: string
-          description: '`creator_id` will only be included in the response if `creator` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        end_date:
-          type: string
-          format: date
-          description: The date the allocation ends on.
+        estimate_id:
+          type: integer
+          format: int32
+          description: The ID of the estimate for the scenario.
+        estimate_scenario_resource_ids:
+          type: array
+          items:
+            type: string
+          description: '`estimate_scenario_resource_ids` will only be included in the response if `estimate_scenario_resources` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
         external_reference_ids:
           type: array
           items:
             type: string
           description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        hard:
-          type: boolean
-          description: Indicates if the allocation is a Hard Allocation (“true”) or Soft (“false”).
-        minutes:
-          type: integer
-          format: int32
-          description: Total minutes the resource is allocated over the date range.
-        notes:
+        name:
           type: string
-          description: User entered notes about the allocation.
-        percentage:
-          type: number
-          format: float
-          description: Percentage that a user is allocated compared to their capacity between the start and end date of the allocation.
+          description: The name of the estimate scenario.
+        rate_card_id:
+          type: string
+          description: '`rate_card_id` will only be included in the response if `rate_card` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
         start_date:
           type: string
-          format: date
-          description: The date the allocation starts on.
+          format: date-time
+          description: The estimated date when the project will start.
+        target_margin_percent:
+          type: integer
+          format: int32
+          description: The target profit margin, in percentage, for the project.
         updated_at:
           type: string
           format: date-time
-        updater_id:
-          type: string
-          description: '`updater_id` will only be included in the response if `updater` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        workspace_id:
-          type: string
-          description: '`workspace_id` will only be included in the response if `workspace` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        workspace_resource_id:
-          type: string
-          description: The ID of the workspace resource that the allocation will be associated with.
-    Skill:
-      title: Skill
-      description: 'Skills are used in Kantata OX to describe capabilities of users for the purposes of resource planning.
-
-        They can be associated with a user through a Skill Membership.
-
-        This model includes categories such as ''Skill'', ''Language'', ''Certification'' and ''Other''.'
-      type: object
-      properties:
-        created_at:
-          type: string
-          format: date-time
-          description: The date and time a skill was last updated.
-        description:
-          type: string
-          description: The description of the skill.
-        external_reference_ids:
-          type: array
-          items:
-            type: string
-          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        max_level:
-          type: string
-          description: The max level allowed for the skill.
-        name:
-          type: string
-          description: The name of the skill.
-        skill_category_id:
-          type: string
-          description: '`skill_category_id` will only be included in the response if `skill_category` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        updated_at:
-          type: string
-          format: date-time
-          description: The date and time at skill a workweek was created.
-    CostRate:
-      title: Cost Rate
-      description: 'A Cost Rate represents the hourly cost of an account member, specified in a specific currency. A Cost Rate with the same currency
-
-        as the account default currency is called the `default cost rate`. This data can only be accessed by including
-
-        it when querying Account Membership.'
-      type: object
-      properties:
-        account_membership_id:
-          type: integer
-          format: int32
-          description: The ID of the associated account membership.
-        amount_in_subunits:
-          type: integer
-          format: int32
-          description: The amount of the cost rate in the subunits of the currency (i.e. cents for US Dollars).
-        created_at:
-          type: string
-          format: date-time
-        currency:
-          type: string
-          description: The ISO code of the cost rate currency.
-        in_use:
-          type: boolean
-          description: 'Indicates whether the account member associated with the cost rate is participating in a workspace
-
-            on the account that uses the same currency as the cost rate.'
-        updated_at:
-          type: string
-          format: date-time
-    Error:
-      type: object
-      properties:
-        type:
-          type: string
-        message:
-          type: string
-    Vendor:
-      title: Vendor
-      description: A Vendor is an entity to which an expense can be paid.
-      type: object
-      properties:
-        archived:
-          type: boolean
-          description: Whether the vendor is archived.
-        external_reference_ids:
-          type: array
-          items:
-            type: string
-          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        externally_managed:
-          type: boolean
-          description: Whether the vendor was created by an external system and then imported.
-        in_use:
-          type: boolean
-          description: Whether the vendor is used on an invoice.
-        name:
-          type: string
-          description: The name of the vendor.
-    CustomField:
-      title: Custom Field
-      description: 'The [Custom Fields](https://mavenlink.zendesk.com/hc/en-us/articles/202924760-Custom-Fields-Overview-#arrange) object allows you to
-
-        view, create, update, and delete extra fields for additional Estimate, Project, Group, Resource, Task, and User information.
-
-        If Custom Fields represent the fields themselves, [Custom Field Values](/tag/Custom-Field-Values)
-
-        represent the values in/of those fields.'
-      type: object
-      properties:
-        choice_ids:
-          type: array
-          items:
-            type: string
-          description: '`choice_ids` will only be included in the response if `choices` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        created_at:
-          type: string
-          format: date-time
-        creator_id:
-          type: string
-          description: '`creator_id` will only be included in the response if `creator` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        custom_field_set_id:
-          type: string
-          description: '`custom_field_set_id` will only be included in the response if `custom_field_set` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        default_text:
-          type: string
-          description: 'The message in an empty custom field, before a `string`, `date`, `number`, or `currency`  value is entered in.
-
-            This only appears in the UI.
-
-            Visible when whether the custom field is an input field..'
-        external_reference_ids:
-          type: array
-          items:
-            type: string
-          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        name:
-          type: string
-          description: The name of the custom field.
-        read_access:
-          type: integer
-          format: int32
-          description: "The `read_access` [permission setting on each custom field](https://mavenlink.zendesk.com/hc/en-us/articles/202924760#see)\ndetermines the minimum permission needed to view a custom field and its value.\n* `Workspace` (Project), `Resource`, and `Story` (Task) custom fields are project-specific objects,\nso their minimum permissions are set at the [project level](https://mavenlink.zendesk.com/hc/en-us/articles/115002779293-Project-Permissions):\n  - `project_collaboration` (default)\n  - `time_logging`\n  - `financial`\n  - `project_admin`\n\nMost account-level permissions supercede project-level permissions. Therefore, Account Administrators\nare able to view all Project, Resource, and Task custom fields and values across the account,\nregardless of project participation or `read_access` settings.\n* `Estimate`, `WorkspaceGroup` (Group), and `User` custom fields are account-wide objects,\nso their minimum permissions are set at the [account level](https://mavenlink.zendesk.com/hc/en-us/articles/203041364):\n  - `account_collaboration`\n  - `project_creator`\n  - `project_lead`\n  - `reports_viewer`\n  - `reports_viewer_with_cost`\n  - `account_admin` (default)."
-        unique_constraint:
-          type: boolean
-          description: 'Indicates whether a custom field value must be unique across Estimates, Projects, Groups, Resources, Tasks, or Users.
-
-            This is set to `false` by default.
-
-
-            Does not apply to Custom Fields with choices.
-
-            Visible when whether the custom field is an input field..'
-        updated_at:
-          type: string
-          format: date-time
-        value_type:
-          type: string
-          description: "The format of the [custom field's value](/tag/Custom-Field-Values):\n  | Value Type           | Format                                   | Sample         |\n  | -------------------- |:----------------------------------------:| --------------:|\n  | `string`             | `<text_string>`                          |        `\"foo\"` |\n  | `date`               | `<ISO_8601 Date Format>`                 | `\"2014-02-25\"` |\n  | `number`             | `<integer_value>`                        |           `13` |\n  | `currency`           | `[<int_value_in_cents>, <currency_code>]`| `[998, \"USD\"]` |\n  | `single` and `multi` | `[<choice_ids>]`                         |    `[1, 2, 4]` |\n\nThis is set to `string`, by default."
-        write_access:
-          type: integer
-          format: int32
-          description: The permission level required for a user to create, update, or delete a custom field's value.
-    TimeOffEntry:
-      title: Time Off Entry
-      description: A Time Off Entry represents the number of hours a specific user has scheduled off for a requested date.
-      type: object
-      properties:
-        external_reference_ids:
-          type: array
-          items:
-            type: string
-          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        hours:
-          type: number
-          format: float
-          description: The number of hours of time off for the requested date.
-        requested_date:
-          type: string
-          format: date
-          description: The date for which time off is requested.
-        role_id:
-          type: string
-          description: '`role_id` will only be included in the response if `role` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        submission_date:
-          type: string
-          format: date
-          description: The date on which the time off was submitted.
-        user_id:
-          type: string
-          description: '`user_id` will only be included in the response if `user` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-    SubscribedEvents__Models__SubscribedEvent:
-      title: Subscribed Event
-      description: 'An API feature that returns the last 9 days of trackable changes ("events") in an account.
-
-
-        For a list of all the event types tracked by Subscribed Events, please see the [Knowledge Base](https://knowledge.kantata.com/hc/en-us/articles/4407962435227-Subscribed-Events-Reference).'
-      type: object
-      properties:
-        account_id:
-          type: integer
-          format: int32
-          description: The ID of the account that the change occurred in.
-        context_workspace_id:
-          type: string
-          description: The ID of the workspace associated with the event, if any.
-        created_at:
-          type: string
-          format: date-time
-          description: The date and time the event record was created. Note that this is not when the action was actually performed and may be different from `subject_changed_at`.
-        current_payload:
-          type: string
-          description: 'The updated data record, as metadata in JSON format.
-
-            Only returned when requested through the optional_fields param.'
-        event_type:
-          type: string
-          description: The type of change event. For a list of all the event types tracked by Subscribed Events, please see the [Knowledge Base](https://knowledge.kantata.com/hc/en-us/articles/4407962435227-Subscribed-Events-Reference).
-        payload_changes:
-          type: string
-          description: 'The previous and current values for the changed fields in the data record, as metadata in JSON format.
-
-            Only returned when requested through the optional_fields param.'
-        previous_payload:
-          type: string
-          description: 'The data record before it was changed, as metadata in JSON format.
-
-            Only returned when requested through the optional_fields param.'
-        subject_changed_at:
-          type: string
-          format: date-time
-          description: The date and time the event was triggered (i.e. when the action was performed).
-        subject_id:
-          type: integer
-          format: int32
-          description: The ID of the data record that was changed.
-        subject_ref:
-          type: object
-          description: '`subject_ref` will only be included in the response if `subject` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-          properties:
-            key:
-              type: string
-            id:
-              type: string
-        subject_type:
-          type: string
-          description: The type of data record that was changed (e.g. TimeEntry).
-        user_id:
-          type: integer
-          format: int32
-          description: The ID of the user who made the change.
-    Estimate:
-      title: Estimate
-      description: 'An Estimate represents a potential project. Estimates allow you to plan out a project''s budget, resources,
-
-        and allocations through associated estimate scenarios.'
-      type: object
-      properties:
-        created_at:
-          type: string
-          format: date-time
-          description: The time the estimate was created.
-        creator_id:
-          type: string
-          description: '`creator_id` will only be included in the response if `creator` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        currency:
-          type: string
-          description: The currency of the estimate, used in all associated estimate scenarios.
-        custom_field_value_ids:
-          type: array
-          items:
-            type: string
-          description: '`custom_field_value_ids` will only be included in the response if `custom_field_values` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        description:
-          type: string
-          description: The description of the estimate.
-        estimate_scenario_ids:
-          type: array
-          items:
-            type: string
-          description: '`estimate_scenario_ids` will only be included in the response if `estimate_scenarios` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        external_reference_ids:
-          type: array
-          items:
-            type: string
-          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        is_locked:
-          type: boolean
-          description: Whether a project has been created from the estimate. If so, the estimate can no longer be updated.
-        name:
-          type: string
-          description: The name of the estimate.
-        updated_at:
-          type: string
-          format: date-time
-        workspace_group_id:
-          type: string
-          description: '`workspace_group_id` will only be included in the response if `workspace_group` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        workspace_id:
-          type: string
-          description: '`workspace_id` will only be included in the response if `workspace` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-    Invoice:
-      title: Invoice
-      description: An Invoice is defined as a list of costs incurred during a Kantata OX project, which are billable to an end user.
-      type: object
-      properties:
-        additional_item_ids:
-          type: array
-          items:
-            type: string
-          description: '`additional_item_ids` will only be included in the response if `additional_items` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        balance_in_cents:
-          type: integer
-          format: int32
-          description: The balance, in cents, of the invoice.
-        billing_milestone_ids:
-          type: array
-          items:
-            type: string
-          description: '`billing_milestone_ids` will only be included in the response if `billing_milestones` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        created_at:
-          type: string
-          format: date-time
-          description: The date the invoice was recorded in Kantata OX, in YY-MM-DD[T]HH:MM:SS-TIMEZONE format.
-        currency:
-          type: string
-          description: The currency being used for the invoice.
-        currency_base_unit:
-          type: integer
-          format: int32
-          description: The number of the units in the `balance_in_cents` attribute that are required to make up a single unit of the `currency`.
-        currency_symbol:
-          type: string
-          description: The symbol that represents the currency being used for the invoice.
-        draft:
-          type: boolean
-          description: Whether or not the invoice is a draft.
-        due_date:
-          type: string
-          format: date
-          description: The date the invoice is due, in YYYY-MM-DD format.
-        expense_ids:
-          type: array
-          items:
-            type: string
-          description: '`expense_ids` will only be included in the response if `expenses` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        external_reference_ids:
-          type: array
-          items:
-            type: string
-          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        fixed_fee_item_ids:
-          type: array
-          items:
-            type: string
-          description: '`fixed_fee_item_ids` will only be included in the response if `fixed_fee_items` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        invoice_date:
-          type: string
-          format: date
-          description: The date the invoice was incurred, in YYYY-MM-DD format.
-        message:
-          type: string
-          description: Any notes added to the invoice.
-        payment_schedule:
-          type: integer
-          format: int32
-          description: The number of days within which the total amount of the invoice is expected to be paid. For example, use `30` for a Net 30 payment schedule. See https://en.wikipedia.org/wiki/Net_D.
-        project_code:
-          type: string
-          description: The invoice project code.
-        purchase_order:
-          type: string
-          description: The invoice purchase order.
-        recipient_id:
-          type: string
-          description: '`recipient_id` will only be included in the response if `recipient` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        status:
-          type: string
-          description: The current status of the invoice ('new', 'cancelled', 'accepted payment').
-        tax_rate:
-          type: number
-          format: float
-          description: The tax rate percentage that is applied to the invoice total.
-        time_entry_ids:
-          type: array
-          items:
-            type: string
-          description: '`time_entry_ids` will only be included in the response if `time_entries` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        title:
-          type: string
-          description: 'The auto-generated invoice title. The format is `Invoice #[user_invoice_number]` or `Draft Invoice #[user_invoice_number]`.'
-        updated_at:
-          type: string
-          format: date-time
-          description: The date the invoice was last updated, in YY-MM-DD[T]HH:MM:SS-TIMEZONE format.
-        user_id:
-          type: string
-          description: '`user_id` will only be included in the response if `user` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        user_invoice_number:
-          type: integer
-          format: int32
-          description: The invoice number.
-        user_invoice_title:
-          type: string
-          description: The user-entered title of the invoice.
-        workspace_ids:
-          type: array
-          items:
-            type: string
-          description: '`workspace_ids` will only be included in the response if `workspaces` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
     ProjectAccounting__Models__ProjectAccountingRecord:
       title: Project Accounting Records
       description: Project accounting records.
@@ -3109,6 +2098,621 @@ components:
         workspace_id:
           type: string
           description: '`workspace_id` will only be included in the response if `workspace` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+    Skill:
+      title: Skill
+      description: 'Skills are used in Kantata OX to describe capabilities of users for the purposes of resource planning.
+
+        They can be associated with a user through a Skill Membership.
+
+        This model includes categories such as ''Skill'', ''Language'', ''Certification'' and ''Other''.'
+      type: object
+      properties:
+        created_at:
+          type: string
+          format: date-time
+          description: The date and time a skill was last updated.
+        description:
+          type: string
+          description: The description of the skill.
+        external_reference_ids:
+          type: array
+          items:
+            type: string
+          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        max_level:
+          type: string
+          description: The max level allowed for the skill.
+        name:
+          type: string
+          description: The name of the skill.
+        skill_category_id:
+          type: string
+          description: '`skill_category_id` will only be included in the response if `skill_category` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        updated_at:
+          type: string
+          format: date-time
+          description: The date and time at skill a workweek was created.
+    ExpenseBudget:
+      title: Expense Budgets
+      description: Expense budgets allow you to plan for non-labor expenses.
+      type: object
+      properties:
+        billable:
+          type: boolean
+          description: Whether the expense will be billed to the client.
+        burns_budget:
+          type: boolean
+          description: Whether the expense budget impacts the project margin.
+        cost_per_unit_in_subunits:
+          type: integer
+          format: int32
+          description: The cost, in the subunits of the currency (e.g. cents for USD).
+        description:
+          type: string
+          description: The description of the expense budget.
+        expected_by:
+          type: string
+          format: date
+          description: When the expenses are expected to be logged by.
+        expense_ids:
+          type: array
+          items:
+            type: string
+          description: '`expense_ids` will only be included in the response if `expenses` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        external_reference_ids:
+          type: array
+          items:
+            type: string
+          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        fixed_fee:
+          type: boolean
+          description: Whether the expense will be billed as a fixed cost.
+        fixed_fee_item_ids:
+          type: array
+          items:
+            type: string
+          description: '`fixed_fee_item_ids` will only be included in the response if `fixed_fee_items` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        markup_per_unit_in_subunits:
+          type: integer
+          format: int32
+          description: 'When the `markup_type` is `flat_fee`, this is the markup per unit, in the subunits of the currency
+
+            (e.g. cents for USD). This is multiplied by the `quantity` and added to the total cost to produce
+
+            the total fees.'
+        markup_percentage:
+          type: number
+          format: float
+          description: 'When the `markup_type` is set to `percentage`, this is the markup percentage.
+
+            This is multiplied by the total cost to produce the total markup,
+
+            then added to the total cost to produce the total fees.'
+        markup_type:
+          type: string
+          description: The markup type. Possible values are `percentage` and `flat_fee`.
+        quantity:
+          type: integer
+          format: int32
+          description: The number of units.
+        story_id:
+          type: integer
+          format: int32
+          description: The ID of the associated story (task).
+        title:
+          type: string
+          description: The name of the expense budget.
+        workspace_id:
+          type: integer
+          format: int32
+          description: The ID of the workspace the expense budget belongs to.
+    Estimate:
+      title: Estimate
+      description: 'An Estimate represents a potential project. Estimates allow you to plan out a project''s budget, resources,
+
+        and allocations through associated estimate scenarios.'
+      type: object
+      properties:
+        created_at:
+          type: string
+          format: date-time
+          description: The time the estimate was created.
+        creator_id:
+          type: string
+          description: '`creator_id` will only be included in the response if `creator` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        currency:
+          type: string
+          description: The currency of the estimate, used in all associated estimate scenarios.
+        custom_field_value_ids:
+          type: array
+          items:
+            type: string
+          description: '`custom_field_value_ids` will only be included in the response if `custom_field_values` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        description:
+          type: string
+          description: The description of the estimate.
+        estimate_scenario_ids:
+          type: array
+          items:
+            type: string
+          description: '`estimate_scenario_ids` will only be included in the response if `estimate_scenarios` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        external_reference_ids:
+          type: array
+          items:
+            type: string
+          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        is_locked:
+          type: boolean
+          description: Whether a project has been created from the estimate. If so, the estimate can no longer be updated.
+        name:
+          type: string
+          description: The name of the estimate.
+        updated_at:
+          type: string
+          format: date-time
+        workspace_group_id:
+          type: string
+          description: '`workspace_group_id` will only be included in the response if `workspace_group` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        workspace_id:
+          type: string
+          description: '`workspace_id` will only be included in the response if `workspace` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+    Expense:
+      title: Expense
+      description: 'Expenses are non-time related costs incurred in a project. Once created, expenses can
+
+        be included in generated invoices.'
+      type: object
+      properties:
+        active_submission_id:
+          type: string
+          description: '`active_submission_id` will only be included in the response if `active_submission` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        amount_in_cents:
+          type: integer
+          format: int32
+          description: The amount, in cents, of the expense.
+        category:
+          type: string
+          description: 'The category of the expense (can be any string). Built-in categories are:
+
+            Travel, Mileage, Lodging, Food, Entertainment, and Other.'
+        created_at:
+          type: string
+          format: date-time
+        currency:
+          type: string
+          description: The currency of the expense.
+        currency_base_unit:
+          type: integer
+          format: int32
+          description: The number of the units in the `amount_as_cents` attribute that are required to make up a single unit of the `currency`.
+        currency_symbol:
+          type: string
+          description: The symbol that represents the currency of the expense.
+        date:
+          type: string
+          format: date
+          description: The date the expense was incurred.
+        expense_budget_id:
+          type: string
+          description: '`expense_budget_id` will only be included in the response if `expense_budget` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        expense_category_id:
+          type: string
+          description: '`expense_category_id` will only be included in the response if `expense_category` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        external_reference_ids:
+          type: array
+          items:
+            type: string
+          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        foreign_exchange_amount:
+          type: object
+          description: The currency conversion data for a converted expense.
+          properties:
+            date:
+              type: string
+              format: date-time
+              description: The date the expense was converted.
+            rate:
+              type: number
+              format: float
+              description: The exchange rate used to convert the expense.
+            source_currency:
+              type: string
+              description: The [ISO code](https://mavenlink.zendesk.com/hc/en-us/articles/360041576473-Supported-Currency-ISO-Codes) of the foreign currency in which the expense was incurred.
+            source_value:
+              type: number
+              format: float
+              description: The amount of the expense, in foreign currency units.
+        is_billable:
+          type: boolean
+          description: Whether this is a billable expense.
+        is_invoiced:
+          type: boolean
+          description: Whether this expense has been included on an invoice.
+        notes:
+          type: string
+          description: All notes that have been added to the expense.
+        receipt_id:
+          type: string
+          description: '`receipt_id` will only be included in the response if `receipt` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        recent_submission_id:
+          type: string
+          description: '`recent_submission_id` will only be included in the response if `recent_submission` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        reimbursable:
+          type: boolean
+          description: Whether this expense is reimbursable to the creator or to a vendor.
+        role_id:
+          type: string
+          description: '`role_id` will only be included in the response if `role` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        story_id:
+          type: string
+          description: '`story_id` will only be included in the response if `story` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        taxable:
+          type: boolean
+          description: Whether this expense is marked as taxable when invoiced.
+        updated_at:
+          type: string
+          format: date-time
+        user_can_edit:
+          type: boolean
+          description: 'Whether the viewing user can edit this expense.
+
+            Only returned when requested through the optional_fields param.'
+        user_id:
+          type: string
+          description: '`user_id` will only be included in the response if `user` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        vendor_id:
+          type: string
+          description: '`vendor_id` will only be included in the response if `vendor` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        workspace_id:
+          type: string
+          description: '`workspace_id` will only be included in the response if `workspace` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+    User:
+      title: User
+      description: 'Users represent the individuals that are participating in Kantata OX projects. User objects are often returned as
+
+        nested JSON objects within other returned items such as Posts or Stories.'
+      type: object
+      properties:
+        abbreviated_timezone:
+          type: string
+          description: 'The abbreviation for the user''s time zone.
+
+            Only returned when requested through the optional_fields param.'
+        account_membership_id:
+          type: string
+          description: '`account_membership_id` will only be included in the response if `account_membership` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        bio:
+          type: string
+          description: 'A biography (defined by the user).
+
+            Only returned when requested through the optional_fields param.'
+        city:
+          type: string
+          description: 'The home city of the user (based on their profile).
+
+            Only returned when requested through the optional_fields param.'
+        classification:
+          type: string
+          description: 'Indicates whether a user is Internal or External.
+
+            Only returned when requested through the optional_fields param.'
+        country:
+          type: string
+          description: 'The home country of the user (based on their profile).
+
+            Only returned when requested through the optional_fields param.'
+        custom_field_value_ids:
+          type: array
+          items:
+            type: string
+          description: '`custom_field_value_ids` will only be included in the response if `custom_field_values` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        email_address:
+          type: string
+          description: The email address of the user.
+        external_reference_ids:
+          type: array
+          items:
+            type: string
+          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        full_name:
+          type: string
+          description: The full name of the user.
+        headline:
+          type: string
+          description: A short description of the user.
+        last_site_activity:
+          type: string
+          format: date-time
+          description: 'The last time a user logged in. This field is only available in conjunction with the `on_my_account` filter option. Only visible when the API user is an Account Administrator.
+
+            Only returned when requested through the optional_fields param.'
+        manager_id:
+          type: string
+          description: '`manager_id` will only be included in the response if `manager` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        photo_path:
+          type: string
+          description: The URL of the user's profile photo.
+        role_id:
+          type: string
+          description: '`role_id` will only be included in the response if `role` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        skill_ids:
+          type: array
+          items:
+            type: string
+          description: '`skill_ids` will only be included in the response if `skills` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        skill_membership_ids:
+          type: array
+          items:
+            type: string
+          description: '`skill_membership_ids` will only be included in the response if `skill_memberships` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        state:
+          type: string
+          description: 'The home state of the user (based on their profile).
+
+            Only returned when requested through the optional_fields param.'
+        website:
+          type: string
+          description: 'A website (defined by the user).
+
+            Only returned when requested through the optional_fields param.'
+        work_sample_ids:
+          type: array
+          items:
+            type: string
+          description: '`work_sample_ids` will only be included in the response if `work_samples` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+    TimesheetSubmission:
+      title: Timesheet Submission
+      description: 'Timesheet Submissions contain a set of Time Entries for a specific week. These Time Entries must be
+
+        approved through a Timesheet Submission before creating an invoice.'
+      type: object
+      properties:
+        comment:
+          type: string
+          description: Additional comments on the submission.
+        created_at:
+          type: string
+          format: date-time
+        currency:
+          type: string
+          description: The currency of the submission.
+        currency_base_unit:
+          type: integer
+          format: int32
+          description: The base unit of the submission's currency.
+        currency_symbol:
+          type: string
+          description: The symbol of the submission's currency.
+        current_resolution_created_at_date:
+          type: string
+          format: date-time
+          description: The date and time that the submission's current resolution was created.
+        current_resolution_creator_id:
+          type: integer
+          format: int32
+          description: The creator id on the submission's current resolution.
+        current_resolution_description:
+          type: string
+          description: The description on the submission's current resolution.
+        end_date:
+          type: string
+          format: date
+          description: The last day of the week.
+        external_reference_ids:
+          type: array
+          items:
+            type: string
+          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        line_item_total_formatted:
+          type: string
+          description: A formatted total of the line items (time entries or expenses) on the submission.
+        line_item_total_in_cents:
+          type: integer
+          format: int32
+          description: A total in cents of the line items (time entries or expenses) on the submission.
+        permissions:
+          type: object
+          properties:
+            can_cancel_submission:
+              type: boolean
+              description: Can the current user cancel the submission.
+            can_approve_submission:
+              type: boolean
+              description: Can the current user approve the submission.
+            can_reject_submission:
+              type: boolean
+              description: Can the current user reject the submission.
+            can_resubmit_submission:
+              type: boolean
+              description: Can the current user resubmit the submission.
+        resolution_description:
+          type: string
+          description: The description on the submission's current resolution.
+        start_date:
+          type: string
+          format: date
+          description: The first day of the week.
+        status:
+          type: string
+          description: The current status of the submission ('approved', 'rejected', 'cancelled', 'pending').
+        time_entry_ids:
+          type: array
+          items:
+            type: string
+          description: '`time_entry_ids` will only be included in the response if `time_entries` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        title:
+          type: string
+          description: The title of the submission.
+        type:
+          type: string
+          description: Either an ExpenseReportSubmission or a TimesheetSubmission.
+        updated_at:
+          type: string
+          format: date-time
+        user_id:
+          type: string
+          description: '`user_id` will only be included in the response if `user` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        workspace_id:
+          type: string
+          description: '`workspace_id` will only be included in the response if `workspace` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+    Invoice:
+      title: Invoice
+      description: An Invoice is defined as a list of costs incurred during a Kantata OX project, which are billable to an end user.
+      type: object
+      properties:
+        additional_item_ids:
+          type: array
+          items:
+            type: string
+          description: '`additional_item_ids` will only be included in the response if `additional_items` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        balance_in_cents:
+          type: integer
+          format: int32
+          description: The balance, in cents, of the invoice.
+        billing_milestone_ids:
+          type: array
+          items:
+            type: string
+          description: '`billing_milestone_ids` will only be included in the response if `billing_milestones` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        created_at:
+          type: string
+          format: date-time
+          description: The date the invoice was recorded in Kantata OX, in YY-MM-DD[T]HH:MM:SS-TIMEZONE format.
+        currency:
+          type: string
+          description: The currency being used for the invoice.
+        currency_base_unit:
+          type: integer
+          format: int32
+          description: The number of the units in the `balance_in_cents` attribute that are required to make up a single unit of the `currency`.
+        currency_symbol:
+          type: string
+          description: The symbol that represents the currency being used for the invoice.
+        draft:
+          type: boolean
+          description: Whether or not the invoice is a draft.
+        due_date:
+          type: string
+          format: date
+          description: The date the invoice is due, in YYYY-MM-DD format.
+        expense_ids:
+          type: array
+          items:
+            type: string
+          description: '`expense_ids` will only be included in the response if `expenses` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        external_reference_ids:
+          type: array
+          items:
+            type: string
+          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        fixed_fee_item_ids:
+          type: array
+          items:
+            type: string
+          description: '`fixed_fee_item_ids` will only be included in the response if `fixed_fee_items` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        invoice_date:
+          type: string
+          format: date
+          description: The date the invoice was incurred, in YYYY-MM-DD format.
+        message:
+          type: string
+          description: Any notes added to the invoice.
+        payment_schedule:
+          type: integer
+          format: int32
+          description: The number of days within which the total amount of the invoice is expected to be paid. For example, use `30` for a Net 30 payment schedule. See https://en.wikipedia.org/wiki/Net_D.
+        project_code:
+          type: string
+          description: The invoice project code.
+        purchase_order:
+          type: string
+          description: The invoice purchase order.
+        recipient_id:
+          type: string
+          description: '`recipient_id` will only be included in the response if `recipient` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        status:
+          type: string
+          description: The current status of the invoice ('new', 'cancelled', 'accepted payment').
+        tax_rate:
+          type: number
+          format: float
+          description: The tax rate percentage that is applied to the invoice total.
+        time_entry_ids:
+          type: array
+          items:
+            type: string
+          description: '`time_entry_ids` will only be included in the response if `time_entries` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        title:
+          type: string
+          description: 'The auto-generated invoice title. The format is `Invoice #[user_invoice_number]` or `Draft Invoice #[user_invoice_number]`.'
+        updated_at:
+          type: string
+          format: date-time
+          description: The date the invoice was last updated, in YY-MM-DD[T]HH:MM:SS-TIMEZONE format.
+        user_id:
+          type: string
+          description: '`user_id` will only be included in the response if `user` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        user_invoice_number:
+          type: integer
+          format: int32
+          description: The invoice number.
+        user_invoice_title:
+          type: string
+          description: The user-entered title of the invoice.
+        workspace_ids:
+          type: array
+          items:
+            type: string
+          description: '`workspace_ids` will only be included in the response if `workspaces` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+    AccountColor:
+      title: Account Color
+      description: A color on the user's account that can be associated with a project.
+      type: object
+      properties:
+        created_at:
+          type: string
+          format: date-time
+        default_color:
+          type: boolean
+          description: Whether the color is the account default. Each account can only have one default color.
+        enabled:
+          type: boolean
+          description: Whether the color is enabled on the account.
+        hex:
+          type: string
+          description: 'The hex value of the color in the format #XXXXXX.'
+        name:
+          type: string
+          description: The human readable color name.
+        updated_at:
+          type: string
+          format: date-time
+    StatusSet:
+      title: Task Status Set
+      description: Task Status Sets allow you to create custom statuses for tasks (stories) that can then be applied to projects (workspaces).
+      type: object
+      properties:
+        created_at:
+          type: string
+          format: date-time
+        custom_task_status_ids:
+          type: array
+          items:
+            type: string
+          description: '`custom_task_status_ids` will only be included in the response if `custom_task_statuses` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        name:
+          type: string
+          description: The name of this status set.
+        updated_at:
+          type: string
+          format: date-time
+    Errors:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
     SkillMembership:
       title: Skill Membership
       description: A Skill Membership represents a skill that has been assigned to a specified user.
@@ -3140,25 +2744,187 @@ components:
         user_id:
           type: string
           description: '`user_id` will only be included in the response if `user` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-    WorkspaceStatusSet:
-      title: Workspace Task Status Sets
-      description: Workspace Task Status Sets represent the connection between workspaces (projects) and task (story) status sets, which enable the use of custom task statuses.
+    WorkspaceResource:
+      title: Workspace Resource
+      description: 'With workspace resources it is possible for a user to have many resources with different roles
+
+        within a single workspace. Workspace resource can be assigned to tasks via Assignments which
+
+        enables specifying a specific role / rate per assigned task.'
       type: object
       properties:
         created_at:
           type: string
           format: date-time
-        status_set_id:
+        custom_field_value_ids:
+          type: array
+          items:
+            type: string
+          description: '`custom_field_value_ids` will only be included in the response if `custom_field_values` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        display_label:
+          type: string
+          description: User facing Identifer for the Resource.
+        external_reference_ids:
+          type: array
+          items:
+            type: string
+          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        full_name:
+          type: string
+          description: Full Name of the Resource's user if any.
+        label:
+          type: string
+        organization_membership_id:
+          type: string
+          description: '`organization_membership_id` will only be included in the response if `organization_membership` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        participation_id:
+          type: string
+          description: '`participation_id` will only be included in the response if `participation` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        photo_path:
+          type: string
+          description: URI of the Workspace Resource User Profile Photo if there is an user of the Resource.
+        resource_bill_rate:
           type: integer
           format: int32
-          description: The id of the status set that belongs to a project.
+          description: 'The bill rate of the resource in a project, in the subunits of the currency (e.g. cents for USD).
+
+            If the resource''s bill rate was overridden for the project, this field returns the overridden rate.
+
+
+            Including this field in your request may result in a slower response. We recommend including this field only if necessary.
+
+            Visible when the authenticated user has financial access in the project and is on the provider team.
+
+
+            Only returned when requested through the optional_fields param.'
+        resource_cost_rate:
+          type: integer
+          format: int32
+          description: 'The cost rate of the resource in a project, in the subunits of the currency (e.g. cents for USD).
+
+            If the resource''s cost rate was overridden for the project, this field returns the overridden rate.
+
+
+            Including this field in your request may result in a slower response. We recommend including this field only if necessary.
+
+            Visible when the authenticated user has financial access in the project and is on the provider team.
+
+
+            Only returned when requested through the optional_fields param.'
+        role_id:
+          type: string
+          description: '`role_id` will only be included in the response if `role` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        role_initials:
+          type: string
+          description: Three letter initals for the Resource's Role if any.
+        role_name:
+          type: string
+          description: Name of the Resource's role if any.
         updated_at:
           type: string
           format: date-time
+        user_id:
+          type: string
+          description: '`user_id` will only be included in the response if `user` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
         workspace_id:
           type: integer
           format: int32
-          description: The id of the workspace with a status set.
+          description: Id of the Workspace that the Resource belongs to.
+        workspace_title:
+          type: string
+          description: Title of the Workspace that the Resource belongs to.
+    CustomField:
+      title: Custom Field
+      description: 'The [Custom Fields](https://mavenlink.zendesk.com/hc/en-us/articles/202924760-Custom-Fields-Overview-#arrange) object allows you to
+
+        view, create, update, and delete extra fields for additional Estimate, Project, Group, Resource, Task, and User information.
+
+        If Custom Fields represent the fields themselves, [Custom Field Values](/tag/Custom-Field-Values)
+
+        represent the values in/of those fields.'
+      type: object
+      properties:
+        choice_ids:
+          type: array
+          items:
+            type: string
+          description: '`choice_ids` will only be included in the response if `choices` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        created_at:
+          type: string
+          format: date-time
+        creator_id:
+          type: string
+          description: '`creator_id` will only be included in the response if `creator` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        custom_field_set_id:
+          type: string
+          description: '`custom_field_set_id` will only be included in the response if `custom_field_set` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        default_text:
+          type: string
+          description: 'The message in an empty custom field, before a `string`, `date`, `number`, or `currency`  value is entered in.
+
+            This only appears in the UI.
+
+            Visible when whether the custom field is an input field..'
+        external_reference_ids:
+          type: array
+          items:
+            type: string
+          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        name:
+          type: string
+          description: The name of the custom field.
+        read_access:
+          type: integer
+          format: int32
+          description: "The `read_access` [permission setting on each custom field](https://mavenlink.zendesk.com/hc/en-us/articles/202924760#see)\ndetermines the minimum permission needed to view a custom field and its value.\n* `Workspace` (Project), `Resource`, and `Story` (Task) custom fields are project-specific objects,\nso their minimum permissions are set at the [project level](https://mavenlink.zendesk.com/hc/en-us/articles/115002779293-Project-Permissions):\n  - `project_collaboration` (default)\n  - `time_logging`\n  - `financial`\n  - `project_admin`\n\nMost account-level permissions supercede project-level permissions. Therefore, Account Administrators\nare able to view all Project, Resource, and Task custom fields and values across the account,\nregardless of project participation or `read_access` settings.\n* `Estimate`, `WorkspaceGroup` (Group), and `User` custom fields are account-wide objects,\nso their minimum permissions are set at the [account level](https://mavenlink.zendesk.com/hc/en-us/articles/203041364):\n  - `account_collaboration`\n  - `project_creator`\n  - `project_lead`\n  - `reports_viewer`\n  - `reports_viewer_with_cost`\n  - `account_admin` (default)."
+        unique_constraint:
+          type: boolean
+          description: 'Indicates whether a custom field value must be unique across Estimates, Projects, Groups, Resources, Tasks, or Users.
+
+            This is set to `false` by default.
+
+
+            Does not apply to Custom Fields with choices.
+
+            Visible when whether the custom field is an input field..'
+        updated_at:
+          type: string
+          format: date-time
+        value_type:
+          type: string
+          description: "The format of the [custom field's value](/tag/Custom-Field-Values):\n  | Value Type           | Format                                   | Sample         |\n  | -------------------- |:----------------------------------------:| --------------:|\n  | `string`             | `<text_string>`                          |        `\"foo\"` |\n  | `date`               | `<ISO_8601 Date Format>`                 | `\"2014-02-25\"` |\n  | `number`             | `<integer_value>`                        |           `13` |\n  | `currency`           | `[<int_value_in_cents>, <currency_code>]`| `[998, \"USD\"]` |\n  | `single` and `multi` | `[<choice_ids>]`                         |    `[1, 2, 4]` |\n\nThis is set to `string`, by default."
+        write_access:
+          type: integer
+          format: int32
+          description: The permission level required for a user to create, update, or delete a custom field's value.
+    OrganizationMembership:
+      title: Organization Membership
+      description: An Organization Membership represents the connection of a user and project to an organization.
+      type: object
+      properties:
+        created_at:
+          type: string
+          format: date-time
+        department_id:
+          type: string
+          description: '`department_id` will only be included in the response if `department` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        geography_id:
+          type: string
+          description: '`geography_id` will only be included in the response if `geography` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        member_id:
+          type: string
+          description: The ID of the project or user.
+        member_type:
+          type: string
+          description: The type of object that describes the member (workspace or user).
+        primary:
+          type: boolean
+          description: 'Indicates whether this is the primary organization for the member (user or workspace).
+
+            Visible when the primary organization feature is enabled.'
+        updated_at:
+          type: string
+          format: date-time
     Organization:
       title: Organization
       description: 'An Organization allows you to structure and group your projects and account members by
@@ -3186,13 +2952,6 @@ components:
         updated_at:
           type: string
           format: date-time
-    Errors:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
     ExpenseReportSubmission:
       title: Expense Report Submission
       description: "Expense report submissions contain a set of expense line items. These expenses must be approved through\nan expense report submission before they can be added to an invoice. All submission expenses must be in the \nsame workspace (project)."
@@ -3288,151 +3047,392 @@ components:
         workspace_id:
           type: string
           description: '`workspace_id` will only be included in the response if `workspace` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-    AccountColor:
-      title: Account Color
-      description: A color on the user's account that can be associated with a project.
+    Vendor:
+      title: Vendor
+      description: A Vendor is an entity to which an expense can be paid.
       type: object
       properties:
-        created_at:
-          type: string
-          format: date-time
-        default_color:
+        archived:
           type: boolean
-          description: Whether the color is the account default. Each account can only have one default color.
-        enabled:
-          type: boolean
-          description: Whether the color is enabled on the account.
-        hex:
-          type: string
-          description: 'The hex value of the color in the format #XXXXXX.'
-        name:
-          type: string
-          description: The human readable color name.
-        updated_at:
-          type: string
-          format: date-time
-    WorkweekMembership:
-      title: Workweek Membership
-      description: A Workweek Membership represents the relationship of a user to a workweek.
-      type: object
-      properties:
-        created_at:
-          type: string
-          format: date-time
-          description: The date and time the workweek membership was last updated.
-        end_date:
-          type: string
-          format: date
-          description: The end date of the workweek.
-        start_date:
-          type: string
-          format: date
-          description: The start date of the workweek.
-        updated_at:
-          type: string
-          format: date-time
-          description: The date and time the workweek membership was created.
-        user_id:
-          type: integer
-          format: int32
-          description: The ID of the associated user.
-        workweek_id:
-          type: string
-          description: '`workweek_id` will only be included in the response if `workweek` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-    User:
-      title: User
-      description: 'Users represent the individuals that are participating in Kantata OX projects. User objects are often returned as
-
-        nested JSON objects within other returned items such as Posts or Stories.'
-      type: object
-      properties:
-        abbreviated_timezone:
-          type: string
-          description: 'The abbreviation for the user''s time zone.
-
-            Only returned when requested through the optional_fields param.'
-        account_membership_id:
-          type: string
-          description: '`account_membership_id` will only be included in the response if `account_membership` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        bio:
-          type: string
-          description: 'A biography (defined by the user).
-
-            Only returned when requested through the optional_fields param.'
-        city:
-          type: string
-          description: 'The home city of the user (based on their profile).
-
-            Only returned when requested through the optional_fields param.'
-        classification:
-          type: string
-          description: 'Indicates whether a user is Internal or External.
-
-            Only returned when requested through the optional_fields param.'
-        country:
-          type: string
-          description: 'The home country of the user (based on their profile).
-
-            Only returned when requested through the optional_fields param.'
-        custom_field_value_ids:
-          type: array
-          items:
-            type: string
-          description: '`custom_field_value_ids` will only be included in the response if `custom_field_values` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        email_address:
-          type: string
-          description: The email address of the user.
+          description: Whether the vendor is archived.
         external_reference_ids:
           type: array
           items:
             type: string
           description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        full_name:
+        externally_managed:
+          type: boolean
+          description: Whether the vendor was created by an external system and then imported.
+        in_use:
+          type: boolean
+          description: Whether the vendor is used on an invoice.
+        name:
           type: string
-          description: The full name of the user.
-        headline:
-          type: string
-          description: A short description of the user.
-        last_site_activity:
-          type: string
-          format: date-time
-          description: 'The last time a user logged in. This field is only available in conjunction with the `on_my_account` filter option. Only visible when the API user is an Account Administrator.
-
-            Only returned when requested through the optional_fields param.'
-        manager_id:
-          type: string
-          description: '`manager_id` will only be included in the response if `manager` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        photo_path:
-          type: string
-          description: The URL of the user's profile photo.
-        role_id:
-          type: string
-          description: '`role_id` will only be included in the response if `role` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        skill_ids:
+          description: The name of the vendor.
+    TimeOffEntry:
+      title: Time Off Entry
+      description: A Time Off Entry represents the number of hours a specific user has scheduled off for a requested date.
+      type: object
+      properties:
+        external_reference_ids:
           type: array
           items:
             type: string
-          description: '`skill_ids` will only be included in the response if `skills` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        hours:
+          type: number
+          format: float
+          description: The number of hours of time off for the requested date.
+        requested_date:
+          type: string
+          format: date
+          description: The date for which time off is requested.
+        role_id:
+          type: string
+          description: '`role_id` will only be included in the response if `role` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        submission_date:
+          type: string
+          format: date
+          description: The date on which the time off was submitted.
+        user_id:
+          type: string
+          description: '`user_id` will only be included in the response if `user` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+    LineItemLock:
+      title: Line Item Lock
+      description: "LineItemLocks provide a way for you to lock time in the past so that previous time entries \ncannot be edited or updated and new time entries cannot be created before the selected lock date.\n\nLine Items can be locked to any Saturday in the past on a per account basis.\n\nKeep in mind that this feature does not lock the ability to invoice approved time entries,\nnor does it lock the submission or approval of expenses."
+      type: object
+      properties:
+        account_id:
+          type: integer
+          format: int32
+          description: The account for which line items will be locked.
+        creator_id:
+          type: string
+          description: '`creator_id` will only be included in the response if `creator` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        locked_to:
+          type: string
+          format: date
+          description: The date before which you would like line items to be locked.
+    WorkspaceInvitation:
+      title: Workspace Invitation
+      type: object
+      properties:
+        email_address:
+          type: string
+        full_name:
+          type: string
+        invitee_role:
+          type: string
+        message:
+          type: string
+        subject:
+          type: string
+    StatusSetOption:
+      title: Custom Task Status
+      description: A custom task status is in a Task Status Set. A task status set is assigned to a workspace (project), then custom task statuses can be applied to the stories (tasks) within the workspace.
+      type: object
+      properties:
+        category:
+          type: string
+          description: The type of the status. Possible values are `not started`, `started`, `needs info`, or `completed`.
+        created_at:
+          type: string
+          format: date-time
+        position:
+          type: integer
+          format: int32
+          description: The position of this status within the task status set.
+        status:
+          type: string
+          description: The name of the custom task status.
+        status_set_id:
+          type: integer
+          format: int32
+          description: The ID of the task status set that this status is within.
+        task_status_set_id:
+          type: string
+          description: '`task_status_set_id` will only be included in the response if `task_status_set` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        updated_at:
+          type: string
+          format: date-time
+    AccountMembership:
+      title: Account Membership
+      description: An Account Membership represents the relationship of a user to an account.
+      type: object
+      properties:
+        backup_approver_association_ids:
+          type: array
+          items:
+            type: string
+          description: '`backup_approver_association_ids` will only be included in the response if `backup_approver_associations` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        bill_rate_in_cents:
+          type: integer
+          format: int32
+          description: 'The default billing rate, in cents, for the user in a workspace on this account when the workspace
+
+            does not use rate card. This attribute is only accessible if the current user is a Project Lead.
+
+            Visible when the account membership is on the same account as the API user. and the API user is an Account Project Lead..'
+        billability_target:
+          type: integer
+          format: int32
+          description: '
+
+            Visible when the account membership is on the same account as the API user. and the API user is an Account Project Lead..'
+        can_create_workspace:
+          type: boolean
+          description: Whether the user can create projects.
+        can_log_in:
+          type: boolean
+          description: 'Whether the user can log in.
+
+            Only returned when requested through the optional_fields param.'
+        can_view_reports:
+          type: boolean
+          description: Whether the user can view reports.
+        collaborator_only_license:
+          type: boolean
+          description: 'Whether the user is always a Collaborator in projects.
+
+            Visible when the account membership is on the same account as the API user..'
+        cost_rate_ids:
+          type: array
+          items:
+            type: string
+          description: '`cost_rate_ids` will only be included in the response if `cost_rates` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        cost_rate_in_cents:
+          type: integer
+          format: int32
+          description: 'The default cost rate, in cents, for the user in a workspace on this account. This attribute is only
+
+            accessible if the current user is an Administrator on the account.
+
+            Visible when the account membership is on the same account as the API user. and the API user is an Account Administrator..'
+        created_at:
+          type: string
+          format: date-time
+        default_read_only:
+          type: boolean
+          description: Whether the user is always read-only in projects.
+        default_role_id:
+          type: string
+          description: '`default_role_id` will only be included in the response if `default_role` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        disabled_at:
+          type: string
+          format: date-time
+          description: The date when the account membership was disabled.
+        effective_workweek_id:
+          type: string
+          description: '`effective_workweek_id` will only be included in the response if `effective_workweek` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        future_billable_utilization_ids:
+          type: array
+          items:
+            type: string
+          description: '`future_billable_utilization_ids` will only be included in the response if `future_billable_utilizations` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        is_administrator:
+          type: boolean
+          description: Whether the user is an Administrator.
+        is_backup_approver:
+          type: boolean
+          description: Whether the user is a backup approver for others users on the account.
+        is_owner:
+          type: boolean
+          description: The owner of the account.
+        is_project_lead:
+          type: boolean
+          description: Whether the user is a Project Lead.
+        is_punch_clock_user:
+          type: boolean
+          description: Whether the user is a Punch Clock User.
+        managee_ids:
+          type: array
+          items:
+            type: string
+          description: '`managee_ids` will only be included in the response if `managees` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        manager_can_approve:
+          type: boolean
+          description: If present, the assigned manager can approve submitted time and expenses.
+        manager_can_edit_skills:
+          type: boolean
+          description: If present, the assigned manager can edit the user's skills.
+        manager_id:
+          type: string
+          description: '`manager_id` will only be included in the response if `manager` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        non_participant:
+          type: boolean
+          description: '
+
+            Visible when the account membership is on the same account as the API user..
+
+
+            Only returned when requested through the optional_fields param.'
+        permission:
+          type: string
+          description: The user's access level. Options are administrator, reports_viewer_with_cost, reports_viewer, project_lead, project_creator, collaborator, external_collaborator, and punch_clock.
+        possible_managee_ids:
+          type: array
+          items:
+            type: string
+          description: '`possible_managee_ids` will only be included in the response if `possible_managees` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        possible_manager_ids:
+          type: array
+          items:
+            type: string
+          description: '`possible_manager_ids` will only be included in the response if `possible_managers` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        should_show_alert_on_timesheet_submission:
+          type: boolean
+          description: Show an alert on a user's timesheet submission.
         skill_membership_ids:
           type: array
           items:
             type: string
           description: '`skill_membership_ids` will only be included in the response if `skill_memberships` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        state:
+        updated_at:
           type: string
-          description: 'The home state of the user (based on their profile).
-
-            Only returned when requested through the optional_fields param.'
-        website:
+          format: date-time
+        user_id:
           type: string
-          description: 'A website (defined by the user).
+          description: '`user_id` will only be included in the response if `user` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+    AccountLocation:
+      title: Account Location
+      description: Represents a location associated with an account.
+      type: object
+      properties:
+        archived:
+          type: boolean
+          description: Whether the Account Location is archived.
+        in_use:
+          type: boolean
+          description: Whether the Account Location is in use.
+        name:
+          type: string
+          description: The location the Account Location represents.
+    Role:
+      title: Role
+      description: 'A Role represents the main position or title assigned to members on an account. Roles may be associated with account memberships, account invitations,
 
-            Only returned when requested through the optional_fields param.'
-        work_sample_ids:
+        participation, project template assignments, rate card roles, rate card versions, resources, or time adjustments.'
+      type: object
+      properties:
+        created_at:
+          type: string
+          format: date-time
+        deleted_at:
+          type: string
+          format: date-time
+          description: The time the role was deleted.
+        external_reference_ids:
           type: array
           items:
             type: string
-          description: '`work_sample_ids` will only be included in the response if `work_samples` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        name:
+          type: string
+          description: The name of the role.
+        updated_at:
+          type: string
+          format: date-time
+    TimeEntry:
+      title: Time Entry
+      description: 'This object allows you to manage Kantata OX time entries, depending on your permissions.
+
+        Creating and updating time entries allows you to include time when invoicing clients.'
+      type: object
+      properties:
+        active_submission_id:
+          type: string
+          description: '`active_submission_id` will only be included in the response if `active_submission` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        approved:
+          type: boolean
+          description: Specifies whether the time entry has been approved.
+        billable:
+          type: boolean
+          description: Whether the work for the time entry is billable.
+        cost_rate_in_cents:
+          type: integer
+          format: int32
+          description: Cost to perform the work in time entry's currency per hour.
+        created_at:
+          type: string
+          format: date-time
+          description: "Date the time entry was created, but not necessarily when the work was performed.\n        The work can be performed at a different time."
+        currency:
+          type: string
+          description: Currency of the project when the time entry was made.
+        currency_base_unit:
+          type: integer
+          format: int32
+          description: The number of subunits to make a regular unit of time entries currency.
+        currency_symbol:
+          type: string
+          description: Symbol for the currency of the time entry.
+        date_performed:
+          type: string
+          format: date
+          description: Date the time entry work was performed by the specified user.
+        external_reference_ids:
+          type: array
+          items:
+            type: string
+          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        invoice_id:
+          type: string
+          description: '`invoice_id` will only be included in the response if `invoice` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        is_invoiced:
+          type: boolean
+          description: Specifies whether the time entry has been invoiced.
+        location:
+          type: string
+          description: 'The location of the time entry.
+
+            Visible when the account has locations.'
+        location_id:
+          type: integer
+          format: int32
+          description: 'The location id of the time entry.
+
+            Visible when the account has locations.
+
+
+            Only returned when requested through the optional_fields param.'
+        notes:
+          type: string
+          description: Notes about the time entries work.
+        rate_in_cents:
+          type: integer
+          format: int32
+          description: Billable rate for the work in time entry currency's cents per hour.
+        recent_submission_id:
+          type: string
+          description: '`recent_submission_id` will only be included in the response if `recent_submission` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        role_id:
+          type: string
+          description: '`role_id` will only be included in the response if `role` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        story_id:
+          type: string
+          description: '`story_id` will only be included in the response if `story` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        taxable:
+          type: boolean
+          description: Specifies whether the time entry is taxable.
+        time_in_minutes:
+          type: integer
+          format: int32
+          description: Amount of work that was performed in minutes.
+        updated_at:
+          type: string
+          format: date-time
+          description: Date the time entry was last updated.
+        user_can_edit:
+          type: boolean
+          description: 'Returns true if the requesting user can edit the time entry.
+
+            Only returned when requested through the optional_fields param.'
+        user_id:
+          type: string
+          description: '`user_id` will only be included in the response if `user` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        workspace_id:
+          type: string
+          description: '`workspace_id` will only be included in the response if `workspace` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
   securitySchemes:
     BearerToken:
       type: apiKey

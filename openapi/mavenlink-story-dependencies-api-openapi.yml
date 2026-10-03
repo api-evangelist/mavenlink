@@ -326,6 +326,46 @@ paths:
       x-operation-id-original: Get Story Dependency
 components:
   schemas:
+    Errors:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+    StoryDependency:
+      title: Story Dependency
+      description: Story dependencies define relationships between tasks and the sequence in which they must be completed in order to close a project. A dependency is between two tasks (stories) in a project (workspace), with one being the predecessor (source) task, and the other the successor (target) task. To learn more about dependencies, see our [Gantt Chart Dependencies article](https://mavenlink.zendesk.com/hc/en-us/articles/360000456874-Gantt-Chart-Dependencies).
+      type: object
+      properties:
+        created_at:
+          type: string
+          format: date-time
+        dependency_type:
+          type: integer
+          format: int32
+          description: 'The type of the dependency.
+
+            - `0`: Start to Start (SS)—The predecessor begins before the successor can begin.
+
+            - `1`: Start to Finish (SF)—The predecessor begins before the successor can end.
+
+            - `2`: Finish to Start (FS)—The predecessor ends before the successor can begin.
+
+            - `3`: Finish to Finish (FF)—The predecessor ends before the successor can end.'
+        lag:
+          type: integer
+          format: int32
+          description: The days between the predecessor task ending and the successor task beginning.
+        source_id:
+          type: string
+          description: '`source_id` will only be included in the response if `source` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        target_id:
+          type: string
+          description: '`target_id` will only be included in the response if `target` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        updated_at:
+          type: string
+          format: date-time
     Story:
       title: Story
       description: 'Stories (known as [tasks](https://knowledge.kantata.com/hc/en-us/articles/202806550-Tasks-Overview) in the UI)
@@ -662,46 +702,6 @@ components:
           items:
             type: string
           description: '`workspace_resources_with_unnamed_ids` will only be included in the response if `workspace_resources_with_unnamed` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-    Errors:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
-    StoryDependency:
-      title: Story Dependency
-      description: Story dependencies define relationships between tasks and the sequence in which they must be completed in order to close a project. A dependency is between two tasks (stories) in a project (workspace), with one being the predecessor (source) task, and the other the successor (target) task. To learn more about dependencies, see our [Gantt Chart Dependencies article](https://mavenlink.zendesk.com/hc/en-us/articles/360000456874-Gantt-Chart-Dependencies).
-      type: object
-      properties:
-        created_at:
-          type: string
-          format: date-time
-        dependency_type:
-          type: integer
-          format: int32
-          description: 'The type of the dependency.
-
-            - `0`: Start to Start (SS)—The predecessor begins before the successor can begin.
-
-            - `1`: Start to Finish (SF)—The predecessor begins before the successor can end.
-
-            - `2`: Finish to Start (FS)—The predecessor ends before the successor can begin.
-
-            - `3`: Finish to Finish (FF)—The predecessor ends before the successor can end.'
-        lag:
-          type: integer
-          format: int32
-          description: The days between the predecessor task ending and the successor task beginning.
-        source_id:
-          type: string
-          description: '`source_id` will only be included in the response if `source` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        target_id:
-          type: string
-          description: '`target_id` will only be included in the response if `target` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        updated_at:
-          type: string
-          format: date-time
     Error:
       type: object
       properties:

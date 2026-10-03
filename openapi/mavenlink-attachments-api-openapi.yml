@@ -415,13 +415,6 @@ paths:
       x-operation-id-original: Sync Attachment
 components:
   schemas:
-    Errors:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
     Attachments__Base:
       title: Attachment
       description: 'Attachments are files that accompany other resources provided by the Kantata OX API.  Expenses can have an
@@ -466,6 +459,13 @@ components:
         view_in_new_tab:
           type: boolean
           description: Whether the attachment is a filetype that should be viewed in a new tab; usually PDFs.
+    Errors:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
     Error:
       type: object
       properties:

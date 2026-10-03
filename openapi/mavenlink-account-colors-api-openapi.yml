@@ -152,6 +152,13 @@ paths:
       x-operation-id-original: Get Account Colors
 components:
   schemas:
+    Errors:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
     AccountColor:
       title: Account Color
       description: A color on the user's account that can be associated with a project.
@@ -175,13 +182,6 @@ components:
         updated_at:
           type: string
           format: date-time
-    Errors:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
     Error:
       type: object
       properties:

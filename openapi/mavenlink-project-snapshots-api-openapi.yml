@@ -603,69 +603,6 @@ components:
         workspace_id:
           type: string
           description: The ID of the project the snapshot is for.
-    Project__Snapshots__Models__ProjectSnapshotCustomFieldValue:
-      title: Snapshot Custom Field Value
-      description: Snapshot custom field values represent the state of project and task custom field values when a snapshot was taken.
-      type: object
-      properties:
-        custom_field_name:
-          type: string
-          description: The name of the custom field.
-        subject_id:
-          type: integer
-          format: int32
-          description: The ID of the snapshot project or snapshot task the custom field value is for. This is not the same as the project or task ID.
-        subject_type:
-          type: string
-          description: The subject type of the custom field value, e.g. `SnapshotWorkspace` (snapshot project) or `SnapshotStory` (snapshot task).
-        value:
-          type: string
-          description: The value of the custom field.
-        value_type:
-          type: string
-          description: The value type of the custom field, e.g. `string`, `date`, `number`, `currency`, `single`, or `multi`.
-    Error:
-      type: object
-      properties:
-        type:
-          type: string
-        message:
-          type: string
-    Errors:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
-    Project__Snapshots__Models__ProjectSnapshotResource:
-      title: Project Snapshot Resources
-      description: Project Snapshot Resources represent the state of project resources when a snapshot was taken, including their roles and total project allocation.
-      type: object
-      properties:
-        allocated_minutes:
-          type: integer
-          format: int32
-          description: The number of minutes the resource was allocated on the project at the time of the snapshot.
-        name:
-          type: string
-          description: For named resources, this is the person's full name. For unnamed resources, this is the title.
-        project_snapshot_id:
-          type: integer
-          format: int32
-          description: The ID of the snapshot this snapshot resource is for.
-        resource_id:
-          type: integer
-          format: int32
-          description: The ID of the resource.
-        role_id:
-          type: integer
-          format: int32
-          description: The ID of the role the resource had on the project at the time of the snapshot.
-        user_id:
-          type: integer
-          format: int32
-          description: The ID of the user for the resource at the time of the snapshot. For unnamed resources, this is null.
     Project__Snapshots__Models__ProjectSnapshotTask:
       title: Project Snapshot Task
       description: Project snapshot tasks represent the state of tasks in a project when a snapshot was taken.
@@ -726,6 +663,69 @@ components:
           type: integer
           format: int32
           description: The WBS number of the task when the snapshot was taken.
+    Error:
+      type: object
+      properties:
+        type:
+          type: string
+        message:
+          type: string
+    Project__Snapshots__Models__ProjectSnapshotResource:
+      title: Project Snapshot Resources
+      description: Project Snapshot Resources represent the state of project resources when a snapshot was taken, including their roles and total project allocation.
+      type: object
+      properties:
+        allocated_minutes:
+          type: integer
+          format: int32
+          description: The number of minutes the resource was allocated on the project at the time of the snapshot.
+        name:
+          type: string
+          description: For named resources, this is the person's full name. For unnamed resources, this is the title.
+        project_snapshot_id:
+          type: integer
+          format: int32
+          description: The ID of the snapshot this snapshot resource is for.
+        resource_id:
+          type: integer
+          format: int32
+          description: The ID of the resource.
+        role_id:
+          type: integer
+          format: int32
+          description: The ID of the role the resource had on the project at the time of the snapshot.
+        user_id:
+          type: integer
+          format: int32
+          description: The ID of the user for the resource at the time of the snapshot. For unnamed resources, this is null.
+    Errors:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+    Project__Snapshots__Models__ProjectSnapshotCustomFieldValue:
+      title: Snapshot Custom Field Value
+      description: Snapshot custom field values represent the state of project and task custom field values when a snapshot was taken.
+      type: object
+      properties:
+        custom_field_name:
+          type: string
+          description: The name of the custom field.
+        subject_id:
+          type: integer
+          format: int32
+          description: The ID of the snapshot project or snapshot task the custom field value is for. This is not the same as the project or task ID.
+        subject_type:
+          type: string
+          description: The subject type of the custom field value, e.g. `SnapshotWorkspace` (snapshot project) or `SnapshotStory` (snapshot task).
+        value:
+          type: string
+          description: The value of the custom field.
+        value_type:
+          type: string
+          description: The value type of the custom field, e.g. `string`, `date`, `number`, `currency`, `single`, or `multi`.
   securitySchemes:
     BearerToken:
       type: apiKey

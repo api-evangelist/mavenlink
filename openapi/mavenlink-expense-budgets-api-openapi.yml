@@ -931,33 +931,125 @@ paths:
       x-operation-id-original: Delete Expense Budget
 components:
   schemas:
-    ExpenseBudget:
-      title: Expense Budgets
-      description: Expense budgets allow you to plan for non-labor expenses.
+    Story:
+      title: Story
+      description: 'Stories (known as [tasks](https://knowledge.kantata.com/hc/en-us/articles/202806550-Tasks-Overview) in the UI)
+
+        are the tasks, deliverables, issues, and milestones required to complete a project.
+
+        Stories belong to [Workspaces](/tag/Workspaces), appear in the
+
+        [Local Task Tracker](https://knowledge.kantata.com/hc/en-us/articles/202490134-Project-Task-Tracker) and the
+
+        [Global Tasks Tracker](https://knowledge.kantata.com/hc/en-us/articles/216424897-Global-Tasks-Tracker),
+
+        can be linked to [Posts](/tag/Posts), can have substories (subtasks) and
+
+        [Story Tasks](https://developer.kantata.com/tag/Story-Tasks) (checklists), and have many attributes for
+
+        planning, organization, and financials.'
       type: object
       properties:
-        billable:
-          type: boolean
-          description: Whether the expense will be billed to the client.
-        burns_budget:
-          type: boolean
-          description: Whether the expense budget impacts the project margin.
-        cost_per_unit_in_subunits:
-          type: integer
-          format: int32
-          description: The cost, in the subunits of the currency (e.g. cents for USD).
-        description:
-          type: string
-          description: The description of the expense budget.
-        expected_by:
-          type: string
-          format: date
-          description: When the expenses are expected to be logged by.
-        expense_ids:
+        ancestor_ids:
           type: array
           items:
             type: string
-          description: '`expense_ids` will only be included in the response if `expenses` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+          description: The IDs of all the ancestor (i.e. parent) tasks of the task. This is empty for a top-level task.
+        ancestry_depth:
+          type: integer
+          format: int32
+          description: The number of levels a subtask is nested below the top-level task. Possible values are between `0` (i.e. a top-level task) and `4`.
+        archived:
+          type: boolean
+          description: Whether the task is archived.
+        archived_editable:
+          type: boolean
+          description: 'For archived tasks, whether the authenticated user can edit the task.
+
+            Only returned when requested through the optional_fields param.'
+        assigned_role_id:
+          type: string
+          description: '`assigned_role_id` will only be included in the response if `assigned_role` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        assignee_ids:
+          type: array
+          items:
+            type: string
+          description: '`assignee_ids` will only be included in the response if `assignees` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        assignment_timestamped_at:
+          type: string
+          format: date-time
+        attachment_ids:
+          type: array
+          items:
+            type: string
+          description: '`attachment_ids` will only be included in the response if `attachments` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        billable:
+          type: boolean
+          description: Whether the task is billable.
+        budget_estimate_in_cents:
+          type: integer
+          format: int32
+          description: 'The task budget, in the subunits of the currency (e.g. cents for USD).
+
+            Visible when the API user can view story budgets in the story''s workspace.'
+        budget_used_in_cents:
+          type: integer
+          format: int32
+          description: 'How much of the task budget has been used, in the subunits of the currency (e.g. cents for USD).
+
+            Visible when the API user can view story budgets in the story''s workspace.'
+        can_align_time:
+          type: boolean
+          description: 'Whether [Daily Scheduled Hours](/tag/Daily-Scheduled-Hours-(Story-Allocation-Days)) (i.e. Story Allocation Days) that are out of sync with the task start or due date can be realigned to the task start date.
+
+            Only returned when requested through the optional_fields param.'
+        can_edit:
+          type: boolean
+          description: 'Whether the authenticated user can edit the task. For archived tasks, refer to `archived_editable` instead.
+
+            Only returned when requested through the optional_fields param.'
+        can_post:
+          type: boolean
+          description: 'Whether the authenticated user can create posts in the project the task is in.
+
+            Only returned when requested through the optional_fields param.'
+        created_at:
+          type: string
+          format: date-time
+        creator_id:
+          type: string
+          description: '`creator_id` will only be included in the response if `creator` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        current_assignment_ids:
+          type: array
+          items:
+            type: string
+          description: '`current_assignment_ids` will only be included in the response if `current_assignments` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        custom_field_value_ids:
+          type: array
+          items:
+            type: string
+          description: '`custom_field_value_ids` will only be included in the response if `custom_field_values` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        custom_task_status_id:
+          type: integer
+          format: int32
+          description: 'The ID of the task''s custom status. If the workspace is not using a custom task status set, this is `null`.
+
+            Only returned when requested through the optional_fields param.'
+        deleted_at:
+          type: string
+          format: date-time
+        descendant_ids:
+          type: array
+          items:
+            type: string
+          description: '`descendant_ids` will only be included in the response if `descendants` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        description:
+          type: string
+          description: The task description. Markdown syntax is included.
+        due_date:
+          type: string
+          format: date
+          description: When the task is due.
         external_reference_ids:
           type: array
           items:
@@ -965,68 +1057,216 @@ components:
           description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
         fixed_fee:
           type: boolean
-          description: Whether the expense will be billed as a fixed cost.
-        fixed_fee_item_ids:
+          description: Whether the task is fixed fee (`true`) or time and materials (`false`).
+        follower_ids:
           type: array
           items:
             type: string
-          description: '`fixed_fee_item_ids` will only be included in the response if `fixed_fee_items` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        markup_per_unit_in_subunits:
-          type: integer
-          format: int32
-          description: 'When the `markup_type` is `flat_fee`, this is the markup per unit, in the subunits of the currency
-
-            (e.g. cents for USD). This is multiplied by the `quantity` and added to the total cost to produce
-
-            the total fees.'
-        markup_percentage:
-          type: number
-          format: float
-          description: 'When the `markup_type` is set to `percentage`, this is the markup percentage.
-
-            This is multiplied by the total cost to produce the total markup,
-
-            then added to the total cost to produce the total fees.'
-        markup_type:
+          description: '`follower_ids` will only be included in the response if `followers` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        formatted_description:
           type: string
-          description: The markup type. Possible values are `percentage` and `flat_fee`.
-        quantity:
+          description: 'The task description with special formatting, like emoji and @-mentions.
+
+            Only returned when requested through the optional_fields param.'
+        google_document_ids:
+          type: array
+          items:
+            type: string
+          description: '`google_document_ids` will only be included in the response if `google_documents` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        has_out_of_bounds_sads:
+          type: boolean
+          description: 'Whether the task has any [Daily Scheduled Hours](/tag/Daily-Scheduled-Hours-(Story-Allocation-Days)) (i.e. Story Allocation Days) before its start date or after its due date.
+
+            Only returned when requested through the optional_fields param.'
+        invoiced_balance_in_cents:
           type: integer
           format: int32
-          description: The number of units.
-        story_id:
+          description: 'How much has been invoiced for the task, in the subunits of the currency (e.g. cents for USD).
+
+            Visible when the API user can view story budgets in the story''s workspace.'
+        is_time_trackable_type:
+          type: boolean
+          description: 'Whether the task can have time and expenses tracked against it, as set in account settings.
+
+            Only returned when requested through the optional_fields param.'
+        logged_billable_time_in_minutes:
           type: integer
           format: int32
-          description: The ID of the associated story (task).
+          description: 'How much billable time has been tracked against the task, in minutes.
+
+            Visible when the API user can view story time estimates in the story''s workspace.'
+        logged_nonbillable_time_in_minutes:
+          type: integer
+          format: int32
+          description: 'How much non-billable time has been tracked against the task, in minutes.
+
+            Visible when the API user can view story time estimates in the story''s workspace.'
+        parent_id:
+          type: string
+          description: '`parent_id` will only be included in the response if `parent` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        parsed_description:
+          type: string
+          description: 'The task description. Markdown syntax is not included.
+
+            Only returned when requested through the optional_fields param.'
+        percentage_complete:
+          type: integer
+          format: int32
+          description: The percentage of work done on the task.
+        position:
+          type: integer
+          format: int32
+          description: Represents the task's position in the Task Tracker. This is not the same as the WBS (Work Breakdown Structure) number shown in the UI.
+        potential_workspace_resource_ids:
+          type: array
+          items:
+            type: string
+          description: '`potential_workspace_resource_ids` will only be included in the response if `potential_workspace_resources` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        potential_workspace_resources_with_unnamed_ids:
+          type: array
+          items:
+            type: string
+          description: '`potential_workspace_resources_with_unnamed_ids` will only be included in the response if `potential_workspace_resources_with_unnamed` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        priority:
+          type: integer
+          format: int32
+          description: The priority of the task. Possible values are `critical`, `high`, `normal`, `low`.
+        project_plan:
+          type: boolean
+          description: Whether the story is a project task (`true`) or is a To Do (`false`).
+        read_only:
+          type: boolean
+          description: 'Whether the authenticated user can only view the task and cannot edit it.
+
+            Only returned when requested through the optional_fields param.'
+        render_description_markdown:
+          type: boolean
+          description: 'Whether the account the task is in is set to render Markdown in task descriptions as formatted and styled text.
+
+            Only returned when requested through the optional_fields param.'
+        reply_ids:
+          type: array
+          items:
+            type: string
+          description: '`reply_ids` will only be included in the response if `replies` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        root_id:
+          type: string
+          description: '`root_id` will only be included in the response if `root` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        source_dependency_ids:
+          type: array
+          items:
+            type: string
+          description: '`source_dependency_ids` will only be included in the response if `source_dependencies` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        start_date:
+          type: string
+          format: date
+          description: When the task starts.
+        state:
+          type: string
+          description: 'The status type of the story. Possible values are `not started`, `started`, `needs info`, or `completed`. If task status sets are not activated on the account, the following values are also possible: `new`, `reopened`, `in progress`, `blocked`, `fixed`, `duplicate`, `can''t reproduce`, `resolved`, or `won''t fix`. The actual task status is returned in the `status` field.'
+        status:
+          type: string
+          description: The status of the story.
+        story_state_change_ids:
+          type: array
+          items:
+            type: string
+          description: '`story_state_change_ids` will only be included in the response if `story_state_changes` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        story_task_ids:
+          type: array
+          items:
+            type: string
+          description: '`story_task_ids` will only be included in the response if `story_tasks` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        story_type:
+          type: string
+          description: The task's type. Possible values are `task`, `deliverable `, `milestone`, and `issue`.
+        sub_stories_billable_time_in_minutes:
+          type: integer
+          format: int32
+          description: 'How much billable time has been tracked against the task''s descendants, in minutes.
+
+            Visible when the API user can view story time estimates in the story''s workspace.'
+        sub_stories_budget_estimate_in_cents:
+          type: integer
+          format: int32
+          description: 'The budget of the task''s descendants, in the subunits of the currency (e.g. cents for USD).
+
+            Visible when the API user can view story budgets in the story''s workspace.'
+        sub_stories_budget_used_in_cents:
+          type: integer
+          format: int32
+          description: 'How much of the budgets of the task''s descendants has been used, in the subunits of the currency (e.g. cents for USD).
+
+            Visible when the API user can view story budgets in the story''s workspace.'
+        sub_stories_time_estimate_in_minutes:
+          type: integer
+          format: int32
+          description: 'The estimated time of the task''s descendants, in minutes.
+
+            Visible when the API user can view story time estimates in the story''s workspace.'
+        sub_story_count:
+          type: integer
+          format: int32
+          description: How many descendant tasks the task has.
+        sub_story_ids:
+          type: array
+          items:
+            type: string
+          description: '`sub_story_ids` will only be included in the response if `sub_stories` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        subtree_depth:
+          type: integer
+          format: int32
+          description: How many ancestor tasks the task has.
+        tag_ids:
+          type: array
+          items:
+            type: string
+          description: '`tag_ids` will only be included in the response if `tags` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        target_dependency_ids:
+          type: array
+          items:
+            type: string
+          description: '`target_dependency_ids` will only be included in the response if `target_dependencies` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        time_estimate_in_minutes:
+          type: integer
+          format: int32
+          description: 'The estimated time for the task, in minutes.
+
+            Visible when the API user can view story time estimates in the story''s workspace.'
+        time_trackable:
+          type: boolean
+          description: Whether time can be tracked against the task.
         title:
           type: string
-          description: The name of the expense budget.
-        workspace_id:
+          description: The title of the task.
+        uninvoiced_balance_in_cents:
           type: integer
           format: int32
-          description: The ID of the workspace the expense budget belongs to.
-    FixedFeeItem:
-      title: Fixed Fee Item
-      type: object
-      properties:
-        amount_in_cents:
-          type: integer
-          format: int32
-        created_at:
+          description: 'How much has not yet been invoiced for the task, in the subunits of the currency (e.g. cents for USD).
+
+            Visible when the API user can view story budgets in the story''s workspace.'
+        updated_at:
           type: string
           format: date-time
-        currency:
-          type: string
-        notes:
-          type: string
-        story_id:
+        weight:
           type: integer
           format: int32
-        taxable:
-          type: boolean
+          description: 'If the `story_type` is `milestone`, this is the [weight](https://knowledge.kantata.com/hc/en-us/articles/203499904-Milestone-Weighting) of the task.
+
+            Visible when the API user can view story time estimates in the story''s workspace.'
         workspace_id:
-          type: integer
-          format: int32
+          type: string
+          description: '`workspace_id` will only be included in the response if `workspace` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        workspace_resource_ids:
+          type: array
+          items:
+            type: string
+          description: '`workspace_resource_ids` will only be included in the response if `workspace_resources` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        workspace_resources_with_unnamed_ids:
+          type: array
+          items:
+            type: string
+          description: '`workspace_resources_with_unnamed_ids` will only be included in the response if `workspace_resources_with_unnamed` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
     Workspace:
       title: Workspace
       description: Workspaces (also called projects) represent the space in which Kantata OX users plan, communicate, and collaborate.
@@ -1494,6 +1734,94 @@ components:
           items:
             type: string
           description: '`workspace_resources_with_unnamed_ids` will only be included in the response if `workspace_resources_with_unnamed` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+    Error:
+      type: object
+      properties:
+        type:
+          type: string
+        message:
+          type: string
+    Errors:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+    ExpenseBudget:
+      title: Expense Budgets
+      description: Expense budgets allow you to plan for non-labor expenses.
+      type: object
+      properties:
+        billable:
+          type: boolean
+          description: Whether the expense will be billed to the client.
+        burns_budget:
+          type: boolean
+          description: Whether the expense budget impacts the project margin.
+        cost_per_unit_in_subunits:
+          type: integer
+          format: int32
+          description: The cost, in the subunits of the currency (e.g. cents for USD).
+        description:
+          type: string
+          description: The description of the expense budget.
+        expected_by:
+          type: string
+          format: date
+          description: When the expenses are expected to be logged by.
+        expense_ids:
+          type: array
+          items:
+            type: string
+          description: '`expense_ids` will only be included in the response if `expenses` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        external_reference_ids:
+          type: array
+          items:
+            type: string
+          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        fixed_fee:
+          type: boolean
+          description: Whether the expense will be billed as a fixed cost.
+        fixed_fee_item_ids:
+          type: array
+          items:
+            type: string
+          description: '`fixed_fee_item_ids` will only be included in the response if `fixed_fee_items` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        markup_per_unit_in_subunits:
+          type: integer
+          format: int32
+          description: 'When the `markup_type` is `flat_fee`, this is the markup per unit, in the subunits of the currency
+
+            (e.g. cents for USD). This is multiplied by the `quantity` and added to the total cost to produce
+
+            the total fees.'
+        markup_percentage:
+          type: number
+          format: float
+          description: 'When the `markup_type` is set to `percentage`, this is the markup percentage.
+
+            This is multiplied by the total cost to produce the total markup,
+
+            then added to the total cost to produce the total fees.'
+        markup_type:
+          type: string
+          description: The markup type. Possible values are `percentage` and `flat_fee`.
+        quantity:
+          type: integer
+          format: int32
+          description: The number of units.
+        story_id:
+          type: integer
+          format: int32
+          description: The ID of the associated story (task).
+        title:
+          type: string
+          description: The name of the expense budget.
+        workspace_id:
+          type: integer
+          format: int32
+          description: The ID of the workspace the expense budget belongs to.
     Expense:
       title: Expense
       description: 'Expenses are non-time related costs incurred in a project. Once created, expenses can
@@ -1604,356 +1932,6 @@ components:
         workspace_id:
           type: string
           description: '`workspace_id` will only be included in the response if `workspace` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-    Error:
-      type: object
-      properties:
-        type:
-          type: string
-        message:
-          type: string
-    Story:
-      title: Story
-      description: 'Stories (known as [tasks](https://knowledge.kantata.com/hc/en-us/articles/202806550-Tasks-Overview) in the UI)
-
-        are the tasks, deliverables, issues, and milestones required to complete a project.
-
-        Stories belong to [Workspaces](/tag/Workspaces), appear in the
-
-        [Local Task Tracker](https://knowledge.kantata.com/hc/en-us/articles/202490134-Project-Task-Tracker) and the
-
-        [Global Tasks Tracker](https://knowledge.kantata.com/hc/en-us/articles/216424897-Global-Tasks-Tracker),
-
-        can be linked to [Posts](/tag/Posts), can have substories (subtasks) and
-
-        [Story Tasks](https://developer.kantata.com/tag/Story-Tasks) (checklists), and have many attributes for
-
-        planning, organization, and financials.'
-      type: object
-      properties:
-        ancestor_ids:
-          type: array
-          items:
-            type: string
-          description: The IDs of all the ancestor (i.e. parent) tasks of the task. This is empty for a top-level task.
-        ancestry_depth:
-          type: integer
-          format: int32
-          description: The number of levels a subtask is nested below the top-level task. Possible values are between `0` (i.e. a top-level task) and `4`.
-        archived:
-          type: boolean
-          description: Whether the task is archived.
-        archived_editable:
-          type: boolean
-          description: 'For archived tasks, whether the authenticated user can edit the task.
-
-            Only returned when requested through the optional_fields param.'
-        assigned_role_id:
-          type: string
-          description: '`assigned_role_id` will only be included in the response if `assigned_role` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        assignee_ids:
-          type: array
-          items:
-            type: string
-          description: '`assignee_ids` will only be included in the response if `assignees` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        assignment_timestamped_at:
-          type: string
-          format: date-time
-        attachment_ids:
-          type: array
-          items:
-            type: string
-          description: '`attachment_ids` will only be included in the response if `attachments` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        billable:
-          type: boolean
-          description: Whether the task is billable.
-        budget_estimate_in_cents:
-          type: integer
-          format: int32
-          description: 'The task budget, in the subunits of the currency (e.g. cents for USD).
-
-            Visible when the API user can view story budgets in the story''s workspace.'
-        budget_used_in_cents:
-          type: integer
-          format: int32
-          description: 'How much of the task budget has been used, in the subunits of the currency (e.g. cents for USD).
-
-            Visible when the API user can view story budgets in the story''s workspace.'
-        can_align_time:
-          type: boolean
-          description: 'Whether [Daily Scheduled Hours](/tag/Daily-Scheduled-Hours-(Story-Allocation-Days)) (i.e. Story Allocation Days) that are out of sync with the task start or due date can be realigned to the task start date.
-
-            Only returned when requested through the optional_fields param.'
-        can_edit:
-          type: boolean
-          description: 'Whether the authenticated user can edit the task. For archived tasks, refer to `archived_editable` instead.
-
-            Only returned when requested through the optional_fields param.'
-        can_post:
-          type: boolean
-          description: 'Whether the authenticated user can create posts in the project the task is in.
-
-            Only returned when requested through the optional_fields param.'
-        created_at:
-          type: string
-          format: date-time
-        creator_id:
-          type: string
-          description: '`creator_id` will only be included in the response if `creator` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        current_assignment_ids:
-          type: array
-          items:
-            type: string
-          description: '`current_assignment_ids` will only be included in the response if `current_assignments` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        custom_field_value_ids:
-          type: array
-          items:
-            type: string
-          description: '`custom_field_value_ids` will only be included in the response if `custom_field_values` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        custom_task_status_id:
-          type: integer
-          format: int32
-          description: 'The ID of the task''s custom status. If the workspace is not using a custom task status set, this is `null`.
-
-            Only returned when requested through the optional_fields param.'
-        deleted_at:
-          type: string
-          format: date-time
-        descendant_ids:
-          type: array
-          items:
-            type: string
-          description: '`descendant_ids` will only be included in the response if `descendants` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        description:
-          type: string
-          description: The task description. Markdown syntax is included.
-        due_date:
-          type: string
-          format: date
-          description: When the task is due.
-        external_reference_ids:
-          type: array
-          items:
-            type: string
-          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        fixed_fee:
-          type: boolean
-          description: Whether the task is fixed fee (`true`) or time and materials (`false`).
-        follower_ids:
-          type: array
-          items:
-            type: string
-          description: '`follower_ids` will only be included in the response if `followers` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        formatted_description:
-          type: string
-          description: 'The task description with special formatting, like emoji and @-mentions.
-
-            Only returned when requested through the optional_fields param.'
-        google_document_ids:
-          type: array
-          items:
-            type: string
-          description: '`google_document_ids` will only be included in the response if `google_documents` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        has_out_of_bounds_sads:
-          type: boolean
-          description: 'Whether the task has any [Daily Scheduled Hours](/tag/Daily-Scheduled-Hours-(Story-Allocation-Days)) (i.e. Story Allocation Days) before its start date or after its due date.
-
-            Only returned when requested through the optional_fields param.'
-        invoiced_balance_in_cents:
-          type: integer
-          format: int32
-          description: 'How much has been invoiced for the task, in the subunits of the currency (e.g. cents for USD).
-
-            Visible when the API user can view story budgets in the story''s workspace.'
-        is_time_trackable_type:
-          type: boolean
-          description: 'Whether the task can have time and expenses tracked against it, as set in account settings.
-
-            Only returned when requested through the optional_fields param.'
-        logged_billable_time_in_minutes:
-          type: integer
-          format: int32
-          description: 'How much billable time has been tracked against the task, in minutes.
-
-            Visible when the API user can view story time estimates in the story''s workspace.'
-        logged_nonbillable_time_in_minutes:
-          type: integer
-          format: int32
-          description: 'How much non-billable time has been tracked against the task, in minutes.
-
-            Visible when the API user can view story time estimates in the story''s workspace.'
-        parent_id:
-          type: string
-          description: '`parent_id` will only be included in the response if `parent` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        parsed_description:
-          type: string
-          description: 'The task description. Markdown syntax is not included.
-
-            Only returned when requested through the optional_fields param.'
-        percentage_complete:
-          type: integer
-          format: int32
-          description: The percentage of work done on the task.
-        position:
-          type: integer
-          format: int32
-          description: Represents the task's position in the Task Tracker. This is not the same as the WBS (Work Breakdown Structure) number shown in the UI.
-        potential_workspace_resource_ids:
-          type: array
-          items:
-            type: string
-          description: '`potential_workspace_resource_ids` will only be included in the response if `potential_workspace_resources` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        potential_workspace_resources_with_unnamed_ids:
-          type: array
-          items:
-            type: string
-          description: '`potential_workspace_resources_with_unnamed_ids` will only be included in the response if `potential_workspace_resources_with_unnamed` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        priority:
-          type: integer
-          format: int32
-          description: The priority of the task. Possible values are `critical`, `high`, `normal`, `low`.
-        project_plan:
-          type: boolean
-          description: Whether the story is a project task (`true`) or is a To Do (`false`).
-        read_only:
-          type: boolean
-          description: 'Whether the authenticated user can only view the task and cannot edit it.
-
-            Only returned when requested through the optional_fields param.'
-        render_description_markdown:
-          type: boolean
-          description: 'Whether the account the task is in is set to render Markdown in task descriptions as formatted and styled text.
-
-            Only returned when requested through the optional_fields param.'
-        reply_ids:
-          type: array
-          items:
-            type: string
-          description: '`reply_ids` will only be included in the response if `replies` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        root_id:
-          type: string
-          description: '`root_id` will only be included in the response if `root` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        source_dependency_ids:
-          type: array
-          items:
-            type: string
-          description: '`source_dependency_ids` will only be included in the response if `source_dependencies` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        start_date:
-          type: string
-          format: date
-          description: When the task starts.
-        state:
-          type: string
-          description: 'The status type of the story. Possible values are `not started`, `started`, `needs info`, or `completed`. If task status sets are not activated on the account, the following values are also possible: `new`, `reopened`, `in progress`, `blocked`, `fixed`, `duplicate`, `can''t reproduce`, `resolved`, or `won''t fix`. The actual task status is returned in the `status` field.'
-        status:
-          type: string
-          description: The status of the story.
-        story_state_change_ids:
-          type: array
-          items:
-            type: string
-          description: '`story_state_change_ids` will only be included in the response if `story_state_changes` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        story_task_ids:
-          type: array
-          items:
-            type: string
-          description: '`story_task_ids` will only be included in the response if `story_tasks` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        story_type:
-          type: string
-          description: The task's type. Possible values are `task`, `deliverable `, `milestone`, and `issue`.
-        sub_stories_billable_time_in_minutes:
-          type: integer
-          format: int32
-          description: 'How much billable time has been tracked against the task''s descendants, in minutes.
-
-            Visible when the API user can view story time estimates in the story''s workspace.'
-        sub_stories_budget_estimate_in_cents:
-          type: integer
-          format: int32
-          description: 'The budget of the task''s descendants, in the subunits of the currency (e.g. cents for USD).
-
-            Visible when the API user can view story budgets in the story''s workspace.'
-        sub_stories_budget_used_in_cents:
-          type: integer
-          format: int32
-          description: 'How much of the budgets of the task''s descendants has been used, in the subunits of the currency (e.g. cents for USD).
-
-            Visible when the API user can view story budgets in the story''s workspace.'
-        sub_stories_time_estimate_in_minutes:
-          type: integer
-          format: int32
-          description: 'The estimated time of the task''s descendants, in minutes.
-
-            Visible when the API user can view story time estimates in the story''s workspace.'
-        sub_story_count:
-          type: integer
-          format: int32
-          description: How many descendant tasks the task has.
-        sub_story_ids:
-          type: array
-          items:
-            type: string
-          description: '`sub_story_ids` will only be included in the response if `sub_stories` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        subtree_depth:
-          type: integer
-          format: int32
-          description: How many ancestor tasks the task has.
-        tag_ids:
-          type: array
-          items:
-            type: string
-          description: '`tag_ids` will only be included in the response if `tags` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        target_dependency_ids:
-          type: array
-          items:
-            type: string
-          description: '`target_dependency_ids` will only be included in the response if `target_dependencies` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        time_estimate_in_minutes:
-          type: integer
-          format: int32
-          description: 'The estimated time for the task, in minutes.
-
-            Visible when the API user can view story time estimates in the story''s workspace.'
-        time_trackable:
-          type: boolean
-          description: Whether time can be tracked against the task.
-        title:
-          type: string
-          description: The title of the task.
-        uninvoiced_balance_in_cents:
-          type: integer
-          format: int32
-          description: 'How much has not yet been invoiced for the task, in the subunits of the currency (e.g. cents for USD).
-
-            Visible when the API user can view story budgets in the story''s workspace.'
-        updated_at:
-          type: string
-          format: date-time
-        weight:
-          type: integer
-          format: int32
-          description: 'If the `story_type` is `milestone`, this is the [weight](https://knowledge.kantata.com/hc/en-us/articles/203499904-Milestone-Weighting) of the task.
-
-            Visible when the API user can view story time estimates in the story''s workspace.'
-        workspace_id:
-          type: string
-          description: '`workspace_id` will only be included in the response if `workspace` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        workspace_resource_ids:
-          type: array
-          items:
-            type: string
-          description: '`workspace_resource_ids` will only be included in the response if `workspace_resources` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        workspace_resources_with_unnamed_ids:
-          type: array
-          items:
-            type: string
-          description: '`workspace_resources_with_unnamed_ids` will only be included in the response if `workspace_resources_with_unnamed` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-    Errors:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
     ExternalReference:
       title: External Reference
       description: 'External References allows users see which objects (one of `Assignment`, `BillingMilestone`, `CustomField`, `CustomFieldChoice`, `CustomFieldSet`, `CustomFieldValue`, `Estimate`, `EstimateScenario`, `EstimateScenarioResource`, `Expense`, `ExpenseBudget`, `Invoice`, `Participation`, `Post`, `RateCard`, `Role`, `Skill`, `StatusReport`, `Story`, `StoryAllocationDay`, `Submission`, `SurveyAnswer`, `SurveyQuestion`, `SurveyResponse`, `SurveyTemplate`, `TimeEntry`, `TimeOffEntry`, `User`, `Vendor`, `Workspace`, `WorkspaceAllocation`, `WorkspaceGroup`, or `WorkspaceResource`
@@ -2028,6 +2006,28 @@ components:
           type: string
           format: date-time
           description: The date and time the reference was last updated.
+    FixedFeeItem:
+      title: Fixed Fee Item
+      type: object
+      properties:
+        amount_in_cents:
+          type: integer
+          format: int32
+        created_at:
+          type: string
+          format: date-time
+        currency:
+          type: string
+        notes:
+          type: string
+        story_id:
+          type: integer
+          format: int32
+        taxable:
+          type: boolean
+        workspace_id:
+          type: integer
+          format: int32
   securitySchemes:
     BearerToken:
       type: apiKey

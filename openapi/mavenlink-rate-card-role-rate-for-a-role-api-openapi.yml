@@ -648,43 +648,6 @@ paths:
       x-operation-id-original: Delete Rate Card Role
 components:
   schemas:
-    RateCardRole:
-      title: Rate Card Role
-      description: 'A Rate Card Role belongs to a Rate Card Version and represents the bill rate, in cents per hour, for a Role
-
-        For example, the rate for a developer may be 2000 cents per hour.'
-      type: object
-      properties:
-        created_at:
-          type: string
-          format: date-time
-        rate:
-          type: integer
-          format: int32
-          description: The bill rate, in cents per hour, for the Rate Card Role.
-        rate_card_version_id:
-          type: string
-          description: '`rate_card_version_id` will only be included in the response if `rate_card_version` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        role_id:
-          type: string
-          description: '`role_id` will only be included in the response if `role` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        updated_at:
-          type: string
-          format: date-time
-    Error:
-      type: object
-      properties:
-        type:
-          type: string
-        message:
-          type: string
-    Errors:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
     RateCardVersion:
       title: Rate Card Version
       description: 'A Rate Card Version represents a snapshot of a Rate Card at a specified point in time and is used to set the
@@ -713,6 +676,43 @@ components:
         rate_card_set_version_id:
           type: string
           description: '`rate_card_set_version_id` will only be included in the response if `rate_card_set_version` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        updated_at:
+          type: string
+          format: date-time
+    Error:
+      type: object
+      properties:
+        type:
+          type: string
+        message:
+          type: string
+    Errors:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+    RateCardRole:
+      title: Rate Card Role
+      description: 'A Rate Card Role belongs to a Rate Card Version and represents the bill rate, in cents per hour, for a Role
+
+        For example, the rate for a developer may be 2000 cents per hour.'
+      type: object
+      properties:
+        created_at:
+          type: string
+          format: date-time
+        rate:
+          type: integer
+          format: int32
+          description: The bill rate, in cents per hour, for the Rate Card Role.
+        rate_card_version_id:
+          type: string
+          description: '`rate_card_version_id` will only be included in the response if `rate_card_version` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        role_id:
+          type: string
+          description: '`role_id` will only be included in the response if `role` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
         updated_at:
           type: string
           format: date-time

@@ -863,6 +863,83 @@ paths:
       x-operation-id-original: Delete Estimate Scenario Resource
 components:
   schemas:
+    Error:
+      type: object
+      properties:
+        type:
+          type: string
+        message:
+          type: string
+    Errors:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+    EstimateScenarioResource:
+      title: Estimate Scenario Resource
+      description: An Estimate Scenario Resource is an unnamed resource in an estimate scenario.
+      type: object
+      properties:
+        allocation_id:
+          type: string
+          description: '`allocation_id` will only be included in the response if `allocation` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        bill_rate:
+          type: integer
+          format: int32
+          description: 'The bill rate, in cents, of the estimate scenario resource.
+
+            When the estimate is unlocked, this is the average bill rate of all active account members in the
+
+            scenario resource''s geography, whose default role matches the role of the scenario resource.
+
+            When the estimate is locked, this the cached value of the average bill rate when the estimate was locked.'
+        cost_rate:
+          type: integer
+          format: int32
+          description: 'The cost rate, in cents, of the estimate scenario resource.
+
+            When the estimate is unlocked, this is the average cost rate of all active account members in the
+
+            scenario resource''s geography, whose default role matches the role of the scenario resource.
+
+            When the estimate is locked, this the cached value of the average cost rate when the estimate was locked.'
+        created_at:
+          type: string
+          format: date-time
+        display_label:
+          type: string
+          description: User facing Identifier for the Resource.
+        estimate_scenario_id:
+          type: integer
+          format: int32
+          description: Id of the Estimate Scenario that the Resource belongs to.
+        external_reference_ids:
+          type: array
+          items:
+            type: string
+          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        geography_id:
+          type: string
+          description: '`geography_id` will only be included in the response if `geography` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        label:
+          type: string
+        organization_membership_id:
+          type: string
+          description: '`organization_membership_id` will only be included in the response if `organization_membership` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        role_id:
+          type: string
+          description: '`role_id` will only be included in the response if `role` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        role_name:
+          type: string
+          description: Name of the Resource's role if any.
+        updated_at:
+          type: string
+          format: date-time
+        user_id:
+          type: string
+          description: '`user_id` will only be included in the response if `user` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
     OrganizationMembership:
       title: Organization Membership
       description: An Organization Membership represents the connection of a user and project to an organization.
@@ -891,13 +968,6 @@ components:
         updated_at:
           type: string
           format: date-time
-    Error:
-      type: object
-      properties:
-        type:
-          type: string
-        message:
-          type: string
     Geography:
       title: Organization
       description: 'An Organization allows you to structure and group your projects and account members by
@@ -925,43 +995,6 @@ components:
         updated_at:
           type: string
           format: date-time
-    EstimateScenarioResourceAllocation:
-      title: Estimate Scenario Resource Allocation
-      description: 'Estimate Scenario Resource Allocations contain time-related data for scenario resources—used
-
-        for calculating estimated cost and scheduled hours.'
-      type: object
-      properties:
-        created_at:
-          type: string
-          format: date-time
-        duration_days:
-          type: integer
-          format: int32
-          description: The total number of business days an scenario resource is expected to work on the project.
-        percent_allocated:
-          type: number
-          format: float
-          description: The percentage of available hours the scenario resource will work on the project.
-        relative_start_day:
-          type: integer
-          format: int32
-          description: 'The number of business days, after the estimate scenario''s start date, that an scenario resource
-
-            will begin working on the project.'
-        resource_id:
-          type: string
-          description: '`resource_id` will only be included in the response if `resource` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        updated_at:
-          type: string
-          format: date-time
-    Errors:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
     User:
       title: User
       description: 'Users represent the individuals that are participating in Kantata OX projects. User objects are often returned as
@@ -1056,94 +1089,6 @@ components:
           items:
             type: string
           description: '`work_sample_ids` will only be included in the response if `work_samples` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-    Role:
-      title: Role
-      description: 'A Role represents the main position or title assigned to members on an account. Roles may be associated with account memberships, account invitations,
-
-        participation, project template assignments, rate card roles, rate card versions, resources, or time adjustments.'
-      type: object
-      properties:
-        created_at:
-          type: string
-          format: date-time
-        deleted_at:
-          type: string
-          format: date-time
-          description: The time the role was deleted.
-        external_reference_ids:
-          type: array
-          items:
-            type: string
-          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        name:
-          type: string
-          description: The name of the role.
-        updated_at:
-          type: string
-          format: date-time
-    EstimateScenarioResource:
-      title: Estimate Scenario Resource
-      description: An Estimate Scenario Resource is an unnamed resource in an estimate scenario.
-      type: object
-      properties:
-        allocation_id:
-          type: string
-          description: '`allocation_id` will only be included in the response if `allocation` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        bill_rate:
-          type: integer
-          format: int32
-          description: 'The bill rate, in cents, of the estimate scenario resource.
-
-            When the estimate is unlocked, this is the average bill rate of all active account members in the
-
-            scenario resource''s geography, whose default role matches the role of the scenario resource.
-
-            When the estimate is locked, this the cached value of the average bill rate when the estimate was locked.'
-        cost_rate:
-          type: integer
-          format: int32
-          description: 'The cost rate, in cents, of the estimate scenario resource.
-
-            When the estimate is unlocked, this is the average cost rate of all active account members in the
-
-            scenario resource''s geography, whose default role matches the role of the scenario resource.
-
-            When the estimate is locked, this the cached value of the average cost rate when the estimate was locked.'
-        created_at:
-          type: string
-          format: date-time
-        display_label:
-          type: string
-          description: User facing Identifier for the Resource.
-        estimate_scenario_id:
-          type: integer
-          format: int32
-          description: Id of the Estimate Scenario that the Resource belongs to.
-        external_reference_ids:
-          type: array
-          items:
-            type: string
-          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        geography_id:
-          type: string
-          description: '`geography_id` will only be included in the response if `geography` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        label:
-          type: string
-        organization_membership_id:
-          type: string
-          description: '`organization_membership_id` will only be included in the response if `organization_membership` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        role_id:
-          type: string
-          description: '`role_id` will only be included in the response if `role` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        role_name:
-          type: string
-          description: Name of the Resource's role if any.
-        updated_at:
-          type: string
-          format: date-time
-        user_id:
-          type: string
-          description: '`user_id` will only be included in the response if `user` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
     ExternalReference:
       title: External Reference
       description: 'External References allows users see which objects (one of `Assignment`, `BillingMilestone`, `CustomField`, `CustomFieldChoice`, `CustomFieldSet`, `CustomFieldValue`, `Estimate`, `EstimateScenario`, `EstimateScenarioResource`, `Expense`, `ExpenseBudget`, `Invoice`, `Participation`, `Post`, `RateCard`, `Role`, `Skill`, `StatusReport`, `Story`, `StoryAllocationDay`, `Submission`, `SurveyAnswer`, `SurveyQuestion`, `SurveyResponse`, `SurveyTemplate`, `TimeEntry`, `TimeOffEntry`, `User`, `Vendor`, `Workspace`, `WorkspaceAllocation`, `WorkspaceGroup`, or `WorkspaceResource`
@@ -1218,6 +1163,61 @@ components:
           type: string
           format: date-time
           description: The date and time the reference was last updated.
+    Role:
+      title: Role
+      description: 'A Role represents the main position or title assigned to members on an account. Roles may be associated with account memberships, account invitations,
+
+        participation, project template assignments, rate card roles, rate card versions, resources, or time adjustments.'
+      type: object
+      properties:
+        created_at:
+          type: string
+          format: date-time
+        deleted_at:
+          type: string
+          format: date-time
+          description: The time the role was deleted.
+        external_reference_ids:
+          type: array
+          items:
+            type: string
+          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        name:
+          type: string
+          description: The name of the role.
+        updated_at:
+          type: string
+          format: date-time
+    EstimateScenarioResourceAllocation:
+      title: Estimate Scenario Resource Allocation
+      description: 'Estimate Scenario Resource Allocations contain time-related data for scenario resources—used
+
+        for calculating estimated cost and scheduled hours.'
+      type: object
+      properties:
+        created_at:
+          type: string
+          format: date-time
+        duration_days:
+          type: integer
+          format: int32
+          description: The total number of business days an scenario resource is expected to work on the project.
+        percent_allocated:
+          type: number
+          format: float
+          description: The percentage of available hours the scenario resource will work on the project.
+        relative_start_day:
+          type: integer
+          format: int32
+          description: 'The number of business days, after the estimate scenario''s start date, that an scenario resource
+
+            will begin working on the project.'
+        resource_id:
+          type: string
+          description: '`resource_id` will only be included in the response if `resource` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        updated_at:
+          type: string
+          format: date-time
   securitySchemes:
     BearerToken:
       type: apiKey

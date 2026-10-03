@@ -724,80 +724,60 @@ paths:
       x-operation-id-original: Delete Custom Field
 components:
   schemas:
-    ExternalReference:
-      title: External Reference
-      description: 'External References allows users see which objects (one of `Assignment`, `BillingMilestone`, `CustomField`, `CustomFieldChoice`, `CustomFieldSet`, `CustomFieldValue`, `Estimate`, `EstimateScenario`, `EstimateScenarioResource`, `Expense`, `ExpenseBudget`, `Invoice`, `Participation`, `Post`, `RateCard`, `Role`, `Skill`, `StatusReport`, `Story`, `StoryAllocationDay`, `Submission`, `SurveyAnswer`, `SurveyQuestion`, `SurveyResponse`, `SurveyTemplate`, `TimeEntry`, `TimeOffEntry`, `User`, `Vendor`, `Workspace`, `WorkspaceAllocation`, `WorkspaceGroup`, or `WorkspaceResource`
+    CustomFieldSet:
+      title: Custom Field Set
+      description: 'Custom Field Sets contain custom fields and definitions of each fields'' subject type. The supported
 
-        are synced with third party systems. This allows you to view the sync status of items in addition to the integration
-
-        specifics for a synced object.
-
-
-        Objects that are synced with a third party system have external integration
-
-        attributes that include the corresponding ID of the third party object with
-
-        which it is synced, a link that allows you to view the object in the third
-
-        party system, the status of the external object in the external system,
-
-        the status of the sync, and a link to exceptions.'
+        subjects are currently Estimate, Project, Project Group, Resource, Task, and User.'
       type: object
       properties:
         created_at:
           type: string
           format: date-time
-          description: The date and time the reference was created.
-        external_link:
+        custom_field_ids:
+          type: array
+          items:
+            type: string
+          description: '`custom_field_ids` will only be included in the response if `custom_fields` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        external_reference_ids:
+          type: array
+          items:
+            type: string
+          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        name:
           type: string
-          description: A URL that links to either the external object or event.
-        external_message:
-          type: string
-          description: An optional message about the external object.
-        external_status:
-          type: string
-          description: The status of the external object in the external system.
-        last_synced_at:
-          type: string
-          format: date-time
-        locked:
-          type: boolean
-          description: 'An optional field, indicating whether the subject should be locked. To prevent changes to the
-
-            object in Kantata OX, set this to true. This currently only applies to expense report rejections.'
-        service_model:
-          type: string
-          description: The type of the external object to which this reference belongs.
-        service_model_ref:
-          type: string
-          description: The ID of the external object to which this reference belongs.
-        service_name:
-          type: string
-          description: The provider name of the integration.
-        status:
-          type: string
-          description: The status of the integration. Options are 'pending', 'successful', or 'failed'.
-        subject_id:
-          type: integer
-          format: int32
-          description: The ID of the Kantata OX object to which this external reference belongs.
-        subject_ref:
-          type: object
-          description: '`subject_ref` will only be included in the response if `subject` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-          properties:
-            key:
-              type: string
-            id:
-              type: string
         subject_type:
           type: string
-          description: 'The type of Kantata OX object to which this external reference belongs.
+          description: 'The type of objects contained in the custom field set. The supported subjects are currently
 
-            One of `Assignment`, `BillingMilestone`, `CustomField`, `CustomFieldChoice`, `CustomFieldSet`, `CustomFieldValue`, `Estimate`, `EstimateScenario`, `EstimateScenarioResource`, `Expense`, `ExpenseBudget`, `Invoice`, `Participation`, `Post`, `RateCard`, `Role`, `Skill`, `StatusReport`, `Story`, `StoryAllocationDay`, `Submission`, `SurveyAnswer`, `SurveyQuestion`, `SurveyResponse`, `SurveyTemplate`, `TimeEntry`, `TimeOffEntry`, `User`, `Vendor`, `Workspace`, `WorkspaceAllocation`, `WorkspaceGroup`, or `WorkspaceResource`.'
+            *Workspace*, *Story*, *User*, and *WorkspaceGroup*.'
         updated_at:
           type: string
           format: date-time
-          description: The date and time the reference was last updated.
+    CustomFieldChoice:
+      title: Custom Field Choice
+      description: Custom Field Choices are possible values for `single` and `multi` type custom fields.
+      type: object
+      properties:
+        created_at:
+          type: string
+          format: date-time
+        custom_field_id:
+          type: string
+          description: '`custom_field_id` will only be included in the response if `custom_field` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        external_reference_ids:
+          type: array
+          items:
+            type: string
+          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+        label:
+          type: string
+        position:
+          type: integer
+          format: int32
+        updated_at:
+          type: string
+          format: date-time
     Error:
       type: object
       properties:
@@ -876,36 +856,6 @@ components:
           type: integer
           format: int32
           description: The permission level required for a user to create, update, or delete a custom field's value.
-    CustomFieldSet:
-      title: Custom Field Set
-      description: 'Custom Field Sets contain custom fields and definitions of each fields'' subject type. The supported
-
-        subjects are currently Estimate, Project, Project Group, Resource, Task, and User.'
-      type: object
-      properties:
-        created_at:
-          type: string
-          format: date-time
-        custom_field_ids:
-          type: array
-          items:
-            type: string
-          description: '`custom_field_ids` will only be included in the response if `custom_fields` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        external_reference_ids:
-          type: array
-          items:
-            type: string
-          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        name:
-          type: string
-        subject_type:
-          type: string
-          description: 'The type of objects contained in the custom field set. The supported subjects are currently
-
-            *Workspace*, *Story*, *User*, and *WorkspaceGroup*.'
-        updated_at:
-          type: string
-          format: date-time
     User:
       title: User
       description: 'Users represent the individuals that are participating in Kantata OX projects. User objects are often returned as
@@ -1000,30 +950,80 @@ components:
           items:
             type: string
           description: '`work_sample_ids` will only be included in the response if `work_samples` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-    CustomFieldChoice:
-      title: Custom Field Choice
-      description: Custom Field Choices are possible values for `single` and `multi` type custom fields.
+    ExternalReference:
+      title: External Reference
+      description: 'External References allows users see which objects (one of `Assignment`, `BillingMilestone`, `CustomField`, `CustomFieldChoice`, `CustomFieldSet`, `CustomFieldValue`, `Estimate`, `EstimateScenario`, `EstimateScenarioResource`, `Expense`, `ExpenseBudget`, `Invoice`, `Participation`, `Post`, `RateCard`, `Role`, `Skill`, `StatusReport`, `Story`, `StoryAllocationDay`, `Submission`, `SurveyAnswer`, `SurveyQuestion`, `SurveyResponse`, `SurveyTemplate`, `TimeEntry`, `TimeOffEntry`, `User`, `Vendor`, `Workspace`, `WorkspaceAllocation`, `WorkspaceGroup`, or `WorkspaceResource`
+
+        are synced with third party systems. This allows you to view the sync status of items in addition to the integration
+
+        specifics for a synced object.
+
+
+        Objects that are synced with a third party system have external integration
+
+        attributes that include the corresponding ID of the third party object with
+
+        which it is synced, a link that allows you to view the object in the third
+
+        party system, the status of the external object in the external system,
+
+        the status of the sync, and a link to exceptions.'
       type: object
       properties:
         created_at:
           type: string
           format: date-time
-        custom_field_id:
+          description: The date and time the reference was created.
+        external_link:
           type: string
-          description: '`custom_field_id` will only be included in the response if `custom_field` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        external_reference_ids:
-          type: array
-          items:
-            type: string
-          description: '`external_reference_ids` will only be included in the response if `external_references` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
-        label:
+          description: A URL that links to either the external object or event.
+        external_message:
           type: string
-        position:
+          description: An optional message about the external object.
+        external_status:
+          type: string
+          description: The status of the external object in the external system.
+        last_synced_at:
+          type: string
+          format: date-time
+        locked:
+          type: boolean
+          description: 'An optional field, indicating whether the subject should be locked. To prevent changes to the
+
+            object in Kantata OX, set this to true. This currently only applies to expense report rejections.'
+        service_model:
+          type: string
+          description: The type of the external object to which this reference belongs.
+        service_model_ref:
+          type: string
+          description: The ID of the external object to which this reference belongs.
+        service_name:
+          type: string
+          description: The provider name of the integration.
+        status:
+          type: string
+          description: The status of the integration. Options are 'pending', 'successful', or 'failed'.
+        subject_id:
           type: integer
           format: int32
+          description: The ID of the Kantata OX object to which this external reference belongs.
+        subject_ref:
+          type: object
+          description: '`subject_ref` will only be included in the response if `subject` is in the list of included associations. See <a href=''#section/Includes''>include</a> section for usage.'
+          properties:
+            key:
+              type: string
+            id:
+              type: string
+        subject_type:
+          type: string
+          description: 'The type of Kantata OX object to which this external reference belongs.
+
+            One of `Assignment`, `BillingMilestone`, `CustomField`, `CustomFieldChoice`, `CustomFieldSet`, `CustomFieldValue`, `Estimate`, `EstimateScenario`, `EstimateScenarioResource`, `Expense`, `ExpenseBudget`, `Invoice`, `Participation`, `Post`, `RateCard`, `Role`, `Skill`, `StatusReport`, `Story`, `StoryAllocationDay`, `Submission`, `SurveyAnswer`, `SurveyQuestion`, `SurveyResponse`, `SurveyTemplate`, `TimeEntry`, `TimeOffEntry`, `User`, `Vendor`, `Workspace`, `WorkspaceAllocation`, `WorkspaceGroup`, or `WorkspaceResource`.'
         updated_at:
           type: string
           format: date-time
+          description: The date and time the reference was last updated.
   securitySchemes:
     BearerToken:
       type: apiKey
