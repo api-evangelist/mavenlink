@@ -1,32 +1,30 @@
-# Kin Score artifact — mavenlink — 2026-08-29T213958
+# Kin Score artifact — mavenlink — 2026-09-24T064009
 # The API Evangelist rating (https://github.com/api-evangelist/kin-score). Generated; do not edit.
 ---
 kin_score:
   slug: mavenlink
-  schema_version: 0.16.0
-  scored_at: '2026-08-29'
-  run_ts: 2026-08-29T213958
-  composite: 49.6
+  schema_version: 0.22.0
+  scored_at: '2026-09-24'
+  run_ts: 2026-09-24T064009
+  composite: 52.4
   band: developing
   facets:
-    discoverability: 75.9
-    contract_quality: 58.5
-    governance: 4.5
+    discoverability: 70.4
+    contract_quality: 61.1
+    contract_governance: 4.5
     operational_transparency: 34.2
     developer_ergonomics: 66.1
-    commercial_clarity: 46.1
-    contract_governance: 4.5
     access_clarity: 46.1
   agent_readiness:
-    score: 38.9
+    score: 61.3
     band: agent-ready
     band_gated_from: agent-native
     dimensions:
       spec_presence: true
       agentic_access: derived
-      reversibility_documented: false
-      mcp_server: documented
-      auth_clarity: bearer
+      reversibility_documented: documented
+      mcp_server: verified
+      auth_clarity: served
       idempotency: false
       error_semantics: verified
       openapi_examples: partial
@@ -35,10 +33,10 @@ kin_score:
       agent_skills: derived
       well_known_catalog: false
       consent_identity: false
-      agent_card: false
+      agent_card: conformant
       dry_run_mode: false
-      delegated_identity: documented
-      protected_resource_metadata: false
+      delegated_identity: served
+      protected_resource_metadata: verified
       dynamic_client_registration: false
       agentic_commerce: false
   provenance:
@@ -47,7 +45,7 @@ kin_score:
     agentic_access: derived
     conformance: derived
     contracts:
-      total: 1
+      total: 101
       derived: 0
       coverage: 0.0
       callable: 100.0
