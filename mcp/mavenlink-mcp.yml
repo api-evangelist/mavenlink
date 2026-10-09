@@ -111,3 +111,16 @@ gaps:
   and 74 unrecoverable deletes.
 - No agent card points at the product MCP server; the only card Kantata serves describes the documentation
   agent.
+rfc9728:
+  endpoint: https://api.mavenlink.com/mcp
+  metadata_url: https://api.mavenlink.com/.well-known/oauth-protected-resource
+  discovered_via: WWW-Authenticate resource_metadata on an anonymous POST initialize
+  fetched: '2026-09-25'
+  http_status: 200
+  content_type: application/json
+  document:
+    resource: https://api.mavenlink.com/mcp
+    authorization_servers:
+    - https://api.mavenlink.com
+    bearer_methods_supported:
+    - header
