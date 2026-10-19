@@ -16,9 +16,55 @@ edges:
   detected: '2026-10-18'
   detected_by: mirror-platform-listings.py
   category: Slack app
+- partner_name: RubyGems
+  partner: rubygems
+  partner_match: register
+  type: register
+  direction: provider-built
+  category: official SDK (Ruby)
+  evidence: https://rubygems.org/gems/brainstem
+  channel: package-registry
+  relationship: distribution-channel
+  contract_reference:
+    register: RubyGems (public registry JSON)
+    spec_file: null
+    language: Ruby
+    packages:
+    - name: brainstem
+      version: 2.3.1
+      released: '2019-11-27'
+      released_field: version_created_at
+      lapsed: true
+      page: https://rubygems.org/gems/brainstem
+      repo_leg: github-org:mavenlink
+      publisher_leg: org:mavenlink
+      matched_by: github-org
+    - name: mavenlink
+      version: 0.2.7
+      released: '2012-04-10'
+      released_field: version_created_at
+      lapsed: true
+      page: https://rubygems.org/gems/mavenlink
+      repo_leg: github-org:mavenlink
+      publisher_leg: org:mavenlink
+      matched_by: github-org
+    current: false
+    signal_note: 'an official package on the registry: distribution, not an integration; lapsed = no release in
+      24 months'
+    detected_by: sweep-official-sdks.py
+    detected: '2026-10-18'
+  detected_by: sweep-official-sdks.py
+  first_seen: '2026-10-18'
 generated: '2026-10-18'
 method: searched
 source:
 - slack/integrations/slack-integration-edges.yml
 checked:
+- https://api.nuget.org/v3
+- https://crates.io/api/v1
+- https://proxy.golang.org
+- https://pypi.org/pypi
+- https://registry.npmjs.org
+- https://repo1.maven.org/maven2
+- https://rubygems.org/api/v1
 - slack/integrations/slack-integration-edges.yml
